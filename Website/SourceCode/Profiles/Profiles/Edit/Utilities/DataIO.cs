@@ -1746,6 +1746,394 @@ namespace Profiles.Edit.Utilities
 
         #endregion
 
+        #region Groups
+
+        public DataSet SearchPeople(string lastname, string firstname,
+    string institution, string department, int offset, int limit)
+        {
+            DataSet ds = new DataSet();
+            SqlDataAdapter da;
+
+            try
+            {
+                string connstr = ConfigurationManager.ConnectionStrings["ProfilesDB"].ConnectionString;
+                SqlConnection dbconnection = new SqlConnection(connstr);
+
+                dbconnection.Open();
+
+                SqlCommand dbcommand = new SqlCommand();
+                dbcommand.CommandType = CommandType.StoredProcedure;
+
+                dbcommand.CommandText = "[user.account].[proxy.search]";
+                dbcommand.CommandTimeout = base.GetCommandTimeout();
+
+                dbcommand.Parameters.Add(new SqlParameter("@LastName", lastname));
+                dbcommand.Parameters.Add(new SqlParameter("@FirstName", firstname));
+                dbcommand.Parameters.Add(new SqlParameter("@Institution", institution));
+                dbcommand.Parameters.Add(new SqlParameter("@Department", department));
+
+                dbcommand.Parameters.Add(new SqlParameter("@offset", offset));
+                dbcommand.Parameters.Add(new SqlParameter("@limit", limit));
+                dbcommand.Connection = dbconnection;
+                da = new SqlDataAdapter(dbcommand);
+                da.Fill(ds, "Table");
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+
+            return ds;
+        }
+
+        public void AddGroupMember(int userid, Int64 groupNodeID)
+        {
+            SessionManagement sm = new SessionManagement();
+
+            try
+            {
+
+                string connstr = ConfigurationManager.ConnectionStrings["ProfilesDB"].ConnectionString;
+                SqlConnection dbconnection = new SqlConnection(connstr);
+
+                dbconnection.Open();
+
+                SqlCommand dbcommand = new SqlCommand();
+                dbcommand.CommandType = CommandType.StoredProcedure;
+
+                dbcommand.CommandText = "[Profile.Data].[Group.Member.AddUpdateMember]";
+                dbcommand.CommandTimeout = base.GetCommandTimeout();
+
+                dbcommand.Parameters.Add(new SqlParameter("@SessionID", sm.Session().SessionID));
+                dbcommand.Parameters.Add(new SqlParameter("@GroupNodeID", groupNodeID)); 
+                dbcommand.Parameters.Add(new SqlParameter("@UserID", userid));
+                dbcommand.Connection = dbconnection;
+                dbcommand.ExecuteNonQuery();
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+
+        public void AddGroupManager(int userid, Int64 groupNodeID)
+        {
+            SessionManagement sm = new SessionManagement();
+
+            try
+            {
+
+                string connstr = ConfigurationManager.ConnectionStrings["ProfilesDB"].ConnectionString;
+                SqlConnection dbconnection = new SqlConnection(connstr);
+
+                dbconnection.Open();
+
+                SqlCommand dbcommand = new SqlCommand();
+                dbcommand.CommandType = CommandType.StoredProcedure;
+
+                dbcommand.CommandText = "[Profile.Data].[Group.Manager.AddManager]";
+                dbcommand.CommandTimeout = base.GetCommandTimeout();
+
+                dbcommand.Parameters.Add(new SqlParameter("@SessionID", sm.Session().SessionID));
+                dbcommand.Parameters.Add(new SqlParameter("@GroupNodeID", groupNodeID));
+                dbcommand.Parameters.Add(new SqlParameter("@UserID", userid));
+                dbcommand.Connection = dbconnection;
+                dbcommand.ExecuteNonQuery();
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public void UpdateGroupMember(int userid, Int64 groupNodeID, string title)
+        {
+            SessionManagement sm = new SessionManagement();
+
+            try
+            {
+
+                string connstr = ConfigurationManager.ConnectionStrings["ProfilesDB"].ConnectionString;
+                SqlConnection dbconnection = new SqlConnection(connstr);
+
+                dbconnection.Open();
+
+                SqlCommand dbcommand = new SqlCommand();
+                dbcommand.CommandType = CommandType.StoredProcedure;
+
+                dbcommand.CommandText = "[Profile.Data].[Group.Member.AddUpdateMember]";
+                dbcommand.CommandTimeout = base.GetCommandTimeout();
+
+                dbcommand.Parameters.Add(new SqlParameter("@SessionID", sm.Session().SessionID));
+                dbcommand.Parameters.Add(new SqlParameter("@GroupNodeID", groupNodeID));
+                dbcommand.Parameters.Add(new SqlParameter("@UserID", userid));
+                dbcommand.Parameters.Add(new SqlParameter("@Title", title));
+                dbcommand.Connection = dbconnection;
+                dbcommand.ExecuteNonQuery();
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public void DeleteGroupMember(int userid, Int64 groupNodeID)
+        {
+            SessionManagement sm = new SessionManagement();
+
+            try
+            {
+
+                string connstr = ConfigurationManager.ConnectionStrings["ProfilesDB"].ConnectionString;
+                SqlConnection dbconnection = new SqlConnection(connstr);
+
+                dbconnection.Open();
+
+                SqlCommand dbcommand = new SqlCommand();
+                dbcommand.CommandType = CommandType.StoredProcedure;
+
+                dbcommand.CommandText = "[Profile.Data].[Group.Member.DeleteMember]";
+                dbcommand.CommandTimeout = base.GetCommandTimeout();
+
+                dbcommand.Parameters.Add(new SqlParameter("@SessionID", sm.Session().SessionID));
+                dbcommand.Parameters.Add(new SqlParameter("@GroupNodeID", groupNodeID));
+                dbcommand.Parameters.Add(new SqlParameter("@UserID", userid));
+                dbcommand.Connection = dbconnection;
+                dbcommand.ExecuteNonQuery();
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public void DeleteGroupManager(int userid, Int64 groupNodeID)
+        {
+            SessionManagement sm = new SessionManagement();
+
+            try
+            {
+
+                string connstr = ConfigurationManager.ConnectionStrings["ProfilesDB"].ConnectionString;
+                SqlConnection dbconnection = new SqlConnection(connstr);
+
+                dbconnection.Open();
+
+                SqlCommand dbcommand = new SqlCommand();
+                dbcommand.CommandType = CommandType.StoredProcedure;
+
+                dbcommand.CommandText = "[Profile.Data].[Group.Manager.DeleteManager]";
+                dbcommand.CommandTimeout = base.GetCommandTimeout();
+
+                dbcommand.Parameters.Add(new SqlParameter("@SessionID", sm.Session().SessionID));
+                dbcommand.Parameters.Add(new SqlParameter("@GroupNodeID", groupNodeID));
+                dbcommand.Parameters.Add(new SqlParameter("@UserID", userid));
+                dbcommand.Connection = dbconnection;
+                dbcommand.ExecuteNonQuery();
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+
+        public SqlDataReader GetGroupMembers(Int64 groupNodeID)
+        {
+            SqlDataReader dbreader = null;
+            SessionManagement sm = new SessionManagement();
+
+            try
+            {
+
+                string connstr = ConfigurationManager.ConnectionStrings["ProfilesDB"].ConnectionString;
+                SqlConnection dbconnection = new SqlConnection(connstr);
+
+                dbconnection.Open();
+
+                SqlCommand dbcommand = new SqlCommand();
+                dbcommand.CommandType = CommandType.StoredProcedure;
+
+                dbcommand.CommandText = "[Profile.Data].[Group.Member.GetMembers]";
+                dbcommand.CommandTimeout = base.GetCommandTimeout();
+
+                dbcommand.Parameters.Add(new SqlParameter("@GroupNodeID", groupNodeID));
+
+                dbcommand.Connection = dbconnection;
+                dbreader = dbcommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+
+            return dbreader;
+        }
+
+        public SqlDataReader GetGroup(Int64 groupNodeID)
+        {
+            SqlDataReader dbreader = null;
+            SessionManagement sm = new SessionManagement();
+
+            try
+            {
+
+                string connstr = ConfigurationManager.ConnectionStrings["ProfilesDB"].ConnectionString;
+                SqlConnection dbconnection = new SqlConnection(connstr);
+
+                dbconnection.Open();
+
+                SqlCommand dbcommand = new SqlCommand();
+                dbcommand.CommandType = CommandType.StoredProcedure;
+
+                dbcommand.CommandText = "[Profile.Data].[Group.GetGroup]";
+                dbcommand.CommandTimeout = base.GetCommandTimeout();
+
+                dbcommand.Parameters.Add(new SqlParameter("@GroupNodeID", groupNodeID));
+
+                dbcommand.Connection = dbconnection;
+                dbreader = dbcommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+
+            return dbreader;
+        }
+
+        public SqlDataReader GetGroupManagers(Int64 groupNodeID)
+        {
+            SqlDataReader dbreader = null;
+            SessionManagement sm = new SessionManagement();
+
+            try
+            {
+
+                string connstr = ConfigurationManager.ConnectionStrings["ProfilesDB"].ConnectionString;
+                SqlConnection dbconnection = new SqlConnection(connstr);
+
+                dbconnection.Open();
+
+                SqlCommand dbcommand = new SqlCommand();
+                dbcommand.CommandType = CommandType.StoredProcedure;
+
+                dbcommand.CommandText = "[Profile.Data].[Group.Manager.GetManagers]";
+                dbcommand.CommandTimeout = base.GetCommandTimeout();
+
+                dbcommand.Parameters.Add(new SqlParameter("@GroupNodeID", groupNodeID));
+
+                dbcommand.Connection = dbconnection;
+                dbreader = dbcommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+
+            return dbreader;
+        }
+
+        public void UpdateGroupSecurity(Int64 groupNodeID, Int64 visibility)
+        {
+            EditActivityLog(groupNodeID, "http://profiles.catalyst.harvard.edu/ontology/prns#hasGroupSettings", "" + visibility);
+            SessionManagement sm = new SessionManagement();
+
+            try
+            {
+
+                string connstr = ConfigurationManager.ConnectionStrings["ProfilesDB"].ConnectionString;
+                SqlConnection dbconnection = new SqlConnection(connstr);
+
+                dbconnection.Open();
+
+                SqlCommand dbcommand = new SqlCommand();
+                dbcommand.CommandType = CommandType.StoredProcedure;
+
+                dbcommand.CommandText = "[Profile.Data].[Group.AddUpdateGroup]";
+                dbcommand.CommandTimeout = base.GetCommandTimeout();
+
+                dbcommand.Parameters.Add(new SqlParameter("@ExistingGroupNodeID", groupNodeID));
+                dbcommand.Parameters.Add(new SqlParameter("@ViewSecurityGroup", visibility));
+
+                SqlParameter error = new SqlParameter("@error", null);
+                error.DbType = DbType.Boolean;
+                error.Direction = ParameterDirection.Output;
+                dbcommand.Parameters.Add(error);
+
+                SqlParameter nodeid = new SqlParameter("@NodeID", null);
+                nodeid.DbType = DbType.Int64;
+                nodeid.Direction = ParameterDirection.Output;
+                dbcommand.Parameters.Add(nodeid);
+
+                dbcommand.Connection = dbconnection;
+                dbcommand.ExecuteNonQuery();
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+
+
+        }
+
+        public void UpdateGroupEndDate(Int64 groupNodeID, string endDate)
+        {
+            //EditActivityLog(groupNodeID, "http://profiles.catalyst.harvard.edu/ontology/prns#hasGroupSettings", "" + visibility);
+            SessionManagement sm = new SessionManagement();
+
+            try
+            {
+
+                string connstr = ConfigurationManager.ConnectionStrings["ProfilesDB"].ConnectionString;
+                SqlConnection dbconnection = new SqlConnection(connstr);
+
+                dbconnection.Open();
+
+                SqlCommand dbcommand = new SqlCommand();
+                dbcommand.CommandType = CommandType.StoredProcedure;
+
+                dbcommand.CommandText = "[Profile.Data].[Group.AddUpdateGroup]";
+                dbcommand.CommandTimeout = base.GetCommandTimeout();
+
+                dbcommand.Parameters.Add(new SqlParameter("@ExistingGroupNodeID", groupNodeID));
+                dbcommand.Parameters.Add(new SqlParameter("@EndDate", endDate));
+
+                SqlParameter error = new SqlParameter("@error", null);
+                error.DbType = DbType.Boolean;
+                error.Direction = ParameterDirection.Output;
+                dbcommand.Parameters.Add(error);
+
+                SqlParameter nodeid = new SqlParameter("@NodeID", null);
+                nodeid.DbType = DbType.Int64;
+                nodeid.Direction = ParameterDirection.Output;
+                dbcommand.Parameters.Add(nodeid);
+
+                dbcommand.Connection = dbconnection;
+                dbcommand.ExecuteNonQuery();
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+
+
+        }
+
+
+        #endregion
 
         #region "Request and Param classes for edit of a triple"
 

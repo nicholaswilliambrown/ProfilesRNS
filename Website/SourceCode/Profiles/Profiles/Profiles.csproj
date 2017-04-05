@@ -92,6 +92,9 @@
     <Content Include="Edit\Modules\CustomEditEducationalTraining\CustomEditEducationalTraining.ascx" />
     <Content Include="Edit\Modules\CustomEditFreetextKeyword\CustomEditFreetextKeyword.ascx" />
     <Content Include="Edit\Modules\CustomEditFreetextKeyword\keywordAutocomplete.aspx" />
+    <Content Include="Edit\Modules\CustomEditGroupMemberOf\CustomEditGroupMemberOf.ascx" />
+    <Content Include="Edit\Modules\CustomEditGroupMember\CustomEditGroupMember.ascx" />
+    <Content Include="Edit\Modules\CustomEditGroupSettings\CustomEditGroupSettings.ascx" />
     <Content Include="Edit\Modules\CustomEditListProperty\CustomEditListProperty.ascx" />
     <Content Include="Edit\Modules\CustomEditResearcherRole\CustomEditResearcherRole.ascx" />
     <Content Include="Framework\Images\listen.jpg" />
@@ -99,6 +102,12 @@
     <Content Include="Framework\Images\Orcid_Logo_rgb.png" />
     <Content Include="Framework\Images\Orcid_symbol_rgb.png" />
     <Content Include="Global.asax" />
+    <Content Include="GroupAdmin\CSS\GroupAdmin.css" />
+    <Content Include="GroupAdmin\Default.aspx" />
+    <Content Include="GroupAdmin\Modules\GroupAdmin\GroupAdmin.ascx" />
+    <Content Include="GroupAdmin\Modules\ModuleCatalogue.xml" />
+    <Content Include="GroupAdmin\PresentationXML\GroupAdminAuthFailedPresentation.xml" />
+    <Content Include="GroupAdmin\PresentationXML\GroupAdminPresentation.xml" />
     <Content Include="Login\Modules\ADLogin\ADLogin.ascx" />
     <Content Include="Login\Modules\ShibLogin\ShibLogin.ascx" />
     <Content Include="Login\PresentationXML\ADLoginFormPresentation.xml" />
@@ -210,8 +219,14 @@
     <Content Include="Profile\Modules\NetworkRadial\JavaScript\sliders.js" />
     <Content Include="Profile\Modules\NetworkRadial\JavaScript\viz.js" />
     <Content Include="Profile\Modules\NetworkRadial\JavaScript\watchdog.js" />
+    <Content Include="Profile\XSLT\ContributingRole.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Profile\XSLT\EducationalTraining.xslt" />
     <Content Include="Profile\XSLT\FreetextKeyword.xslt" />
+    <Content Include="Profile\XSLT\MemberRoleOf.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Profile\XSLT\NetworkTable.xslt" />
     <Content Include="RobotsTxt.aspx" />
     <Content Include="SiteMap.aspx" />
@@ -320,6 +335,27 @@
     <Compile Include="Edit\Modules\CustomEditFreetextKeyword\keywordAutocomplete.aspx.designer.cs">
       <DependentUpon>keywordAutocomplete.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Edit\Modules\CustomEditGroupMemberOf\CustomEditGroupMemberOf.ascx.cs">
+      <DependentUpon>CustomEditGroupMemberOf.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Edit\Modules\CustomEditGroupMemberOf\CustomEditGroupMemberOf.ascx.designer.cs">
+      <DependentUpon>CustomEditGroupMemberOf.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Edit\Modules\CustomEditGroupMember\CustomEditGroupMember.ascx.cs">
+      <DependentUpon>CustomEditGroupMember.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Edit\Modules\CustomEditGroupMember\CustomEditGroupMember.ascx.designer.cs">
+      <DependentUpon>CustomEditGroupMember.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Edit\Modules\CustomEditGroupSettings\CustomEditGroupSettings.ascx.cs">
+      <DependentUpon>CustomEditGroupSettings.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Edit\Modules\CustomEditGroupSettings\CustomEditGroupSettings.ascx.designer.cs">
+      <DependentUpon>CustomEditGroupSettings.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Edit\Modules\CustomEditListProperty\CustomEditListProperty.ascx.cs">
       <DependentUpon>CustomEditListProperty.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -336,6 +372,7 @@
     </Compile>
     <Compile Include="Edit\Utilities\EducationalTrainingState.cs" />
     <Compile Include="Edit\Utilities\FundingState.cs" />
+    <Compile Include="Edit\Utilities\GroupMemberState.cs" />
     <Compile Include="Edit\Utilities\LiteralListState.cs" />
     <Compile Include="Framework\Modules\MainMenu\History.ascx.cs">
       <DependentUpon>History.ascx</DependentUpon>
@@ -345,6 +382,21 @@
       <DependentUpon>History.ascx</DependentUpon>
     </Compile>
     <Compile Include="Framework\Utilities\UserHistory.cs" />
+    <Compile Include="GroupAdmin\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GroupAdmin\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GroupAdmin\Modules\GroupAdmin\GroupAdmin.ascx.cs">
+      <DependentUpon>GroupAdmin.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GroupAdmin\Modules\GroupAdmin\GroupAdmin.ascx.designer.cs">
+      <DependentUpon>GroupAdmin.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="GroupAdmin\Utilities\DataIO.cs" />
     <Compile Include="History\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

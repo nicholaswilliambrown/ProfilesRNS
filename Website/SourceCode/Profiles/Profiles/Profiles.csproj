@@ -271,6 +271,7 @@
     <Content Include="Profile\Modules\CustomViewGroupGeneralInfo\CustomViewGroupGeneralInfo.ascx" />
     <Content Include="Profile\Modules\CustomViewListProperty\CustomViewListProperty.ascx" />
     <Content Include="Profile\Modules\CustomViewPersonGeneralInfo\vcard.aspx" />
+    <Content Include="Profile\Modules\CustomViewPropertyGroupLinks\CustomViewPropertyGroupLinks.ascx" />
     <Content Include="Profile\Modules\CustomViewResearcherRole\CustomViewResearcherRole.ascx" />
     <Content Include="Profile\Modules\CustomViewSocialMediaPlugins\FeaturedPresentations.ascx" />
     <Content Include="Profile\Modules\CustomViewSocialMediaPlugins\FeaturedVideos.ascx" />
@@ -1154,6 +1155,13 @@
     </Compile>
     <Compile Include="Profile\Modules\CustomViewPersonGeneralInfo\vcard.aspx.designer.cs">
       <DependentUpon>vcard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Profile\Modules\CustomViewPropertyGroupLinks\CustomViewPropertyGroupLinks.ascx.cs">
+      <DependentUpon>CustomViewPropertyGroupLinks.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Profile\Modules\CustomViewPropertyGroupLinks\CustomViewPropertyGroupLinks.ascx.designer.cs">
+      <DependentUpon>CustomViewPropertyGroupLinks.ascx</DependentUpon>
     </Compile>
     <Compile Include="Profile\Modules\CustomViewResearcherRole\CustomViewResearcherRole.ascx.cs">
       <DependentUpon>CustomViewResearcherRole.ascx</DependentUpon>

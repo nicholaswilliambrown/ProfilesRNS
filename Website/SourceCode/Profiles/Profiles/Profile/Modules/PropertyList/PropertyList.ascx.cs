@@ -69,14 +69,13 @@ namespace Profiles.Profile.Modules.PropertyList
 
                     if ((propertygroup.SelectNodes("Property/Network/Connection").Count > 0 && propertygroup.SelectNodes("Property[@CustomDisplay='false']").Count > 0) || propertygroup.SelectNodes("Property/CustomModule").Count > 0)
                     {
-                        html.Append("<div class='PropertyGroup' tabindex=\"0\" style='cursor:pointer;' onkeypress=\"if (event.keyCode == 13) javascript:toggleBlock('propertygroup','" + propertygroup.SelectSingleNode("@URI").Value + "');\" onclick=\"javascript:toggleBlock('propertygroup','" + propertygroup.SelectSingleNode("@URI").Value + "');\"  role=\"region\"><br>");
-                        html.Append("<img id=\"propertygroup" + propertygroup.SelectSingleNode("@URI").Value + "\" src='" + Root.Domain + "/Profile/Modules/PropertyList/images/minusSign.gif' alt='Collapse' style='border: none; text-decoration: none !important' border='0' width='9' height='9'/>&nbsp;"); //add image and onclick here.
-                        html.Append("<input  type='hidden' id=\"imgon" + propertygroup.SelectSingleNode("@URI").Value + "\" value='" + Root.Domain + "/Profile/Modules/PropertyList/images/minusSign.gif' alt='Collapse' width='9'/>");
-                        html.Append("<input type='hidden' id=\"imgoff" + propertygroup.SelectSingleNode("@URI").Value + "\" value='" + Root.Domain + "/Profile/Modules/PropertyList/images/plusSign.gif' alt='Expand' />");
-                        
+                        html.Append($"<div class='PropertyGroup' tabindex=\"0\" onkeypress=\"if (event.keyCode == 13) javascript:toggleBlock('{propertygroup.SelectSingleNode("@URI").Value}');\" onclick=\"javascript:toggleBlock('{propertygroup.SelectSingleNode("@URI").Value}'); return false;\"  role=\"region\"><br>");
+                        html.Append("<span class='tog'>");
+                        html.Append($"<img style='padding:3px;padding-bottom:6px;'  src='{Root.Domain}/framework/images/collapse.gif' data-swap='{Root.Domain}/framework/images/expand.gif' />");
+                        html.Append("</span>");
                         html.Append(propertygroup.SelectSingleNode("@Label").Value);
-                        html.Append("&nbsp;<br></div>");
-                        html.Append("<div class='PropertyGroupItem'  id='" + propertygroup.SelectSingleNode("@URI").Value + "'>");
+                        html.Append("</div>");
+                        html.Append($"<div class='PropertyGroupItem'  id='{propertygroup.SelectSingleNode("@URI").Value}'>");
 
                         foreach (XmlNode propertyitem in propertygroup.SelectNodes("Property"))
                         {
@@ -86,54 +85,50 @@ namespace Profiles.Profile.Modules.PropertyList
                                 if (propertyitem.SelectSingleNode("@CustomDisplay").Value == "false")
                                 {
                                     hasitems = false;
+                                    //this is used for the smooth scroll to the property item.
+                                    label = propertyitem.SelectSingleNode("@Label").Value.ToLower().Replace(" ", "");
 
-                                    itembuffer.Append("<input type='hidden' id=\"imgon" + propertyitem.SelectSingleNode("@URI").Value + "\" value='" + Root.Domain + "/Profile/Modules/PropertyList/images/minusSign.gif' alt='Collapse'  width='9' height='9'/>");
-                                    itembuffer.Append("<input type='hidden' id=\"imgoff" + propertyitem.SelectSingleNode("@URI").Value + "\" value='" + Root.Domain + "/Profile/Modules/PropertyList/images/plusSign.gif' alt='Expand' />");
-                                    itembuffer.Append("<div>");
-                                    itembuffer.Append("<div class='PropertyItemHeader' style='cursor:pointer;' tabindex=\"0\" onkeypress=\"if (event.keyCode == 13)javascript:toggleBlock('propertyitem','" + propertyitem.SelectSingleNode("@URI").Value + "');\" onclick=\"javascript:toggleBlock('propertyitem','" + propertyitem.SelectSingleNode("@URI").Value + "');\" role=\"region\">");
-                                    itembuffer.Append("<img id=\"propertyitem" + propertyitem.SelectSingleNode("@URI").Value + "\" src='" + Root.Domain + "/Profile/Modules/PropertyList/images/minusSign.gif' alt='Collapse'  border='0' width='9' height='9' />&nbsp;"); //add image and onclick here.
-                                    itembuffer.Append(propertyitem.SelectSingleNode("@Label").Value);
+                                    itembuffer.Append("<div class='PropertyItemHeader'  tabindex='0' role='region'>");
+                                    itembuffer.Append($"<a id='{label}x' name='{label}x' onclick=\"javascript:toggleBlock('{propertyitem.SelectSingleNode("@URI").Value}'); return false;\">");
+                                    itembuffer.Append($"<img style='padding:3px;padding-bottom:6px;'  src='{Root.Domain}/framework/images/collapse.gif' data-swap='{Root.Domain}/framework/images/expand.gif' />");
+                                    itembuffer.Append($"{propertyitem.SelectSingleNode("@Label").Value}</a>");
+                                    itembuffer.Append($"<span id='{label}' class='property-list-link bi bi-clipboard'  data-clipboard-text='{Root.Domain}{Root.AbsolutePath}#{label}' data-toggle='tooltip' data-placement='bottom' title='Click here to copy the {propertyitem.SelectSingleNode("@Label").Value} Profile section URL to your clipboard. '/>");
                                     itembuffer.Append("</div>");
                                     itembuffer.Append("<div class='PropertyGroupData'>");
-                                    itembuffer.Append("<div style='padding-top:6px;padding-right:6px;padding-left:6px' id='" + propertyitem.SelectSingleNode("@URI").Value + "'>");
+                                    itembuffer.Append($"<div id='{propertyitem.SelectSingleNode("@URI").Value}'>");
 
                                     foreach (XmlNode connection in propertyitem.SelectNodes("Network/Connection"))
                                     {
-                                        if (hasitems) itembuffer.Append("<br>");
                                         if (connection.SelectSingleNode("@ResourceURI") != null)
                                         {
-                                            itembuffer.Append("<a href='");
-                                            itembuffer.Append(connection.SelectSingleNode("@ResourceURI").Value);
-                                            itembuffer.Append("'>");
-                                            itembuffer.Append(connection.InnerText.Replace("\n", "<br/>"));
-                                            itembuffer.Append("</a><br>");
+                                            itembuffer.Append($"<a href='{connection.SelectSingleNode("@ResourceURI").Value}'>{connection.InnerText.Replace("\n", "<br/>")}</a>");
                                             hasitems = true;
-
                                         }
                                         else
                                         {
-                                            itembuffer.Append(connection.InnerText.Replace("\n","<br/>") + "<br>");
+                                            itembuffer.Append(connection.InnerText.Replace("\n", "<br/>"));
                                             hasitems = true;
-
                                         }
                                     }
 
-                                    itembuffer.Append("</div></div></div>");
-
+                                    itembuffer.Append("</div></div>");
+                                    label = string.Empty;
                                 }
                                 else if (propertyitem.SelectSingleNode("@CustomDisplay").Value == "true" && propertyitem.SelectNodes("CustomModule").Count > 0)
                                 {
-                                    itembuffer.Append("<input type='hidden' id=\"imgon" + propertyitem.SelectSingleNode("@URI").Value + "\" value='" + Root.Domain + "/Profile/Modules/PropertyList/images/minusSign.gif' alt='Collapse'  width='9' height='9' />");
-                                    itembuffer.Append("<input type='hidden' id=\"imgoff" + propertyitem.SelectSingleNode("@URI").Value + "\" value='" + Root.Domain + "/Profile/Modules/PropertyList/images/plusSign.gif'alt='Expand'  />");
-                                    itembuffer.Append("<div>");
-                                    itembuffer.Append("<div class='PropertyItemHeader' style='cursor:pointer;' tabindex=\"0\" onkeypress=\"if (event.keyCode == 13) javascript:toggleBlock('propertyitem','" + propertyitem.SelectSingleNode("@URI").Value + "');\" onclick=\"javascript:toggleBlock('propertyitem','" + propertyitem.SelectSingleNode("@URI").Value + "');\" role=\"region\">");
-                                    itembuffer.Append("<img id=\"propertyitem" + propertyitem.SelectSingleNode("@URI").Value + "\" src='" + Root.Domain + "/Profile/Modules/PropertyList/images/minusSign.gif' alt='Collapse' style='border: none; text-decoration: none !important' border='0' width='9' height='9' />&nbsp;"); //add image and onclick here.
-                                    itembuffer.Append(propertyitem.SelectSingleNode("@Label").Value);
+                                    // this is used for the smooth scroll to the property item.
+                                    label = propertyitem.SelectSingleNode("@Label").Value.ToLower().Replace(" ", "");
+
+                                    itembuffer.Append("<div class='PropertyItemHeader'  tabindex='0' role='region'>");
+                                    itembuffer.Append($"<a id='{label}x' name='{label}x' onclick=\"javascript:toggleBlock('{propertyitem.SelectSingleNode("@URI").Value}'); return false;\">");
+                                    itembuffer.Append($"<img style='padding:3px;padding-bottom:6px;'  src='{Root.Domain}/framework/images/collapse.gif' data-swap='{Root.Domain}/framework/images/expand.gif' />");
+                                    itembuffer.Append($"{propertyitem.SelectSingleNode("@Label").Value}</a>");
+                                    itembuffer.Append($"<span id='{label}' class='property-list-link bi bi-clipboard'  data-clipboard-text='{Root.Domain}{Root.AbsolutePath}#{label}' data-toggle='tooltip' data-placement='bottom' title='Click here to copy the {propertyitem.SelectSingleNode("@Label").Value} Profile section URL to your clipboard. '/>");
                                     itembuffer.Append("</div>");
                                     itembuffer.Append("<div class='PropertyGroupData'>");
-                                    itembuffer.Append("<div id='" + propertyitem.SelectSingleNode("@URI").Value + "'>");
-                                    
-                                    foreach(XmlNode node in propertyitem.SelectNodes("CustomModule")){
+                                    itembuffer.Append($"<div id='{propertyitem.SelectSingleNode("@URI").Value}'>");
+
+                                    foreach (XmlNode node in propertyitem.SelectNodes("CustomModule")){
                                         Framework.Utilities.ModulesProcessing mp = new ModulesProcessing();
                                         XmlDocument modules = new XmlDocument();
                                         modules.LoadXml(node.OuterXml);
@@ -161,7 +156,7 @@ namespace Profiles.Profile.Modules.PropertyList
                                         itembuffer.Append(base.RenderCustomControl(node.OuterXml,base.BaseData));
                                     }
 
-                                    itembuffer.Append("</div></div></div>");
+                                    itembuffer.Append("</div></div>");
 
                                 }
 

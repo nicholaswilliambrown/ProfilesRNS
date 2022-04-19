@@ -41,5 +41,7 @@ For details, see: LICENSE.txt
   <Module ModulePath="Modules" NameSpace="CustomViewSocialMediaPlugins" FileName="FeaturedPresentations.ascx" Enabled="true"/>
   <Module ModulePath="Modules" NameSpace="CustomViewSocialMediaPlugins" FileName="FeaturedVideos.ascx" Enabled="true"/>
   <Module ModulePath="Modules" NameSpace="CustomViewSocialMediaPlugins" FileName="Twitter.ascx" Enabled="true"/>
+  <Module ModulePath="Modules" NameSpace="CustomViewClinicalTrial" FileName="CustomViewClinicalTrial.ascx" Enabled="true"/>
+  <Module ModulePath="Modules" NameSpace="CustomViewPropertyGroupLinks" FileName="CustomViewPropertyGroupLinks.ascx" Enabled="true"/>
 </ModuleList>
 

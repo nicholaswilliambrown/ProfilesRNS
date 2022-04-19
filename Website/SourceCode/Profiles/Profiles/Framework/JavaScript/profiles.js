@@ -31,12 +31,18 @@ function GoTo(location) {
 
     return null;
 }
-function toggleBlock(key, id) {
+function toggleBlock(id) {
+    var e = document.getElementById(id);
 
+    if (e.style.display == 'none') {
+        e.style.display = 'block';
+        return false;
+    }
+    else {
+        e.style.display = 'none';
+        return false;
 
-    toggleVisibility(id);
-    toggleImage(key,id);
-
+    }
 }
 
 function toggleVisibility(id) {

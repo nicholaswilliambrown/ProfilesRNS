@@ -44,6 +44,10 @@ SELECT	 NEWID(),
 					 FROM  [Profile.Data].[Publication.Person.Include] p
 					WHERE p.personid = d.personid
 					  AND p.pmid = d.pmid)
+ AND NOT EXISTS (SELECT *
+					 FROM  [Profile.Data].[Publication.Person.Exclude] e
+					WHERE e.personid = d.personid
+					  AND e.pmid = d.pmid)
   AND EXISTS (SELECT 1 FROM [Profile.Data].[Publication.PubMed.General] g where g.pmid = d.pmid)					  
  INSERT INTO [Framework.].[Log.Activity] (userId, personId, methodName, property, privacyCode, param1, param2) 
 SELECT 0, PersonID, '[Profile.Data].[Publication.Pubmed.LoadDisambiguationResults]', null, null, 'Add PMID', PMID FROM @addedPMIDTable	  

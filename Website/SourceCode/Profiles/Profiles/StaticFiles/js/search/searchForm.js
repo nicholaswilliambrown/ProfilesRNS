@@ -163,17 +163,15 @@ function searchPeopleFn(searchInput, exactCheckbox, lnameInput, fnameInput) {
     collectNames(lnameInput, fnameInput, selections);
 
     collectDropdownSelections(selections);
-    // misc addition: foreshadowing sorting
-    selections.Sort = "relevance";
-    selections.SearchType = gSearch.peoplePrefix;
-    initializePagingValues(selections, gPage.defaultPageSize, 0);
+
+    collectMiscInitialPeopleSelections(selections);
 
     //alert(`Json (from people tab): ${JSON.stringify(selections)}`);
     searchPost(
         gImpl.findPeopleUrl,
         gSearch.peoplePrefix,
         selections,
-        "default.aspx?PersonResults");
+        "searchPeopleResults.html");
 }
 function searchEverythingFn(searchInput, exactCheckbox) {
     let selections = collectKeywordSelections(searchInput, exactCheckbox);
@@ -189,7 +187,7 @@ function searchEverythingFn(searchInput, exactCheckbox) {
         gImpl.findEverythingElseUrl,
         gSearch.allElsePrefix,
         selections,
-        "default.aspx?EverythingResults");
+        "searchAllElseResults.html");
 }
 function setupOneSearchSubmitSection(idPrefix, label, title, searchFn) {
     let outerTarget = $(`#${idPrefix}`);

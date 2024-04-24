@@ -97,7 +97,7 @@ function emitPeopleResultsHeader(results, optionalShows, colspecs, target) {
     }
 }
 function emitDataRows(results, optionalShows, colspecs, target) {
-    let items = results.People;
+    let items = results.People; // [relevance] sort is requested/fulfilled by/in back-end
 
     if (items) {
         for (let i = 0; i < items.length; i++) {

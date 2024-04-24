@@ -1,15 +1,4 @@
 
-//////////////////////////////////////////////////////////
-//////   You will probably supply your own versions of
-//////
-//////   emitBrandingHeadItems()
-//////   emitBrandingHeader()
-//////   emitBrandingFooter()
-//////
-//////        and maybe also
-//////   emitPreFooter()
-//////////////////////////////////////////////////////////
-
 async function emitBrandingHeadItems() {
     // no added content for foo
 }
@@ -33,7 +22,7 @@ async function emitBrandingFooter() {
         class="d-flex justify-content-center headerFooter p-2"></div>`);
     $('body').append(brandingFooter);
 
-    let getFooterContent = () => { return $(`<div class="small">Foo College<br/>Do not trip on the bar</div>`); }
+    let getFooterContent = () => { return $(`<div class="small">Foo College<br/>Try not to trip on the bar</div>`); }
 
     // versions for small and large
     let largeFooterDiv = $(`<div class="w-75 ${gCommon.hideXsSmallShowOthers}"></div>`);

@@ -28,7 +28,7 @@ function conceptDetailsParser(data) {
     row.find(`#${rowId}Col4`).html('<strong>Concept Score</strong>').addClass("pt-2");
     row.find(`#${rowId}Col5`).html('<strong>Why?</strong>').addClass("pt-2");
 
-    data = sortArrayViaSortLabel(data, 'Weight', true);
+    data = reverseSortArrayByWeight(data);
     let numItems = data.length;
     for (let i=0; i<numItems; i++) {
         let conn = data[i];

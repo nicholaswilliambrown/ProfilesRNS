@@ -56,11 +56,11 @@
     font-weight: bold;
 }
 .accordion-button::before {
-    content: url("/staticfiles/img/person/expand.gif");
+    content: url("/StaticFiles/img/person/expand.gif");
     margin-right: 5px;
 }
 .accordion-button:not(.collapsed)::before {
-    content: url("/staticfiles/img/person/collapse.gif");
+    content: url("/StaticFiles/img/person/collapse.gif");
 }
 .accordion-button::after {
     background-image: initial; /* nuke the default BS arrows on the right */

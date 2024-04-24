@@ -34,7 +34,7 @@ function conceptConnectionParser(target, data) {
 
     gConnections.pubMedUrlSchema = "https://www.ncbi.nlm.nih.gov/pubmed/%%FOO%%";
 
-    let pubs = sortArrayViaSortLabel(data.Publications, 'Weight', true);
+    let pubs = reverseSortArrayByWeight(data.Publications);
     for (let i=0; i<pubs.length; i++) {
         let pub = pubs[i];
 

@@ -118,14 +118,16 @@ function emitWhyDirectMatches(matches, target) {
 function emitWhyIndirectMatches(matches, target) {
     let colspecsMeek = makeWhyColspecs(false);
 
+    matches = reverseSortArrayByWeight(matches);
     for (let i = 0; i < matches.length; i++) {
         let item = matches[i];
 
         let rowId = `indirectMatches${i}`;
         let row = makeRowWithColumns(target, rowId, colspecsMeek, "bordersRow bordE");
 
+        let urlEntry = createAnchorElement(item.Label, item.URI);
         row.find(`#${rowId}Col0`).html(item.ClassName);
-        row.find(`#${rowId}Col1`).html(item.Label);
+        row.find(`#${rowId}Col1`).append(urlEntry);
     }
 }
 function whyPersonLink(results) {

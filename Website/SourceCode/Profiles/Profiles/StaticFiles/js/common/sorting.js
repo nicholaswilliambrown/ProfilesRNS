@@ -29,6 +29,9 @@ function sortArrayViaSortLabel(array, sortLabel, reverse) {
     });
     return theSortedArray
 }
+function reverseSortArrayByWeight(array) {
+    return sortArrayViaSortLabel(array, "Weight", true);
+}
 function sortModules(personJson, compareFn) {
     console.log("B4 rearrange", personJson);
 

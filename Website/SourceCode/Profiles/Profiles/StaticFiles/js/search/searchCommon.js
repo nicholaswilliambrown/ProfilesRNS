@@ -65,6 +65,12 @@ function addUpdateResultsSearchQuery(results, key, value) {
 function addUpdateSearchQuery(searchQuery, key, value) {
     searchQuery[key] = value;
 }
+function collectMiscInitialPeopleSelections(selections) {
+    // misc addition: foreshadowing sorting
+    selections.Sort = "relevance";
+    selections.SearchType = gSearch.peoplePrefix;
+    initializePagingValues(selections, gPage.defaultPageSize, 0);
+}
 function initializePagingValues(selections, size, offset) {
     selections.Count = size;
     selections.Offset = offset;
@@ -115,6 +121,24 @@ function searchPost(url, prefix, selections, resultPage) {
 }
 function makeSearchResultsKey(prefix) {
     return `search${initialCapital(prefix)}ResultsKey`;
+}
+function minimalPeopleSearch(term) {
+    let selections = {};
+    selections.Keyword = term;
+    selections.LastName = "";
+    selections.FirstName = "";
+    selections.InstitutionName = "";
+    selections.DepartmentName = "";
+    selections.FacultyTypeName = "";
+    selections.OtherOptionsName = [];
+
+    collectMiscInitialPeopleSelections(selections);
+
+    searchPost(
+        gImpl.findPeopleUrl,
+        gSearch.peoplePrefix,
+        selections,
+        "searchPeopleResults.html");
 }
 function emitCriteriaOnRhs(results, withWhy) {
     let target = $('#innerRhsDiv');

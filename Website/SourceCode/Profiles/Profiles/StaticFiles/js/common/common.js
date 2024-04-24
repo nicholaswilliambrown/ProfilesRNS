@@ -305,7 +305,7 @@ function rememberArraySizeOfJsonModule(pageJson, moduleName, sessionKey) {
     }
 }
 function getEltBackTo(backUrl, backLabel) {
-    let backArrow = $(`<img src="/staticfiles/img/common/arrowLeft.png"
+    let backArrow = $(`<img src="/StaticFiles/img/common/arrowLeft.png"
                          class="me-1" alt="">`);
     let returnA = createAnchorElement(`Back to ${backLabel}`, backUrl);
     returnA.prepend(backArrow);
@@ -421,9 +421,9 @@ function hoverLight(elt, inThen, outThen) {
         });
 }
 function makeArrowedConnectionLine() {
-    let left = $(`<img class="connectionArrow" src="/staticfiles/img/common/connection_left.gif" alt="Left Arrow"/>`);
+    let left = $(`<img class="connectionArrow" src="/StaticFiles/img/common/connection_left.gif" alt="Left Arrow"/>`);
     let line = $('<span class="w-100 connectionLine"></span>');
-    let right = $(`<img class="connectionArrow" src="/staticfiles/img/common/connection_right.gif" alt="Right Arrow" />`);
+    let right = $(`<img class="connectionArrow" src="/StaticFiles/img/common/connection_right.gif" alt="Right Arrow" />`);
 
     let doubleArrow = $('<span class="w-100 d-flex justify-content-center"></span>');
     doubleArrow.append(left).append(line).append(right);

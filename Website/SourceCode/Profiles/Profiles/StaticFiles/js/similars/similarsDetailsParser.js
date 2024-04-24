@@ -21,7 +21,7 @@ function similarsDetailsParser(data) {
     row.find(`#${rowId}Col2`).html('<strong>Similarity Score</strong>').addClass("pt-2");
     row.find(`#${rowId}Col3`).html('<strong>Why?</strong>').addClass("pt-2");
 
-    data = sortArrayViaSortLabel(data, 'Weight', true);
+    data = reverseSortArrayByWeight(data);
     let numItems = data.length;
     for (let i=0; i<numItems; i++) {
         let conn = data[i];

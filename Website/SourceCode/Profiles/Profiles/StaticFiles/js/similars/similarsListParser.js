@@ -17,7 +17,7 @@ function similarsListParser(data) {
     let secondHalf = bigRow.find(`#${rowId}Col1`);
     let size = data.length;
 
-    data = sortArrayViaSortLabel(data, 'Weight', true);
+    data = reverseSortArrayByWeight(data);
 
     for (let i=0; i<size; i++) {
         let datum = data[i];

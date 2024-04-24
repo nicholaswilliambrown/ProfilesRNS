@@ -1,12 +1,12 @@
 
 //////////////////////////////////////////////////////////
-//////   You will probably supply your own versions of
+//////   You supply your own versions of
 //////
 //////   emitBrandingHeadItems()
 //////   emitBrandingHeader()
 //////   emitBrandingFooter()
 //////
-//////        and maybe also
+//////        and optionally also
 //////   emitPreFooter()
 //////   setTabTitleAndFavicon(title)
 //////

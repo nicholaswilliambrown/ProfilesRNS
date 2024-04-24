@@ -8,7 +8,7 @@ async function getPageJSON() {
             let jsonTmp = [];
             for (let k=0; k<json.length; k++) {
                 let jsonK = json[k]
-                let jsonURL = g.apiBasePath + "?" + jsonK.dataURL;
+                let jsonURL = g.apiBasePath + "/getdata?" + jsonK.dataURL;
                 await jQuery.getJSON(jsonURL, function (json2) {
                     for (let j2=0; j2<json2.length; j2++) {
                         let jsonJ2 = json2[j2];

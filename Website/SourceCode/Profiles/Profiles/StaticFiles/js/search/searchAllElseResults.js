@@ -127,7 +127,7 @@ function emitAllElseResultsHeader(colspecs, target) {
 }
 
 function emitAllElseDataRows(results, colspecs, target) {
-    let items = sortArrayViaSortLabel(results.Results, 'Weight', true);
+    let items = reverseSortArrayByWeight(results.Results);
 
     if (items) {
         for (let i = 0; i < items.length; i++) {

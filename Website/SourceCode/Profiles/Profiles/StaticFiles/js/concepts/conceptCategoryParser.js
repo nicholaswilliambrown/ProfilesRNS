@@ -16,7 +16,7 @@ function categorizeData(data) {
 
     for (let name of categoryNames) {
         categories[name] =
-            sortArrayViaSortLabel(categories[name], "Weight", true);
+            reverseSortArrayByWeight(categories[name]);
         let size = categories[name].length;
 
         //https://stackoverflow.com/questions/26568536/remove-all-items-after-an-index

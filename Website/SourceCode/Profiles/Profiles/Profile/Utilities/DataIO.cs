@@ -1127,7 +1127,7 @@ namespace Profiles.Profile.Utilities
             });
             return linklist;
         }
-
+ 
         public SqlDataReader GetGMapUserCoAuthors(Int64 nodeid, int which, string sessionid)
         {
             SqlDataReader dbreader = null;

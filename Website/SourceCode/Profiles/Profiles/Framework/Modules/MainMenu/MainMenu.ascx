@@ -131,7 +131,7 @@
     function minisearch() {
         var keyword = $("#menu-search").val();
         var classuri = 'http://xmlns.com/foaf/0.1/Person';
-        document.location.href = '<%=ResolveUrl("~/search/default.aspx")%>?searchtype=people&searchfor=' + keyword + '&classuri=' + classuri;
+        document.location.href = '<%=ResolveUrl("~/search/default.aspx")%>?searchtype=people&searchfor=' + keyword + '&classuri=' + classuri + '&perpage=15&offset=0&new=true';
         return true;
     }
 

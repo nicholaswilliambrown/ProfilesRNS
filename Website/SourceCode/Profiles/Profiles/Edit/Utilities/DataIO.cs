@@ -1940,7 +1940,7 @@ namespace Profiles.Edit.Utilities
             return fs;
 
         }
-        public List<FundingState> GetFunding(int PersonID)
+        public List<FundingState> GetClinicalTrials(int PersonID)
         {
             string connstr = this.GetConnectionString();
             SqlConnection dbconnection = new SqlConnection(connstr);

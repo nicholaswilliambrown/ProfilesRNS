@@ -1,0 +1,158 @@
+{
+    "Count": 150,
+    "Results": [
+        {
+            "DepartmentName": "Anaesthesia",
+            "DisplayName": "James Rhee, M.D.",
+            "FacultyRank": "Assistant Professor",
+            "InstitutionName": "Massachusetts General Hospital",
+            "NodeID": 1256057,
+            "PersonID": 4420,
+            "Weight": 0.99
+        },
+        {
+            "DepartmentName": "Epidemiology",
+            "DisplayName": "Gary Craig Curhan, Sc.D., M.D.",
+            "FacultyRank": "Full Professor",
+            "InstitutionName": "Harvard T.H. Chan School of Public Health",
+            "NodeID": 1250417,
+            "PersonID": 8975,
+            "Weight": 0.58
+        },
+        {
+            "DepartmentName": "Nutrition",
+            "DisplayName": "Eric Bruce Rimm, Sc.D.",
+            "FacultyRank": "Full Professor",
+            "InstitutionName": "Harvard T.H. Chan School of Public Health",
+            "NodeID": 1231538,
+            "PersonID": 9225,
+            "Weight": 0.92
+        },
+        {
+            "DepartmentName": "Social and Behavioral Sciences",
+            "DisplayName": "Michael Gideon Marmot, Ph.D., M.B.,B.S.",
+            "FacultyRank": "Full Professor",
+            "InstitutionName": "Harvard T.H. Chan School of Public Health",
+            "NodeID": 1247733,
+            "PersonID": 21719,
+            "Weight": 0.85
+        },
+        {
+            "DepartmentName": "Nutrition",
+            "DisplayName": "Edward L. Giovannucci, D.Sc., M.D.",
+            "FacultyRank": "Full Professor",
+            "InstitutionName": "Harvard T.H. Chan School of Public Health",
+            "NodeID": 1241093,
+            "PersonID": 31785,
+            "Weight": 0.74
+        },
+        {
+            "DepartmentName": "Medicine",
+            "DisplayName": "Harvey Bruce Simon",
+            "FacultyRank": "Associate Professor",
+            "InstitutionName": "Massachusetts General Hospital",
+            "NodeID": 1256106,
+            "PersonID": 33726,
+            "Weight": 0.79
+        },
+        {
+            "DepartmentName": "Medicine",
+            "DisplayName": "Alberto B. Ascherio, D.P.H., M.D.",
+            "FacultyRank": "Full Professor",
+            "InstitutionName": "Brigham and Women's Hospital",
+            "NodeID": 1249248,
+            "PersonID": 36351,
+            "Weight": 0.55
+        },
+        {
+            "DepartmentName": "Psychiatry",
+            "DisplayName": "Scott E. Lukas, Ph.D.",
+            "FacultyRank": "Full Professor",
+            "InstitutionName": "McLean Hospital",
+            "NodeID": 1231727,
+            "PersonID": 49987,
+            "Weight": 0.59
+        },
+        {
+            "DepartmentName": "Epidemiology",
+            "DisplayName": "Meir Jonathan Stampfer, Dr.P.H., M.D.",
+            "FacultyRank": "Full Professor",
+            "InstitutionName": "Harvard T.H. Chan School of Public Health",
+            "NodeID": 1245515,
+            "PersonID": 58776,
+            "Weight": 0.82
+        },
+        {
+            "DepartmentName": "Medicine",
+            "DisplayName": "Kenneth J. Mukamal, M.D.",
+            "FacultyRank": "Associate Professor",
+            "InstitutionName": "Beth Israel Deaconess Medical Center",
+            "NodeID": 1253398,
+            "PersonID": 66171,
+            "Weight": 0.66
+        },
+        {
+            "DepartmentName": "Anaesthesia",
+            "DisplayName": "Rafael Vazquez, M.D.",
+            "FacultyRank": "Assistant Professor",
+            "InstitutionName": "Massachusetts General Hospital",
+            "NodeID": 1255635,
+            "PersonID": 68453,
+            "Weight": 0.76
+        },
+        {
+            "DepartmentName": "Medicine",
+            "DisplayName": "Douglas P. Kiel, M.D.",
+            "FacultyRank": "Full Professor",
+            "InstitutionName": "Hebrew Rehabilitation Center",
+            "NodeID": 1231181,
+            "PersonID": 81125,
+            "Weight": 0.65
+        },
+        {
+            "DepartmentName": "Medicine",
+            "DisplayName": "Peter Grant Miller, M.D.",
+            "FacultyRank": "Assistant Professor",
+            "InstitutionName": "Massachusetts General Hospital",
+            "NodeID": 19006113,
+            "PersonID": 81465,
+            "Weight": 0.89
+        },
+        {
+            "DepartmentName": "Health Policy and Management",
+            "DisplayName": "Jonathan Howland, Ph.D.",
+            "FacultyRank": "Instructor",
+            "InstitutionName": "Harvard T.H. Chan School of Public Health",
+            "NodeID": 1235212,
+            "PersonID": 88501,
+            "Weight": 0.63
+        },
+        {
+            "DepartmentName": "Medicine",
+            "DisplayName": "Andrew Z Fenves, M.D.",
+            "FacultyRank": "Associate Professor",
+            "InstitutionName": "Massachusetts General Hospital",
+            "NodeID": 1243824,
+            "PersonID": 116333,
+            "Weight": 0.57
+        },
+        {
+            "DepartmentName": "Dermatology",
+            "DisplayName": "Ari Goldminz, M.D.",
+            "FacultyRank": "Assistant Professor",
+            "InstitutionName": "Brigham and Women's Hospital",
+            "NodeID": 85404032,
+            "PersonID": 161859,
+            "Weight": 0.56
+        },
+        {
+            "DepartmentName": "Medicine",
+            "DisplayName": "Clara Sailer, M.D.",
+            "FacultyRank": "Fellow or Post Doc",
+            "InstitutionName": "Brigham and Women's Hospital",
+            "NodeID": 175967562,
+            "PersonID": 196225,
+            "Weight": 0.95
+        }
+    ]
+}

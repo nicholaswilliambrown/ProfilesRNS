@@ -1,0 +1,134 @@
+.navbar-dark .myNavbar-nav .nav-link {
+    color: #fff;
+}
+.dropdown-toggle::after {
+    display: none;
+}
+.nav-link2 {
+    color: #333333 !important;
+}
+.no-a-color {
+    text-decoration: none !important;
+    color: #333333 !important;
+}
+.nav-link.top {
+    padding: 10px 16px !important;
+    border-right: 1px solid #fff;
+    font-size: 14px;
+    font-weight: 400;
+}
+.nav-link2 {
+    padding: 5px 8px !important;
+    border-left: 1px solid #333333;
+    font-size: 13px;
+    font-weight: 400;
+}
+div.top {
+    width: 100%;
+}
+.nav-link.top:hover {
+    background-color: #555 !important;
+}
+.navbar.top {
+    padding: 0px !important;
+}
+.navbar2.top {
+    background-color: #cccccc !important;
+    color: #333333 !important;
+}
+div.nav-item.r2:hover, #nav2Persons:hover {
+    background-color: #7c7b7b !important;
+    color: white !important;
+}
+form.top {
+    padding-right: 0px !important;
+}
+.nav-link.search {
+    padding: 0px 10px !important;
+}
+form.top {
+    padding: 5px;
+}
+.formHeightDesktop {
+    height: 39px !important;
+}
+.formHeightPhone {
+    height: 79px !important;
+}
+.form-control {
+    border-radius: 0px;
+    border: 0px;
+    font-size: small;
+    width: 60%
+}
+.dropdown-item {
+    background-color: black !important;
+    color: #fff !important;
+    padding: 5px 10px;
+    text-align: left;
+}
+.dropdown-item:hover {
+    background-color: #fff !important;
+    color: black !important;
+}
+a.r2 {
+    color: #333333 !important;
+    background-color: #dcdada !important;
+}
+a.r2:hover {
+    background-color: #7c7b7b !important;
+    color: white !important;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background-color: #fff !important;
+}
+.dropdown-menu {
+    background-color: black !important;
+    padding: 0;
+}
+.downArrow {
+    width: 25px;
+    padding: 5px 2px 20px 2px;
+}
+.downArrowSm {
+    margin-top: 60%;
+}
+.searchMagGlassWide {
+    width: 26px;
+    height: 26px;
+    background-color: white !important;
+}
+.searchMagGlassNarrow {
+    width: 26px;
+    height: 26px;
+    vertical-align: middle;
+    background-color: white !important;
+    margin-top: 60%;
+}
+.searchGlassDiv {
+    background-color: white;
+}
+/*https://stackoverflow.com/questions/39761030/placeholder-auto-wrap-inside-a-input-field*/
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    padding-left: 5px;
+    white-space:pre-line;
+    position:relative;
+    top:-5px;
+}
+::-moz-placeholder { /* Firefox 19+ */
+    padding-left: 5px;
+    white-space:pre-line;
+    position:relative;
+    top:-5px;
+}
+.higher {
+    height: 60px !important;
+}
+#topNav2White {
+    background-color: white;
+}
+#topNavbar2 {
+    width: 70%;
+}

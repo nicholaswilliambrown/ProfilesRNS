@@ -1,0 +1,17 @@
+{
+  "NB1": "((no comments in json)) Depending on your 'myBrand.js' implementation, you may not need (m)any of the below!",
+  "NB2": " But probably need homeUrl and DEFINITELY need profilesUrl",
+
+  "homeUrl":"https://catalyst.harvard.edu",
+  "profilesUrl": "https://dev.connects.catalyst.harvard.edu",
+
+  "headerFooterCssUrl":"https://dev-hcat.pantheonsite.io/wp-content/themes/_curryint/assets/shared_assets/header_footer.css",
+  "headerFooterJsUrl":"https://dev-hcat.pantheonsite.io/wp-content/themes/_curryint/assets/shared_assets/sharedAssetsJS.js",
+  "headerUrl":"https://dev-hcat.pantheonsite.io/shared-asset/profiles-header",
+  "footerUrl":"https://dev-hcat.pantheonsite.io/shared-asset/tool-page-footer",
+  "iconUrlBase":"https://dev-hcat.pantheonsite.io",
+  "logoUrl": "https://catalyst.harvard.edu/wp-content/themes/_curryint/assets/img/tool-page-logo.png",
+  "logoTitle": "View Harvard Catalyst Homepage",
+  "logoAlt": "Harvard Catalyst Logo",
+  "tabTitleSuffix": " | Harvard Catalyst Profiles | Harvard Catalyst",
+}

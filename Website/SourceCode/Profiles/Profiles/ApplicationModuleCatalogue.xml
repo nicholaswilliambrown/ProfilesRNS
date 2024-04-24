@@ -14,8 +14,6 @@ For details, see: LICENSE.txt
 <ApplicationList>  
   <Application ApplicaitonPath="Framework" ModulePath="Modules" Enabled="true"/>
   <Application ApplicaitonPath="SPARQL" ModulePath="Modules" Enabled="true"/>
-  <Application ApplicaitonPath="Search" ModulePath="Modules" Enabled="true"/>
-  <Application ApplicaitonPath="Profile" ModulePath="Modules" Enabled="true"/>  
   <Application ApplicaitonPath="Error" ModulePath="Modules" Enabled="true"/>  
   <Application ApplicaitonPath="Edit" ModulePath="Modules" Enabled="true"/>
   <Application ApplicaitonPath="Proxy" ModulePath="Modules" Enabled="true"/>

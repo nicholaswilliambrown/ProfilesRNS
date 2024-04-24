@@ -1,0 +1,29 @@
+.cloudLight {
+    color: #B7C3DB;
+    font-size: 13px;
+    line-height: 18.6px;
+}
+.cloudRegular {
+    color: #3366CC;
+    font-size: 13px;
+    line-height: 18.6px;
+}
+.cloudBold {
+    color: #3366CC;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: bold;
+}
+.blurbDiv {
+    width: 100%;
+    border-bottom: 1px solid #ccc !important;
+}
+.categoryHeader {
+    font-family: arial, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+}
+.categoryItem {
+    font-family: arial, sans-serif;
+    font-size: 12px;
+}

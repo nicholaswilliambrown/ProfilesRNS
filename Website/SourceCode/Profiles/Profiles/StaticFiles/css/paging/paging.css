@@ -1,0 +1,20 @@
+.pageNumInput {
+    width: 30px;
+}
+.disablePageNav {
+    color: #999999 !important;
+    font-size: 11px;
+    font-weight: 700;
+}
+.scrollDiv {
+    overflow-y: scroll;
+    overflow-x:hidden;
+}
+.scrollMore {
+    font-weight: 700;
+    font-size: 22px;
+}
+.disableScrollDiv {
+    pointer-events: none;
+    opacity: 0.6;
+}

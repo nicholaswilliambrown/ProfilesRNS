@@ -850,7 +850,7 @@ namespace Profiles.Edit.Modules.CustomEditResearcherRole
             this.SubjectID = Convert.ToInt64(base.GetRawQueryStringItem("subject"));
             ClearFields();
 
-            List<FundingState> fs = data.GetFunding(_personId);
+            List<FundingState> fs = data.GetClinicalTrials(_personId);
             if (fs.Count > 0)
             {
                 GridViewResearcherRole.DataSource = fs;

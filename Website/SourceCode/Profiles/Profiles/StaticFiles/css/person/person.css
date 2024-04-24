@@ -1,0 +1,389 @@
+
+.accordion-item.nested .my-mb2.row, .my-mb2 {
+    margin-bottom: 4px !important;
+}
+.parentWidth {
+    width: 100%;
+}
+.headshot {
+    border: 1px solid black;
+}
+.giOthersHeading {
+    font-weight: bold;
+    text-decoration: underline;
+    margin-left: 7%;
+}
+.accordion-body {
+    margin-bottom: 2px !important;
+    padding-bottom: 2px !important;
+}
+.accordion-body.unnested {
+    border: 1px solid #ccc;
+    border-image-width: 0;
+    padding-top: 0px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+.accordion-body.nested {
+    border: 0px;
+    border-image-width: 0;
+    color: black !important;
+}
+.accordion-item.nested .row, .accordion-item.nested .accordion-collapse {
+    margin: 0px !important;
+    padding-left: 8px !important;
+    padding-right: 12px !important;
+}
+.accordion-button.nested {
+    box-shadow: none;
+}
+.accordion-item.nested .row div, .accordion-body.nested, .accordion-button.nested {
+    padding-left: 0px !important;
+}
+.accordion-item.nested {
+    border: 0px;
+    margin-bottom: 5px;
+}
+.accordion-item.unnested {
+    border: 0px;
+}
+.accordion-button {
+    background-color: white !important;
+    border-width: 0px;
+    padding-right: 3px !important;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    font-weight: bold;
+}
+.accordion-button::before {
+    content: url("/staticfiles/img/person/expand.gif");
+    margin-right: 5px;
+}
+.accordion-button:not(.collapsed)::before {
+    content: url("/staticfiles/img/person/collapse.gif");
+}
+.accordion-button::after {
+    background-image: initial; /* nuke the default BS arrows on the right */
+    width: 0 !important;
+}
+.accordion-button:not(.collapsed)::after {
+    background-image: initial; /* nuke the default BS arrows on the right */
+}
+.nested.accordion-item .accordionHeaderHolder {
+    background-color: #eee !important;
+}
+.nested.accordion-item .accordionHeaderHolder .accordion-button.nested {
+    background-color: #eee !important;
+}
+
+.nested .accordion-header {
+    float: left;
+    /*width: 95%;*/
+}
+.bi-clipboard {
+    color: #993333;
+}
+.clipboardButtonTitle .tooltip-inner {
+    border: 2px solid #aaa;
+    background-color: white;
+    color: black;
+    text-align: start;
+    padding: 10px;
+    max-width: 60% !important;;
+}
+.clipboardMainButton {
+    border: none !important;
+}
+.clipboardMainButton:focus {
+    outline: 5px auto -webkit-focus-ring-color !important;
+    outline-offset: -2px !important;
+}
+.clipboardMainButton:hover {
+    /*box-shadow: 0 2px gray !important;*/
+    background-color: lightgray;
+}
+.clipboardButtonTitle {
+    background-color: white;
+    color: black;
+    text-align: start;
+    padding: 10px;
+    max-width: 60% !important;
+}
+.accordion-collapse {
+    border-top-color: #660099;
+    border-image-width: 0;
+}
+.accordion-header {
+    border-bottom-color: #33aa33;
+    border-image-width: 0;
+}
+.nested {
+    color: #666 !important;
+}
+.unnested {
+    color: #993333 !important;
+}
+
+/***** general info *************************************************************************/
+.gi_fullName {
+    color: #AC1B30;
+}
+.gi_otherPositions {
+    padding-left: 8%; /** class ps-[1-5] did not seem to work **/
+    text-decoration: underline;
+    font-weight: bold;
+}
+/************* authorship ***********************************************************************/
+.auth_topDiv1 {
+    font-weight: 700 !important;
+    margin-top: 5px;
+    color: #888;
+    line-height: 19px;
+}
+.research-length {
+    font-weight: bolder;
+    text-decoration: none;
+    color: black;
+    pointer-events: none;
+    outline: none !important;
+    border: none !important;
+}
+.research-length:focus {
+    outline: 5px auto -webkit-focus-ring-color !important;
+    outline-offset: -2px !important;
+}
+.nav-link.active {
+    font-weight: 700;
+    color: black !important;
+    font-size: 12px;
+    padding-top: 3px;
+    margin-top: 5px;
+    pointer-events: none;
+    border: none !important;
+    outline: none !important;
+}
+.nav-link:hover {
+    font-weight: 600;
+    font-size: 12px;
+}
+.black {
+    color: black !important;
+}
+.auth_topDiv2 {
+    font-size: 12px;
+    margin-top: 0px;
+    color: #333;
+    line-height: 17px;
+}
+
+.pmc_citation {
+    width: 82px;
+    height: 15px;
+    display: inline-block;
+    border: none;
+    text-decoration: none;
+    line-height: 13px;
+    text-align: end;
+    font-size: 10px;
+    font-weight: normal;
+    color: #333;
+}
+.pmc_citation_label {
+    text-decoration: none;
+    color: #666;
+    font-weight: 550;
+}
+
+/********** from Custom...InAuthorship.css *****************************/
+.__dimensions_badge_embed__ .__dimensions_Badge_style_small_rectangle .__db_score, .__dimensions_badge_embed__ .__dimensions_Badge_style_large_rectangle .__db_score {
+    left: 50% !important;
+}
+
+.__dimensions_badge_embed__ .__dimensions_Badge_style_small_rectangle .__dimensions_Badge_Image {
+    height: 20px !important;
+}
+
+.__dimensions_badge_embed__ {
+    display: inline-block !important;
+}
+
+.__dimensions_badge_embed__ .__dimensions_Link {
+}
+
+.__dimensions_Badge_Image {
+    font-size: 10px !important;
+    font-family: arial !important;
+}
+
+.timeline-row {
+    width: 50%;
+    margin-left: 0%;
+}
+.field-summary-row {
+    width: 75%;
+    margin-left: 0%;
+}
+.noBorder {
+    border: none;
+}
+.toggleGraphLink {
+    color: #3366CC;
+    text-decoration: none;
+}
+.forGraph {
+    width: 580px;
+    margin-left: 10%;
+}
+
+#divLimit {
+    font-weight: bold;
+}
+/****************** several parsers ***************************/
+
+.video-name {
+    vertical-align: top;
+    padding-left: 10px;
+}
+.video-thumb {
+    vertical-align: top;
+    width: 120px;
+    height: 90px;
+    margin-left: 10px;
+}
+.video-iframe {
+    width: 464px;
+    height: 348px;
+
+
+    frameborder: 0;
+    marginwidth: 0;
+    marginheight: 0;
+    scrolling: no;
+    border: 1px solid #CCC;
+    margin-bottom:5px;
+    max-width: 100%;"
+}
+.plainSpan {
+    color: #666;
+    font-weight: 700;
+}
+#showPlainDivContent {
+    border: 1px solid #767676;
+    padding: 2px;
+    width: 90%;
+}
+#clinicaltrials-inner {
+    padding-right: 0px !important;
+}
+#clinicaltrials-inner .row.mb2i{
+    margin-bottom: 8px !important;
+}
+.hiZ {
+    z-index: 300 !important;
+}
+.f10 {
+    color: black;
+    font-size: 10px;
+}
+.thick2 {
+    height: 2px !important;
+    margin-top: 8px !important;
+    margin-bottom: 8px !important;
+}
+.wrap {
+    padding-left: 5px !important;
+    text-indent:-5px !important;
+}
+.wrap2{
+    padding-left: 20px !important;
+    text-indent:-20px !important;
+}
+.wrap2 .__cits__.wrap3 {
+    padding-left: 15px !important;
+    text-indent: -15px !important;
+}
+.wrap2 .__db_score.wrap3 {
+    padding-left: 20px !important;
+    text-indent: -20px !important;
+}
+.faviconSpan {
+    margin-right: 8px;
+}
+
+.altmetric-embed {
+    margin-left: 0px !important;
+}
+.RCR-citations {
+    height: 15px;
+    background-image: url("../../img/person/RCR_Icon_Wide.png");
+    display: inline-block;
+    text-decoration: none;
+    line-height: 13px;
+    width: 80px !important;
+}
+.RCR-count {
+    margin-left: 70px;
+    width: 29px;
+    text-align: right  !important;
+    font-size: 10px;
+    font-weight: normal;
+    color: #333;
+    display: inline-flex;
+    justify-content: space-evenly;
+}
+
+/** fixed number in DB schema: 5 translation types */
+.Translation {
+    border-color: #999999;
+    font-family: 'Times';
+}
+/*.TranslationHumans {        color: #3333cc;}*/
+/*.TranslationAnimals {       color: #33aa33;}*/
+/*.TranslationCells {         color: #bb3333;}*/
+/*.TranslationPublicHealth {  color: #609;}*/
+/*.TranslationClinicalTrial { color: #00C;}*/
+
+.Translation {
+    border-color: black;
+}
+.TranslationHumans        {  border-color: #3333cc !important;}
+.TranslationAnimals       {  border-color: #33aa33 !important;}
+.TranslationCells         {  border-color: #bb3333 !important;}
+.TranslationPublicHealth  {
+    border-color: #999 !important;
+    color: #609 !important;
+}
+.TranslationClinicalTrial {
+    border-color: #999 !important;
+    color: #00C !important;
+}
+/** see https://medium.com/mkdir-awesome/how-to-change-the-bootstrap-5-tooltip-background-and-arrow-color-67e6c5aea510**/
+.TranslationHumans[checked="checked"]       , .TranslationHumansTt .tooltip-inner  {
+    background-color: #3333cc;}
+.TranslationAnimals[checked="checked"]      , .TranslationAnimalsTt .tooltip-inner {
+    background-color: #33aa33;}
+.TranslationCells[checked="checked"]        , .TranslationCellsTt .tooltip-inner   {
+    background-color: #bb3333;}
+.TranslationPublicHealth[checked="checked"] , .TranslationPublicHealthTt .tooltip-inner      {
+    background-color: #609   ;}
+.TranslationClinicalTrial[checked="checked"], .TranslationClinicalTrialTt .tooltip-inner      {
+    background-color: #00C   ;}
+
+.fieldOrTrans[checked="checked"] {
+    color: white;
+    border: 1px solid;
+    border-radius: 3px;
+    padding: 0px 2px;
+    font-size: 11px;
+}
+.fieldOrTrans {
+    border: 1px solid;
+    border-radius: 3px;
+    padding: 0px 2px;
+    font-size: 11px;
+    background-color: white;
+    color: black;
+}
+/* bullet-proofing: all field classes should be accounted for in etlPubFields.css */
+.defaultFieldClass[checked="checked"]  { background-color: grey; }
+.defaultFieldClass  { border-color: grey; }

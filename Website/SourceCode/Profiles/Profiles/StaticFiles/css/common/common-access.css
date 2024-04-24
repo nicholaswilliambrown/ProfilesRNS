@@ -1,0 +1,26 @@
+
+.link-ishB:hover {
+    box-shadow: 0 4px 2px -2px gray !important;
+}
+.link-ishB:focus-visible {
+    outline: 2px solid -webkit-focus-ring-color;
+}
+.link-ish {
+    cursor: pointer;
+    text-decoration: none !important;
+    color: #0d6efd;
+    border: 0px !important;
+}
+.link-ish:hover {
+    text-decoration: underline !important;
+}
+.link-ish:focus {
+    outline: 5px auto -webkit-focus-ring-color !important;
+    outline-offset: -2px !important;
+}
+
+
+.hover_bold:hover {
+    font-weight: 700;
+}
+

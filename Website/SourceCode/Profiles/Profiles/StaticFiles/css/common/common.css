@@ -1,0 +1,297 @@
+/*
+*/
+.outBlue {
+    outline: 3px solid blue !important;
+    border: 3px solid blue !important;
+}
+.outOrange {
+    outline: 3px solid orange !important;
+    border: 3px solid orange !important;
+}
+/**https://stackoverflow.com/questions/31458477/find-element-that-is-causing-the-showing-of-horizontal-scrollbar-in-google-chrom **/
+/***********************************
+.slide-content .scroller {
+    width: 1024px;
+}
+*************************************/
+/*
+* {
+    outline: 1px solid greenyellow !important;
+    border: 1px solid cyan;
+}
+*/
+.bord {
+    border: 2px solid cyan;
+}
+
+.common {
+    font-family: arial, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 18px
+}
+
+#mainDiv {
+    width: 92%;
+}
+#modules-left-div {
+    padding-left: 0 !important;
+}
+.modulesRow {
+    margin: 0 !important;
+}
+
+footer._ci_shared_asset.tool-page .container {
+    width: 92%;
+    margin: 0px;
+    padding: 0px;
+}
+footer div.inner._ci_clearfix {
+    padding-left: 70px  !important;
+}
+.responsiveBannerDiv {
+    /*background-color: cyan;*/
+    color: white;
+    width: 100%;
+}
+.rDivTitlesLg h1 {
+    font-size: 32px;
+}
+.rDivTitlesSm h1 {
+    font-size: 20px;
+}
+.rDivTitles h4 {
+    font-size: 16px;
+}
+.rDivLogoSm img {
+    height: 40px;
+    width: 119px;
+}
+.rDivLogoLg img {
+    height: 80px;
+    width: 238px;
+}
+header._ci_shared_asset.tool-page.mayHelpResponsivenessLg {
+    height: 150px !important;
+    min-width: 0 !important
+}
+header._ci_shared_asset.tool-page.mayHelpResponsivenessSm {
+    height: 225px !important;
+    min-width: 0 !important
+}
+.skip-to-main-content-link {
+    position: absolute;
+    left: 0px;
+    z-index: 999;
+    padding: 1em;
+    background-color: black;
+    color: white;
+    font-weight: 400;
+    font-size: 13px;
+    opacity: 0;
+    text-decoration: none   ;
+}
+.skip-to-main-content-link:focus {
+    opacity: 1;
+}
+.skip-to-main-content-link:hover {
+    color: white;
+    font-weight: 600;
+}
+.mayHelpResponsiveness {
+    min-width: 0 !important;
+}
+.navSearchTerm::placeholder {
+    font-size: 11px;
+}
+.myCopyrightRow {
+
+}
+#inviteLoginDiv {
+    color: #999;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+.inviteLoginSpan {
+    color: #777;
+    font-weight: 800;
+}
+#preFooter.modulesRow {
+    margin-bottom: 30px !important;
+    font-size: 11px;
+    width: 98%;
+    margin-left: 12px !important;
+}
+
+.green {
+    color: #090 !important;
+}
+.greenButton {
+    color: white !important;
+    background-color: #090 !important;
+    padding: 5px 10px;
+    width: max-content;
+}
+.bold {
+    font-weight: bold;
+}
+/********** explore *************************************************************************/
+.theirNetworkBlurb {
+    font-size: 11px;
+    line-height: 16px;
+}
+.boldCrimson {
+    color: #b23f45;
+    font-weight: 700;
+}
+
+.explore_title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.exploreBlurbDiv {
+    line-height: 11px;
+    font-size: 10px;
+    font-weight: 400;
+    margin-bottom: 5px;
+}
+.explore_connection_label {
+    color: #3366CC;
+    /*text-decoration: none;*/
+    display: inline-block;
+    padding-left: 6px; /* see https://stackoverflow.com/questions/7638970/span-indent-wrapped-text */
+    text-indent: -6px;
+}
+.explore_connection_link {
+    background-color: #090 !important;
+    color: #fff !important;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 3% 4%;
+}
+.explore_connection_link:hover {
+    box-shadow: 0 6px 2px -2px gray !important;
+}
+/** useful for diagnosing responsiveness **/
+#widthButton {
+    display: block; /* Hidden by default */
+    position: fixed; /* Fixed/sticky position */
+    bottom: 150px; /* Place the button at the top of the page */
+    right: 30px; /* Place the button 30px from the right */
+    z-index: 99; /* Make sure it does not overlap */
+    border: none; /* Remove borders */
+    outline: none; /* Remove outline */
+    background-color: #ccc; /* Set a background color */
+    color: black; /* Text color */
+    cursor: pointer; /* Add a mouse pointer on hover */
+    padding: 15px; /* Some padding */
+    border-radius: 10px; /* Rounded corners */
+    font-size: x-small;
+}
+.stripe {
+    background-color: #f7f3ef;
+}
+.anchorLinksDiv {
+    border: 1px solid #ccc;
+}
+#rtnBtnLg {
+    display: none; /* Hidden by default */
+    position: fixed; /* Fixed/sticky position */
+    bottom: 20px; /* Place the button at the bottom of the page */
+    right: 30px; /* Place the button 30px from the right */
+    z-index: 99; /* Make sure it does not overlap */
+    border: none; /* Remove borders */
+    outline: none; /* Remove outline */
+    background-color: #ccc; /* Set a background color */
+    color: black; /* Text color */
+    cursor: pointer; /* Add a mouse pointer on hover */
+    padding: 10px; /* Some padding */
+    border-radius: 10px; /* Rounded corners */
+    font-size: small;
+}
+#rtnBtnSm {
+    display: none; /* Hidden by default */
+    position: fixed; /* Fixed/sticky position */
+    bottom: 20px; /* Place the button at the bottom of the page */
+    right: 30px; /* Place the button 30px from the right */
+    z-index: 99; /* Make sure it does not overlap */
+    border: none; /* Remove borders */
+    outline: none; /* Remove outline */
+    background-color: #ccc; /* Set a background color */
+    color: black; /* Text color */
+    cursor: pointer; /* Add a mouse pointer on hover */
+    padding: 7px; /* Some padding */
+    border-radius: 10px; /* Rounded corners */
+    font-size: xx-small;
+}
+.rtnBtn:hover {
+    background-color: #555; /* Add a dark-grey background on hover */
+    color: white;
+}
+.tabChoices {
+    padding-right: 0 !important;
+    width: 100%;
+    border-bottom: 1px solid #ccc !important;
+}
+.tabTopHat {
+    background-image: linear-gradient(rgb(237, 237, 237) 0%,rgb(255, 255, 255) 100%) !important;
+    text-align: center;
+    border-top: 1px solid #ccc !important;
+    border-left: 1px solid #ccc !important;
+    border-right: 1px solid #ccc !important;
+    margin-left: 6px;
+    padding: 10px 25px 22px 25px;
+    height: 31px;
+    line-height: 14px;
+}
+.tabTopHat.active {
+    border-bottom: 1px solid white !important;
+    margin-bottom: -1px !important;
+    background-color: white !important;
+    background-image: none !important;
+}
+.nav-item {
+    border-bottom: 1px solid #ccc !important;
+    margin-bottom: -1px;
+}
+.bordersRow {
+    border: 1px solid;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+}
+.bordersRow + .bordersRow {
+    border-top:0 ;
+}
+.bordTop {
+    border-top: 1px solid !important;
+}
+.bordE {
+    border-inline-end: 1px solid;
+}
+.t-center {
+    text-align: center !important;
+}
+.bordS {
+    border-inline-start: 1px solid;
+}
+.tightHr {
+    margin-top: 5px;
+    margin-bottom: 7px;
+}
+.alignMiddle {
+    display: flex;
+    align-items: center;
+}
+.hoverDark * {
+    color: white !important;
+    background-color: #5A719C;
+}
+.connectionLine {
+    border-top: 1px solid #cccccc;
+    margin-top: 2px;
+}
+.connectionArrow {
+    width: 7px;
+    height: 5px;
+}

@@ -4,8 +4,8 @@ use strict;
 
 my $filename = 'BroadJournalHeadings.csv';
 
-open(JS, '>', "../wwwroot/StaticFiles/js/person/authorship-parsing/etlPubFields.js") or die $!;
-open(CSS, '>', "../wwwroot/StaticFiles/css/person/etlPubFields.css") or die $!;
+open(JS, '>', "../StaticFiles/js/person/authorship-parsing/etlPubFields.js") or die $!;
+open(CSS, '>', "../StaticFiles/css/person/etlPubFields.css") or die $!;
 open(BJH, '<', $filename) or die $!;
 
 my $jsPrefix = <<"there";

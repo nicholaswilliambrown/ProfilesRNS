@@ -1,0 +1,126 @@
+﻿DisplayName,Abbreviation,Color
+Acquired Immunodeficiency Syndrome,Acq,BF3030
+Aerospace Medicine,Aer,BF3730
+Allergy and Immunology,All,BF3E30
+Anatomy,Ana,BF4430
+Anesthesiology,Ane,BF4B30
+Anthropology,Ant,BF5230
+Anti-Infective Agents,Ant,BF5930
+Antineoplastic Agents,Ant,BF6030
+Audiology,Aud,BF6730
+Bacteriology,Bac,BF6E30
+Behavioral Sciences,Beh,BF7530
+Biochemistry,Bio,BF7C30
+Biology,Bio,BF8230
+Biomedical Engineering,Bio,BF8930
+Biophysics,Bio,BF9030
+Biotechnology,Bio,BF9730
+Botany,Bot,BF9E30
+Brain,Bra,BFA530
+Cardiology,Car,BFAC30
+Cell Biology,Cel,BFB330
+Chemistry,Che,BFBA30
+"Chemistry Techniques, Analytical",Che,BEBF30
+"Chemistry, Clinical",Che,B7BF30
+Chiropractic,Chi,B0BF30
+Clinical Laboratory Techniques,Cli,A9BF30
+Communicable Diseases,Com,A3BF30
+Complementary Therapies,Com,9CBF30
+Computational Biology,Com,95BF30
+Critical Care,Cri,8EBF30
+Dentistry,Den,87BF30
+Dermatology,Der,80BF30
+Diagnostic Imaging,Dia,79BF30
+Disaster Medicine,Dis,72BF30
+Drug Therapy,Dru,6BBF30
+Education,Edu,65BF30
+Embryology,Emb,5EBF30
+Emergency Medicine,Eme,57BF30
+Endocrinology,End,50BF30
+Environmental Health,Env,49BF30
+Epidemiology,Epi,42BF30
+Ethics,Eth,3BBF30
+Family Planning Services,Fam,34BF30
+Forensic Sciences,For,30BF32
+Gastroenterology,Gas,30BF39
+General Surgery,Gen,30BF40
+Genetics,Gen,30BF47
+"Genetics, Medical",Gen,30BF4E
+Geriatrics,Ger,30BF55
+Gynecology,Gyn,30BF5B
+Health Services,Hea,30BF62
+Health Services Research,Hea,30BF69
+Hematology,Hem,30BF70
+Histocytochemistry,His,30BF77
+Histology,His,30BF7E
+History of Medicine,His,30BF85
+Hospitals,Hos,30BF8C
+Internal Medicine,Int,30BF92
+Jurisprudence,Jur,30BF99
+Laboratory Animal Science,Lab,30BFA0
+Library Science,Lib,30BFA7
+Medical Informatics,Med,30BFAE
+Medicine (General),Med,30BFB5
+Metabolism,Met,30BFBC
+Microbiology,Mic,30BCBF
+Military Medicine,Mil,30B5BF
+Molecular Biology,Mol,30AEBF
+Nanotechnology,Nan,30A7BF
+Neoplasms,Neo,30A0BF
+Nephrology,Nep,3099BF
+Neurology,Neu,3092BF
+Neurosurgery,Neu,308CBF
+Nuclear Medicine,Nuc,3085BF
+Nursing,Nur,307EBF
+Nutritional Sciences,Nut,3077BF
+Obstetrics,Obs,3070BF
+Occupational Medicine,Occ,3069BF
+Ophthalmology,Oph,3062BF
+Orthodontics,Ort,305BBF
+Orthopedics,Ort,3055BF
+Osteopathic Medicine,Ost,304EBF
+Otolaryngology,Oto,3047BF
+Palliative Care,Pal,3040BF
+Parasitology,Par,3039BF
+Pathology,Pat,3032BF
+Pediatrics,Ped,3430BF
+Perinatology,Per,3B30BF
+Pharmacology,Pha,4230BF
+Pharmacy,Pha,4930BF
+Photography,Pho,5030BF
+Physical and Rehabilitation Medicine,Phy,5730BF
+Physics,Phy,5E30BF
+Physiology,Phy,6530BF
+Podiatry,Pod,6B30BF
+Primary Health Care,Pri,7230BF
+Psychiatry,Psy,7930BF
+Psychology,Psy,8030BF
+Psychopharmacology,Psy,8730BF
+Psychophysiology,Psy,8E30BF
+Public Health,Pub,9530BF
+Pulmonary Medicine,Pul,9C30BF
+Radiology,Rad,A330BF
+Radiotherapy,Rad,A930BF
+Reproductive Medicine,Rep,B030BF
+Rheumatology,Rhe,B730BF
+Science,Sci,BE30BF
+Sexually Transmitted Diseases,Sex,BF30BA
+Social Sciences,Soc,BF30B3
+Speech-Language Pathology,Spe,BF30AC
+Sports Medicine,Spo,BF30A5
+Statistics as Topic,Sta,BF309E
+Substance-Related Disorders,Sub,BF3097
+Technology,Tec,BF3090
+Teratology,Ter,BF3089
+Therapeutics,The,BF3082
+Toxicology,Tox,BF307C
+Transplantation,Tra,BF3075
+Traumatology,Tra,BF306E
+Tropical Medicine,Tro,BF3067
+Urology,Uro,BF3060
+Vascular Diseases,Vas,BF3059
+Veterinary Medicine,Vet,BF3052
+Virology,Vir,BF304B
+Vital Statistics,Vit,BF3044
+Women's Health,Wom,BF303E
+Zoology,Zoo,BF3037

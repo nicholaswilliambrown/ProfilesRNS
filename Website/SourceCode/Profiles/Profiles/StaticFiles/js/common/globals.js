@@ -14,6 +14,7 @@ const AccordionNestingOption = Object.freeze({
     Nested: Symbol("nested"),
     Unnested: Symbol("unnested")
 });
+
 ///////////////////////////////////////
 
 let gCommon = {};

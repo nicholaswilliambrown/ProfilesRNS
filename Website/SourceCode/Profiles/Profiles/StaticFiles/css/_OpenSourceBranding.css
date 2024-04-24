@@ -1,0 +1,6 @@
+.headerBanner {
+    content: url("/StaticFiles/img/branding/_OpenSourceBanner.png");
+    background-color: black;
+    border-bottom: #b23f45 8px solid;
+    padding: 25px 50px;
+}

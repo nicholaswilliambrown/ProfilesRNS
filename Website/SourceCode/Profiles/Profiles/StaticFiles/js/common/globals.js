@@ -79,8 +79,8 @@ gCommon.bsMarginVarying = "ms-1 ms-sm-1 ms-md-0 ms-lg-3 ms-xl-0 ms-xxl-0";
 gCommon.bsMarginsPaddingIncreasing = `ms-0 ms-sm-0 ms-md-2 ms-lg-2 ms-xl-4 ms-xxl-4
                         ps-0 ps-sm-0 ps-md-2 ps-lg-2 ps-xl-4 ps-xxl-4`;
 
-gCommon.moreInfoImgUrl = '/staticfiles/img/common/info.png';
-gCommon.urlForBrandingConstantsJson = "/staticfiles/json/myBranding.json";
+gCommon.moreInfoImgUrl = '/StaticFiles/img/common/info.png';
+gCommon.urlForBrandingConstantsJson = "/StaticFiles/json/myBranding.json";
 
 gCommon.personThumbnailSchema = "/profile/Modules/CustomViewPersonGeneralInfo/PhotoHandler.ashx?NodeID=%%FOO%%&Thumbnail=True&Width=45"
 
@@ -94,8 +94,8 @@ gCommon.logoutUrl = `/logout.aspx`;
 gCommon.findPeopleUrlFromRoot = `/search`;
 gCommon.findEverythingUrlFromRoot = `/search/all`;
 
-gCommon.downArrowUrl = `/staticfiles/img/common/arrowDown.png`;
-gCommon.searchMagGlass = `/staticfiles/img/common/blackMagnifyGlass.png`;
+gCommon.downArrowUrl = `/StaticFiles/img/common/arrowDown.png`;
+gCommon.searchMagGlass = `/StaticFiles/img/common/blackMagnifyGlass.png`;
 
 gCommon.emptySearchUrl = `/search`;
 gCommon.nonemptySearchUrlSchema = "/default.aspx?searchtype=people&searchfor=%%FOO%%&classuri=http://xmlns.com/foaf/0.1/Person&perpage=15&offset=0&new=true";
@@ -141,8 +141,8 @@ gPerson.pucbtPlaceholder = "%%%%";
 gPerson.pmcUrlCitedByTemplate = `${gPerson.pmcUrlStart}pmid/${gPerson.pucbtPlaceholder}/citedby/`;
 gPerson.pmUrlStart = "https://www.ncbi.nlm.nih.gov/pubmed/";
 
-gPerson.pmcImageUrl = "/staticfiles/img/person/PMC-citations.jpg";
-gPerson.citationsPngUrl = "/staticfiles/img/person/citations.png";
+gPerson.pmcImageUrl = "/StaticFiles/img/person/PMC-citations.jpg";
+gPerson.citationsPngUrl = "/StaticFiles/img/person/citations.png";
 gPerson.slideshareUrlStart = "https://weberdemo.hms.harvard.edu/nick/Profiles40Webservice/getSlideShare/";
 
 // fixed number in DB schema: 5 translation types

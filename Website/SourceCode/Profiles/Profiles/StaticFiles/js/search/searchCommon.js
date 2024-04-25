@@ -169,7 +169,7 @@ function emitSearchResultCountAndBackTo(results, url, backText, count) {
     // calling title a row adds the negative 12 margin
     let title = $(`<h2 class="row boldCrimson">Search Results Details${countDetail}</h2>`);
 
-    let backToArrow = $(`<img src="${gCommon.gBasic.jsUrlRoot}img/search/arrowLeft.png" class="me-1"/>`);
+    let backToArrow = $(`<img src="${gBasic.jsUrlRoot}img/search/arrowLeft.png" class="me-1"/>`);
     let backTo = createAnchorElement(backText, url);
     let backToDiv = $('<div class="d-flex justify-content-end"></div>');
     backToDiv.append(backToArrow).append(backTo);

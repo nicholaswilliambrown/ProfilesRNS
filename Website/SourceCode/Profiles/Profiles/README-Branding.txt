@@ -18,6 +18,9 @@ and optionally also
     emitPreFooter()
     setTabTitleAndFavicon(title)
 
+In your myBranding.json, you need at least
+    profilesURL
+
 You might also supply other files (e.g., images) that your *.js can reference.
 
 As a simple comparison / sample, try using the supplied '_FooBranding' versions 

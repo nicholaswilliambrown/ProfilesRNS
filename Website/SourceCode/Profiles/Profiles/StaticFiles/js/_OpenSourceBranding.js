@@ -1,6 +1,9 @@
 
 async function setupHeadAndTabTitle() {
     let title = $(document).attr('title');
+    if (! title) {
+        title = window.location.pathname;
+    }
     $(document).attr('title', title + gCommon.brandingConstants.titleSuffix);
 }
 async function emitBrandingHeader() {

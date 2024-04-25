@@ -1,6 +1,3 @@
-# ProfilesRNS_ModernUI
-This is a minimum .Net solution designed for development and testing 
-of a modern UI for Profiles RNS, both open source and Harvard Catalyst Versions. 
 
 You can use your own headers and footers, AKA 'branding', by editing / replacing 
 these files 
@@ -13,13 +10,16 @@ Compared to the supplied, default Catalyst JSON, your myBranding.json may not ne
 (e.g., profilesUrl), or in the code that you use in your version if myBranding.js. 
 
 In your version of myBranding.js, you supply your own implementations of
-    emitBrandingHeadItems()
+    setupHeadAndTabTitle()
     emitBrandingHeader()
     emitBrandingFooter()
 
 and optionally also
     emitPreFooter()
     setTabTitleAndFavicon(title)
+
+In your myBranding.json, you need at least
+    profilesURL
 
 You might also supply other files (e.g., images) that your *.js can reference.
 

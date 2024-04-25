@@ -17,7 +17,7 @@ async function loadBrandingConstants() {
 async function loadBrandingAssets() {
     await loadBrandingConstants();
 
-    await emitBrandingHeadItems();
+    await setupHeadAndTabTitle();
     await emitBrandingHeader();
     await emitBrandingFooter();
 }

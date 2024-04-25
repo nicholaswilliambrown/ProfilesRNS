@@ -1,0 +1,3 @@
+let gBasic = {
+    jsUrlRoot: "/StaticFiles/"
+}

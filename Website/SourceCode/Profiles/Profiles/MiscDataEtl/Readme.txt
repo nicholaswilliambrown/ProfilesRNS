@@ -1,0 +1,1 @@
+% ./etlBJH.prl should generate etlPubFields.js

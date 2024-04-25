@@ -2,7 +2,7 @@
 //////////////////////////////////////////////////////////
 //////   You supply your own versions of
 //////
-//////   emitBrandingHeadItems()
+//////   setupHeadAndTabTitle()
 //////   emitBrandingHeader()
 //////   emitBrandingFooter()
 //////
@@ -12,7 +12,7 @@
 //////
 //////////////////////////////////////////////////////////
 
-async function emitBrandingHeadItems() {
+async function setupHeadAndTabTitle() {
     let head = $('head');
     head.prepend('<link rel="stylesheet" type="text/css" ' +
         `media="screen, projection" href="${gCommon.brandingConstants.headerFooterCssUrl}">`);

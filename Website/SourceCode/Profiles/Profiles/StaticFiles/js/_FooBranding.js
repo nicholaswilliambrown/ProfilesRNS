@@ -1,5 +1,5 @@
 
-async function emitBrandingHeadItems() {
+async function setupHeadAndTabTitle() {
     // no added content for foo
 }
 async function emitBrandingHeader() {

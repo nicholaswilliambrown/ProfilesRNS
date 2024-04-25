@@ -113,6 +113,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Activity\ActivitySVC.aspx" />
     <Content Include="Activity\CSS\activity.css" />
     <Content Include="Activity\Modules\ActivityHistory\ActivityDetails.aspx" />
     <Content Include="Activity\Modules\ActivityHistory\ActivityHistory.ascx" />
@@ -502,6 +503,13 @@
       <DependentUpon>MyNetwork.ascx</DependentUpon>
     </Compile>
     <Compile Include="ActiveNetwork\Modules\MyNetwork\RelationshipType.cs" />
+    <Compile Include="Activity\ActivitySVC.aspx.cs">
+      <DependentUpon>ActivitySVC.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Activity\ActivitySVC.aspx.designer.cs">
+      <DependentUpon>ActivitySVC.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Activity\Modules\ActivityHistory\ActivityDetails.aspx.cs">
       <DependentUpon>ActivityDetails.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

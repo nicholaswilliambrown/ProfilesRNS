@@ -1,6 +1,7 @@
 
-async function emitBrandingHeadItems() {
-    // no added content / logic
+async function setupHeadAndTabTitle() {
+    let title = $(document).attr('title');
+    $(document).attr('title', title + gCommon.brandingConstants.titleSuffix);
 }
 async function emitBrandingHeader() {
 

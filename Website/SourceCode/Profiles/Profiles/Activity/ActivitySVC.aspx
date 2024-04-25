@@ -1,0 +1,1 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ActivitySVC.aspx.cs" Inherits="Profiles.Activity.ActivitySVC" %>

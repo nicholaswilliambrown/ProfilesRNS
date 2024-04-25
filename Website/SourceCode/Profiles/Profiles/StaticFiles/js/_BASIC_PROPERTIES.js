@@ -1,8 +1,8 @@
 let gBasic = {
     jsUrlRoot: "/StaticFiles/",
 }
-gBasic.jsBrandingImageFiles =   `${jsUrlRoot}branding`;
-gBasic.jsCommonImageFiles =     `${jsUrlRoot}common`;
-gBasic.jsPagingImageFiles =     `${jsUrlRoot}paging`;
-gBasic.jsPersonImageFiles =     `${jsUrlRoot}person`;
-gBasic.jsSearchImageFiles =     `${jsUrlRoot}search`;
+gBasic.jsBrandingImageFiles =   `${jsUrlRoot}img/branding`;
+gBasic.jsCommonImageFiles =     `${jsUrlRoot}img/common`;
+gBasic.jsPagingImageFiles =     `${jsUrlRoot}img/paging`;
+gBasic.jsPersonImageFiles =     `${jsUrlRoot}img/person`;
+gBasic.jsSearchImageFiles =     `${jsUrlRoot}img/search`;

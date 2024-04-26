@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////////////////////
 
 async function loadBrandingConstants() {
-    await $.getJSON(gCommon.urlForBrandingConstantsJson, function (data) {
+    await $.getJSON(gBasic.urlForBrandingConstantsJson, function (data) {
         gCommon.brandingConstants = data;
         setupGimpl(gCommon.brandingConstants.profilesUrl);
     });

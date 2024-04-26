@@ -19,7 +19,7 @@ function exploreParser(json, anchorsDiv) {
         exploreDiv.append(blurbDiv);
         blurbDiv.hide();
 
-        let moreInfoButton = $(`<img src="${gCommon.moreInfoImgUrl}" class="noBorder">`);
+        let moreInfoButton = $(`<img src="${gBasic.jsCommonImageFiles}info.png" class="noBorder">`);
         title.append(spanify(" "))
             .append(moreInfoButton);
 

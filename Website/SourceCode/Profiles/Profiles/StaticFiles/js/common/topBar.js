@@ -120,8 +120,12 @@ function setupNavSearch(topNavbar) {
         }
     });
 
-    topNavbar.find('.downArrow').attr("src", gCommon.downArrowUrl);
-    topNavbar.find('.searchMagGlass').attr("src", gCommon.searchMagGlass);
+    topNavbar
+        .find('.downArrow')
+        .attr("src", `${gBasic.jsCommonImageFiles}arrowDown.png`);
+    topNavbar
+        .find('.searchMagGlass')
+        .attr("src", `${gBasic.jsCommonImageFiles}blackMagnifyGlass.png`);
 }
 function doNavSearch(e) {
     e.preventDefault();

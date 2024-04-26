@@ -24,12 +24,6 @@ async function getMoreActivities() {
 
     return activities;
 }
-function activityUrlFromSchema(urlSchema, desiredCount, lastId) {
-    let result = urlSchema
-        .replace(gCommon.schemaPlaceholder, desiredCount)
-        .replace(gCommon.schemaPlaceholder2, lastId);
-    return result;
-}
 function emitActivityData(activities, target) {
     let colspecs = [
         newColumnSpec(`${gCommon.cols1or12} ps-0 pe-2 d-flex justify-content-start`),

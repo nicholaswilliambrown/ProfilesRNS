@@ -181,3 +181,9 @@ function addIfPresent(text, target, klass) {
         divSpanifyTo(text, target, klass);
     }
 }
+function activityUrlFromSchema(urlSchema, desiredCount, lastId) {
+    let result = urlSchema
+        .replace(gCommon.schemaPlaceholder, desiredCount)
+        .replace(gCommon.schemaPlaceholder2, lastId);
+    return result;
+}

@@ -23,7 +23,12 @@ function emitSidebarRecentUpdates() {
         'Recent', 'Updates',
         'rUpdates');
 
-    $.get(gImpl.threeRecentActivitiesUrl, function(activities) {
+    let dataUrl = activityUrlFromSchema(
+        gImpl.activityDetailsUrl,
+        gSearch.activityPreviewCount,
+        gSearch.activityCurrentHighId);
+
+    $.get(dataUrl, function(activities) {
         emitActivityRows(activities, target);
 
         // proceed w 'continuation'

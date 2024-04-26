@@ -183,8 +183,7 @@ function setupGimpl(profilesHost) {
     gImpl.findEverythingElseUrl = `/Search/SearchSVC.aspx?SearchType=everything`;
     gImpl.whyUrl = `/Search/SearchSVC.aspx?SearchType=why`;
 
-    gImpl.threeRecentActivitiesUrl = `${profilesHost}/API/Profiles/Public/DisplayAPI/API/getActivity`;
-    gImpl.activityDetailsUrl = `${profilesHost}/API/Profiles/Public/DisplayAPI/API/getActivity?count=%%FOO%%&lastActivityLogID=%%FOO2%%`;
+    gImpl.activityDetailsUrl = `/API/Profiles/Public/DisplayAPI/API/getActivity?count=%%FOO%%&lastActivityLogID=%%FOO2%%`;
 
     gImpl.personUrlPrefix = `${profilesHost}/Profiles/profile/`;
 }
@@ -231,6 +230,7 @@ gSearch.currentFilterKey = 'currentFilterKey';
 gSearch.recentUpdateTokens = {}; // see recentUpdates.js
 
 gSearch.activityDetailsCount = 10;
+gSearch.activityPreviewCount = 3;
 gSearch.activityInitialHighId = 5000000;
 gSearch.activityCurrentHighId = gSearch.activityInitialHighId;
 

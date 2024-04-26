@@ -175,17 +175,16 @@ function setupGimpl(profilesHost) {
     if (typeof profilesHost === gCommon.undefined) {
         alert('Did your myBranding.json define "profilesHost"?');
     }
+    // todo: following 3 lines, and profilesHost parameter, need to be excised!
+    gImpl.personUrlPrefix = `${profilesHost}/Profiles/profile/`;
     gImpl.personKeywordSearchUrl = `${profilesHost}/Profiles/search/default.aspx?searchtype=people&searchfor=SCH-TRM&classuri=http://xmlns.com/foaf/0.1/Person&erpage=1`;
     gImpl.personKeywordSearchUrlPlaceHolder = `SCH-TRM`;
 
-    gImpl.searchFormUrl = `/Search/SearchSVC.aspx?SearchType=params`;
-    gImpl.findPeopleUrl = `/Search/SearchSVC.aspx?SearchType=person`;
-    gImpl.findEverythingElseUrl = `/Search/SearchSVC.aspx?SearchType=everything`;
-    gImpl.whyUrl = `/Search/SearchSVC.aspx?SearchType=why`;
-
-    gImpl.activityDetailsUrl = `/Activity/ActivitySVC.aspx?count=%%FOO%%&lastActivityLogID=%%FOO2%%`;
-
-    gImpl.personUrlPrefix = `${profilesHost}/Profiles/profile/`;
+    gImpl.searchFormUrl =           `/Search/SearchSVC.aspx?SearchType=params`;
+    gImpl.findPeopleUrl =           `/Search/SearchSVC.aspx?SearchType=person`;
+    gImpl.findEverythingElseUrl =   `/Search/SearchSVC.aspx?SearchType=everything`;
+    gImpl.whyUrl =                  `/Search/SearchSVC.aspx?SearchType=why`;
+    gImpl.activityDetailsUrl =      `/Activity/ActivitySVC.aspx?count=%%FOO%%&lastActivityLogID=%%FOO2%%`;
 }
 
 let gSearch = {};

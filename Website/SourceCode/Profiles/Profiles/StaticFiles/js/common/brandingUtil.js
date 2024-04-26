@@ -8,10 +8,12 @@
 //
 /////////////////////////////////////////////////////////////////////////
 
+let gBrandingConstants = {};
+
 async function loadBrandingConstants() {
-    await $.getJSON(gBasic.urlForBrandingConstantsJson, function (data) {
-        gCommon.brandingConstants = data;
-        setupGimpl(gCommon.brandingConstants.profilesUrl);
+    await $.getJSON(gBasic.jsonBrandingConfig, function (data) {
+        gBrandingConstants = data;
+        setupGimpl(gBrandingConstants.profilesUrl);
     });
 }
 async function loadBrandingAssets() {

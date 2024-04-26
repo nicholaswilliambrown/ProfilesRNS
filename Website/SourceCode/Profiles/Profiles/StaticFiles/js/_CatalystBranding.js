@@ -15,11 +15,11 @@
 async function setupHeadAndTabTitle() {
     let head = $('head');
     head.prepend('<link rel="stylesheet" type="text/css" ' +
-        `media="screen, projection" href="${gCommon.brandingConstants.headerFooterCssUrl}">`);
+        `media="screen, projection" href="${gBrandingConstants.headerFooterCssUrl}">`);
 
-    $.getScript(gCommon.brandingConstants.headerFooterJsUrl);
+    $.getScript(gBrandingConstants.headerFooterJsUrl);
 
-    let faviconHref = `href="${gCommon.brandingConstants.iconUrlBase}/favicon.ico"`;
+    let faviconHref = `href="${gBrandingConstants.iconUrlBase}/favicon.ico"`;
     head.append(`<link rel="icon" type="image/x-icon" ${faviconHref}>`);
     head.append(`<link rel="shortcut icon" type="image/x-icon" ${faviconHref}>`);
 }
@@ -34,7 +34,7 @@ async function emitBrandingHeader() {
     let smallBannerDiv = $(`<div class="${gCommon.showXsSmallHideOthers}"></div>`);
     $('#brandingBanner').append(smallBannerDiv);
 
-    crossOriginAjax(gCommon.brandingConstants.headerUrl, function (bannerHtml) {
+    crossOriginAjax(gBrandingConstants.headerUrl, function (bannerHtml) {
         responsiveBanner(largeBannerDiv, gCommon.large, bannerHtml);
         responsiveBanner(smallBannerDiv, gCommon.small, bannerHtml);
     });
@@ -51,7 +51,7 @@ async function emitBrandingFooter() {
     let smallFooterDiv = $(`<div class="${gCommon.showXsSmallHideOthers}"></div>`);
     brandingFooter.append(smallFooterDiv);
 
-    crossOriginAjax(gCommon.brandingConstants.footerUrl, function (footerHtml) {
+    crossOriginAjax(gBrandingConstants.footerUrl, function (footerHtml) {
         // small and large versions
         responsiveFooter(largeFooterDiv, gCommon.large, footerHtml);
         responsiveFooter(smallFooterDiv, gCommon.small, footerHtml);
@@ -81,9 +81,9 @@ function emitPrefooter() {
     $('#markPreFooter').append(movingPreFooter);
 }
 function setTabTitleAndFavicon(title) {
-    $(document).prop('title', title + gCommon.brandingConstants.tabTitleSuffix);
+    $(document).prop('title', title + gBrandingConstants.tabTitleSuffix);
 
-    let homeUrl = gCommon.brandingConstants.homeUrl;
+    let homeUrl = gBrandingConstants.homeUrl;
     let faviconHref = `href="${homeUrl}/favicon.ico"`;
     let head = $('head');
     head.append(`<link rel="icon" type="image/x-icon" ${faviconHref}>`);
@@ -95,10 +95,10 @@ function setTabTitleAndFavicon(title) {
 //////    default-provided Harvard Catalyst branding
 
 function getBrandingLogo() {
-    let logo = $(`<a href="${gCommon.brandingConstants.brandingHomeUrl}" 
-        className="main-logo" title="${gCommon.brandingConstants.logoTitle}">
-        <img src="${gCommon.brandingConstants.logoUrl}"
-            alt="${gCommon.brandingConstants.logoAlt}"></a>`);
+    let logo = $(`<a href="${gBrandingConstants.brandingHomeUrl}" 
+        className="main-logo" title="${gBrandingConstants.logoTitle}">
+        <img src="${gBrandingConstants.logoUrl}"
+            alt="${gBrandingConstants.logoAlt}"></a>`);
     return logo;
 }
 

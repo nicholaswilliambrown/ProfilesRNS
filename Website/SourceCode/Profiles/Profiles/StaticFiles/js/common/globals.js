@@ -183,7 +183,7 @@ function setupGimpl(profilesHost) {
     gImpl.findEverythingElseUrl = `/Search/SearchSVC.aspx?SearchType=everything`;
     gImpl.whyUrl = `/Search/SearchSVC.aspx?SearchType=why`;
 
-    gImpl.activityDetailsUrl = `/API/Profiles/Public/DisplayAPI/API/getActivity?count=%%FOO%%&lastActivityLogID=%%FOO2%%`;
+    gImpl.activityDetailsUrl = `/Activity/ActivitySVC.aspx?count=%%FOO%%&lastActivityLogID=%%FOO2%%`;
 
     gImpl.personUrlPrefix = `${profilesHost}/Profiles/profile/`;
 }

@@ -17,7 +17,7 @@ function ScrollDiv(getMoreFn, target, divClass, emitRows, freezeDuringMore){
     this.div.on('scroll', async function() {
         let scrollTop = $(this).scrollTop();
         let innerHeight = $(this).innerHeight();
-        let scrollHeight = $(this)[0].scrollHeight();
+        let scrollHeight = $(this)[0].scrollHeight;
         console.log(`Scroll top, innerH, scrollH: ${scrollTop}, ${innerHeight}, ${scrollHeight}`)
         if(scrollTop + innerHeight >= scrollHeight) {
             console.log('end reached');

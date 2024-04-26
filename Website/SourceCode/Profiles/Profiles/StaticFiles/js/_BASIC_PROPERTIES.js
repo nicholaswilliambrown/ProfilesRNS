@@ -7,4 +7,5 @@ gBasic.jsPagingImageFiles =     `${gBasic.staticRoot}img/paging/`;
 gBasic.jsPersonImageFiles =     `${gBasic.staticRoot}img/person/`;
 gBasic.jsSearchImageFiles =     `${gBasic.staticRoot}img/search/`;
 
-gBasic.jsonBrandingConfig = `${gBasic.staticRoot}json/myBranding.json`;
+gBasic.htmlFiles =              `${gBasic.staticRoot}html-templates/`;
+gBasic.jsonBrandingConfig =     `${gBasic.staticRoot}json/myBranding.json`;

@@ -189,7 +189,7 @@ function setupGimpl(profilesHost) {
 }
 
 let gSearch = {};
-gSearch.moreUpdatesUrl = 'activityDetails.html';
+gSearch.moreUpdatesUrl = `${gBasic.htmlFiles}activityDetails.html`;
 
 gSearch.selectedSt = " selected";
 gSearch.noneSt = "None";

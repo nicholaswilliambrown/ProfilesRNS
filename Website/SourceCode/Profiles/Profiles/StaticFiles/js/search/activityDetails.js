@@ -6,7 +6,7 @@ async function setupActivityDetails() {
     moveContentTo(contentDiv, mainDiv);
     mainDiv.addClass(gCommon.mainDivClasses);
 
-    let scrollDiv = new ScrollDiv(
+    new ScrollDiv(
         getMoreActivities,
         contentDiv,
         'scrollDiv pt-1',

@@ -193,7 +193,8 @@ function emitActivityBlurb(activity, target) {
         body = "has a new publication listed from: " + journalTitle;
     }
     else {
-        body = `<b>(Need more blurb parsing logic) RAW DATA:</b> ${JSON.stringify(activity).replaceAll(":", ": ")}`;
+        body = `<b>Cannot assemble blurb from methodName: 
+                    ${methodName}, property: ${property}, and/or param1: ${param1}</b>`;
     }
 
     divSpanifyTo(body, target, 'recentUpdateBlurb', 'ps-3');

@@ -1,4 +1,28 @@
-function searchBodyStructure() {
+function searchPost(url, prefix, selections, resultPage) {
+    console.log("Searching: ", selections);
+    let stringCriteria = JSON.stringify(selections);
+
+    console.log('--------stringCriteria for post----------');
+    console.log(stringCriteria);
+
+    $.post(url, stringCriteria, function(results) {
+        if (results.constructor === Array
+            && results.length == 1
+            && results[0].ErrorMessage !== gCommon.undefined) {
+
+            alert(`Error message from back-end: "${results[0].ErrorMessage}"
+                    \nFrom Post of: 
+                    <${stringCriteria}>`);
+        }
+        else {
+            let stringResults = JSON.stringify(results);
+            let resultsKey = makeSearchResultsKey(prefix);
+            // https://stackoverflow.com/questions/13734893/javascript-how-do-i-open-a-new-page-and-pass-json-data-to-it
+            toSession(resultsKey, stringResults);
+            window.location.href = gBasic.htmlFiles + resultPage;
+        }
+    });
+}function searchBodyStructure() {
     let lhsDiv = $('#lhsDiv');
     gSearch.lhsDiv = lhsDiv;
 
@@ -59,7 +83,7 @@ function fromResultsOrInit(results, pathKeys, init) {
     }
     return candidate;
 }
-function addUpdateResultsSearchQuery(results, key, value) {
+function addUpdateSearchQueryKey(results, key, value) {
     addUpdateSearchQuery(results.SearchQuery, key, value);
 }
 function addUpdateSearchQuery(searchQuery, key, value) {
@@ -83,7 +107,7 @@ function createWhyLink(item, results) {
     return whySpan;
 }
 function searchWhy(item, results) {
-    let whyUrl = gImpl.whyUrl;
+    let whyUrl = gSearch.whyUrl;
     let searchQuery = results.SearchQuery;
     searchQuery.NodeID = item.NodeID;
 
@@ -94,31 +118,7 @@ function searchWhy(item, results) {
         'searchWhyResults.html'
         );
 }
-function searchPost(url, prefix, selections, resultPage) {
-    console.log("Searching: ", selections);
-    let stringCriteria = JSON.stringify(selections);
 
-    console.log('--------stringCriteria for post----------');
-    console.log(stringCriteria);
-
-    $.post(url, stringCriteria, function(results) {
-        if (results.constructor === Array
-                && results.length == 1
-                && results[0].ErrorMessage !== gCommon.undefined) {
-
-            alert(`Error message from back-end: "${results[0].ErrorMessage}"
-                    \nFrom Post of: 
-                    <${stringCriteria}>`);
-        }
-        else {
-            let stringResults = JSON.stringify(results);
-            let resultsKey = makeSearchResultsKey(prefix);
-            // https://stackoverflow.com/questions/13734893/javascript-how-do-i-open-a-new-page-and-pass-json-data-to-it
-            toSession(resultsKey, stringResults);
-            window.location.href = resultPage;
-        }
-    });
-}
 function makeSearchResultsKey(prefix) {
     return `search${initialCapital(prefix)}ResultsKey`;
 }
@@ -135,7 +135,7 @@ function minimalPeopleSearch(term) {
     collectMiscInitialPeopleSelections(selections);
 
     searchPost(
-        gImpl.findPeopleUrl,
+        gSearch.findPeopleUrl,
         gSearch.peoplePrefix,
         selections,
         "searchPeopleResults.html");
@@ -164,6 +164,7 @@ function emitCriteriaOnRhs(results, withWhy) {
 }
 function emitSearchResultCountAndBackTo(results, url, backText, count) {
     let target = $('#midDiv');
+    url = gBasic.htmlFiles + url;
 
     let countDetail = (typeof count !== gCommon.undefined) ? ` (${count})` : "";
     // calling title a row adds the negative 12 margin

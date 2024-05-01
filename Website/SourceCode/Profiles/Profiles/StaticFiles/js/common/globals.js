@@ -170,25 +170,14 @@ gConnections.conceptDetailsUrlSchema = "/display/Person/%%FOO%%/Network/Research
 gConnections.personDetailsUrlSchema = "/display/Person/%%FOO%%/Network/SimilarTo/details"
 gConnections.details = "Details";
 
-let gImpl = {};
-function setupGimpl(profilesHost) {
-    if (typeof profilesHost === gCommon.undefined) {
-        alert('Did your myBranding.json define "profilesHost"?');
-    }
-    // todo: following 3 lines, and profilesHost parameter, need to be excised!
-    gImpl.personUrlPrefix = `${profilesHost}/Profiles/profile/`;
-    gImpl.personKeywordSearchUrl = `${profilesHost}/Profiles/search/default.aspx?searchtype=people&searchfor=SCH-TRM&classuri=http://xmlns.com/foaf/0.1/Person&erpage=1`;
-    gImpl.personKeywordSearchUrlPlaceHolder = `SCH-TRM`;
-
-    gImpl.searchFormUrl =           `/Search/SearchSVC.aspx?SearchType=params`;
-    gImpl.findPeopleUrl =           `/Search/SearchSVC.aspx?SearchType=person`;
-    gImpl.findEverythingElseUrl =   `/Search/SearchSVC.aspx?SearchType=everything`;
-    gImpl.whyUrl =                  `/Search/SearchSVC.aspx?SearchType=why`;
-    gImpl.activityDetailsUrl =      `/Activity/ActivitySVC.aspx?count=%%FOO%%&lastActivityLogID=%%FOO2%%`;
-}
-
 let gSearch = {};
-gSearch.moreUpdatesUrl = `${gBasic.htmlFiles}activityDetails.html`;
+
+gSearch.searchFormUrl =         `/Search/SearchSVC.aspx?SearchType=params`;
+gSearch.findPeopleUrl =         `/Search/SearchSVC.aspx?SearchType=person`;
+gSearch.findEverythingElseUrl = `/Search/SearchSVC.aspx?SearchType=everything`;
+gSearch.whyUrl =                `/Search/SearchSVC.aspx?SearchType=why`;
+gSearch.activityDetailsUrl =    `/Activity/ActivitySVC.aspx?count=%%FOO%%&lastActivityLogID=%%FOO2%%`;
+gSearch.moreUpdatesUrl =        `${gBasic.htmlFiles}activityDetails.html`;
 
 gSearch.selectedSt = " selected";
 gSearch.noneSt = "None";

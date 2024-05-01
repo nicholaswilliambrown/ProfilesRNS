@@ -15,7 +15,7 @@ async function setupActivityDetails() {
 }
 async function getMoreActivities() {
     let dataUrl = activityUrlFromSchema(
-        gImpl.activityDetailsUrl,
+        gSearch.activityDetailsUrl,
         gSearch.activityDetailsCount,
         gSearch.activityCurrentHighId);
 

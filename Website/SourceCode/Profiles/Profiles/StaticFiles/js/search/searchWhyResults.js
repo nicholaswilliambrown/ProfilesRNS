@@ -131,7 +131,7 @@ function emitWhyIndirectMatches(matches, target) {
     }
 }
 function whyPersonLink(results) {
-    let url = gImpl.personUrlPrefix + results.ConnectionNode.NodeID;
+    let url = results.ConnectionNode.URL;
     let label = results.ConnectionNode.Label;
 
     return createAnchorElement(label, url);

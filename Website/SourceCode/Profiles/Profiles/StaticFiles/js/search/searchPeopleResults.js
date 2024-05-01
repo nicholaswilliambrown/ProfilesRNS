@@ -2,7 +2,7 @@
 async function setupSearchPeopleResults() {
     let pagination = new Paging(
         redoPeopleSearch,
-        gImpl.findPeopleUrl,
+        gSearch.findPeopleUrl,
         getPeopleResultsCount,
         gPage.sizes);
 

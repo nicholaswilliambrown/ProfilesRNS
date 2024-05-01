@@ -13,7 +13,6 @@ let gBrandingConstants = {};
 async function loadBrandingConstants() {
     await $.getJSON(gBasic.jsonBrandingConfig, function (data) {
         gBrandingConstants = data;
-        setupGimpl(gBrandingConstants.profilesUrl);
     });
 }
 async function loadBrandingAssets() {

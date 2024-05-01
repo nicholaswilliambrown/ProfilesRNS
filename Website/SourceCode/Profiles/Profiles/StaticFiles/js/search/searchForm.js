@@ -1,7 +1,7 @@
 async function setupSearchForm() {
     await setupPageStub(searchBodyStructure);
 
-    let data = await getJsonData(gImpl.searchFormUrl);
+    let data = await getJsonData(gSearch.searchFormUrl);
     gSearch.formData = data;
     console.log("========> formData", data);
 
@@ -168,7 +168,7 @@ function searchPeopleFn(searchInput, exactCheckbox, lnameInput, fnameInput) {
 
     //alert(`Json (from people tab): ${JSON.stringify(selections)}`);
     searchPost(
-        gImpl.findPeopleUrl,
+        gSearch.findPeopleUrl,
         gSearch.peoplePrefix,
         selections,
         "searchPeopleResults.html");
@@ -184,7 +184,7 @@ function searchEverythingFn(searchInput, exactCheckbox) {
 
     //alert(`Json (from everything tab): ${JSON.stringify(selections)}`);
     searchPost(
-        gImpl.findEverythingElseUrl,
+        gSearch.findEverythingElseUrl,
         gSearch.allElsePrefix,
         selections,
         "searchAllElseResults.html");

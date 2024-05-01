@@ -2,7 +2,7 @@
 async function setupSearchAllElseResults() {
     let pagination = new Paging(
         redoAllElseSearch,
-        gImpl.findEverythingElseUrl,
+        gSearch.findEverythingElseUrl,
         getAllElseResultsCount,
         gPage.sizes);
 
@@ -111,10 +111,10 @@ function redoAllElseSearch(results, url) {
         "searchAllElseResults.html");
 }
 function filterSearch(type, label, results) {
-    gPage.searchUrl  = gImpl + `?filterType=${type}`;
-    addUpdateResultsSearchQuery(results, gSearch.currentFilterKey, label);
+    let searchUrl  = gSearch.findEverythingElseUrl + `?filterType=${type}`;
+    addUpdateSearchQueryKey(results, gSearch.currentFilterKey, label);
 
-    redoAllElseSearch(results, gPage.searchUrl);
+    redoAllElseSearch(results, searchUrl);
 }
 function emitAllElseResultsHeader(colspecs, target) {
     let rowId = `allElseResultsHeader`;

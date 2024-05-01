@@ -5,9 +5,9 @@ these files
     myBranding.js and 
     myBranding.css.
 
-Compared to the supplied, default Catalyst JSON, your myBranding.json may not need
-(m)any of the items supplied there. You need any items referenced in the core code
-(e.g., profilesUrl), or in the code that you use in your version if myBranding.js. 
+Compared to the supplied, default Catalyst JSON, your myBranding.json may not
+need (m)any of the items supplied there. You need any items referenced in the
+code that you use in your version of myBranding.js.
 
 In your version of myBranding.js, you supply your own implementations of
     setupHeadAndTabTitle()

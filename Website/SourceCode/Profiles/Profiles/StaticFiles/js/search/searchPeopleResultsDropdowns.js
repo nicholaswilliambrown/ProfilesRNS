@@ -2,7 +2,7 @@ function adjustChosenSort(results) {
     let currentFlavor = results.SearchQuery.Sort;
     let flavoredLi = $(`li[value="${currentFlavor}"]`);
     if ( ! flavoredLi.is(':visible')) {
-        addUpdateResultsSearchQuery(results, 'Sort', gSearch.defaultPeopleSort);
+        addUpdateSearchQueryKey(results, 'Sort', gSearch.defaultPeopleSort);
     }
 }
 
@@ -33,13 +33,13 @@ function setupShowDropdown(results) {
             adjustChosenSort(results);
             installSelectedShows(results);
 
-            redoPeopleSearch(results, gImpl.findPeopleUrl);
+            redoPeopleSearch(results);
         }
     });
 }
 function installSelectedShows(results) {
     let selected = harvestCheckedOptions('showCheck');
-    addUpdateResultsSearchQuery(results, gSearch.selectedOptionalPeopleShowsKey, selected);
+    addUpdateSearchQueryKey(results, gSearch.selectedOptionalPeopleShowsKey, selected);
 }
 function setupDropdownsAndInitialSelections() {
     let results = gSearch.searchPeopleResults;
@@ -63,7 +63,7 @@ function setupDropdownsAndInitialSelections() {
         if ($('.li-show:visible').length > 0) { // need to harvest the show selections and redo
             adjustChosenSort(results);
             installSelectedShows(results);
-            redoPeopleSearch(results, gImpl.findPeopleUrl);
+            redoPeopleSearch(results);
         }
 
         $('.li-sort').toggle();
@@ -77,7 +77,7 @@ function liSortClick(e, results) {
 
     let correspondingHeaderId = target.attr('name');
     let flavor = target.attr('value');
-    addUpdateResultsSearchQuery(results, 'Sort', flavor);
+    addUpdateSearchQueryKey(results, 'Sort', flavor);
 
     let direction= gSearch.ascendingSt;
     if (flavor.match(gSearch.descendingValReSt)) {
@@ -85,20 +85,20 @@ function liSortClick(e, results) {
     }
 
     let sortDisplayInfo = { headerId: correspondingHeaderId, direction: direction};
-    addUpdateResultsSearchQuery(results, gSearch.sortPeopleIconInfoKey, sortDisplayInfo);
+    addUpdateSearchQueryKey(results, gSearch.sortPeopleIconInfoKey, sortDisplayInfo);
 
-    redoPeopleSearch(results, gImpl.findPeopleUrl);
+    redoPeopleSearch(results);
 }
-function redoPeopleSearch(searchResults, url) {
+function redoPeopleSearch(searchResults) {
     searchPost(
-        url,
+        gSearch.findPeopleUrl,
         gSearch.peoplePrefix,
         searchResults.SearchQuery,
         "searchPeopleResults.html");
 }
 function adjustShowChoicesHeader(results) {
     let selected = harvestCheckedOptions('showCheck');
-    addUpdateResultsSearchQuery(results, gSearch.selectedOptionalPeopleShowsKey, selected);
+    addUpdateSearchQueryKey(results, gSearch.selectedOptionalPeopleShowsKey, selected);
 
     let howMany = selected.length;
     let selectedSt = gSearch.selectedSt;

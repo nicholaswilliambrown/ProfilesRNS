@@ -24,7 +24,7 @@ function emitSidebarRecentUpdates() {
         'rUpdates');
 
     let dataUrl = activityUrlFromSchema(
-        gImpl.activityDetailsUrl,
+        gSearch.activityDetailsUrl,
         gSearch.activityPreviewCount,
         gSearch.activityCurrentHighId);
 

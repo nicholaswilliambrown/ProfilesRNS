@@ -11,10 +11,9 @@ function keywordParser(json, moduleTitle, miscInfo) {
     for (let i=0; i<sortedJson.length; i++) {
         let elt = sortedJson[i];
 
-        let encodedKeyword = encodeURI(elt.Value);
-        let url = gImpl.personKeywordSearchUrl.replace(gImpl.personKeywordSearchUrlPlaceHolder, encodedKeyword);
+        let div = $(`<div class="ps-4 link-ish">${elt.Value}</div>`);
+        div.on('click', function() {minimalPeopleSearch(elt.Value)});
 
-        let div = $(`<div class="ps-4"><a class="link-ish" href="${url}">${elt.Value}</a></div>`);
         innerPayloadDiv.append(div);
     }
 

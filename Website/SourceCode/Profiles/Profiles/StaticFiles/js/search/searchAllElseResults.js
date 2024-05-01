@@ -7,7 +7,7 @@ async function setupSearchAllElseResults() {
         gPage.sizes);
 
     //let data = await getJsonData("../json/fake-data/SearchPersonResults.json");
-    let resultsAsString = fromSession(makeSearchResultsKey(gSearch.allElsePrefix));
+    let resultsAsString = fromSession(makeSearchResultsKey(gSearch.allElse));
     gSearch.searchAllElseResults = JSON.parse(resultsAsString);
     let results = gSearch.searchAllElseResults;
 
@@ -24,7 +24,7 @@ async function setupSearchAllElseResults() {
 
     let count = getAllElseResultsCount(results);
 
-    emitSearchResultCountAndBackTo(results, 'searchForm.html', 'Modify Search', count);
+    emitSearchResultCountAndBackTo(results, `searchForm.html?${gSearch.allElse}`, 'Modify Search', count);
     emitAllElseRhs(results, pagination);
 
     emitResults(results);
@@ -106,7 +106,7 @@ function showAllElseFilters(target, results) {
 function redoAllElseSearch(results, url) {
     searchPost(
         url,
-        gSearch.allElsePrefix,
+        gSearch.allElse,
         results.SearchQuery,
         "searchAllElseResults.html");
 }
@@ -127,9 +127,9 @@ function emitAllElseResultsHeader(colspecs, target) {
 }
 
 function emitAllElseDataRows(results, colspecs, target) {
-    let items = reverseSortArrayByWeight(results.Results);
+    if (results && results.Results) {
+        let items = reverseSortArrayByWeight(results.Results);
 
-    if (items) {
         for (let i = 0; i < items.length; i++) {
             let item = items[i];
 

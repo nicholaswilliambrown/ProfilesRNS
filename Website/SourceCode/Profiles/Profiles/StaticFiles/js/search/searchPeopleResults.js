@@ -7,7 +7,7 @@ async function setupSearchPeopleResults() {
         gPage.sizes);
 
     //let data = await getJsonData("../json/fake-data/SearchPersonResults.json");
-    let resultsAsString = fromSession(makeSearchResultsKey(gSearch.peoplePrefix));
+    let resultsAsString = fromSession(makeSearchResultsKey(gSearch.people));
     let results = JSON.parse(resultsAsString);
     gSearch.searchPeopleResults = results;
 
@@ -23,7 +23,7 @@ async function setupSearchPeopleResults() {
     moveContentByIdTo("mainRow", mainDiv);
 
     // not all usages of the below use 'count' from results
-    emitSearchResultCountAndBackTo(results, 'searchForm.html', 'Modify Search', results.Count);
+    emitSearchResultCountAndBackTo(results, `searchForm.html?${gSearch.people}`, 'Modify Search', results.Count);
 
     $('#sortDropdownDiv').addClass(`${gCommon.cols3or12}`);
     $('#showDropdownDiv').addClass(`${gCommon.cols3or12}`);

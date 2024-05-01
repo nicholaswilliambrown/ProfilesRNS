@@ -80,13 +80,16 @@ Paging.prototype.getNumItemsPerPage = function(searchResults) {
     return result;
 }
 Paging.prototype.getNumPages = function(searchResults) {
-    let result = 0;
+    let result;
     let numItems = this.getTotalCount(searchResults);
 
     let itemsPerPage = this.getNumItemsPerPage(searchResults);
 
     if (itemsPerPage) {
         result = Math.ceil(numItems / itemsPerPage);
+    }
+    if (! result) { // zero results
+        result = 1; // 'page 1 of 1, not of 0
     }
     return result;
 }

@@ -14,7 +14,7 @@ async function setupSearchWhyResults() {
 
     emitCriteriaOnRhs(results, false);
 
-    let returnUrl = results.SearchQuery.SearchType == gSearch.peoplePrefix ? 'searchPeopleResults.html' :
+    let returnUrl = results.SearchQuery.SearchType == gSearch.people ? 'searchPeopleResults.html' :
         'searchAllElseResults.html'
     emitSearchResultCountAndBackTo(results, returnUrl, 'Back to Search Results');
 

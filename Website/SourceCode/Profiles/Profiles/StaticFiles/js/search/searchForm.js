@@ -1,7 +1,7 @@
 async function setupSearchForm() {
     await setupPageStub(searchBodyStructure);
 
-    let data = await getJsonData(gSearch.searchFormUrl);
+    let data = await getJsonData(gSearch.searchFormParamsUrl);
     gSearch.formData = data;
     console.log("========> formData", data);
 
@@ -21,9 +21,12 @@ async function setupSearchForm() {
     setupSearchSubmitAndNameSections();
     setupDropdowns();
 
+    respectPriorCriteria(gSearch.people);
+    respectPriorCriteria(gSearch.allElse);
 
-    respectPriorCriteria(gSearch.peoplePrefix);
-    respectPriorCriteria(gSearch.allElsePrefix);
+    let searchType = tryMatchUrlParam(`(${gSearch.allElse})`) ? gSearch.allElse : gSearch.people;
+    console.log("searchTab: ", searchType);
+    $(`#${searchType}-tab`).click();
 }
 function respectPriorCriteria(prefix) {
     let priorResultsKey = makeSearchResultsKey(prefix);
@@ -37,7 +40,7 @@ function respectPriorCriteria(prefix) {
         restoreText(`${prefix}SearchInput`, searchInput);
         restoreCheck(`${prefix}ExactCheckbox`, exactCheckbox);
 
-        if (prefix == gSearch.peoplePrefix) {
+        if (prefix == gSearch.people) {
             let lnameInput = priorResults.SearchQuery.LastName;
             let fnameInput = priorResults.SearchQuery.FirstName;
             let institution = priorResults.SearchQuery.Institution;
@@ -136,13 +139,13 @@ function emitMosts(whichMost) {
 }
 function setupSearchSubmitAndNameSections() {
     setupOneSearchSubmitSection(
-        gSearch.peoplePrefix,
+        gSearch.people,
         "Research Topics",
         'Find People by Research Topic or Name',
         searchPeopleFn);
 
     setupOneSearchSubmitSection(
-        gSearch.allElsePrefix,
+        gSearch.allElse,
         'Keywords',
         'Find Publications, Projects, Concepts and More',
         searchEverythingFn);
@@ -169,14 +172,14 @@ function searchPeopleFn(searchInput, exactCheckbox, lnameInput, fnameInput) {
     //alert(`Json (from people tab): ${JSON.stringify(selections)}`);
     searchPost(
         gSearch.findPeopleUrl,
-        gSearch.peoplePrefix,
+        gSearch.people,
         selections,
         "searchPeopleResults.html");
 }
 function searchEverythingFn(searchInput, exactCheckbox) {
     let selections = collectKeywordSelections(searchInput, exactCheckbox);
 
-    selections.SearchType = gSearch.allElsePrefix;
+    selections.SearchType = gSearch.allElse;
 
     // new search starts with 'All' filter
     addUpdateSearchQuery(selections, gSearch.currentFilterKey, gSearch.allFilterLabel);
@@ -185,7 +188,7 @@ function searchEverythingFn(searchInput, exactCheckbox) {
     //alert(`Json (from everything tab): ${JSON.stringify(selections)}`);
     searchPost(
         gSearch.findEverythingElseUrl,
-        gSearch.allElsePrefix,
+        gSearch.allElse,
         selections,
         "searchAllElseResults.html");
 }
@@ -218,7 +221,7 @@ function setupOneSearchSubmitSection(idPrefix, label, title, searchFn) {
     row.find(`#${rowId}Col1`).append(checkboxSpan);
 
     let fname, lname; // undef for allElse, but present for people
-    if (idPrefix == gSearch.peoplePrefix) {
+    if (idPrefix == gSearch.people) {
         [lname, fname] = emitTwoNamesInput(boxTarget);
     }
 

@@ -92,7 +92,7 @@ function addUpdateSearchQuery(searchQuery, key, value) {
 function collectMiscInitialPeopleSelections(selections) {
     // misc addition: foreshadowing sorting
     selections.Sort = "relevance";
-    selections.SearchType = gSearch.peoplePrefix;
+    selections.SearchType = gSearch.people;
     initializePagingValues(selections, gPage.defaultPageSize, 0);
 }
 function initializePagingValues(selections, size, offset) {
@@ -132,11 +132,15 @@ function minimalPeopleSearch(term) {
     selections.FacultyTypeName = "";
     selections.OtherOptionsName = [];
 
+    selections.KeywordExact = false;
+    selections.DepartmentExcept = false;
+    selections.InstitutionExcept = false;
+
     collectMiscInitialPeopleSelections(selections);
 
     searchPost(
         gSearch.findPeopleUrl,
-        gSearch.peoplePrefix,
+        gSearch.people,
         selections,
         "searchPeopleResults.html");
 }

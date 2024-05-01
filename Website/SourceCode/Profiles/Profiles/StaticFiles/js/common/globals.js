@@ -89,11 +89,6 @@ gCommon.openSourceSoftwareAUrl = `/about/default.aspx?type=OpenSourceSoftware`;
 gCommon.seeAllPagesAUrl = `/history`;
 gCommon.logoutUrl = `/logout.aspx`;
 
-gCommon.findPeopleUrlFromRoot = `/search`;
-gCommon.findEverythingUrlFromRoot = `/search/all`;
-
-gCommon.emptySearchUrl = `/search`;
-gCommon.nonemptySearchUrlSchema = "/default.aspx?searchtype=people&searchfor=%%FOO%%&classuri=http://xmlns.com/foaf/0.1/Person&perpage=15&offset=0&new=true";
 gCommon.schemaPlaceholder = "%%FOO%%";
 gCommon.schemaPlaceholder2 = "%%FOO2%%";
 
@@ -172,7 +167,16 @@ gConnections.details = "Details";
 
 let gSearch = {};
 
-gSearch.searchFormUrl =         `/Search/SearchSVC.aspx?SearchType=params`;
+gSearch.people = 'people';
+gSearch.allElse = 'allElse';
+gSearch.whyPrefix = 'why';
+
+gSearch.searchFormParamsUrl =   `/Search/SearchSVC.aspx?SearchType=params`;
+
+gSearch.searchFormUrl =        `${gBasic.htmlFiles}searchForm.html`;
+gSearch.searchFormPeopleUrl =      `${gSearch.searchFormUrl}?${gSearch.people}`;
+gSearch.searchFormAllElseUrl =     `${gSearch.searchFormUrl}?${gSearch.allElse}`;
+
 gSearch.findPeopleUrl =         `/Search/SearchSVC.aspx?SearchType=person`;
 gSearch.findEverythingElseUrl = `/Search/SearchSVC.aspx?SearchType=everything`;
 gSearch.whyUrl =                `/Search/SearchSVC.aspx?SearchType=why`;
@@ -203,10 +207,6 @@ gSearch.descendingValReSt = "(za)|(desc)";
 gSearch.columnNameSt = "columnName";
 
 gSearch.sortPeopleIconInfoKey = "sortPeopleIconInfoKey";
-
-gSearch.peoplePrefix = 'people';
-gSearch.allElsePrefix = 'allElse';
-gSearch.whyPrefix = 'why';
 
 gSearch.fnameInputSt = 'fnameInput';
 gSearch.lnameInputSt = 'lnameInput';

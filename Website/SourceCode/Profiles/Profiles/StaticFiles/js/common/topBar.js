@@ -31,7 +31,7 @@ function setupTopNav() {
     setUrlByAnchorId("overviewA", gCommon.overviewAUrl);
     setUrlByAnchorId("openSourceSoftwareA", gCommon.openSourceSoftwareAUrl);
     setUrlByAnchorId("seeAllPagesA", gCommon.seeAllPagesAUrl);
-    setUrlByAnchorId("topHome", gCommon.findPeopleUrlFromRoot);
+    setUrlByAnchorId("topHome", gSearch.searchFormPeopleUrl);
     setUrlByAnchorId("helpA", gCommon.helpUrl);
     setUrlByAnchorId("logoutA", gCommon.logoutUrl);
 
@@ -76,27 +76,27 @@ function addSearchForm(target, formClass, searchGlassClass, displayClass, sizeFl
     target.append(displayDiv);
 
     let form = $(`<form class="top ${formClass} d-flex justify-content-${justifyPos}">
-                                <input class="form-control navSearchTerm ps-0" id="navSearchTerm${sizeFlavor}" type="search" aria-label="Search"
-                                       placeholder=" Search Profiles (people, publications, concepts, etc.)">
-                                <div id="searchGlassDiv${sizeFlavor}" class="searchGlassDiv">                              
-                                    <img id="navSearchGlass${sizeFlavor}" 
-                                        class="navSearchGlass searchMagGlass 
-                                        ${searchGlassClass} pt-2 pe-2"/>
-                                </div>
-                                <div class="dropdown">
-                                    <a class="search dropdown-toggle" href="#" id="navbarDropdown3${sizeFlavor}" role="button"
-                                       data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img class="downArrow downArrow${sizeFlavor}">
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown3">
-                                        <li><a id="findPeopleA${sizeFlavor}" class="dropdown-item" href="#">Find People</a></li>
-                                        <li><a id="findEverythingA${sizeFlavor}" class="dropdown-item" href="#">Find Everything</a></li>
-                                    </ul>
-                                </div>
-                            </form>`);
+        <input class="form-control navSearchTerm ps-1" id="navSearchTerm${sizeFlavor}" type="search" aria-label="Search"
+               placeholder=" Search Profiles (people, publications, concepts, etc.)">
+        <div id="searchGlassDiv${sizeFlavor}" class="searchGlassDiv">                              
+            <img id="navSearchGlass${sizeFlavor}" 
+                class="navSearchGlass searchMagGlass 
+                ${searchGlassClass} pt-2 pe-2"/>
+        </div>
+        <div class="dropdown">
+            <a class="search dropdown-toggle" href="#" id="navbarDropdown3${sizeFlavor}" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">
+                <img class="downArrow downArrow${sizeFlavor}">
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown3">
+                <li><a id="findPeopleA${sizeFlavor}" class="dropdown-item" href="#">Find People</a></li>
+                <li><a id="findEverythingA${sizeFlavor}" class="dropdown-item" href="#">Find Everything</a></li>
+            </ul>
+        </div>
+        </form>`);
     displayDiv.append(form);
-    setUrlByAnchorId(`findPeopleA${sizeFlavor}`, gCommon.findPeopleUrlFromRoot);
-    setUrlByAnchorId(`findEverythingA${sizeFlavor}`, gCommon.findEverythingUrlFromRoot);
+    setUrlByAnchorId(`findPeopleA${sizeFlavor}`, gSearch.searchFormPeopleUrl);
+    setUrlByAnchorId(`findEverythingA${sizeFlavor}`, gSearch.searchFormAllElseUrl);
 }
 
 function setupNavSearch(topNavbar) {
@@ -134,15 +134,7 @@ function doNavSearch(e) {
     let searchTerm = $('.navSearchTerm:visible').val().trim();
     console.log(`searching: [${searchTerm}]`);
 
-    let searchUrl = gCommon.emptySearchUrl;
-    if (searchTerm) {
-        let encodedTerm = encodeURI(searchTerm);
-        let delta = gCommon.nonemptySearchUrlSchema.replace(gCommon.schemaPlaceholder, encodedTerm);
-        searchUrl += delta;
-    }
-    console.log(`About to navigate to: [${searchUrl}]`);
-
-    window.location.href = searchUrl;
+    minimalPeopleSearch(searchTerm);
 }
 function setupNavHistory() {
     // todo: prob a REST call -- or does client page keep track of whom we've seen before??

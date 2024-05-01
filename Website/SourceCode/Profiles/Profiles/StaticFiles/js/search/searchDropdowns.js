@@ -61,7 +61,7 @@ function adjustedSelections(dropdownPrefix, list) {
 // applicable only for Find People tab
 function setupDropdowns() {
 
-    let peoplePaneBox = $(`#${gSearch.peoplePrefix}Box`);
+    let peoplePaneBox = $(`#${gSearch.people}Box`);
     peoplePaneBox.append($('<div class="separator ms-4 me-4 mb-2"><span class="ms-1 me-1"> and / or </span></div>'));
     peoplePaneBox.on('click', hideLiItems);
 

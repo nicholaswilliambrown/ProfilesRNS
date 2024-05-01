@@ -92,7 +92,7 @@ function liSortClick(e, results) {
 function redoPeopleSearch(searchResults) {
     searchPost(
         gSearch.findPeopleUrl,
-        gSearch.peoplePrefix,
+        gSearch.people,
         searchResults.SearchQuery,
         "searchPeopleResults.html");
 }

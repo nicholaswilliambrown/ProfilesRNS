@@ -114,23 +114,25 @@ function emitLeftColumnPairs(target,
     return row;
 }
 function emitActivityBlurb(activity, target) {
-    let ru = gSearch.recentUpdateTokens;
-    ru.peud = "Profiles.Edit.Utilities.DataIO";
+    let tokens = gSearch.recentUpdateTokens;
+    tokens.peud = "Profiles.Edit.Utilities.DataIO";
 
-    ru.AddPublication =         ru.peud + ".AddPublication";
-    ru.AddCustomPublication =   ru.peud + ".AddCustomPublication";
-    ru.UpdateSecuritySetting =  ru.peud + ".UpdateSecuritySetting"
-    ru.AddUpdateFunding =       ru.peud + ".AddUpdateFunding"
-    ru.Add =                    ru.peud + ".Add"
-    ru.Update =                 ru.peud + ".Update"
+    tokens.AddPublication =         tokens.peud + ".AddPublication";
+    tokens.AddCustomPublication =   tokens.peud + ".AddCustomPublication";
+    tokens.UpdateSecuritySetting =  tokens.peud + ".UpdateSecuritySetting";
+    tokens.AddUpdateFunding =       tokens.peud + ".AddUpdateFunding";
+    tokens.Add =                    tokens.peud + ".Add";
+    tokens.Update =                 tokens.peud + ".Update";
+    tokens.Login =                  "Profiles.Login.Utilities.DataIO.UserLogin";
 
-    ru.ResearcherRole                   = "http://vivoweb.org/ontology/core#ResearcherRole";
-    ru.PubmedLoadDisambiguationResults  = "[Profile.Data].[Publication.Pubmed.LoadDisambiguationResults]"
-    ru.AddPMID                          = "Add PMID"
-    ru.LoadProfilesData                 = "[Profile.Import].[LoadProfilesData]"
-    ru.PersonInsert                           = "Person Insert"
-    ru.FundingLoadDisambiguationResults = "[Profile.Data].[Funding.LoadDisambiguationResults]"
-    ru.hasMemberRole                    = "http://vivoweb.org/ontology/core#hasMemberRole"
+    tokens.ResearcherRole                   = "http://vivoweb.org/ontology/core#ResearcherRole";
+    tokens.PubmedLoadDisambiguationResults  = "[Profile.Data].[Publication.Pubmed.LoadDisambiguationResults]";
+    tokens.AddPMID                          = "Add PMID";
+    tokens.LoadProfilesData                 = "[Profile.Import].[LoadProfilesData]";
+    tokens.PersonInsert                     = "Person Insert";
+    tokens.PersonUpdate                     = "Person Update";
+    tokens.FundingLoadDisambiguationResults = "[Profile.Data].[Funding.LoadDisambiguationResults]";
+    tokens.hasMemberRole                    = "http://vivoweb.org/ontology/core#hasMemberRole";
     
     let agreementLabel  = orNA(activity.AgreementLabel);
     let property        = orNA(activity.property);
@@ -141,32 +143,32 @@ function emitActivityBlurb(activity, target) {
     let groupName       = orNA(activity.groupName);
 
     let journalTitle    = orNA(activity.JournalTitle);
-    if (property == ru.ResearcherRole) {
+    if (property == tokens.ResearcherRole) {
         journalTitle = agreementLabel;
     }
 
     let body = gCommon.NA;  // hope to provide a useful value below
 
-    if (methodName == ru.AddPublication) {
+    if (methodName == tokens.AddPublication) {
         body = "added a publication from: " + journalTitle;
     }
-    else if (methodName == ru.AddCustomPublication) {
+    else if (methodName == tokens.AddCustomPublication) {
         body = "added \"" + param1 + "\" into " + propertyLabel +
             " section : " + param2;
     }
-    else if (methodName == ru.UpdateSecuritySetting) {
+    else if (methodName == tokens.UpdateSecuritySetting) {
         body = "made \"" + propertyLabel + "\"public";
     }
-    else if (methodName == ru.AddUpdateFunding) {
+    else if (methodName == tokens.AddUpdateFunding) {
         body = "added a research activity or funding: " + journalTitle;
     }
-    else if (methodName == ru.FundingLoadDisambiguationResults) {
+    else if (methodName == tokens.FundingLoadDisambiguationResults) {
         body = "has a new research activity or funding: " + journalTitle;
     }
-    else if (property == ru.hasMemberRole) {
+    else if (property == tokens.hasMemberRole) {
         body = "joined group: " + groupName;
     }
-    else if (property == ru.Add) {
+    else if (property == tokens.Add) {
         if (param1 != gCommon.NA)
         {
             body = body = "added \"" + param1 + "\" into " + propertyLabel + " section";
@@ -176,7 +178,7 @@ function emitActivityBlurb(activity, target) {
             body = "added \"" + propertyLabel + "\" section";
         }
     }
-    else if (methodName == ru.Update) {
+    else if (methodName == tokens.Update) {
         if (param1 != gCommon.NA)
         {
             body = "updated \"" + param1 + "\" in " + propertyLabel + " section";
@@ -186,11 +188,17 @@ function emitActivityBlurb(activity, target) {
             body = "updated \"" + propertyLabel + "\" section";
         }
     }
-    else if (methodName == ru.PubmedLoadDisambiguationResults && param1 == ru.AddPMID) {
+    else if (methodName == tokens.PubmedLoadDisambiguationResults && param1 == tokens.AddPMID) {
         body = "has a new publication listed from: " + journalTitle;
     }
-    else if (methodName == ru.LoadProfilesData && param1 == ru.PersonInsert) {
-        body = "has a new publication listed from: " + journalTitle;
+    else if (methodName == tokens.LoadProfilesData && param1 == tokens.PersonInsert) {
+        body = "now has a profiles page";
+    }
+    else if (methodName == tokens.LoadProfilesData && param1 == tokens.PersonUpdate) {
+        body = "updated their profiles page";
+    }
+    else if (methodName == tokens.Login) {
+        body = "logged in";
     }
     else {
         body = `<b>Cannot assemble blurb from methodName: 

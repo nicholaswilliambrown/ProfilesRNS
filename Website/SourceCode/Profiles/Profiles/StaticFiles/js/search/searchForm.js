@@ -199,7 +199,7 @@ function setupOneSearchSubmitSection(idPrefix, label, title, searchFn) {
 
     let row = makeRowWithColumns(boxTarget, rowId, gSearch.midSectionColspecs,  "pb-1 mt-0 mb-2");
 
-    let searchInput = $(`<input id="${idPrefix}SearchInput" class="w-100 ps-2" type="search" aria-label="Search">`);
+    let searchInput = $(`<input id="${idPrefix}SearchInput" class="w-100 ps-2 inputSearch" type="search" aria-label="Search">`);
     let searchButton = $(`<img id="${idPrefix}SearchButton" src="${gBasic.jsSearchImageFiles}search.jpg" alt="Search">`);
     let exactCheckbox = $(`<input id="${idPrefix}ExactCheckbox" type="checkbox" aria-label="Exact match"/>`);
     // separate label for checkbox, so only precise clicks on box have effect
@@ -222,6 +222,13 @@ function setupOneSearchSubmitSection(idPrefix, label, title, searchFn) {
         [lname, fname] = emitTwoNamesInput(boxTarget);
     }
 
+    boxTarget.find('.inputSearch').on('keypress',function(e) {
+        e.stopPropagation();
+
+        if (e.which == 13) {
+            searchFn(searchInput, exactCheckbox, lname, fname);
+        }
+    });
     searchButton.on('click', function() {
         searchFn(searchInput, exactCheckbox, lname, fname);
     });
@@ -230,14 +237,14 @@ function emitTwoNamesInput(target) {
     let rowId = `${gSearch.lnameInputSt}`;
     let row = makeRowWithColumns(target, rowId, gSearch.midSectionColspecs,  "pb-1 mt-0 mb-2");
 
-    let lnameInput = $(`<input id="${gSearch.lnameInputSt}" class="w-100">`);
+    let lnameInput = $(`<input id="${gSearch.lnameInputSt}" class="w-100 inputSearch">`);
     row.find(`#${rowId}Col0`).html('Last Name');
     row.find(`#${rowId}Col1`).append(lnameInput);
 
     rowId = `${gSearch.fnameInputSt}`;
     row = makeRowWithColumns(target, rowId, gSearch.midSectionColspecs,  "pb-1 mt-0 mb-2");
 
-    let fnameInput = $(`<input id="${gSearch.fnameInputSt}" class="w-100">`);
+    let fnameInput = $(`<input id="${gSearch.fnameInputSt}" class="w-100 inputSearch">`);
     row.find(`#${rowId}Col0`).html('First Name');
     row.find(`#${rowId}Col1`).append(fnameInput);
 

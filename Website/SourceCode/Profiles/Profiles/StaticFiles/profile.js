@@ -15,6 +15,7 @@ async function getPageJSON() {
                         jsonTmp.push(jsonJ2)
                     }
                     g.pageJSON = jsonTmp;
+                    console.log('page json: ', g.pageJSON);
                 });
             }
         }

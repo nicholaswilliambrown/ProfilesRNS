@@ -295,3 +295,6 @@ header._ci_shared_asset.tool-page.mayHelpResponsivenessSm {
     width: 7px;
     height: 5px;
 }
+.parentWidth {
+    width: 100%;
+}

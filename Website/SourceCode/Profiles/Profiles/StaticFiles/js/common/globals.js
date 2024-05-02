@@ -228,7 +228,8 @@ let gPage = {};
 gPage.sizes = [15, 25, 50, 100];
 gPage.defaultPageSize = gPage.sizes[0];
 
-
+gAbout = {};
+gAbout.griffinUrl = "/display/Person/32213";
 
 
 

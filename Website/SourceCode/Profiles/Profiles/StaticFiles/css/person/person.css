@@ -2,9 +2,6 @@
 .accordion-item.nested .my-mb2.row, .my-mb2 {
     margin-bottom: 4px !important;
 }
-.parentWidth {
-    width: 100%;
-}
 .headshot {
     border: 1px solid black;
 }

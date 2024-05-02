@@ -82,10 +82,11 @@ gCommon.bsMarginsPaddingIncreasing = `ms-0 ms-sm-0 ms-md-2 ms-lg-2 ms-xl-4 ms-xx
 
 gCommon.personThumbnailSchema = "/profile/Modules/CustomViewPersonGeneralInfo/PhotoHandler.ashx?NodeID=%%FOO%%&Thumbnail=True&Width=45"
 
-gCommon.loginUrl = `/login/index?sessionid=6ef03c16-e8db-429a-93f8-e2881153901a`;
+gCommon.helpUrl = `${gBasic.htmlFiles}helpAbout.html`;
 gCommon.overviewAUrl = `/about/default.aspx?type=About`;
-gCommon.helpUrl = `/about/default.aspx?type=Help`;
 gCommon.openSourceSoftwareAUrl = `/about/default.aspx?type=OpenSourceSoftware`;
+
+gCommon.loginUrl = `/login/index?sessionid=6ef03c16-e8db-429a-93f8-e2881153901a`;
 gCommon.seeAllPagesAUrl = `/history`;
 gCommon.logoutUrl = `/logout.aspx`;
 

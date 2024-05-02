@@ -15,21 +15,19 @@ gCommon.mainDataContainer = $(`<div class="container-fluid parentWidth p-0 mb-4"
                 </a>
               </div>
               <div id="topNavAbout" class="nav-item dropdown">
-                <a class="nav-link top dropdown-toggle" href="#" id="navbarDropdown1" role="button"
+                <a class="nav-link top dropdown-toggle" href="#" 
+                    id="navbarDropdown1" role="button"
                    data-bs-toggle="dropdown" aria-expanded="false">
                   About
                 </a>
                 <ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown1">
-                  <li><a id="overviewA" class="dropdown-item" href="#">Overview</a></li>
+                  <li><a id="overviewA" class="dropdown-item">Overview</a></li>
                   <li><p class="dropdown-divider p-0 m-0"/></li>
-                  <li><a id="openSourceSoftwareA" class="dropdown-item" href="#">Open Source
-                    Software</a></li>
+                  <li><a id="openSourceSoftwareA" class="dropdown-item">Open Source Software</a></li>
                 </ul>
               </div>
               <div id="topNavHelp" class="nav-item">
-                <a id="helpA" class="nav-link top" aria-current="page" href="#">
-                  Help
-                </a>
+                <a id="helpA" class="nav-link top" aria-current="page">Help</a>
               </div>
               <div id="topNavHistory" class="nav-item dropdown">
                 <a class="nav-link top dropdown-toggle" href="#" id="navbarDropdown2" role="button"

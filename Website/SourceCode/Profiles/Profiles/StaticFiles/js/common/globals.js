@@ -82,9 +82,20 @@ gCommon.bsMarginsPaddingIncreasing = `ms-0 ms-sm-0 ms-md-2 ms-lg-2 ms-xl-4 ms-xx
 
 gCommon.personThumbnailSchema = "/profile/Modules/CustomViewPersonGeneralInfo/PhotoHandler.ashx?NodeID=%%FOO%%&Thumbnail=True&Width=45"
 
-gCommon.helpUrl = `${gBasic.htmlFiles}helpAbout.html`;
-gCommon.overviewAUrl = `/about/default.aspx?type=About`;
-gCommon.openSourceSoftwareAUrl = `/about/default.aspx?type=OpenSourceSoftware`;
+function setupBrandingDependentVals() {
+    gCommon.helpUrl = `${gBrandingConstants.htmlFiles}helpAbout.html`;
+    gCommon.overviewAUrl = `${gBrandingConstants.htmlFiles}aboutProfiles.html`;
+    gCommon.openSourceSoftwareAUrl = `${gBrandingConstants.htmlFiles}aboutOpenSource.html`;
+
+    gSearch.searchFormUrl =        `${gBrandingConstants.htmlFiles}searchForm.html`;
+    gSearch.searchFormPeopleUrl =      `${gSearch.searchFormUrl}?${gSearch.people}`;
+    gSearch.searchFormAllElseUrl =     `${gSearch.searchFormUrl}?${gSearch.allElse}`;
+
+    gSearch.moreUpdatesUrl =        `${gBrandingConstants.htmlFiles}activityDetails.html`;
+
+    gAbout.griffinUrl = `${gBrandingConstants.staticRoot}display/Person/32213`;
+    gAbout.licenseUrl = `${gBrandingConstants.staticRoot}LICENSE.txt`;
+}
 
 gCommon.loginUrl = `/login/index?sessionid=6ef03c16-e8db-429a-93f8-e2881153901a`;
 gCommon.seeAllPagesAUrl = `/history`;
@@ -174,15 +185,11 @@ gSearch.whyPrefix = 'why';
 
 gSearch.searchFormParamsUrl =   `/Search/SearchSVC.aspx?SearchType=params`;
 
-gSearch.searchFormUrl =        `${gBasic.htmlFiles}searchForm.html`;
-gSearch.searchFormPeopleUrl =      `${gSearch.searchFormUrl}?${gSearch.people}`;
-gSearch.searchFormAllElseUrl =     `${gSearch.searchFormUrl}?${gSearch.allElse}`;
 
 gSearch.findPeopleUrl =         `/Search/SearchSVC.aspx?SearchType=person`;
 gSearch.findEverythingElseUrl = `/Search/SearchSVC.aspx?SearchType=everything`;
 gSearch.whyUrl =                `/Search/SearchSVC.aspx?SearchType=why`;
 gSearch.activityDetailsUrl =    `/Activity/ActivitySVC.aspx?count=%%FOO%%&lastActivityLogID=%%FOO2%%`;
-gSearch.moreUpdatesUrl =        `${gBasic.htmlFiles}activityDetails.html`;
 
 gSearch.selectedSt = " selected";
 gSearch.noneSt = "None";
@@ -230,7 +237,7 @@ gPage.sizes = [15, 25, 50, 100];
 gPage.defaultPageSize = gPage.sizes[0];
 
 gAbout = {};
-gAbout.griffinUrl = "/display/Person/32213";
+gAbout.rnsUrl = '/';
 
 
 

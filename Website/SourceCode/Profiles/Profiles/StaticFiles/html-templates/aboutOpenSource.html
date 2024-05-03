@@ -13,11 +13,14 @@
 		  integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 		  crossorigin="anonymous">
 
+	<link href="/StaticFiles/Configuration/myBranding.css" rel="stylesheet" type="text/css">
 	<link href="/StaticFiles/css/common/bigAndSmall.css" rel="stylesheet" type="text/css">
 	<link href="/StaticFiles/css/common/common.css" rel="stylesheet" type="text/css">
-	<link href="/StaticFiles/css/myBranding.css" rel="stylesheet" type="text/css">
 	<link href="/StaticFiles/css/common/common-top-nav.css" rel="stylesheet" type="text/css">
 	<link href="/StaticFiles/css/common/common-access.css" rel="stylesheet" type="text/css">
+
+	<link href="/StaticFiles/css/helpAbout/helpAbout.css" rel="stylesheet" type="text/css">
+
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 
@@ -25,21 +28,104 @@
 			integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
 			crossorigin="anonymous"></script>
 
+	<!-- todo: probably do not need charts on most pages -- remove and smoke all pages -->
 	<script src="https://www.gstatic.com/charts/loader.js"></script>
 
 	<script src="/StaticFiles/profile.js" type="text/javascript"></script>
-	<script src="/StaticFiles/js/_BASIC_PROPERTIES.js" type="text/javascript"></script>
 
-	<script src="/StaticFiles/js/common/brandingUtil.js" type="text/javascript"></script>
-	<script src="/StaticFiles/js/common/common.js" type="text/javascript"></script>
-	<script src="/StaticFiles/js/myBranding.js" type="text/javascript"></script>
 	<script src="/StaticFiles/js/common/globals.js" type="text/javascript"></script>
+	<script src="/StaticFiles/Configuration/myStaticRoot.js" type="text/javascript"></script>
+	<script src="/StaticFiles/Configuration/myBranding.js" type="text/javascript"></script>
+	<script src="/StaticFiles/js/common/brandingUtil.js" type="text/javascript"></script>
+
+	<script src="/StaticFiles/js/common/common.js" type="text/javascript"></script>
+	<script src="/StaticFiles/js/common/misc.js" type="text/javascript"></script>
+	<script src="/StaticFiles/js/common/insertCommonContent.js" type="text/javascript"></script>
 	<script src="/StaticFiles/js/common/topBar.js" type="text/javascript"></script>
+
+	<script src="/StaticFiles/js/helpAbout/helpAbout.js" type="text/javascript"></script>
 
 	<script type="text/javascript">
 		$(document).ready(setupHelpAndAbout);
 	</script>
 <body>
-<h1>Open Source</h1>
+
+<div id="aboutOrHelp" class="me-5">
+
+	<div class="helpAboutTitle mb-3 mt-2">Open Source Software</div>
+	<div class="subtitle mb-3">Profiles Research Networking Software (RNS)</div>
+
+	<div class="aboutHelpTopic">Introduction</div>
+	<div class="aboutHelpBlurb">
+		Harvard Catalyst Profiles is powered by the free, open source
+		Profiles Research Networking Software (RNS). It is used in
+		numerous institutions around the world, including academic research centers,
+		pharmaceutical companies, physician networks, and Federal agencies.
+		If you would like to learn more about Profiles RNS or
+		download the free source code, please visit the <a id="rnsA">Profiles RNS</a> website.
+	</div>
+	<div class="aboutHelpTopic">Software Features</div>
+	<div class="aboutHelpBlurb">
+		<div class="mb-3">
+			The functionality you see on the Harvard Catalyst Profiles website is just a small
+			part of what the full open source Profiles RNS can do:
+		</div>
+		<div class="ps-5">
+			<div class="mb-3">
+				<u>Pre-Populated Researcher Profiles</u>
+				Data is integrated from existing public and private source systems, eliminating
+				redundant administrative effort on behalf of end users. Automated MEDLINE/PubMed
+				author disambiguation discovers publications for your researchers, including articles
+				they wrote at other institutions. Users (or their proxies) can manually add or correct
+				the information in their profiles.</div>
+			<div class="mb-3">
+				<u>Automatic Creation of Social Networks</u>
+				Connections are formed when individuals share common traits such as co-authoring
+				a publication, researching similar topics, being in the same department, or working
+				in the same building.</div>
+			<div class="mb-3">
+			<u>Social Network Analysis</u>
+				Multiple data visualization methods are available to explore the networks of both individuals
+				and groups of researchers. Common measures of "centrality", such as "degree" and
+				"betweenness", are calculated automatically by the software.</div>
+			<div class="mb-3">
+			<u>Authoritative Data Source</u>
+				Web services allow information stored within the Profiles RNS
+				database to be used by other applications, such as departmental websites, faculty
+				activity reports, or publication repositories, thereby creating a single consolidated
+				authoritative data source that eliminates duplication within your institution.</div>
+			</ul>
+	</div>
+
+	<div class="aboutHelpTopic">Open Source License</div>
+	<div class="aboutHelpBlurb">
+		Profiles RNS is freely available through an
+		<a id="licenseA" target="_blank">open source BSD license</a>,
+		leveraging the benefit
+		of enhancements and contributions from the open source community. The BSD license
+		allows you to modify the code for your institution and redistribute or commercialize
+		any changes you make.
+	</div>
+
+	<div class="aboutHelpTopic">Commercial Support</div>
+	<div class="aboutHelpBlurb">
+		Although not required, some institutions would prefer
+		commercial support with installation, integration, configuration,
+		and on-going support of locally-hosted or cloud-based instances of
+		Profiles RNS. Harvard University has selected
+		<a href="http://symplectic.co.uk/services/profiles-rns">Symplectic</a>
+		as an Authorized Service Provider for Profiles RNS.
+		Please note that Harvard University does
+		not receive any revenue from services offered by Symplectic,
+		and the code obtained through Symplectic is the same as that
+		offered directly from Harvard University through the Profiles RNS website.
+		Symplectic is a software company founded in London which
+		specializes in developing, implementing and
+		integrating research information systems for
+		universities and research institutions around the world.
+	</div>
+
+</div>
+
 </body>
 </html>

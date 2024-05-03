@@ -13,9 +13,9 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
 
+    <link href="/StaticFiles/Configuration/myBranding.css" rel="stylesheet" type="text/css">
     <link href="/StaticFiles/css/common/bigAndSmall.css" rel="stylesheet" type="text/css">
     <link href="/StaticFiles/css/common/common.css" rel="stylesheet" type="text/css">
-    <link href="/StaticFiles/css/myBranding.css" rel="stylesheet" type="text/css">
     <link href="/StaticFiles/css/common/common-top-nav.css" rel="stylesheet" type="text/css">
     <link href="/StaticFiles/css/common/common-access.css" rel="stylesheet" type="text/css">
 
@@ -28,15 +28,17 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
 
+    <!-- todo: probably do not need charts on most pages -- remove and smoke all pages -->
     <script src="https://www.gstatic.com/charts/loader.js"></script>
 
     <script src="/StaticFiles/profile.js" type="text/javascript"></script>
-    <script src="/StaticFiles/js/_BASIC_PROPERTIES.js" type="text/javascript"></script>
 
-    <script src="/StaticFiles/js/common/brandingUtil.js" type="text/javascript"></script>
-    <script src="/StaticFiles/js/common/common.js" type="text/javascript"></script>
-    <script src="/StaticFiles/js/myBranding.js" type="text/javascript"></script>
     <script src="/StaticFiles/js/common/globals.js" type="text/javascript"></script>
+    <script src="/StaticFiles/Configuration/myStaticRoot.js" type="text/javascript"></script>
+    <script src="/StaticFiles/Configuration/myBranding.js" type="text/javascript"></script>
+    <script src="/StaticFiles/js/common/brandingUtil.js" type="text/javascript"></script>
+
+    <script src="/StaticFiles/js/common/common.js" type="text/javascript"></script>
     <script src="/StaticFiles/js/common/misc.js" type="text/javascript"></script>
     <script src="/StaticFiles/js/common/insertCommonContent.js" type="text/javascript"></script>
     <script src="/StaticFiles/js/common/topBar.js" type="text/javascript"></script>
@@ -50,11 +52,11 @@
 
 <div id="aboutOrHelp" class="me-5">
 
-    <div class="helpAboutTitle mb-2 mt-2">Help with Harvard Catalyst Profiles</div>
-    <div class="subtitle mb-2">Frequently Asked Questions</div>
+    <div class="helpAboutTitle mb-3 mt-2">Help with Harvard Catalyst Profiles</div>
+    <div class="subtitle mb-3">Frequently Asked Questions</div>
     <div class="aboutHelpTopic">How do I contact you?</div>
     <div class="aboutHelpBlurb">
-        Email us at <a href="mailto:contact@catalyst.harvard.edu">contact@catalyst.harvard.edu</a>.
+        Email us at <a id="mailContactA">contact@catalyst.harvard.edu</a>.
     </div>
 
     <div class="aboutHelpTopic">Who is listed in Harvard Catalyst Profiles?</div>

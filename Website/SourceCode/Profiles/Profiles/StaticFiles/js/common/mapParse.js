@@ -103,8 +103,8 @@ async function initPage(moduleJson, embedded) {
         moduleJson.ModuleData[0].connections :
         moduleJson.connections;
 
-    mainPid = personIdFromUrlPath();
-    mainPerson = gMapTab.people.find(p => p.PersonID == mainPid);
+    let mainPersonUri = personUriFromUrlPath();
+    let mainPerson = gMapTab.people.find(p => p.URI == mainPersonUri);
 
     gMapTab.mapCenter = new google.maps.LatLng(
         mainPerson.latitude, mainPerson.longitude);

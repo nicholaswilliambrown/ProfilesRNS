@@ -1,11 +1,15 @@
 
-gCoauthor.personId = personIdFromUrlPath();
+// handy if pid was in page url. O'wise may need backend to supply in json
+gCoauthor.personId = personUriPid();
 
-function personIdFromUrlPath() {
+function personUriFromUrlPath() {
     let url = window.location.href;
 
-    let result = url.replace(/.*Person\//, "")
-        .replace(/\/.*/, "");
+    let result = url.replace(/.*(\/display\/\d+).*/, "$1");
+    return result;
+}
+function personUriPid() {
+    let result = personUriFromUrlPath().replace("/display/", "");
     return result;
 }
 function tryForLoggedInAsQp() {

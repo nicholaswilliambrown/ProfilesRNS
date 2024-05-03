@@ -6,7 +6,6 @@ async function setupSearchAllElseResults() {
         getAllElseResultsCount,
         gPage.sizes);
 
-    //let data = await getJsonData("../json/fake-data/SearchPersonResults.json");
     let resultsAsString = fromSession(makeSearchResultsKey(gSearch.allElse));
     gSearch.searchAllElseResults = JSON.parse(resultsAsString);
     let results = gSearch.searchAllElseResults;

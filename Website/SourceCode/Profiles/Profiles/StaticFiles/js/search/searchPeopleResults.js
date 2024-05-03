@@ -6,7 +6,6 @@ async function setupSearchPeopleResults() {
         getPeopleResultsCount,
         gPage.sizes);
 
-    //let data = await getJsonData("../json/fake-data/SearchPersonResults.json");
     let resultsAsString = fromSession(makeSearchResultsKey(gSearch.people));
     let results = JSON.parse(resultsAsString);
     gSearch.searchPeopleResults = results;
@@ -79,10 +78,10 @@ function emitPeopleResultsHeader(results, optionalShows, colspecs, target) {
     for (let i=0; i<colspecs.length - 1; i++) {
         let column = row.find(`#${rowId}Col${i}`);
         column.append(spanify(
-            `<img src="${gBasic.jsSearchImageFiles}sort_asc.gif" alt="sort ${gSearch.ascendingSt}">`,
+            `<img src="${gBrandingConstants.jsSearchImageFiles}sort_asc.gif" alt="sort ${gSearch.ascendingSt}">`,
             `${gSearch.sortDisplaySt} ${gSearch.ascendingSt}`));
         column.append(spanify(
-            `<img src="${gBasic.jsSearchImageFiles}sort_desc.gif" alt="sort ${gSearch.descendingSt}">`,
+            `<img src="${gBrandingConstants.jsSearchImageFiles}sort_desc.gif" alt="sort ${gSearch.descendingSt}">`,
             `${gSearch.sortDisplaySt} ${gSearch.descendingSt}`));
     }
     row.find(`.${gSearch.sortableSt}`).parent().on('click', syncSortDropdownToHeaders);

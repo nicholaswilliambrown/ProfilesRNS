@@ -157,20 +157,20 @@ Paging.prototype.emitPrevNext = function(columnTarget, searchResults) {
                     </span>`);
 
     let first = $(`<span id="first">
-                    <img class="link-ish prevNext" src="${gBasic.jsPagingImageFiles}arrow_first.gif">
-                    <img class="disablePageNav prevNext" src="${gBasic.jsPagingImageFiles}arrow_first_d.gif">
+                    <img class="link-ish prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_first.gif">
+                    <img class="disablePageNav prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_first_d.gif">
                 </span>`);
     let last =  $(`<span id="last">
-                    <img class="ms-2 link-ish prevNext" src="${gBasic.jsPagingImageFiles}arrow_last.gif">
-                    <img class="ms-2 disablePageNav prevNext" src="${gBasic.jsPagingImageFiles}arrow_last_d.gif">
+                    <img class="ms-2 link-ish prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_last.gif">
+                    <img class="ms-2 disablePageNav prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_last_d.gif">
                 </span>`);
     let prev =  $(`<span id="prev">
-                    <img class="ms-2 link-ish prevNext" src="${gBasic.jsPagingImageFiles}arrow_prev.gif">
-                    <img class="ms-2 disablePageNav prevNext" src="${gBasic.jsPagingImageFiles}arrow_prev_d.gif">
+                    <img class="ms-2 link-ish prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_prev.gif">
+                    <img class="ms-2 disablePageNav prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_prev_d.gif">
                 </span>`);
     let next =  $(`<span id="next">
-                    <img class="ms-2 link-ish prevNext" src="${gBasic.jsPagingImageFiles}arrow_next.gif">
-                    <img class="ms-2 disablePageNav prevNext" src="${gBasic.jsPagingImageFiles}arrow_next_d.gif">
+                    <img class="ms-2 link-ish prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_next.gif">
+                    <img class="ms-2 disablePageNav prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_next_d.gif">
                 </span>`);
 
     columnTarget.append(first)

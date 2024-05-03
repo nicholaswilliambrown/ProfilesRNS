@@ -8,11 +8,18 @@
 //
 /////////////////////////////////////////////////////////////////////////
 
-let gBrandingConstants = {};
-
 async function loadBrandingConstants() {
-    await $.getJSON(gBasic.jsonBrandingConfig, function (data) {
-        gBrandingConstants = data;
+    await $.getJSON(`${gBrandingConstants.staticRoot}Configuration/myBranding.json`, function (data) {
+        gBrandingConstants = {...gBrandingConstants, ...data};
+
+        gBrandingConstants.jsBrandingImageFiles =   `${gBrandingConstants.staticRoot}img/branding/`;
+        gBrandingConstants.jsCommonImageFiles =     `${gBrandingConstants.staticRoot}img/common/`;
+        gBrandingConstants.jsPagingImageFiles =     `${gBrandingConstants.staticRoot}img/paging/`;
+        gBrandingConstants.jsPersonImageFiles =     `${gBrandingConstants.staticRoot}img/person/`;
+        gBrandingConstants.jsSearchImageFiles =     `${gBrandingConstants.staticRoot}img/search/`;
+        gBrandingConstants.htmlFiles =              `${gBrandingConstants.staticRoot}html-templates/`;
+
+        setupBrandingDependentVals();
     });
 }
 async function loadBrandingAssets() {

@@ -19,7 +19,7 @@ function searchPost(url, prefix, selections, resultPage) {
             let resultsKey = makeSearchResultsKey(prefix);
             // https://stackoverflow.com/questions/13734893/javascript-how-do-i-open-a-new-page-and-pass-json-data-to-it
             toSession(resultsKey, stringResults);
-            window.location.href = gBasic.htmlFiles + resultPage;
+            window.location.href = gBrandingConstants.htmlFiles + resultPage;
         }
     });
 }function searchBodyStructure() {
@@ -168,13 +168,13 @@ function emitCriteriaOnRhs(results, withWhy) {
 }
 function emitSearchResultCountAndBackTo(results, url, backText, count) {
     let target = $('#midDiv');
-    url = gBasic.htmlFiles + url;
+    url = gBrandingConstants.htmlFiles + url;
 
     let countDetail = (typeof count !== gCommon.undefined) ? ` (${count})` : "";
     // calling title a row adds the negative 12 margin
     let title = $(`<h2 class="row boldCrimson">Search Results Details${countDetail}</h2>`);
 
-    let backToArrow = $(`<img src="${gBasic.jsSearchImageFiles}arrowLeft.png" class="me-1"/>`);
+    let backToArrow = $(`<img src="${gBrandingConstants.jsSearchImageFiles}arrowLeft.png" class="me-1"/>`);
     let backTo = createAnchorElement(backText, url);
     let backToDiv = $('<div class="d-flex justify-content-end"></div>');
     backToDiv.append(backToArrow).append(backTo);

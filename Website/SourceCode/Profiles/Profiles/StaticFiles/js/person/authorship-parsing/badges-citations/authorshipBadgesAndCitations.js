@@ -18,7 +18,7 @@ function addDimensionsBadgesAndCheckLabel() {
             $(".__dimensions_Badge_Image svg").remove();
             $(".__dimensions_Badge_Image .__cits__").remove(); // dup prevented for 'mostDiscussed' / 'showAll'
             $(".__dimensions_Badge_Image").prepend(`<img alt="dimensions citations" class="__cits__" 
-                    src=${gBasic.jsPersonImageFiles}citations.png>`);
+                    src=${gBrandingConstants.jsPersonImageFiles}citations.png>`);
             $(".__db_score.__db_score_normal").css("font-size", "10px");
             $(".__db_score.__db_score_normal").css("font-family", "arial");
 
@@ -108,7 +108,7 @@ function addPmcAndRcrCitations(linkItems, pub) {
     if (pmcCitations) {
         let graphic = $(`<a href="${url}" class="link-ishB pmc_citation ms-0 me-2 pe-2">${pmcCitations}</a>`);
         graphic.css("background-image",
-            `url("${gBasic.jsPersonImageFiles}PMC-citations.jpg")`);
+            `url("${gBrandingConstants.jsPersonImageFiles}PMC-citations.jpg")`);
 
         linkItems.push(graphic);
     }

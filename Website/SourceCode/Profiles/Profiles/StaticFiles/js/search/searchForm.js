@@ -98,7 +98,7 @@ function restoreCheck(targetId, checked) {
 function emitMoreUpdatesLink() {
     let target = gSearch.lhsDiv;
 
-    let anchor = createAnchorElement(`<img src="${gBasic.jsSearchImageFiles}icon_squareArrow.gif"/> See more updates`,
+    let anchor = createAnchorElement(`<img src="${gBrandingConstants.jsSearchImageFiles}icon_squareArrow.gif"/> See more updates`,
         gSearch.moreUpdatesUrl);
 
     let colspecs = [newColumnSpec(`${gCommon.cols12} ps-0 d-flex justify-content-start`,
@@ -203,7 +203,7 @@ function setupOneSearchSubmitSection(idPrefix, label, title, searchFn) {
     let row = makeRowWithColumns(boxTarget, rowId, gSearch.midSectionColspecs,  "pb-1 mt-0 mb-2");
 
     let searchInput = $(`<input id="${idPrefix}SearchInput" class="w-100 ps-2 inputSearch" type="search" aria-label="Search">`);
-    let searchButton = $(`<img id="${idPrefix}SearchButton" src="${gBasic.jsSearchImageFiles}search.jpg" alt="Search">`);
+    let searchButton = $(`<img id="${idPrefix}SearchButton" src="${gBrandingConstants.jsSearchImageFiles}search.jpg" alt="Search">`);
     let exactCheckbox = $(`<input id="${idPrefix}ExactCheckbox" type="checkbox" aria-label="Exact match"/>`);
     // separate label for checkbox, so only precise clicks on box have effect
     let checkboxLabel = $(`<label class="ms-2"> Search for exact phrase</label>`);

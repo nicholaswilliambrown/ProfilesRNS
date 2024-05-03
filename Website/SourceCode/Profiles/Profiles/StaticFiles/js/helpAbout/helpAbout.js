@@ -6,7 +6,10 @@ async function setupHelpAndAbout() {
     $('#griffinA').attr('href', gAbout.griffinUrl);
     $('#rnsA').attr('href', gAbout.rnsUrl);
     $('#licenseA').attr('href', gAbout.licenseUrl);
-    $('#mailContactA').attr('href', gBrandingConstants.helpEmail);
+
+    $('.helpEmailA').attr('href', gBrandingConstants.helpEmail);
+    $('.helpEmailH').html(gBrandingConstants.helpEmail.replace("mailto:",""));
+    $('.profilesTitleH').html(gBrandingConstants.profilesTitle);
 
     setupScrolling();
 }

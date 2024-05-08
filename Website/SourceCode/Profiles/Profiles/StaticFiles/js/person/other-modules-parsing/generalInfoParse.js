@@ -3,9 +3,8 @@ function generalInfoParser(json, moduleTitle) {
     let dataDiv = makeModuleTitleDiv(moduleTitle);
     let jsonElt = json[0];
 
-    if (typeof setTabTitleAndFavicon !== gCommon.undefined) {
-        setTabTitleAndFavicon(`${jsonElt.FirstName} ${jsonElt.LastName}`);
-    }
+    setTabTitleAndFavicon(`${jsonElt.FirstName} ${jsonElt.LastName}`);
+
     addPersonToNavHistory(jsonElt.FirstName, jsonElt.LastName, window.location.href);
 
     let giDiv = $(`<div id="giDiv" class="mb-3"></div>`);

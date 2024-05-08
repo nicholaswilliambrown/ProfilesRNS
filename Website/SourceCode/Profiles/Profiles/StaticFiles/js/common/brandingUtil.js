@@ -25,8 +25,26 @@ async function loadBrandingConstants() {
 async function loadBrandingAssets() {
     await loadBrandingConstants();
 
-    await setupHeadAndTabTitle();
+    if (typeof setupHeadAndTabTitle !== gCommon.undefined) {
+        await setupHeadAndTabTitle();
+    }
     await emitBrandingHeader();
     await emitBrandingFooter();
 }
 
+function setTabTitleAndFavicon(title) {
+    if (!title) {
+        title = window.location.pathname
+            .replace(/.*\//, "")
+            .replace(".html", "");
+    }
+
+    // which one?
+    $(document).prop('title', title + gBrandingConstants.tabTitleSuffix);
+    $(document).attr('title', title + gBrandingConstants.tabTitleSuffix);
+
+    let faviconHref = `href="${gBrandingConstants.faviconUrl}"`;
+    let head = $('head');
+    head.append(`<link rel="icon" type="image/x-icon" ${faviconHref}>`);
+    head.append(`<link rel="shortcut icon" type="image/x-icon" ${faviconHref}>`);
+}

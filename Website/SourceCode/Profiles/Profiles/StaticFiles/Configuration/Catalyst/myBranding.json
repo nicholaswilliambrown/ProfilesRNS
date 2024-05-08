@@ -11,6 +11,8 @@
   "logoUrl": "https://catalyst.harvard.edu/wp-content/themes/_curryint/assets/img/tool-page-logo.png",
   "logoTitle": "View Harvard Catalyst Homepage",
   "logoAlt": "Harvard Catalyst Logo",
+
+  "faviconUrl": "https://catalyst.harvard.edu/favicon.ico",
   "tabTitleSuffix": " | Harvard Catalyst Profiles | Harvard Catalyst",
   "profilesTitle": "Harvard Catalyst Profiles",
 

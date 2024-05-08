@@ -26,9 +26,7 @@ async function setupHeadAndTabTitle() {
 
     $.getScript(gBrandingConstants.headerFooterJsUrl);
 
-    let faviconHref = `href="${gBrandingConstants.iconUrlBase}/favicon.ico"`;
-    head.append(`<link rel="icon" type="image/x-icon" ${faviconHref}>`);
-    head.append(`<link rel="shortcut icon" type="image/x-icon" ${faviconHref}>`);
+    setTabTitleAndFavicon();
 }
 async function emitBrandingHeader() {
 
@@ -86,15 +84,6 @@ function emitPrefooter() {
     preFooterLeft.append($(`<p>${blurb}</p>`));
 
     $('#markPreFooter').append(movingPreFooter);
-}
-function setTabTitleAndFavicon(title) {
-    $(document).prop('title', title + gBrandingConstants.tabTitleSuffix);
-
-    let homeUrl = gBrandingConstants.homeUrl;
-    let faviconHref = `href="${homeUrl}/favicon.ico"`;
-    let head = $('head');
-    head.append(`<link rel="icon" type="image/x-icon" ${faviconHref}>`);
-    head.append(`<link rel="shortcut icon" type="image/x-icon" ${faviconHref}>`);
 }
 
 //////////////////////////////////////////////////////////

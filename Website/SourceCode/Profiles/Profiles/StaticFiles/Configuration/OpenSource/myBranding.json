@@ -1,9 +1,9 @@
 {
+  "faviconUrl": "https://openSourceProfilesLlc.com/favicon.ico",
   "tabTitleSuffix": " | Profiles RNS",
   "profilesTitle": "Profiles",
 
   "help-howToContact": "Email us at <a href='mailto:contact@openSourceProfilesLlc.com'>contact@openSourceProfilesLlc.com</a>.",
-  "help-howToContactH": "Email us at <a href='mailto:contact@catalyst.harvard.edu'>contact@catalyst.harvard.edu</a>.",
   "help-whoIsListed": "Harvard Catalyst Profiles includes all faculty from Harvard Medical School, Harvard School of Dental Medicine, and Harvard School of Public Health. Listings in Harvard Catalyst Profiles are automatic and based on maintaining an active faculty appointment; removal occurs only upon termination or retirement from the faculty appointment.",
   "help-whoCanView": "This website is open to the general public. However, people with an HMS eCommons account or relevant HUID privileges can login for additional features, such as active networking, which is described above.",
   "help-howToEdit1": "To edit your profile, click the Edit My Profile link on the sidebar. You might be prompted to login with your HMS eCommons or Harvard PIN account. The Edit Menu page lists all the types of content that can be included on your profile. They are grouped into categories and listed in the same order as they appear when viewing your profile. Click any content type to view/edit the items or change the privacy settings. Some types of content are imported automatically from other systems, and you cannot edit them through Profiles. They appear with a \"locked\" icon and contain more information when you click them.",

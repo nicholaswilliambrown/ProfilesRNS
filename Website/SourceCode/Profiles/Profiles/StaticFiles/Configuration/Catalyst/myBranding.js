@@ -10,7 +10,14 @@
 //////   emitPreFooter()
 //////   setTabTitleAndFavicon(title)
 //////
+//////   You can also indicate a different location for your staticRoot
+//////
 //////////////////////////////////////////////////////////
+
+let gBrandingConstants = {};
+
+// gBrandingConstants.staticFiles helps locate all the other site-specific resources
+gBrandingConstants.staticRoot = "/StaticFiles/";
 
 async function setupHeadAndTabTitle() {
     let head = $('head');

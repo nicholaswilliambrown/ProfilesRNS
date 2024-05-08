@@ -1,3 +1,7 @@
+let gBrandingConstants = {};
+
+// gBrandingConstants.staticFiles helps locate all the other site-specific resources
+gBrandingConstants.staticRoot = "/StaticFiles/";
 
 async function setupHeadAndTabTitle() {
     // no added content for foo

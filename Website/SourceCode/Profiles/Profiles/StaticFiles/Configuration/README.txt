@@ -1,5 +1,6 @@
 
-You can use your own headers and footers, AKA 'branding', by editing / replacing 
+You can use your own headers and footers, AKA 'branding', and your own
+strings for properties and blurbs, by editing / replacing
 these files 
     myBranding.json, 
     myBranding.js and 
@@ -18,11 +19,9 @@ and optionally also
     emitPreFooter()
     setTabTitleAndFavicon(title)
 
-In your myBranding.json, you need at least
-    profilesURL
-
 You might also supply other files (e.g., images) that your *.js can reference.
 
-As a simple comparison / sample, try using the supplied '_FooBranding' versions 
-of the .json, .js and .css as the corresponding myBranding.*
+You can run the Bash script, checkFolder.bash to compare the json, js and css files
+in this folder with the corresponding ones in a sub-folder. Initially, there should
+be no difference between these files and the corresponding OpenSource files.
 

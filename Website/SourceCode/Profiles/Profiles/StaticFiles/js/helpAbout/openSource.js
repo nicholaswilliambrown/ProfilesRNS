@@ -1,0 +1,6 @@
+
+function setupAboutOpenSource() {
+    setupHelpAndAbout();
+
+
+}

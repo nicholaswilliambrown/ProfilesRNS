@@ -1,5 +1,5 @@
 /////////////////////////////////////////////////////////////////////////
-//   Customize to your brand by editing (to provide your own constants,
+//   Customize to your brand by editing (to provide your own constants, blurbs
 //        functions and css-properties, respectively) the following files:
 //
 //   - myBranding.json

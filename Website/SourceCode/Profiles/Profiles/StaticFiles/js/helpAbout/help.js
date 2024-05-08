@@ -1,0 +1,4 @@
+function setupHelp() {
+    setupHelpAndAbout();
+
+}

@@ -1,6 +1,6 @@
 
-function setupAboutOpenSource() {
-    setupHelpAndAbout();
+async function setupAboutOpenSource() {
+    await setupHelpAndAbout();
 
 
 }

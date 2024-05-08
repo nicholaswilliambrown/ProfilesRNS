@@ -1,4 +1,5 @@
-function setupHelp() {
-    setupHelpAndAbout();
+async function setupHelp() {
+    await setupHelpAndAbout();
 
+    applyBlurb('aboutHelpBlurb');
 }

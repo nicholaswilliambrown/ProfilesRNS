@@ -83,7 +83,7 @@ gCommon.bsMarginsPaddingIncreasing = `ms-0 ms-sm-0 ms-md-2 ms-lg-2 ms-xl-4 ms-xx
 gCommon.personThumbnailSchema = "/profile/Modules/CustomViewPersonGeneralInfo/PhotoHandler.ashx?NodeID=%%FOO%%&Thumbnail=True&Width=45"
 
 function setupBrandingDependentVals() {
-    gCommon.helpUrl = `${gBrandingConstants.htmlFiles}helpAbout.html`;
+    gCommon.helpUrl = `${gBrandingConstants.htmlFiles}help.html`;
     gCommon.overviewAUrl = `${gBrandingConstants.htmlFiles}aboutProfiles.html`;
     gCommon.openSourceSoftwareAUrl = `${gBrandingConstants.htmlFiles}aboutOpenSource.html`;
 

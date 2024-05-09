@@ -1,4 +1,4 @@
-async function setupHelpAndAbout(prefix, andThen) {
+async function setupHelpAndAbout(doSystematicBlurbs, andThen) {
     await commonSetup();
 
     moveContentByIdTo('aboutOrHelp', $('#mainDiv'));
@@ -6,17 +6,17 @@ async function setupHelpAndAbout(prefix, andThen) {
 
     $('.profilesTitleH').html(gBrandingConstants.profilesTitle);
 
-    if (prefix) {
-        applySytematicBlurbs(prefix);
+    if (doSystematicBlurbs) {
+        applySytematicBlurbs();
     }
     if (andThen) {
         andThen();
     }
 }
 
-function applySytematicBlurbs(generalClassPrefix) {
-    let topicClass = generalClassPrefix + 'Topic';
-    let blurbClass = generalClassPrefix + 'Blurb';
+function applySytematicBlurbs() {
+    let topicClass = 'topic';
+    let blurbClass = 'blurbForTopic';
 
     $(`.${topicClass}`).each((index, element) => {
         let elt = $(element);

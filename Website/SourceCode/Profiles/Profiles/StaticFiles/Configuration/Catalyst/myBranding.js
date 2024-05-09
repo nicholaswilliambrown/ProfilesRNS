@@ -2,13 +2,12 @@
 //////////////////////////////////////////////////////////
 //////   You supply your own versions of
 //////
-//////   setupHeadAndTabTitle()
+//////   setupHeadIncludesAndTabTitle()
 //////   emitBrandingHeader()
 //////   emitBrandingFooter()
 //////
 //////        and optionally also
 //////   emitPreFooter()
-//////   setTabTitleAndFavicon(title)
 //////
 //////   You can also indicate a different location for your staticRoot
 //////
@@ -19,7 +18,7 @@ let gBrandingConstants = {};
 // gBrandingConstants.staticFiles helps locate all the other site-specific resources
 gBrandingConstants.staticRoot = "/StaticFiles/";
 
-async function setupHeadAndTabTitle() {
+async function setupHeadIncludesAndTabTitle() {
     let head = $('head');
     head.prepend('<link rel="stylesheet" type="text/css" ' +
         `media="screen, projection" href="${gBrandingConstants.headerFooterCssUrl}">`);

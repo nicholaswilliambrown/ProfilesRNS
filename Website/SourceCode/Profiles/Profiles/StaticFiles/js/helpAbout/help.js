@@ -1,5 +1,5 @@
 async function setupHelp() {
     await setupHelpAndAbout();
 
-    applyBlurb('aboutHelpBlurb');
+    applyBlurb('aboutHelp');
 }

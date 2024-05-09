@@ -107,6 +107,22 @@ function topFunction(e) {
     return true;
 }
 
+function setTabTitleAndFavicon(title) {
+    if (!title) {
+        title = window.location.pathname
+            .replace(/.*\//, "")
+            .replace(".html", "");
+    }
+
+    // which one?
+    $(document).prop('title', title + gBrandingConstants.tabTitleSuffix);
+    $(document).attr('title', title + gBrandingConstants.tabTitleSuffix);
+
+    let faviconHref = `href="${gBrandingConstants.faviconUrl}"`;
+    let head = $('head');
+    head.append(`<link rel="icon" type="image/x-icon" ${faviconHref}>`);
+    head.append(`<link rel="shortcut icon" type="image/x-icon" ${faviconHref}>`);
+}
 function setupMainStructure() {
     let mainDiv = $('#mainDiv');
     mainDiv.addClass(gCommon.mainDivClasses);

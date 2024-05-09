@@ -15,3 +15,6 @@ async function emitBrandingHeader() {
 async function emitBrandingFooter() {
     // no added content / logic
 }
+async function setupHeadIncludesAndTabTitle() {
+    setTabTitleAndFavicon();
+}

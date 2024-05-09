@@ -16,13 +16,12 @@ in the code (brandingUtil.js) that customizes webpages (e.g. the Help, Overview
 or About pages).
 
 In your version of myBranding.js, you supply your own implementations of
-    setupHeadAndTabTitle()
+    setupHeadIncludesAndTabTitle()
     emitBrandingHeader()
     emitBrandingFooter()
 
 and optionally also
     emitPreFooter()
-    setTabTitleAndFavicon(title)
 
 You might also supply other files (e.g., images) that your *.js can reference.
 

@@ -7,11 +7,34 @@ async function setupHelpAndAbout() {
     $('.profilesTitleH').html(gBrandingConstants.profilesTitle);
 }
 
-function applyBlurb(generalClass) {
-    $(`.${generalClass}`).each((index, elt) => {
-        let blurbAttr = $(elt).attr('blurb');
-        let blurbText = gBrandingConstants[blurbAttr];
-        let blurbDiv = $(`<div>${blurbText}</div>`);
-        $(elt).append(blurbDiv);
+function applyBlurb(generalClassPrefix) {
+    let topicClass = generalClassPrefix + 'Topic';
+    let blurbClass = generalClassPrefix + 'Blurb';
+
+    $(`.${topicClass}`).each((index, element) => {
+        let elt = $(element);
+        let sharedAttr = elt.attr('sharedAttr');
+        let blurbAttrList = $(`.${blurbClass}[sharedAttr="${sharedAttr}"]`)
+            .attr('blurb');
+        // singles assimilated into array type
+        if (typeof blurbAttrList == "string") {
+            blurbAttrList = [ blurbAttrList ];
+        }
+
+        hideEmptyTopics(sharedAttr, blurbAttrList);
+
+        $.each(blurbAttrList, (index, attr) => {
+            let elt = $(`div[blurb="${attr}"]`);
+            let blurbText = gBrandingConstants[attr];
+            $(elt).html(blurbText);
+        });
     });
+}
+function hideEmptyTopics(sharedAttr, blurbAttrList) {
+    let nonEmptyBlurbs = blurbAttrList.filter(ba =>
+        gBrandingConstants[ba]);
+
+    if ( ! nonEmptyBlurbs.length) {
+        $(`div[sharedAttr="${sharedAttr}"]`).hide()
+    }
 }

@@ -16,7 +16,7 @@ function detailsParse(target, moduleJson) {
     ];
 
     let rowId = `detailsTable`;
-    let row = makeRowWithColumns(target, rowId, colspecs, "bordersRow stripe");
+    let row = makeRowWithColumns(target, rowId, colspecs, "borderOneSolid stripe");
 
     row.find(`#${rowId}Col0`).html('<strong>Name</strong>').addClass("pt-2");
     row.find(`#${rowId}Col1`).html('<strong>Most Recent Co-Publication</strong>');
@@ -43,7 +43,7 @@ function detailsParse(target, moduleJson) {
 
         let rowId = `details-${i}`;
         row = makeRowWithColumns(target, rowId, colspecs,
-            `ms-1 bordersRow ${stripeClass}`);
+            `ms-1 borderOneSolid ${stripeClass}`);
 
         row.find(`#${rowId}Col0`).html(nameUrl);
         row.find(`#${rowId}Col1`).html(lastPubYear);

@@ -14,7 +14,7 @@ function similarsDetailsParser(data) {
     ];
 
     let rowId = `detailsTable`;
-    let row = makeRowWithColumns(resultDiv, rowId, colspecs, "bordersRow stripe");
+    let row = makeRowWithColumns(resultDiv, rowId, colspecs, "borderOneSolid stripe");
 
     row.find(`#${rowId}Col0`).html('<strong>Name</strong>').addClass("pt-2");
     row.find(`#${rowId}Col1`).html('<strong>Also Co-Authors</strong>');
@@ -39,7 +39,7 @@ function similarsDetailsParser(data) {
 
         let rowId = `details-${i}`;
         row = makeRowWithColumns(resultDiv, rowId, colspecs,
-            `ms-1 bordersRow ${stripeClass}`);
+            `ms-1 borderOneSolid ${stripeClass}`);
 
         row.find(`#${rowId}Col0`).html(nameEntry);
         row.find(`#${rowId}Col1`).html(alsoCo);

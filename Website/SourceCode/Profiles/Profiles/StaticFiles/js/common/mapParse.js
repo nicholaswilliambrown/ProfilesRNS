@@ -196,7 +196,7 @@ function parseTextVersion(moduleJson) {
     ];
 
     let rowId = `mapTextTable`;
-    let row = makeRowWithColumns(target, rowId, colspecs, "bordersRow stripe");
+    let row = makeRowWithColumns(target, rowId, colspecs, "borderOneSolid stripe");
 
     row.find(`#${rowId}Col0`).html('<strong>Address</strong>');
     row.find(`#${rowId}Col1`).html('<strong>Latitude</strong>');
@@ -221,7 +221,7 @@ function parseTextVersion(moduleJson) {
         let nameUrl = createAnchorElement(name, url);
 
         let rowId = `details-${i}`;
-        row = makeRowWithColumns(target, rowId, colspecs, `ms-1 bordersRow ${stripeClass}`);
+        row = makeRowWithColumns(target, rowId, colspecs, `ms-1 borderOneSolid ${stripeClass}`);
 
         row.find(`#${rowId}Col0`).append(address);
         row.find(`#${rowId}Col1`).html(latitude);

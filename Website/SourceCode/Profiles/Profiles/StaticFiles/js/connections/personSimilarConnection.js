@@ -39,7 +39,7 @@ function personConnectionParser(target, data) {
     ];
 
     let rowId = `connections`;
-    let row = makeRowWithColumns(target, rowId, colspecs, "bordersRow stripe mt-2");
+    let row = makeRowWithColumns(target, rowId, colspecs, "borderOneSolid stripe mt-2");
 
     row.find(`#${rowId}Col0`).html('<strong>Concept</strong>').addClass("pt-1");
     row.find(`#${rowId}Col1`).html('<strong>Person 1</strong>').addClass("pt-1");
@@ -63,7 +63,7 @@ function personConnectionParser(target, data) {
 
         let rowId = `connections-${i}`;
         row = makeRowWithColumns(target, rowId, colspecs,
-            `ms-1 bordersRow ${stripeClass}`);
+            `ms-1 borderOneSolid ${stripeClass}`);
 
         row.find(`#${rowId}Col0`).html(concept);
         row.find(`#${rowId}Col1`).append(person1Anchor);

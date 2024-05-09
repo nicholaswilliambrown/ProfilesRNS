@@ -7,14 +7,14 @@ async function setupHelpAndAbout(prefix, andThen) {
     $('.profilesTitleH').html(gBrandingConstants.profilesTitle);
 
     if (prefix) {
-        applyBlurb(prefix);
+        applySytematicBlurbs(prefix);
     }
     if (andThen) {
         andThen();
     }
 }
 
-function applyBlurb(generalClassPrefix) {
+function applySytematicBlurbs(generalClassPrefix) {
     let topicClass = generalClassPrefix + 'Topic';
     let blurbClass = generalClassPrefix + 'Blurb';
 
@@ -49,4 +49,11 @@ function setupOverview() {
     $('#griffinA').attr('href', gAbout.griffinUrl);
     $('#rnsA').attr('href', gAbout.rnsUrl);
     $('#licenseA').attr('href', gAbout.licenseUrl);
+
+    $('#aboutPreamble').html(gBrandingConstants["aboutProfiles-aboutPreamble"]);
+    $('.aboutProfiles-profilesTitle').html(gBrandingConstants["aboutProfiles-profilesTitle"]);
+    $('.aboutProfiles-profilesInstitution').html(gBrandingConstants["aboutProfiles-profilesInstitution"]);
+
+    $('#calloutLhs').addClass(gCommon.cols5or12);
+    $('#calloutRhs').addClass(gCommon.cols5or12);
 }

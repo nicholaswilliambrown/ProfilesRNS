@@ -23,6 +23,9 @@
 .bord {
     border: 2px solid cyan;
 }
+.bordBlack {
+    border: 1px solid black;
+}
 
 .common {
     font-family: arial, sans-serif;
@@ -255,12 +258,12 @@ header._ci_shared_asset.tool-page.mayHelpResponsivenessSm {
     border-bottom: 1px solid #ccc !important;
     margin-bottom: -1px;
 }
-.bordersRow {
+.borderOneSolid {
     border: 1px solid;
     margin-left: 0px !important;
     margin-right: 0px !important;
 }
-.bordersRow + .bordersRow {
+.borderOneSolid + .borderOneSolid {
     border-top:0 ;
 }
 .bordTop {

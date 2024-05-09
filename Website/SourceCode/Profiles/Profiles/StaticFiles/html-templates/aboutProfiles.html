@@ -1,173 +1,177 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-	<!-- Required meta tags for bootstrap -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Required meta tags for bootstrap -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<meta http-equiv="Cache-control" content="No-Store">
+    <meta http-equiv="Cache-control" content="No-Store">
 
-	<!-- Bootstrap CSS -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-		  rel="stylesheet"
-		  integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-		  crossorigin="anonymous">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
 
-	<link href="/StaticFiles/Configuration/myBranding.css" rel="stylesheet" type="text/css">
-	<link href="/StaticFiles/css/common/bigAndSmall.css" rel="stylesheet" type="text/css">
-	<link href="/StaticFiles/css/common/common.css" rel="stylesheet" type="text/css">
-	<link href="/StaticFiles/css/common/common-top-nav.css" rel="stylesheet" type="text/css">
-	<link href="/StaticFiles/css/common/common-access.css" rel="stylesheet" type="text/css">
+    <link href="/StaticFiles/Configuration/myBranding.css" rel="stylesheet" type="text/css">
+    <link href="/StaticFiles/css/common/bigAndSmall.css" rel="stylesheet" type="text/css">
+    <link href="/StaticFiles/css/common/common.css" rel="stylesheet" type="text/css">
+    <link href="/StaticFiles/css/common/common-top-nav.css" rel="stylesheet" type="text/css">
+    <link href="/StaticFiles/css/common/common-access.css" rel="stylesheet" type="text/css">
 
-	<link href="/StaticFiles/css/helpAbout/helpAbout.css" rel="stylesheet" type="text/css">
+    <link href="/StaticFiles/css/helpAbout/helpAbout.css" rel="stylesheet" type="text/css">
 
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-			integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-			crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
 
-	<!-- todo: probably do not need charts on most pages -- remove and smoke all pages -->
-	<script src="https://www.gstatic.com/charts/loader.js"></script>
+    <!-- todo: probably do not need charts on most pages -- remove and smoke all pages -->
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
 
-	<script src="/StaticFiles/profile.js" type="text/javascript"></script>
+    <script src="/StaticFiles/profile.js" type="text/javascript"></script>
 
-	<script src="/StaticFiles/js/common/globals.js" type="text/javascript"></script>
-		<script src="/StaticFiles/Configuration/myBranding.js" type="text/javascript"></script>
-	<script src="/StaticFiles/js/common/brandingUtil.js" type="text/javascript"></script>
+    <script src="/StaticFiles/js/common/globals.js" type="text/javascript"></script>
+    <script src="/StaticFiles/Configuration/myBranding.js" type="text/javascript"></script>
+    <script src="/StaticFiles/js/common/brandingUtil.js" type="text/javascript"></script>
 
-	<script src="/StaticFiles/js/search/searchCommon.js" type="text/javascript"></script>
-	<script src="/StaticFiles/js/common/common.js" type="text/javascript"></script>
-	<script src="/StaticFiles/js/common/misc.js" type="text/javascript"></script>
-	<script src="/StaticFiles/js/common/insertCommonContent.js" type="text/javascript"></script>
-	<script src="/StaticFiles/js/common/topBar.js" type="text/javascript"></script>
+    <script src="/StaticFiles/js/search/searchCommon.js" type="text/javascript"></script>
+    <script src="/StaticFiles/js/common/common.js" type="text/javascript"></script>
+    <script src="/StaticFiles/js/common/misc.js" type="text/javascript"></script>
+    <script src="/StaticFiles/js/common/insertCommonContent.js" type="text/javascript"></script>
+    <script src="/StaticFiles/js/common/topBar.js" type="text/javascript"></script>
 
-	<script src="/StaticFiles/js/helpAbout/aboutAndHelp.js" type="text/javascript"></script>
+    <script src="/StaticFiles/js/helpAbout/aboutAndHelp.js" type="text/javascript"></script>
 
-	<script type="text/javascript">
-		$(document).ready(function() { setupHelpAndAbout('aboutProfiles', setupOverview) });
-	</script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            setupHelpAndAbout(
+                '', // no wholesale blurb insertion
+                setupOverview)
+        });
+    </script>
 <body>
 
 <div id="aboutOrHelp" class="me-5">
 
-	<div class="helpAboutTitle mb-3 mt-2">Help with Harvard Catalyst Profiles</div>
-	<div class="subtitle mb-3">Frequently Asked Questions</div>
-	<div class="helpTopic">How do I contact you?</div>
-	<div class="helpBlurb">
-		Email us at <a href="mailto:contact@catalyst.harvard.edu">contact@catalyst.harvard.edu</a>.
-	</div>
+    <div class="helpAboutTitle mb-3 mt-2">About <span class="aboutProfiles-profilesTitle"></span></div>
+    <div class="subtitle mb-3">A Research Networking and Expertise Discovery Website</div>
 
-	<div class="helpTopic">Who is listed in Harvard Catalyst Profiles?</div>
-	<div class="helpBlurb">
-		Harvard Catalyst Profiles includes all faculty from Harvard Medical School, Harvard
-		School of Dental Medicine, and Harvard School of Public Health. Listings in Harvard
-		Catalyst Profiles are automatic and based on maintaining an active faculty appointment;
-		removal occurs only upon termination or retirement from the faculty appointment.
-	</div>
+    <div class="topic">What is it?</div>
+    <div class="blurbForTopic">
+        <span id="aboutPreamble"></span>
 
-	<div class="helpTopic">Who can view Harvard Catalyst Profiles?</div>
-	<div class="helpBlurb">
-		This website is open to the general public. However, people with an HMS eCommons
-		account or relevant HUID privileges can login for additional features, such as active
-		networking, which is described above.
-	</div>
+        Part directory and part social networking tool, Profiles
+        not only lets you search for faculty by name or keyword, but it also
+        helps you explore and understand the different ways that faculty work together.
+        This is done through interactive visualizations that reveal groups of
+        faculty who research similar topics, coauthor scientific articles,
+        work in the same organizations, or have offices that are physically close.
+        Browse these visualizations to discover how you might already be
+        connected to your next research collaborator!
+    </div>
 
-	<div class="helpTopic">How do I edit my profile?</div>
-	<div class="helpBlurb">
-		To edit your profile, click the Edit My Profile link on the sidebar. You might be
-		prompted to login with your HMS eCommons or Harvard PIN account. The Edit Menu page
-		lists all the types of content that can be included on your profile. They are grouped
-		into categories and listed in the same order as they appear when viewing your profile.
-		Click any content type to view/edit the items or change the privacy settings. Some
-		types of content are imported automatically from other systems, and you cannot edit
-		them through Profiles. They appear with a "locked" icon and contain more information
-		when you click them.
-	</div>
-	<div class="helpBlurb">
-		Your affiliation, title, mailing address, email address come from your Human Resources record.
-	</div>
-	If you have questions about your Human Resources record, please contact:
-	<div>&nbsp;</div>
-	<ul>
-		<li>HMS/HSDM faculty - <a title="human_resources@hms.harvard.edu"
-								  href='mailto:human_resources@hms.harvard.edu'>HMS Office of Human
-			Resources (human_resources@hms.harvard.edu)</a></li>
-		<li>HSPH faculty - <a title="facultyaffairs@hsph.harvard.edu"
-							  href='mailto:facultyaffairs@hsph.harvard.edu'>HSPH Faculty Affairs
-			(facultyaffairs@hsph.harvard.edu)</a></li>
-	</ul>
-	<div class="helpBlurb">
-		To view your profile as others see it, click the View My Profile link on the sidebar.
-	</div>
+    <div class="container">
+        <div id="calloutRow" class="row ps-1 mt-2 mb-1">
+            <div id="calloutLhs" class="ms-4 mb-2 bordBlack">
+                <div class="topic">Why should faculty use Profiles?</div>
+                <div class="blurbForTopic">
+                    <ul>
+                        <li>Create a dynamic, engaging profile about your research.</li>
+                        <li>Connect with others via social media, web, and video tools.</li>
+                        <li>Showcase your work to potential students and funding agencies.</li>
+                        <li>Add new expertise to your team.</li>
+                        <li>Reveal new directions for your research.</li>
+                        <li>Include your Profiles URL in your NIH biosketch.</li>
+                    </ul>
+                </div>
+            </div>
+            <div id="calloutRhs" class="ms-4 mb-2 bordBlack">
+                <div class="topic">Why should everyone else use Profiles?</div>
+                <div class="blurbForTopic">
+                    <ul>
+                        <li>Scientists can look for new collaborators.</li>
+                        <li>Students can identify potential mentors.</li>
+                        <li>Conference organizers can identify possible speakers.</li>
+                        <li>Administrators can assemble committees.</li>
+                        <li>Companies and organizations can build academic partnerships.</li>
+                        <li>The public can learn about biomedical research at <span
+                                class="aboutProfiles-profilesInstitution"></span>.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<div class="helpTopic">What are the sources of data for this website?</div>
-	<div class="helpBlurb">
-		All data shown by default on this website are currently available on other public
-		websites. Directory information was obtained from the University's PeopleSoft system,
-		which feeds the HMS Whitepages and central Harvard Directory, and publications and
-		keywords were copied from PubMed. If faculty had previously entered publications
-		into FIRST, then a one-time copy of those publications were also added to this website.
-		If faculty had previously entered awards and narratives into FIRST, then one-time
-		copies of that information were also added to this website's database. However,
-		this information is only displayed on the website if those faculty members have
-		approved its inclusion. Default photos are from Harvard IDs, but faculty must also
-		approve the use of those before they are shown on this website. Lists of co-authors
-		and similar people are derived automatically from publications, and the department
-		and neighbor lists are determined automatically from directory information.
-	</div>
+    <div class="topic">Profiles, Networks, and Connections</div>
+    <div class="blurbForTopic">
+        <div class="mb-2">
+            As you navigate through the website, you will see three types of pages:
+        </div>
+        <ul>
+            <li class="pb-3"><b>Profile Pages</b> -
+                Each person has a Profile Page that includes his or her name, contact information, publications and
+                more.
+                Faculty can edit their own profiles, adding awards, a photo, and other types of content.
+                Click the green <span class="inactiveExploreButton">Explore</span>
+                buttons on a person's profile to view interactive visualizations of their networks.
+            </li>
+            <li class="pb-3"><b>Network Pages</b> -
+                Network Pages show the many ways that faculty are connected to each other,
+                such as by being coauthors or researching similar topics. Click the tabs on a Network Page to
+                explore different interactive visualizations, such as timelines or maps of the network.
+            </li>
+            <li><b>Connection Pages</b> -
+                Certain Network Pages will include a "Why?" link. These will take you to a Connection
+                Page, which shows why two people that network are connected. For
+                example, the Why link in a co-authorship network lists the publications that two
+                people wrote together. The Connection Pages also reveal why certain people appear
+                higher on search results and why particular concepts are highlighted on a person's
+                profile.
+            </li>
+        </ul>
+    </div>
 
-	<div class="helpTopic">Why are there missing or incorrect publications in my profile?</div>
-	<div class="helpBlurb">
-		Publications are added both automatically from PubMed and manually by faculty themselves.
-		Unfortunately, there is no easy way to match articles in PubMed to the profiles
-		on this website. The algorithm used to find articles from PubMed attempts to minimize
-		the number of publications incorrectly added to a profile; however, this method
-		results in some missing publications. Faculty with common names or whose articles
-		were written at other institutions are most likely to have incomplete publication
-		lists. We encourage all faculty to login to the website and add any missing publications
-		or remove incorrect ones. <a href="mailto:contact@catalyst.harvard.edu">Contact us</a> with
-		additional questions regarding publications.
-	</div>
+    <div class="topic">Visualizations</div>
+    <div class="blurbForTopic">
+        <span class="aboutProfiles-profilesTitle"></span> includes several different ways to view networks, including
+        (from left to right) Concept Clouds, which highlight a person's areas of research;
+        Map Views, which show where a person's co-authors are located;
+        Publication Timelines, which graph the number of publications of different types by year;
+        Radial Network Views, which illustrate clusters of connectivity among related people;
+        and Concept Timelines, which depict how a person's research focus has changed over time.
+        Access these visualizations by clicking the green
+        <span class="inactiveExploreButton">Explore</span>
+        buttons on profile pages.
+    </div>
+        <div class="d-flex justify-content-center">
+            <img src="/StaticFiles/img/aboutAndHelp/about_visualizations.jpg"
+                 alt="Network Visualizations" style="border-width:0px;"/>
+        </div>
+    <div class="topic mt-2">Sharing Data</div>
+    <div class="blurbForTopic">
+        <span class="aboutProfiles-profilesTitle"></span> is a Semantic Web application, which means its content
+        can be read and understood by other computer programs. This enables the data in
+        profiles, such as addresses and publications, to be shared with other institutions
+        and appear on other websites. If you select "Export This Page as RDF" from the "Use Our Data" menu
+        when viewing a profile page, you can see what computer programs see when visiting a profile.
+        For technical information about how to build a computer program that can export data
+        from <span class="aboutProfiles-profilesTitle"></span>, view the
+        <a href="/StaticFiles/html-templates/useOurData.html">Use Our Data</a> page.
+    </div>
 
-	<div class="helpTopic">How frequently are the data on this website updated?</div>
-	<div class="helpBlurb">
-		Directory information, such as names, titles, affiliations, and contact information
-		is automatically updated nightly from changes made in the University's PeopleSoft
-		system. Passive networks, such as keywords and similar people, are automatically
-		updated nightly. Publication data that is automatically derived from PubMed is updated
-		approximately every two weeks. Faculty can edit portions of their profiles at any
-		time.
-	</div>
-
-	<div class="helpTopic">Can I edit my concepts, co-authors, or list of similar people?</div>
-	<div class="helpBlurb">
-		These are derived automatically from the PubMed articles listed with your profile.
-		You cannot edit these directly, but you can improve these lists by keeping your
-		publications up to date. Please note that it takes up to 24 hours for the system
-		to update your concepts, co-authors, and similar people after you have modified
-		your publications. Concept rankings and similar people lists are based on algorithms
-		that weigh multiple factors, such as how many publications you have in a subject
-		area compared to the total number of faculty who have published in that area. Your
-		feedback is essential to helping us refine these algorithms.
-		Faculty can also login and add custom concepts to their profiles, but these
-		are listed on the main part of the profile page, separate from the automatically derived terms.
-	</div>
-
-	<div class="helpTopic">Who created Harvard Catalyst Profiles?</div>
-	<div class="helpBlurb">
-		Harvard Catalyst Profiles was invented by <a id="griffinA">Griffin M Weber,MD, PhD</a>.
-		The current and past members of the development team include Nick Benik, Nick Brown, Paul Gomez,
-		Ken Huling, Shashank Jain, Melissa Kenny, Kevin Laitinen, Kellie Lucy, Krishna Nellutla,
-		James B. Norman, Rob Piscitello, George Rakauskas, Jeff Rosen, Franco Valentino,
-		Marlon Violette, Griffin Weber, and Steve Wimberg. This website would not have been
-		possible without the amazing work done over many years by Susan Vomacka (HMS Whitepages)
-		and Mortimer Litt, MD, (FIRST). We thank Joon Lee from the Center for Biomedical
-		Informatics (CBMI) at Harvard Medical School for his expertise and advice on working
-		with the Harvard bibliome.
-	</div>
+    <div class="topic">Open Source Software</div>
+    <div class="blurbForTopic">
+        <span class="aboutProfiles-profilesTitle"></span> is powered by the free, open source Profiles Research
+        Networking Software. View the
+        <a href="/StaticFiles/html-templates/aboutOpenSource.html">Open Source Software</a>
+        page for more information.
+    </div>
 </div>
+
 
 </body>
 </html>

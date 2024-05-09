@@ -35,7 +35,7 @@ async function setupSearchPeopleResults() {
     emitPeopleResults();
 
     pagination.emitPagingRow($('#resultsDiv'),
-        "pt-1 ms-1 me-1 bordersRow",
+        "pt-1 ms-1 me-1 borderOneSolid",
         results);
 }
 function getPeopleResultsCount(results) {
@@ -59,7 +59,7 @@ function emitPeopleResults() {
 }
 function emitPeopleResultsHeader(results, optionalShows, colspecs, target) {
     let rowId = `peopleResultsHeader`;
-    let row = makeRowWithColumns(target, rowId, colspecs,  "bordersRow mt-2");
+    let row = makeRowWithColumns(target, rowId, colspecs,  "borderOneSolid mt-2");
 
     // always 1st is Name and last is Why, middle columns can vary
     let column = row.find(`#${rowId}Col0`);
@@ -103,7 +103,7 @@ function emitDataRows(results, optionalShows, colspecs, target) {
             let item = items[i];
 
             let rowId = `peopleResults${i}`;
-            let row = makeRowWithColumns(target, rowId, colspecs, "bordersRow bordE");
+            let row = makeRowWithColumns(target, rowId, colspecs, "borderOneSolid bordE");
 
             // always 1st is Name and last is Why, middle columns can vary
             let column = row.find(`#${rowId}Col0`);

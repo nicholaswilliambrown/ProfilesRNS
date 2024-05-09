@@ -11,7 +11,7 @@ function emitTextCoauthors(target, coauthors, connections) {
         newColumnSpec(`${gCommon.cols3or12} bordE`, spanify('<strong>Co-Authored Publications</strong>')),
         newColumnSpec(`${gCommon.cols4or12} `, spanify('<strong>Most Recent Co-Authored Publication</strong>'))
     ];
-    makeRowWithColumns(target, `tcoath`, colSpecs, "bordersRow me-3 ms-1 stripe");
+    makeRowWithColumns(target, `tcoath`, colSpecs, "borderOneSolid me-3 ms-1 stripe");
 
     for (let i=0; i<coauthors.length; i++) {
         let coauthor = coauthors[i];
@@ -40,7 +40,7 @@ function emitTextCoauthors(target, coauthors, connections) {
             newColumnSpec(`${gCommon.cols4or12} bordS`, spanify(recent))
         ];
         makeRowWithColumns(target, `tcoath-${i}`, colSpecs,
-            `bordersRow me-3 ms-1 ${stripeClass}`);
+            `borderOneSolid me-3 ms-1 ${stripeClass}`);
     }
 }
 function emitTextCoauthorsOfCoauthors(target, coauthorsOfCoauthors) {
@@ -50,7 +50,7 @@ function emitTextCoauthorsOfCoauthors(target, coauthorsOfCoauthors) {
         newColumnSpec(`${gCommon.cols6or12} bordE`, spanify('<strong>Name</strong>')),
         newColumnSpec(`${gCommon.cols6or12} bordS`, spanify('<strong>Total Publications</strong>')),
     ];
-    makeRowWithColumns(target, `tcoath2`, colSpecs, "bordersRow me-3 ms-1 stripe");
+    makeRowWithColumns(target, `tcoath2`, colSpecs, "borderOneSolid me-3 ms-1 stripe");
 
     for (let i=0; i<coauthorsOfCoauthors.length; i++) {
         let coOfCo = coauthorsOfCoauthors[i];
@@ -64,7 +64,7 @@ function emitTextCoauthorsOfCoauthors(target, coauthorsOfCoauthors) {
             newColumnSpec(`${gCommon.cols6or12} bordS`, spanify(pubs)),
         ];
         makeRowWithColumns(target, `tcoath2-${i}`, colSpecs,
-            `bordersRow me-3 ms-1 ${stripeClass}`);
+            `borderOneSolid me-3 ms-1 ${stripeClass}`);
     }
 }
 function emitTextCoauthorsConnections(target, coauthorsConnections, networkPeople) {
@@ -75,7 +75,7 @@ function emitTextCoauthorsConnections(target, coauthorsConnections, networkPeopl
         newColumnSpec(`${gCommon.cols3or12} bordE`, spanify('<strong>Number of Co-Publications</strong>')),
         newColumnSpec(`${gCommon.cols3or12}`, spanify('<strong>Most Recent Co-Publication</strong>'))
     ];
-    makeRowWithColumns(target, `tcoathConn`, colSpecs, "bordersRow me-3 ms-1 stripe");
+    makeRowWithColumns(target, `tcoathConn`, colSpecs, "borderOneSolid me-3 ms-1 stripe");
 
     for (let i=0; i<coauthorsConnections.length; i++) {
         let coauthorsConnection = coauthorsConnections[i];
@@ -96,7 +96,7 @@ function emitTextCoauthorsConnections(target, coauthorsConnections, networkPeopl
             newColumnSpec(`${gCommon.cols3or12}`, spanify(latest))
         ];
         makeRowWithColumns(target, `tcoathConn-${i}`, colSpecs,
-            `bordersRow me-3 ms-1 ${stripeClass}`);
+            `borderOneSolid me-3 ms-1 ${stripeClass}`);
     }
 }
 

@@ -37,7 +37,7 @@ function emitGraphicAndItsHeader(results, target, returnUrl) {
         newColumnSpec(` p-1 d-flex justify-content-start ${gCommon.cols2or12}`)
     ];
     let rowId = `whyResultsGraphic`;
-    let row = makeRowWithColumns(target, rowId, colspecs, "bordersRow mt-2");
+    let row = makeRowWithColumns(target, rowId, colspecs, "borderOneSolid mt-2");
 
     let resultsAnchor = createAnchorElement('Search Results', returnUrl);
     row.find(`#${rowId}Col0`).append(resultsAnchor);
@@ -95,7 +95,7 @@ function emitWhyResultsHeader(target, title1, title2) {
     let colspecsBold = makeWhyColspecs(true);
 
     let rowId = `whyResultsHeader`;
-    let row = makeRowWithColumns(target, rowId, colspecsBold, "bordersRow bordTop mt-3");
+    let row = makeRowWithColumns(target, rowId, colspecsBold, "borderOneSolid bordTop mt-3");
 
     row.find(`#${rowId}Col0`).html(title1);
     row.find(`#${rowId}Col1`).html(title2);
@@ -108,7 +108,7 @@ function emitWhyDirectMatches(matches, target) {
         let item = matches[i];
 
         let rowId = `directMatches${i}`;
-        let row = makeRowWithColumns(target, rowId, colspecsMeek, "bordersRow bordE");
+        let row = makeRowWithColumns(target, rowId, colspecsMeek, "borderOneSolid bordE");
 
         row.find(`#${rowId}Col0`).html(item.Name);
         row.find(`#${rowId}Col1`).html(item.Value);
@@ -123,7 +123,7 @@ function emitWhyIndirectMatches(matches, target) {
         let item = matches[i];
 
         let rowId = `indirectMatches${i}`;
-        let row = makeRowWithColumns(target, rowId, colspecsMeek, "bordersRow bordE");
+        let row = makeRowWithColumns(target, rowId, colspecsMeek, "borderOneSolid bordE");
 
         let urlEntry = createAnchorElement(item.Label, item.URI);
         row.find(`#${rowId}Col0`).html(item.ClassName);

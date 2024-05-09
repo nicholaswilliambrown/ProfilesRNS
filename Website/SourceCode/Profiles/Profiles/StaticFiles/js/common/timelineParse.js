@@ -51,7 +51,7 @@ function parseTimelineText(moduleJson, fields) {
     ];
 
     let rowId = `timelineTextTable`;
-    let row = makeRowWithColumns(target, rowId, colspecs, "bordersRow stripe");
+    let row = makeRowWithColumns(target, rowId, colspecs, "borderOneSolid stripe");
 
     row.find(`#${rowId}Col0`).html('<strong>Name</strong>');
     row.find(`#${rowId}Col1`).html('<strong>Number of Publications</strong>');
@@ -79,7 +79,7 @@ function parseTimelineText(moduleJson, fields) {
         let nameUrl = $(`<a href="${url}">${name}</a>`);
 
         let rowId = `tl-detail-${i}`;
-        row = makeRowWithColumns(target, rowId, colspecs, `ms-1 bordersRow ${stripeClass}`);
+        row = makeRowWithColumns(target, rowId, colspecs, `ms-1 borderOneSolid ${stripeClass}`);
 
         row.find(`#${rowId}Col0`).append(nameUrl);
         row.find(`#${rowId}Col1`).html(numPubs);

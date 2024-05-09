@@ -29,7 +29,7 @@ async function setupSearchAllElseResults() {
     emitResults(results);
 
     pagination.emitPagingRow($('#resultsDiv'),
-        "pt-1 ms-1 me-1 bordersRow",
+        "pt-1 ms-1 me-1 borderOneSolid",
         results);
 }
 function getAllElseResultsCount(results) {
@@ -118,7 +118,7 @@ function filterSearch(type, label, results) {
 function emitAllElseResultsHeader(colspecs, target) {
     let rowId = `allElseResultsHeader`;
 
-    let row = makeRowWithColumns(target, rowId, colspecs,  "bordersRow mt-2");
+    let row = makeRowWithColumns(target, rowId, colspecs,  "borderOneSolid mt-2");
 
     row.find(`#${rowId}Col0`).append(spanify('Match', ' bold'));
     row.find(`#${rowId}Col1`).append(spanify('Type', ' bold'));
@@ -133,7 +133,7 @@ function emitAllElseDataRows(results, colspecs, target) {
             let item = items[i];
 
             let rowId = `allElseResults${i}`;
-            let row = makeRowWithColumns(target, rowId, colspecs, "bordersRow bordE");
+            let row = makeRowWithColumns(target, rowId, colspecs, "borderOneSolid bordE");
 
             let whyAnchor = createWhyLink(item, results);
             row.find(`#${rowId}Col0`).html(item.Label);

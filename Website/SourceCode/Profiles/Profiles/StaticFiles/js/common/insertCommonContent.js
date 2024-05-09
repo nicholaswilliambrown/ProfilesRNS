@@ -24,6 +24,8 @@ gCommon.mainDataContainer = $(`<div class="container-fluid parentWidth p-0 mb-4"
                   <li><a id="overviewA" class="dropdown-item">Overview</a></li>
                   <li><p class="dropdown-divider p-0 m-0"/></li>
                   <li><a id="openSourceSoftwareA" class="dropdown-item">Open Source Software</a></li>
+                  <li><p class="dropdown-divider p-0 m-0"/></li>
+                  <li><a id="useOurDataA" class="dropdown-item">Use Our Data</a></li>
                 </ul>
               </div>
               <div id="topNavHelp" class="nav-item">

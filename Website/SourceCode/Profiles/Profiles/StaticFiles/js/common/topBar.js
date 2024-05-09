@@ -30,6 +30,7 @@ function setupTopNav() {
 
     setUrlByAnchorId("overviewA", gCommon.overviewAUrl);
     setUrlByAnchorId("openSourceSoftwareA", gCommon.openSourceSoftwareAUrl);
+    setUrlByAnchorId("useOurDataA", gCommon.useOurDataAUrl);
     setUrlByAnchorId("seeAllPagesA", gCommon.seeAllPagesAUrl);
     setUrlByAnchorId("topHome", gSearch.searchFormPeopleUrl);
     setUrlByAnchorId("helpA", gCommon.helpUrl);

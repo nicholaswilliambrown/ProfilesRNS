@@ -86,6 +86,7 @@ function setupBrandingDependentVals() {
     gCommon.helpUrl = `${gBrandingConstants.htmlFiles}help.html`;
     gCommon.overviewAUrl = `${gBrandingConstants.htmlFiles}aboutProfiles.html`;
     gCommon.openSourceSoftwareAUrl = `${gBrandingConstants.htmlFiles}aboutOpenSource.html`;
+    gCommon.useOurDataAUrl = `${gBrandingConstants.htmlFiles}aboutOpenSource.html`;
 
     gSearch.searchFormUrl =        `${gBrandingConstants.htmlFiles}searchForm.html`;
     gSearch.searchFormPeopleUrl =      `${gSearch.searchFormUrl}?${gSearch.people}`;

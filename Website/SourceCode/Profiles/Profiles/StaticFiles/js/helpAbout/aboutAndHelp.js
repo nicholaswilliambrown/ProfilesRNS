@@ -1,10 +1,17 @@
-async function setupHelpAndAbout() {
+async function setupHelpAndAbout(prefix, andThen) {
     await commonSetup();
 
     moveContentByIdTo('aboutOrHelp', $('#mainDiv'));
     setupScrolling();
 
     $('.profilesTitleH').html(gBrandingConstants.profilesTitle);
+
+    if (prefix) {
+        applyBlurb(prefix);
+    }
+    if (andThen) {
+        andThen();
+    }
 }
 
 function applyBlurb(generalClassPrefix) {
@@ -37,4 +44,9 @@ function hideEmptyTopics(sharedAttr, blurbAttrList) {
     if ( ! nonEmptyBlurbs.length) {
         $(`div[sharedAttr="${sharedAttr}"]`).hide()
     }
+}
+function setupOverview() {
+    $('#griffinA').attr('href', gAbout.griffinUrl);
+    $('#rnsA').attr('href', gAbout.rnsUrl);
+    $('#licenseA').attr('href', gAbout.licenseUrl);
 }

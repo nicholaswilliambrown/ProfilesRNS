@@ -50,7 +50,7 @@ function setupOverview() {
     $('#rnsA').attr('href', gAbout.rnsUrl);
     $('#licenseA').attr('href', gAbout.licenseUrl);
 
-    $('#aboutPreamble').html(gBrandingConstants["aboutProfiles-aboutPreamble"]);
+    $('#whatIsIt').html(gBrandingConstants["aboutProfiles-whatIsIt"]);
     $('.aboutProfiles-profilesTitle').html(gBrandingConstants["aboutProfiles-profilesTitle"]);
     $('.aboutProfiles-profilesInstitution').html(gBrandingConstants["aboutProfiles-profilesInstitution"]);
 

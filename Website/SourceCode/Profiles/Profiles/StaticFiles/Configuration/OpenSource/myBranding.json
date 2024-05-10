@@ -18,7 +18,10 @@
   "help-canIEdit": "            These are derived automatically from the PubMed articles listed with your profile. You cannot edit these directly, but you can improve these lists by keeping your publications up to date. Please note that it takes up to 24 hours for the system to update your concepts, co-authors, and similar people after you have modified your publications. Concept rankings and similar people lists are based on algorithms that weigh multiple factors, such as how many publications you have in a subject area compared to the total number of faculty who have published in that area. Your feedback is essential to helping us refine these algorithms. A future version of this website will allow users to add custom concepts to their profiles, but these will be separate from the automatically derived terms.\n",
   "help-whoCreated": "This service is made possible by the Profiles Research Networking Software developed under the supervision of Griffin M Weber, MD, PhD, with support from Grant Number 1 UL1 RR025758-01 to Harvard Catalyst: The Harvard Clinical and Translational Science Center from the National Center for Research Resources and support from Harvard University and its affiliated academic healthcare centers.",
 
+  "aboutProfiles-whatIsIt": "Profiles Research Networking Software is a research networking and expertise mining software tool. It not only shows traditional directory information, but also illustrates how each person is connected to others in the broad research community.",
   "aboutProfiles-profilesTitle": "Profiles RNS",
-  "aboutProfiles-profilesInstitution": "your institution",
-  "aboutProfiles-aboutPreamble": "Profiles creates searchable and interactive online profiles of faculty at your institution, whose expertise may cover the breadth and depth of biomedicine. How can you find collaborators to work with on your research? This is where Profiles can help."
+  "aboutProfiles-profilesInstitution": "your institution"
+
+
+
 }

@@ -28,8 +28,6 @@ async function commonSetup(mainBodyStructure) {
         mainBodyStructure = setupMainStructure;
     }
     await setupPageStub(mainBodyStructure);
-
-    setTabTitleAndFavicon();
 }
 async function commonSetupWithJson(moduleCompareFn) {
     await commonSetup();

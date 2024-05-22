@@ -7,14 +7,14 @@ async function setupHelpAndAbout(doSystematicBlurbs, andThen) {
     $('.profilesTitleH').html(gBrandingConstants.profilesTitle);
 
     if (doSystematicBlurbs) {
-        applySytematicBlurbs();
+        applySystematicBlurbs();
     }
     if (andThen) {
         andThen();
     }
 }
 
-function applySytematicBlurbs() {
+function applySystematicBlurbs() {
     let topicClass = 'topic';
     let blurbClass = 'blurbForTopic';
 

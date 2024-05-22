@@ -12,8 +12,7 @@ as each entry must occur on one (possibly long) line.
 Compared to the supplied, default Catalyst JSON, your myBranding.json may not
 need (m)any of the items supplied there. You need any items referenced in the
 code that you use in your version of myBranding.js. Also, any items referenced
-in the code (brandingUtil.js, etc.) that customizes webpages (e.g. the Help,
-Overview or About pages).
+in the code (brandingUtil.js, aboutAndHelp.js, etc.) that customizes webpages.
 
 In your version of myBranding.js, you may supply your own implementation of
     setupHeadIncludesAndTabTitle()

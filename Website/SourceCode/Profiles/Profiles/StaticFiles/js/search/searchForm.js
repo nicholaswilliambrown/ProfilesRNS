@@ -124,7 +124,6 @@ function setupRightAndLeftSides() {
 function emitMosts(whichMost) {
     if (gSearch.formData[whichMost]) {
         let data = sortArrayViaSortLabel(gSearch.formData[whichMost], 'NumberOfQueries', true);
-        ;
         let target = $(`#${whichMost}`);
 
         for (let i = 0; i < data.length; i++) {

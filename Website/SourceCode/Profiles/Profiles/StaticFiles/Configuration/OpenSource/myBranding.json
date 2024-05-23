@@ -20,8 +20,14 @@
 
   "aboutProfiles-whatIsIt": "Profiles Research Networking Software is a research networking and expertise mining software tool. It not only shows traditional directory information, but also illustrates how each person is connected to others in the broad research community.",
   "aboutProfiles-profilesTitle": "Profiles RNS",
-  "aboutProfiles-profilesInstitution": "your institution"
+  "aboutProfiles-profilesInstitution": "your institution",
 
+  "useOurData-sparqlContactUrl": "/display/1234",
+  "useOurData-sparqlContactName": "OpenSource Contact",
+  "useOurData-xmlSearchUrl": "https://openSourceProfilesLlc.com/API/Profiles/Public/Search",
+  "useOurData-oldXmlSearchUrl": "https://openSourceProfilesLlc.com/ProfilesAPI",
+  "useOurData-documentationUrl": "https://openSourceProfilesLlc.com/docs/ProfilesRNS_1.0.2_APIGuide.pdf",
+  "useOurData-examplesUrl": "https://openSourceProfilesLlc.com/docs/ProfilesRNS_1.0.2_API_Examples.zip"
 
 
 }

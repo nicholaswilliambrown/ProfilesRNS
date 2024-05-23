@@ -31,5 +31,12 @@
 
   "aboutProfiles-whatIsIt": "Harvard Catalyst \"Profiles\" creates searchable and interactive online profiles of all faculty at Harvard Medical School, Harvard School of Dental Medicine, and Harvard T.H. Chan School of Public Health. Harvard Catalyst is home to more than 24,000 faculty whose expertise covers nearly the entire breadth and depth of biomedicine. But in such a large community, how can you find collaborators to work with on your research? This is where Profiles can help. Part directory and part social networking tool, Profilesn ot only lets you search for faculty by name or keyword, but it also helps you explore and understand the different ways that faculty work together. This is done through interactive visualizations that reveal groups of faculty who research similar topics, coauthor scientific articles, work in the same organizations, or have offices that are physically close. Browse these visualizations to discover how you might already be connected to your next research collaborator!",
   "aboutProfiles-profilesTitle": "Harvard Catalyst Profiles",
-  "aboutProfiles-profilesInstitution": "Harvard"
+  "aboutProfiles-profilesInstitution": "Harvard",
+
+  "useOurData-sparqlContactUrl": "/display/38278",
+  "useOurData-sparqlContactName": "Griffin Weber",
+  "useOurData-xmlSearchUrl": "https://connects.catalyst.harvard.edu/API/Profiles/Public/Search",
+  "useOurData-oldXmlSearchUrl": "https://connects.catalyst.harvard.edu/ProfilesAPI",
+  "useOurData-documentationUrl": "http://profiles.catalyst.harvard.edu/docs/ProfilesRNS_1.0.2_APIGuide.pdf",
+  "useOurData-examplesUrl": "http://profiles.catalyst.harvard.edu/docs/ProfilesRNS_1.0.2_API_Examples.zip"
 }

@@ -57,3 +57,16 @@ function setupOverview() {
     $('#calloutLhs').addClass(gCommon.cols5or12);
     $('#calloutRhs').addClass(gCommon.cols5or12);
 }
+function setupUseOurData() {
+    $('.useOurData-sparqlContactA').html(gBrandingConstants["useOurData-sparqlContactName"]);
+    $('.useOurData-sparqlContactA').attr('href', gBrandingConstants["useOurData-sparqlContactUrl"]);
+
+    $('.useOurData-xmlSearchUrlA').html(gBrandingConstants["useOurData-xmlSearchUrl"]);
+    $('.useOurData-xmlSearchUrlA').attr('href', gBrandingConstants["useOurData-xmlSearchUrl"]);
+
+    $('.useOurData-oldXmlSearchUrlA').html(gBrandingConstants["useOurData-oldXmlSearchUrl"]);
+    $('.useOurData-oldXmlSearchUrlA').attr('href', gBrandingConstants["useOurData-oldXmlSearchUrl"]);
+
+    $('.useOurData-documentationUrlA').attr('href', gBrandingConstants["useOurData-documentationUrl"]);
+    $('.useOurData-examplesUrlA').attr('href', gBrandingConstants["useOurData-examplesUrl"]);
+}

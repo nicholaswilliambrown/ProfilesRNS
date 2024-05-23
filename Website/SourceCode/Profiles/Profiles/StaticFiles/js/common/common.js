@@ -189,6 +189,7 @@ function setupTopOfPageItems() {
     setupTopNav();
 }
 function loggedInShowHide() {
+    // checking query param's should be replaced by a more meaningful API
     gCommon.loggedIn = tryForLoggedInAsQp();
 
     if (gCommon.loggedIn) {

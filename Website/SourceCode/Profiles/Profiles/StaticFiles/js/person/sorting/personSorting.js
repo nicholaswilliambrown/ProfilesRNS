@@ -35,13 +35,15 @@ function sortByCitationThenNewest(pubs) {
     return sortedPubs;
 }
 function sortByAltmetricThenReverseChron(pubs) {
+    let pubsCopy = copyArray(pubs);
+
     consoleAltmetricStats("sortByAltmetric");
 
     $('.altmetric-embed a').remove();
     $('.altmetric-embed.altmetric-popover').remove();
 
     // just until 'real' computation
-    return pubs.sort((a, b) => {
+    pubsCopy.sort((a, b) => {
         let pa = a.bibo_pmid;
         let pb = b.bibo_pmid;
 
@@ -54,4 +56,5 @@ function sortByAltmetricThenReverseChron(pubs) {
         }
         return result;
     });
+    return pubsCopy;
 }

@@ -110,10 +110,10 @@ function authLoadPlainContent(contentTextarea) {
         if (publicationIds) {
             let pubIds = [];
             if (pub.bibo_pmid) {
-                line += `PMID: ${pub.bibo_pmid}`;
+                line += ` PMID: ${pub.bibo_pmid}.`;
             }
             if (pub.vivo_pmcid) {
-                line += `PMCID: ${pub.vivo_pmcid}`;
+                line += ` PMCID: ${pub.vivo_pmcid}.`;
             }
             if (pubIds.length > 0) {
                 let content = pubIds.join(", ");

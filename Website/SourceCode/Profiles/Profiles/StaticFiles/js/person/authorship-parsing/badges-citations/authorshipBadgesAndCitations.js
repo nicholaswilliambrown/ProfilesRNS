@@ -25,7 +25,7 @@ function addDimensionsBadgesAndCheckLabel() {
 
             $('.__dimensions_badge_embed__').each(function () {
                 if ($(this).attr('data-dimensions-badge-installed') === undefined) {
-                    $(this).remove();
+                    /////$(this).remove();
                 }
             });
             $('[id*="spnHideOnNoAltmetric"]').each(function () {
@@ -33,13 +33,6 @@ function addDimensionsBadgesAndCheckLabel() {
             });
 
             possiblyShowCitationsCategory();
-
-            // basically give sort by altmetric a second chance
-            if (gPerson.extraAltmetricApplySort) {
-                gPerson.extraAltmetricApplySort = false; // let's avoid infinite loop!
-
-                applySortsFiltersLimits();
-            }
 
             // now that it has been generated, style the
             //    'inner' <a> of altmetric
@@ -81,6 +74,12 @@ function digestInjectedBadges() {
             }, gPerson.waitForAltmetric);
 
             addDimensionsBadgesAndCheckLabel();
+
+            // now that the embed.js had a chance to emit them...
+            if (maybeComputeAltmetricScores() && gPerson.numAltMetricTries < gPerson.maxAltMetricScoreTries) {
+                gPerson.numAltMetricTries++;
+                applySortsFiltersLimits(); // this time the altmetric val's will help the sort
+            }
         });
     }
     catch (e) {

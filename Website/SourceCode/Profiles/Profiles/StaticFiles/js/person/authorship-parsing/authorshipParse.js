@@ -24,9 +24,7 @@ function authorshipParser(json, moduleTitle, miscInfo) {
     return authorshipInnerAccordionInfo.outerDiv;
 }
 
-function authorshipInnerParser() {
-    gPerson.authorshipInnerDiv.empty();
-
+function emitBlurbAndLimitDiv() {
     gPerson.pmcBlurb = $(`<div class="auth_topDiv2 mt-2">
         <b>PMC Citations</b> indicate the number of times the publication was 
         cited by articles in PubMed Central, and the <b>Altmetric</b> score 
@@ -47,8 +45,8 @@ function authorshipInnerParser() {
     // if limit not in effect, use all pubs
     gPerson.possiblyLimitedPubs = gPerson.currentFullPubs;
 
-    // limit displayed, except for altmetric
-    if (gPerson.limitOption == PubsLimitOption.Limit && ! altmetricNavIsActive()) {
+    // limit displayed, except for altmetric sort (mostDiscussed)
+    if (gPerson.limitOption == PubsLimitOption.Limit && ! mostDiscussedTabIsActive()) {
         gPerson.possiblyLimitedPubs = gPerson.currentFullPubs.slice(0,PubsLimitOption.Limit);
 
         let limitSpan = $(`<span id="limitSpan"></span>`)
@@ -68,9 +66,13 @@ function authorshipInnerParser() {
             $('.nav-link.active').click();
         })
     }
+}
+function authorshipInnerParser() {
+    gPerson.authorshipInnerDiv.empty();
+
+    emitBlurbAndLimitDiv();
 
     let orderedList = $("<ol></ol>");
-
     gPerson.authorshipInnerDiv.append(orderedList);
 
     let pubs = getSortedFilteredLimitedPubs(gPerson.sort, gPerson.fieldFilters, gPerson.translationFilters, gPerson.limitOption);
@@ -112,11 +114,11 @@ function updateLimitSpan(current, limit) {
     gPerson.limitSpan.html(`${current} of ${limit} Publications. `);
 }
 
-function applySortsFiltersLimits() {
+function applySortsFiltersLimits(resetTries) {
 
-    computeAltmetricScores();
-    consoleAltmetricStats('applySortsB4Parser');
-
+    if (resetTries) {
+        gPerson.numAltMetricTries = 1;
+    }
     authorshipInnerParser();
 
     showTransOrFieldUnchecked('fieldOrTrans');
@@ -150,7 +152,7 @@ function getSortedFilteredLimitedPubs(sortOption, fieldFilters, translationFilte
     let pubsLimit;
     switch(limitOption) {
         case PubsLimitOption.Limit:
-            if (altmetricNavIsActive()) {
+            if (mostDiscussedTabIsActive()) {
                 // NB: Back-end can't sort-then-limit on altmetric, since
                 //  altmetric values are computed only on front-end.
                 // So altmetric filter applies to the unlimited set

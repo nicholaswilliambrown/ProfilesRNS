@@ -164,6 +164,7 @@ gPerson.plain.old = "old";
 gPerson.plain.new = "new";
 
 gPerson.cachedParentDiv = {};
+gPerson.maxAltMetricScoreTries = 5;
 
 gPerson.researcherNumRecent = 5;
 gPerson.researcherUseRecent = true;

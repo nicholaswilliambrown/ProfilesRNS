@@ -1,25 +1,41 @@
 
 function consoleAltmetricStats(label) {
-    let numAms = $(gPerson.altPmidSelector).length;
-    let numAmsI = $(gPerson.altPmidSelector).length;
-    console.log(`=====> Invoked: ${label}. numAms: ${numAms}. numAmsI: ${numAmsI}. 
-        numScores: ${gPerson.altmetricScores?
+    let numPmids = $(gPerson.altPmidSelector).length;
+    console.log(`=====> Invoked: ${label}. 
+        numPmids: ${numPmids}. 
+        numAltMets: ${$(gPerson.altmetricScores).length}
+        numCollectedAltMetScores: ${gPerson.altmetricScores?
             Object.keys(gPerson.altmetricScores).length
             :0}.`,
         gPerson.altmetricScores);
 }
-function computeAltmetricScores() {
 
-    gPerson.altmetricScores = {};
-    $(gPerson.altPmidSelector).each(function() {
-        let pmid = $(this).attr('data-pmid');
-        let a = $(this).find('a');
-        let image = a.find('img');
-        if (image.length > 0) {
-            let score = image.attr("alt").replace(/.*score of /, "");
-            gPerson.altmetricScores[pmid] = score;
-        }
-    });
+gPerson.altmetricScores = {}; // on initial load
+
+function maybeComputeAltmetricScores() {
+    let didRecompute = false;
+
+    let numAltPmids = $(gPerson.altPmidSelector).length;
+    let numAltScores = gPerson.altmetricScores ?
+            Object.keys(gPerson.altmetricScores).length
+            :0;
+
+    if (numAltPmids != numAltScores) {
+        $(gPerson.altPmidSelector).each(function() {
+            let pmid = $(this).attr('data-pmid');
+            if (gPerson.altmetricScores[pmid] === undefined) {
+                let a = $(this).find('a');
+                let image = a.find('img');
+                if (image.length > 0) {
+                    let score = image.attr("alt").replace(/.*score of /, "");
+                    gPerson.altmetricScores[pmid] = score;
+                    console.log(`Altmetric score: ${pmid} -------> ${score}`);
+                }
+            }
+        });
+        didRecompute = true;
+    }
+    return didRecompute;
 }
 
 function showTransOrFieldChecked(elementClass) {
@@ -48,7 +64,7 @@ function transOrFieldClick(elementClass, fieldFilters) {
 
         fieldFilters.push(elementClass);
     }
-    applySortsFiltersLimits();
+    applySortsFiltersLimits(true);
 }
 function addFields(linkItems, pub) {
     let pubFields = pub.Fields;

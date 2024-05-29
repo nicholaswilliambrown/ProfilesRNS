@@ -63,17 +63,17 @@ function authNavAdjustStyle(e) {
 function authNavNewest(e) {
     authNavAdjustStyle(e);
     gPerson.sort = PubsSortOption.Newest;
-    applySortsFiltersLimits();
+    applySortsFiltersLimits(true);
 }
 function authNavOldest(e) {
     authNavAdjustStyle(e);
     gPerson.sort = PubsSortOption.Oldest;
-    applySortsFiltersLimits();
+    applySortsFiltersLimits(true);
 }
 function authNavMostCited(e) {
     authNavAdjustStyle(e);
     gPerson.sort = PubsSortOption.MostCited;
-    applySortsFiltersLimits();
+    applySortsFiltersLimits(true);
 }
 function authNavMostDiscussed(e) {
     authNavAdjustStyle(e);
@@ -87,7 +87,7 @@ function authNavPlainText(e) {
     authNavAdjustStyle(e);
     authShowPlainText();
 }
-function altmetricNavIsActive() {
+function mostDiscussedTabIsActive() {
     return ($(`#authNavButtonMostDiscussed`).hasClass('active'));
 }
 

@@ -75,10 +75,15 @@ function digestInjectedBadges() {
 
             addDimensionsBadgesAndCheckLabel();
 
+            consoleAltmetricStats("About to maybeComputeAltmetricScores");
+
             // now that the embed.js had a chance to emit them...
-            if (maybeComputeAltmetricScores() && gPerson.numAltMetricTries < gPerson.maxAltMetricScoreTries) {
+            if (   mostDiscussedTabIsActive()
+                && gPerson.numAltMetricTries < gPerson.maxAltMetricScoreTries
+                && maybeComputeAltmetricScores()) {
+
                 gPerson.numAltMetricTries++;
-                applySortsFiltersLimits(); // this time the altmetric val's will help the sort
+                applySortsFiltersLimits(); // this time more altmetric val's will help the sort
             }
         });
     }

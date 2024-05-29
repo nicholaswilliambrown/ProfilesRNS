@@ -3,10 +3,9 @@ function consoleAltmetricStats(label) {
     let numPmids = $(gPerson.altPmidSelector).length;
     console.log(`=====> Invoked: ${label}. 
         numPmids: ${numPmids}. 
-        numAltMets: ${$(gPerson.altmetricScores).length}
-        numCollectedAltMetScores: ${gPerson.altmetricScores?
-            Object.keys(gPerson.altmetricScores).length
-            :0}.`,
+        numCollectedAltMetScores: ${Object.keys(gPerson.altmetricScores).length}.
+        altMets followed by <a>: ${$('.altmetric-embed>a').length}
+        `,
         gPerson.altmetricScores);
 }
 
@@ -35,6 +34,8 @@ function maybeComputeAltmetricScores() {
         });
         didRecompute = true;
     }
+    consoleAltmetricStats("End of maybeComputeAltmetricScores");
+
     return didRecompute;
 }
 

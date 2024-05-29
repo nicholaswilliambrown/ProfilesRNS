@@ -131,7 +131,7 @@ gPerson.etlFieldStyleClasses = {};
 gPerson.etlFieldFilterClasses = {};
 
 gPerson.waitForDimensions = 500;
-gPerson.waitForAltmetric = 1500;
+gPerson.waitForAltmetric = 2000;
 
 gPerson.limitOption = PubsLimitOption.Limit;
 gPerson.sort = PubsSortOption.Newest;
@@ -164,7 +164,7 @@ gPerson.plain.old = "old";
 gPerson.plain.new = "new";
 
 gPerson.cachedParentDiv = {};
-gPerson.maxAltMetricScoreTries = 5;
+gPerson.maxAltMetricScoreTries = 20;
 
 gPerson.researcherNumRecent = 5;
 gPerson.researcherUseRecent = true;

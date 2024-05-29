@@ -11,38 +11,35 @@ function addBadgeSpans(linkItems, pub) {
         linkItems.push(embedSpan);
     }
 }
-function addDimensionsBadgesAndCheckLabel() {
-    $.when(window.__dimensions_embed.addBadges()).done(function () {
-        setTimeout(function () {
+async function addDimensionsBadgesAndCheckLabel() {
+    $.when(window.__dimensions_embed.addBadges()).done(async function () {
+        await waitableTimeout(gPerson.waitForDimensions);
 
-            $(".__dimensions_Badge_Image svg").remove();
-            $(".__dimensions_Badge_Image .__cits__").remove(); // dup prevented for 'mostDiscussed' / 'showAll'
-            $(".__dimensions_Badge_Image").prepend(`<img alt="dimensions citations" class="__cits__" 
-                    src=${gBrandingConstants.jsPersonImageFiles}citations.png>`);
-            $(".__db_score.__db_score_normal").css("font-size", "10px");
-            $(".__db_score.__db_score_normal").css("font-family", "arial");
+        $(".__dimensions_Badge_Image svg").remove();
+        $(".__dimensions_Badge_Image .__cits__").remove(); // dup prevented for 'mostDiscussed' / 'showAll'
+        $(".__dimensions_Badge_Image").prepend(`<img alt="dimensions citations" class="__cits__" 
+                src=${gBrandingConstants.jsPersonImageFiles}citations.png>`);
+        $(".__db_score.__db_score_normal").css("font-size", "10px");
+        $(".__db_score.__db_score_normal").css("font-family", "arial");
 
+        $('.__dimensions_badge_embed__').each(function () {
+            if ($(this).attr('data-dimensions-badge-installed') === undefined) {
+                // $(this).remove(); // would break 'Citations' on MostDiscussed tab
+            }
+        });
+        $('[id*="spnHideOnNoAltmetric"]').each(function () {
+            $(this).css("margin-left", "5px");
+        });
 
-            $('.__dimensions_badge_embed__').each(function () {
-                if ($(this).attr('data-dimensions-badge-installed') === undefined) {
-                    /////$(this).remove();
-                }
-            });
-            $('[id*="spnHideOnNoAltmetric"]').each(function () {
-                $(this).css("margin-left", "5px");
-            });
+        possiblyShowCitationsCategory();
 
-            possiblyShowCitationsCategory();
-
-            // now that it has been generated, style the
-            //    'inner' <a> of altmetric
-            $('a.altmetric-embed').find('a').addClass('link-ishB');
-            $('a.__dimensions_badge_embed__').find('a.__dimensions_Link').addClass('link-ishB');
-            $('a.__dimensions_badge_embed__').find('.__cits__').addClass('wrap3');
-            $('a.__dimensions_badge_embed__').find('.__db_score').addClass('wrap3');
-            $('a.__dimensions_badge_embed__').find('.__dimensions_png').hide();
-
-        }, gPerson.waitForDimensions);
+        // now that it has been generated, style the
+        //    'inner' <a> of altmetric
+        $('a.altmetric-embed').find('a').addClass('link-ishB');
+        $('a.__dimensions_badge_embed__').find('a.__dimensions_Link').addClass('link-ishB');
+        $('a.__dimensions_badge_embed__').find('.__cits__').addClass('wrap3');
+        $('a.__dimensions_badge_embed__').find('.__db_score').addClass('wrap3');
+        $('a.__dimensions_badge_embed__').find('.__dimensions_png').hide();
     });
 }
 

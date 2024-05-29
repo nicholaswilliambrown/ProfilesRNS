@@ -62,16 +62,15 @@ function possiblyShowCitationsCategory() {
     });
 }
 
-function digestInjectedBadges() {
+async function digestInjectedBadges() {
     try {
-        $.getScript("https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js", function () {
-            setTimeout(function () {
+        await $.getScript("https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js", async function () {
+            await waitableTimeout(gPerson.waitForAltmetric);
 
-                console.log('Reloaded embedded altmetric');
-                $('.altmetric-embed.altmetric-hidden').each(function() {
-                    $(this).remove();
-                });
-            }, gPerson.waitForAltmetric);
+            console.log('Reloaded embedded altmetric');
+            $('.altmetric-embed.altmetric-hidden').each(function() {
+                $(this).remove();
+            });
 
             addDimensionsBadgesAndCheckLabel();
 

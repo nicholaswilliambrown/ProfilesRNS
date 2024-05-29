@@ -33,8 +33,8 @@ function maybeComputeAltmetricScores() {
             }
         });
         didRecompute = true;
+        consoleAltmetricStats("End (with delta!??) of maybeComputeAltmetricScores");
     }
-    consoleAltmetricStats("End of maybeComputeAltmetricScores");
 
     return didRecompute;
 }

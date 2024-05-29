@@ -75,12 +75,12 @@ function authNavMostCited(e) {
     gPerson.sort = PubsSortOption.MostCited;
     applySortsFiltersLimits(true);
 }
-function authNavMostDiscussed(e) {
+async function authNavMostDiscussed(e) {
     authNavAdjustStyle(e);
     gPerson.sort = PubsSortOption.MostDiscussed;
 
     gPerson.extraAltmetricApplySort = true;
-    applySortsFiltersLimits();
+    await applySortsFiltersLimits();
 }
 
 function authNavPlainText(e) {

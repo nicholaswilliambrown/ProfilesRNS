@@ -120,3 +120,8 @@ function fromSessionOrInit(key, init) {
     }
     return candidate;
 }
+
+// https://stackoverflow.com/questions/33289726/combination-of-async-function-await-settimeout
+function waitableTimeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}

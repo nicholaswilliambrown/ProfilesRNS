@@ -67,7 +67,7 @@ function emitBlurbAndLimitDiv() {
         })
     }
 }
-function authorshipInnerParser() {
+async function authorshipInnerParser() {
     gPerson.authorshipInnerDiv.empty();
 
     emitBlurbAndLimitDiv();
@@ -107,19 +107,19 @@ function authorshipInnerParser() {
         harvestBottomlinkItems(pubLi, bottomLinksFields, "");
         harvestBottomlinkItems(pubLi, bottomLinksTranslations, "");
     }
-    digestInjectedBadges();
+    await digestInjectedBadges();
 }
 
 function updateLimitSpan(current, limit) {
     gPerson.limitSpan.html(`${current} of ${limit} Publications. `);
 }
 
-function applySortsFiltersLimits(resetTries) {
+async function applySortsFiltersLimits(resetTries) {
 
     if (resetTries) {
         gPerson.numAltMetricTries = 1;
     }
-    authorshipInnerParser();
+    await authorshipInnerParser();
 
     showTransOrFieldUnchecked('fieldOrTrans');
 

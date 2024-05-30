@@ -37,8 +37,6 @@ function sortByCitationThenNewest(pubs) {
 function sortByAltmetricThenReverseChron(pubs) {
     let pubsCopy = copyArray(pubs);
 
-    consoleAltmetricStats("Sort By Altmetric");
-
     $('.altmetric-embed a').remove();
     $('.altmetric-embed.altmetric-popover').remove();
 

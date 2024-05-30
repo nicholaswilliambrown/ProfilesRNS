@@ -211,6 +211,12 @@
     font-size: 10px !important;
     font-family: arial !important;
 }
+.__dimensions_Badge_stat_icon {
+    margin-right: 30px !important;
+}
+.__dimensions_Badge_stat_count {
+    margin-right: 5px !important;
+}
 
 .timeline-row {
     width: 50%;

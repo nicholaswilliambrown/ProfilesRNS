@@ -28,12 +28,10 @@ function maybeComputeAltmetricScores() {
                 if (image.length > 0) {
                     let score = image.attr("alt").replace(/.*score of /, "");
                     gPerson.altmetricScores[pmid] = score;
-                    console.log(`Altmetric score: ${pmid} -------> ${score}`);
                 }
             }
         });
         didRecompute = true;
-        consoleAltmetricStats("End (with delta!??) of maybeComputeAltmetricScores");
     }
 
     return didRecompute;

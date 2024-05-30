@@ -1,11 +1,16 @@
 function addBadgeSpans(linkItems, pub) {
     let bibo = pub.bibo_pmid;
     if (bibo) {
-        let badgeSpan = $(`<span class="ms-4 me-4"><a class="__dimensions_badge_embed__" data-hide-zero-citations="true" 
-                                data-style="small_rectangle" data-pmid="${bibo}"></a></span>`);
+        let badgeSpan = $(`<span class="ms-4 me-4"><a class="__dimensions_badge_embed__" 
+                                                        data-hide-zero-citations="true" 
+                                                        data-style="small_rectangle" 
+                                                        data-pmid="${bibo}"></a></span>`);
 
-        let embedSpan = $(`<a class='altmetric-embed me-2' data-link-target='_blank' data-badge-popover='bottom' 
-                                data-badge-type='4' data-hide-no-mentions='true' data-pmid="${bibo}"></a>`);
+        let embedSpan = $(`<a class='altmetric-embed me-2' data-link-target='_blank' 
+                                                            data-badge-popover='bottom' 
+                                                            data-badge-type='4'     
+                                                            data-hide-no-mentions='true' 
+                                                            data-pmid="${bibo}"></a>`);
 
         linkItems.push(badgeSpan);
         linkItems.push(embedSpan);
@@ -17,8 +22,10 @@ async function addDimensionsBadgesAndCheckLabel() {
 
         $(".__dimensions_Badge_Image svg").remove();
         $(".__dimensions_Badge_Image .__cits__").remove(); // dup prevented for 'mostDiscussed' / 'showAll'
+
         $(".__dimensions_Badge_Image").prepend(`<img alt="dimensions citations" class="__cits__" 
                 src=${gBrandingConstants.jsPersonImageFiles}citations.png>`);
+
         $(".__db_score.__db_score_normal").css("font-size", "10px");
         $(".__db_score.__db_score_normal").css("font-family", "arial");
 

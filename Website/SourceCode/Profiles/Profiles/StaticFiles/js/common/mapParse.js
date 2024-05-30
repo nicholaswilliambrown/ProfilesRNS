@@ -104,7 +104,8 @@ async function initPage(moduleJson, embedded) {
         moduleJson.connections;
 
     let mainPersonUri = personUriFromUrlPath();
-    let mainPerson = gMapTab.people.find(p => p.URI == mainPersonUri);
+    // bug: p.URI might have double-slash
+    let mainPerson = gMapTab.people.find(p => (p.URI.replace("//", "/")) == mainPersonUri);
 
     gMapTab.mapCenter = new google.maps.LatLng(
         mainPerson.latitude, mainPerson.longitude);

@@ -29,7 +29,9 @@ function detailsParse(target, moduleJson) {
         let conn = jsonData[i];
         let stripeClass = (i%2 == 1) ? "stripe" : "";
 
-        let url = `${conn.URL}`;
+        // bug: p.URI might have double-slash
+        let url = `${conn.URL.replace("//", "/")}`;
+
         let name = conn.DisplayName;
         let nameUrl = createAnchorElement(name, url);
 
@@ -39,7 +41,7 @@ function detailsParse(target, moduleJson) {
 
         let whyPath = conn.WhyPath;
 
-        let whyAnchor = createAnchorElement('Why?', `${whyPath}`);
+        let whyAnchor = createAnchorElement('Why?', `${whyPath.replace("//", "/")}`);
 
         let rowId = `details-${i}`;
         row = makeRowWithColumns(target, rowId, colspecs,

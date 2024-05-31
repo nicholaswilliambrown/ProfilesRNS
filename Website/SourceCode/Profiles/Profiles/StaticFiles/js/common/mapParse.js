@@ -105,7 +105,7 @@ async function initPage(moduleJson, embedded) {
 
     let mainPersonUri = personUriFromUrlPath();
     // bug: p.URI might have double-slash
-    let mainPerson = gMapTab.people.find(p => (p.URI.replace("//", "/")) == mainPersonUri);
+    let mainPerson = gMapTab.people.find(p => undoubleTheSlash(p.URI) == mainPersonUri);
 
     gMapTab.mapCenter = new google.maps.LatLng(
         mainPerson.latitude, mainPerson.longitude);
@@ -129,7 +129,7 @@ async function initPage(moduleJson, embedded) {
 function mapPinPopupContent(thePerson) {
     let popupDiv = $('<div></div>');
 
-    let url = `${thePerson.URI}`;
+    let url = `${undoubleTheSlash(thePerson.URI)}`;
 
     popupDiv.append($(`<div class="mapPopLine mapPopLine1">${thePerson.address1}</div>`));
     popupDiv.append($(`<div class="mapPopLine mapPopLine2">${thePerson.address2}</div>`));
@@ -217,7 +217,7 @@ function parseTextVersion(moduleJson) {
         let longitude = conn.longitude;
 
         // Urls in the form of display/person/xxxx are favored, /profile/pid deprecated
-        let url = `${conn.URI}`;
+        let url = `${undoubleTheSlash(conn.URI)}`;
         let name = conn.display_name;
         let nameUrl = createAnchorElement(name, url);
 

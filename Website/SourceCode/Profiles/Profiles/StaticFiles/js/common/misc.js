@@ -125,3 +125,6 @@ function fromSessionOrInit(key, init) {
 function waitableTimeout(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+function undoubleTheSlash(url) {
+    return url.replace("//", "/")
+}

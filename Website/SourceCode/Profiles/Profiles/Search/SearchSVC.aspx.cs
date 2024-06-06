@@ -15,6 +15,8 @@ namespace Profiles.Search
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+
+            double cachetimeout = 0;
             string searchType = "params";
             if (Request.QueryString["SearchType"] != null) searchType = Request.QueryString["SearchType"].ToString();
             string storedProc = null;
@@ -22,7 +24,7 @@ namespace Profiles.Search
             if ("params".Equals(searchType))
             {
                 storedProc = "[Display.].[Search.Params]";
-
+                cachetimeout = Convert.ToInt32(ConfigurationSettings.AppSettings["STATIC_PAGE_CACHE_EXPIRE"]);
             }
             else
             {
@@ -40,6 +42,7 @@ namespace Profiles.Search
                     Response.StatusCode = 500;
                     Response.End();
                 }
+                cachetimeout = Convert.ToInt32(ConfigurationSettings.AppSettings["SEARCH_CACHE_EXPIRE"]);
             }
             
  /*           using (StreamReader stream = new StreamReader(Request.))
@@ -49,39 +52,47 @@ namespace Profiles.Search
             }
  */
             string str = string.Empty;
-            try
+            string cacheKey = storedProc + (body != null ? body : string.Empty);
+            // Return from cache 
+            str = (string) Framework.Utilities.Cache.FetchObject(cacheKey);
+            if (str == null)
             {
-                string connstr = ConfigurationManager.ConnectionStrings["ProfilesDB"].ConnectionString;
-                SqlConnection dbconnection = new SqlConnection(connstr);
-                SqlCommand dbcommand = new SqlCommand(storedProc);
-                dbcommand.CommandTimeout = 500;//Convert.ToInt32(ConfigurationSettings.AppSettings["COMMANDTIMEOUT"]);
+                try
+                {
+                    string connstr = ConfigurationManager.ConnectionStrings["ProfilesDB"].ConnectionString;
+                    SqlConnection dbconnection = new SqlConnection(connstr);
+                    SqlCommand dbcommand = new SqlCommand(storedProc);
+                    dbcommand.CommandTimeout = 500;//Convert.ToInt32(ConfigurationSettings.AppSettings["COMMANDTIMEOUT"]);
 
-                SqlDataReader dbreader;
-                dbconnection.Open();
-                dbcommand.CommandType = CommandType.StoredProcedure;
-                //dbcommand.CommandTimeout = base.GetCommandTimeout();
-                if (body != null)  dbcommand.Parameters.Add(new SqlParameter("@json", body));
+                    SqlDataReader dbreader;
+                    dbconnection.Open();
+                    dbcommand.CommandType = CommandType.StoredProcedure;
+                    //dbcommand.CommandTimeout = base.GetCommandTimeout();
+                    if (body != null) dbcommand.Parameters.Add(new SqlParameter("@json", body));
 
-                dbcommand.Connection = dbconnection;
-                dbreader = dbcommand.ExecuteReader(CommandBehavior.CloseConnection);
+                    dbcommand.Connection = dbconnection;
+                    dbreader = dbcommand.ExecuteReader(CommandBehavior.CloseConnection);
 
-                while (dbreader.Read())
-                    str += dbreader[0].ToString();
+                    while (dbreader.Read())
+                        str += dbreader[0].ToString();
 
 
-                if (!dbreader.IsClosed)
-                    dbreader.Close();
+                    if (!dbreader.IsClosed)
+                        dbreader.Close();
 
-            }
-            catch (Exception ex)
-            {
-                str = "[{\"ErrorMessage\":\"There was an error: " + ex.Message + "\"}]";
-                /*               return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError)
-                               {
-                                   ReasonPhrase = "An Error Occurred",
-                                   Content = new StringContent(ex.Message, System.Text.Encoding.UTF8, "text/plain")
-                               };
-               */
+                    Framework.Utilities.Cache.SetWithTimeout(cacheKey, str, cachetimeout);
+
+                }
+                catch (Exception ex)
+                {
+                    str = "[{\"ErrorMessage\":\"There was an error: " + ex.Message + "\"}]";
+                    /*               return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError)
+                                   {
+                                       ReasonPhrase = "An Error Occurred",
+                                       Content = new StringContent(ex.Message, System.Text.Encoding.UTF8, "text/plain")
+                                   };
+                   */
+                }
             }
 
             // js = new JsonString();
@@ -91,7 +102,8 @@ namespace Profiles.Search
 
 
             Response.ContentType = "application/json; charset=utf-8";
-            Response.AppendHeader("Access-Control-Allow-Origin", "*");
+            //Response.AppendHeader("Access-Control-Allow-Origin", "*");
+            Response.AppendHeader("cache-control", "public, max-age=" + cachetimeout);
             Response.Write(str);
         }
     }

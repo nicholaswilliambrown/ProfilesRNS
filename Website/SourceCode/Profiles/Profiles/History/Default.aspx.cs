@@ -11,6 +11,7 @@
   
 */
 using System;
+using System.Web.Configuration;
 using System.Xml;
 
 namespace Profiles.History
@@ -21,34 +22,16 @@ namespace Profiles.History
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            masterpage = (Framework.Template)base.Master;
+            string pageText = "";
 
-            this.LoadAssets();
+                    pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/history.html");
 
-            this.LoadPresentationXML();
 
-            masterpage.Tab = Request.QueryString["tab"];
-            masterpage.PresentationXML = this.PresentationXML;
+
+            string path = WebConfigurationManager.AppSettings["ProfilesRootPath"];
+            if (path != null && !"".Equals(path)) { pageText = pageText.Replace("/StaticFiles/", "/" + path + "/StaticFiles/"); }
+            litText.Text = pageText;
         }
-
-        private void LoadAssets()
-        {
-
-        }
-
-        public void LoadPresentationXML()
-        {
-            string presentationxml = string.Empty;
-
-            presentationxml = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/History/PresentationXML/History.xml");
-            
-            this.PresentationXML = new XmlDocument();
-            this.PresentationXML.LoadXml(presentationxml);
-            Framework.Utilities.DebugLogging.Log(presentationxml);
-
-        }
-        public XmlDocument PresentationXML { get; set; }
-        public Profiles.Framework.Template Master { get; set; }
     }
     
 }

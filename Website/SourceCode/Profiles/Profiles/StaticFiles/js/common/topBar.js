@@ -141,6 +141,12 @@ function setupNavHistory() {
     // todo: prob a REST call -- or does client page keep track of whom we've seen before??
 }
 function addPersonToNavHistory(fname, lname, url) {
+    if (sessionStorage.profilesNavHistory) {
+        sessionStorage.profilesNavHistory = sessionStorage.profilesNavHistory + "|||" + lname + ", " + fname + "||" + url
+    }
+    else {
+        sessionStorage.profilesNavHistory = lname + ", " + fname + "||" + url
+    }
     let ul = $('#topHistoryDropdown');
 
     let numPersons = ul.find('.dropdown-item').length - 1; // don't count the "See All" item

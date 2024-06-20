@@ -65,3 +65,7 @@ InfiniteScrollDiv.prototype.sayMore = function() {
     sentinel[0].scrollIntoView(false);
 }
 
+// Use module.exports to make function visible to node tests
+module.exports.sum100 = (a, b) => {
+    return a + b + 100;
+}

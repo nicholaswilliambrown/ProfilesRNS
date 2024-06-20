@@ -1,6 +1,8 @@
 {
+  "note" : "the two scripts could point to different folders",
   "scripts": {
-    "test": "jest --verbose ./paging"
+    "test": "jest --verbose ./paging",
+    "test2": "jest --verbose ./paging"
   },
   "devDependencies": {
     "jest": "^29.7.0"

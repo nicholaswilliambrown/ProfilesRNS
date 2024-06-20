@@ -272,3 +272,7 @@ Paging.prototype.ableElt = function(elt, which) {
     }
 }
 
+// Use module.exports to make function visible to node tests
+module.exports.sum = (a, b) => {
+    return a + b;
+}

@@ -275,6 +275,10 @@ Paging.prototype.sum = (a, b) => {
     return a + b;
 }
 
-
-// Use module.exports to make function visible to node tests
-module.exports.Paging = Paging;
+// for jest testing -- 'module' does not exit in browser context
+//        and jest does not seem to support (modern) ESM export/import
+if (typeof module !== 'undefined' &&
+    typeof module.exports !== 'undefined'  ) {
+    // Use module.exports to make function visible to node tests
+    module.exports.Paging = Paging;
+}

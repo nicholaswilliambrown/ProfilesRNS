@@ -68,5 +68,10 @@ InfiniteScrollDiv.prototype.sum100 = (a, b) => {
     return a + b + 100;
 }
 
-// Use module.exports to make function visible to node tests
-module.exports.InfiniteScrollDiv = InfiniteScrollDiv;
+// for jest testing -- 'module' does not exit in browser context
+//        and jest does not seem to support (modern) ESM export/import
+if (typeof module !== 'undefined' &&
+    typeof module.exports !== 'undefined'  ) {
+    // Use module.exports to make function visible to node tests
+    module.exports.InfiniteScrollDiv = InfiniteScrollDiv;
+}

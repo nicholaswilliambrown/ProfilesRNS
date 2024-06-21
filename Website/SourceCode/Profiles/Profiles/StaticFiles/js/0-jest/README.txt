@@ -8,6 +8,6 @@ especially 'Variations in Syntax' in (2)
 In this (0-jest) directory:
 
 % npm install --save-dev jest
-% npm node run <test-name>
+% npm run <test-name>
 
 where <test-name> might be test or test2, etc. -- declared in package.json

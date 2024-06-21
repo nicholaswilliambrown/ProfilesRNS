@@ -271,8 +271,10 @@ Paging.prototype.ableElt = function(elt, which) {
         elt.find('.disablePageNav').show();
     }
 }
-
-// Use module.exports to make function visible to node tests
-module.exports.sum = (a, b) => {
+Paging.prototype.sum = (a, b) => {
     return a + b;
 }
+
+
+// Use module.exports to make function visible to node tests
+module.exports.Paging = Paging;

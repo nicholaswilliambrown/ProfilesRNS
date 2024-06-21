@@ -6,12 +6,13 @@ async function setupActivityDetails() {
     moveContentTo(contentDiv, mainDiv);
     mainDiv.addClass(gCommon.mainDivClasses);
 
-    new InfiniteScrollDiv(
+    let scrollDiv = new InfiniteScrollDiv(
         getMoreActivities,
         contentDiv,
         'scrollDiv pt-1',
         emitActivityData,
         false);
+    await scrollDiv.init();
 }
 async function getMoreActivities() {
     let dataUrl = activityUrlFromSchema(

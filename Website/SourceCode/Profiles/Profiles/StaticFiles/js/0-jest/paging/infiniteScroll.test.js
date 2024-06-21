@@ -1,6 +1,7 @@
 // object containing all the module.exports functions
-const sumImport = require('../../paging/infiniteScrollDiv');
+const infiniteScrollImport = require('../../paging/infiniteScrollDiv');
 
 test('adds 1 + 2 to equal 3', () => {
-  expect(sumImport.sum100(1, 2)).toBe(103);
+  let div = new infiniteScrollImport.InfiniteScrollDiv();
+  expect(div.sum100(1, 2)).toBe(103);
 });

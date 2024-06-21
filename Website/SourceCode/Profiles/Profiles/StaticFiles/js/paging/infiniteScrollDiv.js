@@ -1,6 +1,6 @@
 
 // es5 style. If es6 widespread enough, could use nicer 'class' syntax
-function ScrollDiv(getMoreFn, target, divClass, emitRows, freezeDuringMore){
+function InfiniteScrollDiv(getMoreFn, target, divClass, emitRows, freezeDuringMore){
     this.target = target;
     this.getMoreFn = getMoreFn;
     this.emitRows = emitRows;
@@ -32,10 +32,10 @@ function ScrollDiv(getMoreFn, target, divClass, emitRows, freezeDuringMore){
     }
     init();
 }
-ScrollDiv.prototype.freezeScroll = function(e) {
+InfiniteScrollDiv.prototype.freezeScroll = function(e) {
     e.preventDefault();
 }
-ScrollDiv.prototype.getAndEmitData = async function() {
+InfiniteScrollDiv.prototype.getAndEmitData = async function() {
     if (this.allowMore) {
         this.sayMore();
         let items = await this.getMoreFn();
@@ -44,13 +44,13 @@ ScrollDiv.prototype.getAndEmitData = async function() {
         this.emitRows(items, this.div);
     }
 }
-ScrollDiv.prototype.unSayMore = function() {
+InfiniteScrollDiv.prototype.unSayMore = function() {
     this.div.find('.scrollMore').remove();
     this.div.removeClass('disableScrollDiv');
     this.div.off("scroll", this.freezeScroll);
     this.allowMore = true;
 }
-ScrollDiv.prototype.sayMore = function() {
+InfiniteScrollDiv.prototype.sayMore = function() {
     if (this.freezeDuringMore) {
         this.div.on("scroll", this.freezeScroll);
         this.div.addClass('disableScrollDiv');

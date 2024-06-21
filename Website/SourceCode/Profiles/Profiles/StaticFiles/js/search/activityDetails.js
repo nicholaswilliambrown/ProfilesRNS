@@ -6,7 +6,7 @@ async function setupActivityDetails() {
     moveContentTo(contentDiv, mainDiv);
     mainDiv.addClass(gCommon.mainDivClasses);
 
-    new ScrollDiv(
+    new InfiniteScrollDiv(
         getMoreActivities,
         contentDiv,
         'scrollDiv pt-1',

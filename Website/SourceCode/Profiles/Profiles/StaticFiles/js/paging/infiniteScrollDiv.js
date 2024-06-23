@@ -1,12 +1,15 @@
 
 // es5 style. If es6 widespread enough, could use nicer 'class' syntax
-function InfiniteScrollDiv(getMoreFn, target, divClass, emitRows, freezeDuringMore){
-    this.target = target;
+function InfiniteScrollDiv(getMoreFn, target, divClass, emitRows, freezeDuringMore) {
     this.getMoreFn = getMoreFn;
+    this.target = target;
+    this.divClass = divClass;
     this.emitRows = emitRows;
     this.freezeDuringMore = freezeDuringMore;
+}
 
-    this.div = $(`<div id="scrollDiv" class="${divClass}"></div>`);
+InfiniteScrollDiv.prototype.init = async () => {
+    this.div = $(`<div id="scrollDiv" class="${this.divClass}"></div>`);
     target.append(this.div);
 
     let windowHeight75 = window.innerHeight * .75;
@@ -27,10 +30,7 @@ function InfiniteScrollDiv(getMoreFn, target, divClass, emitRows, freezeDuringMo
 
     this.allowMore = true;
 
-    async function init() { // can't directly make the constructor async
-        await that.getAndEmitData();
-    }
-    init();
+    await that.getAndEmitData();
 }
 InfiniteScrollDiv.prototype.freezeScroll = function(e) {
     e.preventDefault();
@@ -64,4 +64,14 @@ InfiniteScrollDiv.prototype.sayMore = function() {
     this.div.append(sentinel);
     sentinel[0].scrollIntoView(false);
 }
+InfiniteScrollDiv.prototype.sum100 = (a, b) => {
+    return a + b + 100;
+}
 
+// for jest testing -- 'module' does not exit in browser context
+//        and jest does not seem to support (modern) ESM export/import
+if (typeof module !== 'undefined' &&
+    typeof module.exports !== 'undefined'  ) {
+    // Use module.exports to make function visible to node tests
+    module.exports.InfiniteScrollDiv = InfiniteScrollDiv;
+}

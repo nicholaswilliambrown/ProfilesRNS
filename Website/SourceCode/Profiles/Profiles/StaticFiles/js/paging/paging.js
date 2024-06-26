@@ -38,11 +38,11 @@ Paging.prototype.emitPerPageDropdown = function(columnTarget,
                              searchResults) {
     let that = this; // for embedded functions
 
-    let label = $('<label for="pageSelect" class="mt-1">Per Page </label>');
-    let select = $('<select class="ms-1 mb-1" id="pageSelect"></select>');
+    let label = $('<label for="pageSizeSelect" class="mt-1">Per Page </label>');
+    let pageSizeSelect = $('<select class="ms-1 mb-1" id="pageSizeSelect"></select>');
 
     columnTarget.append(label);
-    columnTarget.append(select);
+    columnTarget.append(pageSizeSelect);
 
     let sizes = this.sizes;
 
@@ -55,16 +55,16 @@ Paging.prototype.emitPerPageDropdown = function(columnTarget,
         let size = sizes[i];
         let selected = size == currentSize ? "selected" : "";
         let option = $(`<option ${selected} value=${size}>${size}</option>`);
-        select.append(option);
+        pageSizeSelect.append(option);
     }
 
-    select.on('change', function(e) {
+    pageSizeSelect.on('change', function(e) {
         let selectTarget = $(e.target);
 
-        let size = Number(selectTarget.val());
+        let pageSize = Number(selectTarget.val());
 
-        searchResults.SearchQuery.Count = size;
-        let newOffset = Math.floor(searchResults.SearchQuery.Offset / size) * size;
+        searchResults.SearchQuery.Count = pageSize;
+        let newOffset = Math.floor(searchResults.SearchQuery.Offset / pageSize) * pageSize;
         searchResults.SearchQuery.Offset = newOffset;
 
         that.redoSearchFn(searchResults, that.searchUrl);

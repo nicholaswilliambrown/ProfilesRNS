@@ -29,7 +29,7 @@ function emitSidebarRecentUpdates() {
         gSearch.activityCurrentHighId);
 
     $.get(dataUrl, function(activities) {
-        emitActivityRows(activities, target);
+        emitActivityLhsRows(activities, target);
 
         // proceed w 'continuation'
         emitMoreUpdatesLink();
@@ -53,10 +53,17 @@ function activityThumbnailAndDate(activity) {
     return {thumbnail, nameDateDiv};
 }
 
-function emitActivityRows(activities, target) {
+function emitActivityLhsRows(activities, target) {
     for (let i=0; i<activities.length; i++) {
         let activity = activities[i];
 
+        emitLhsActivity(activity, i, target);
+    }
+}
+function emitLhsActivity(activity, i, target) {
+
+    let blurb = emitActivityBlurb(activity);
+    if (blurb) {
         let {thumbnail, nameDateDiv} = activityThumbnailAndDate(activity);
 
         let pairRow = emitLeftColumnPairs(target,
@@ -68,8 +75,10 @@ function emitActivityRows(activities, target) {
             `rUpdates${i}`,
             "",
             true);
-        emitActivityBlurb(activity, pairRow);
+
+        divSpanifyTo(blurb, pairRow, 'recentUpdateBlurb', 'ps-3');
     }
+
 }
 function emitLeftColumnPairs(target,
                              items,
@@ -113,7 +122,7 @@ function emitLeftColumnPairs(target,
     // last row
     return row;
 }
-function emitActivityBlurb(activity, target) {
+function emitActivityBlurb(activity) {
     let tokens = gSearch.recentUpdateTokens;
     tokens.peud = "Profiles.Edit.Utilities.DataIO";
 
@@ -201,9 +210,11 @@ function emitActivityBlurb(activity, target) {
         body = "logged in";
     }
     else {
-        body = `<b>Cannot assemble blurb from methodName: 
-                    ${methodName}, property: ${property}, and/or param1: ${param1}</b>`;
+        console.log(`<b>Cannot assemble blurb from methodName: 
+                    ${methodName}, property: ${property}, 
+                    and/or param1: ${param1}</b>`);
+        body = "";
     }
 
-    divSpanifyTo(body, target, 'recentUpdateBlurb', 'ps-3');
+    return body;
 }

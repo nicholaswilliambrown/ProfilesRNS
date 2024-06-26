@@ -12,7 +12,7 @@ async function setupActivityDetails() {
         'scrollDiv pt-1',
         emitActivityData,
         false);
-    await scrollDiv.init();
+    await scrollDiv.init(scrollDiv); // methods do not access the correct 'this'
 }
 async function getMoreActivities() {
     let dataUrl = activityUrlFromSchema(
@@ -35,19 +35,26 @@ function emitActivityData(activities, target) {
     let activityLogId;
     for (let i=0; i<activities.length; i++) {
         let activity = activities[i];
-        activityLogId = activity.activityLogID;
+        emitOneActivity(activity, colspecs, target);
+    }
+    gSearch.activityCurrentHighId = activityLogId; // final id is new high-sentinel
+}
+function emitOneActivity(activity, colspecs, target) {
+    let activityLogId = activity.activityLogID;
 
-        let row = makeRowWithColumns(target, activityLogId, colspecs, "ms-0 ps-0");
-        let col1 = row.find(`#${activityLogId}Col0`);
-        let col2 = row.find(`#${activityLogId}Col1`);
-        let col3 = row.find(`#${activityLogId}Col2`);
+    let row = makeRowWithColumns(target, activityLogId, colspecs, "ms-0 ps-0");
+    let col1 = row.find(`#${activityLogId}Col0`);
+    let col2 = row.find(`#${activityLogId}Col1`);
+    let col3 = row.find(`#${activityLogId}Col2`);
 
+    let blurb = emitActivityBlurb(activity);
+    if (blurb) { // empty if could not cook blurb from activity
         let {thumbnail, nameDateDiv} = activityThumbnailAndDate(activity);
         col1.append(thumbnail);
         col2.append(nameDateDiv);
-        emitActivityBlurb(activity, col3);
 
+        divSpanifyTo(blurb, col3, 'recentUpdateBlurb', 'ps-3');
         target.append($('<hr class="tightHr"/>'));
     }
-    gSearch.activityCurrentHighId = activityLogId; // final id is new high-sentinel
+
 }

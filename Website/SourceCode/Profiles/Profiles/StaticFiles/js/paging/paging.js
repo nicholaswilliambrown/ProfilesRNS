@@ -1,9 +1,9 @@
 
 // es5 style. If es6 widespread enough, could use nicer 'class' syntax
-function Paging(redoSearch, searchUrl, getTotal, sizes){
-    this.redoSearchFn = redoSearch;
+function Paging(redoSearchFn, searchUrl, getTotalFn, sizes){
+    this.redoSearchFn = redoSearchFn;
     this.searchUrl = searchUrl;
-    this.getTotalCount = getTotal;
+    this.getTotalCountFn = getTotalFn;
     this.sizes = sizes;
 }
 
@@ -47,7 +47,7 @@ Paging.prototype.emitPerPageDropdown = function(columnTarget,
     let sizes = this.sizes;
 
     let currentSize = this.getNumItemsPerPage(searchResults);
-    if (! sizes.indexOf(currentSize) == -1) {
+    if ( ! sizes.includes(currentSize)) {
         currentSize = sizes[0];
     }
     
@@ -81,7 +81,7 @@ Paging.prototype.getNumItemsPerPage = function(searchResults) {
 }
 Paging.prototype.getNumPages = function(searchResults) {
     let result;
-    let numItems = this.getTotalCount(searchResults);
+    let numItems = this.getTotalCountFn(searchResults);
 
     let itemsPerPage = this.getNumItemsPerPage(searchResults);
 

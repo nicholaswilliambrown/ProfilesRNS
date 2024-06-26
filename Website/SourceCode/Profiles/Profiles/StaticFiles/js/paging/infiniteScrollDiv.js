@@ -8,6 +8,8 @@ function InfiniteScrollDiv(getMoreFn, target, divClass, emitRowsFn, freezeDuring
     this.freezeDuringMore = freezeDuringMore;
 }
 
+// correct 'this' might be available after init(),
+//   we will use 'that' to be safe  %^$#$@&^%!!
 InfiniteScrollDiv.prototype.init = async (that) => {
     let theDiv = $(`<div id="scrollDiv" class="${that.divClass}"></div>`);
 

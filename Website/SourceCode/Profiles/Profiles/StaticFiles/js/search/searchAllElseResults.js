@@ -92,7 +92,7 @@ function showAllElseFilters(target, results) {
             klass = "link-ish fs12";
             span.on('click', function() {
                 let selections = results.SearchQuery;
-                initializePagingValues(selections, gPage.defaultPageSize, 0);
+                initializePagingValues(selections, gPage.defaultPageSize, 1);
                 filterSearch(filter.type, filter.label, results);
             });
         }

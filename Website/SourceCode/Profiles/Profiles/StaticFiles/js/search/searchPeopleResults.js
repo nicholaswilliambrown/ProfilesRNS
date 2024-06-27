@@ -8,7 +8,6 @@ async function setupSearchPeopleResults() {
 
     let resultsAsString = fromSession(makeSearchResultsKey(gSearch.people));
     let results = JSON.parse(resultsAsString);
-    gSearch.searchPeopleResults = results;
 
     if (! results || ! results.SearchQuery) { // sanity check
         alert(`Error with search results: ${resultsAsString}`);
@@ -29,10 +28,10 @@ async function setupSearchPeopleResults() {
 
     hideLiItems();
 
-    setupDropdownsAndInitialSelections();
+    setupDropdownsAndInitialSelections(results);
     emitCriteriaOnRhs(results, true);
 
-    emitPeopleResults();
+    emitPeopleResults(results);
 
     pagination.emitPagingRow($('#resultsDiv'),
         "pt-1 ms-1 me-1 borderOneSolid",
@@ -42,8 +41,7 @@ function getPeopleResultsCount(results) {
     let result = results.Count ? results.Count : 0;
     return result;
 }
-function emitPeopleResults() {
-    let results = gSearch.searchPeopleResults;
+function emitPeopleResults(results) {
     let target = $('#resultsDiv');
     target.empty();
 
@@ -55,7 +53,7 @@ function emitPeopleResults() {
     let colspecs = makePpleSearchResultsColspecs(optionalShows);
 
     emitPeopleResultsHeader(results, optionalShows, colspecs, target);
-    emitDataRows(results, optionalShows, colspecs, target);
+    emitPeopleDataRows(results, optionalShows, colspecs, target);
 }
 function emitPeopleResultsHeader(results, optionalShows, colspecs, target) {
     let rowId = `peopleResultsHeader`;
@@ -95,8 +93,8 @@ function emitPeopleResultsHeader(results, optionalShows, colspecs, target) {
         sortIcon.show();
     }
 }
-function emitDataRows(results, optionalShows, colspecs, target) {
-    let items = results.People; // [relevance] sort is requested/fulfilled by/in back-end
+function emitPeopleDataRows(results, optionalShows, colspecs, target) {
+    let items = sortArrayViaSortLabel(results.People, "SortOrder");
 
     if (items) {
         for (let i = 0; i < items.length; i++) {

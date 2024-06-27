@@ -182,7 +182,7 @@ function searchEverythingFn(searchInput, exactCheckbox) {
 
     // new search starts with 'All' filter
     addUpdateSearchQuery(selections, gSearch.currentFilterKey, gSearch.allFilterLabel);
-    initializePagingValues(selections, gPage.defaultPageSize, 0);
+    initializePagingValues(selections, gPage.defaultPageSize, 1);
 
     //alert(`Json (from everything tab): ${JSON.stringify(selections)}`);
     searchPost(

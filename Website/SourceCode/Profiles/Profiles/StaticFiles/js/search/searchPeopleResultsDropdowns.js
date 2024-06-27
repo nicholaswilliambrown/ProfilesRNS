@@ -41,9 +41,7 @@ function installSelectedShows(results) {
     let selected = harvestCheckedOptions('showCheck');
     addUpdateSearchQueryKey(results, gSearch.selectedOptionalPeopleShowsKey, selected);
 }
-function setupDropdownsAndInitialSelections() {
-    let results = gSearch.searchPeopleResults;
-
+function setupDropdownsAndInitialSelections(results) {
     setupShowDropdown(results);
 
     let searchQuery = results.SearchQuery;

@@ -10,7 +10,7 @@ function searchPost(url, prefix, selections, resultPage) {
             && results.length == 1
             && results[0].ErrorMessage !== gCommon.undefined) {
 
-            alert(`Error message from back-end: "${results[0].ErrorMessage}"
+            console.log(`Error message from back-end: "${results[0].ErrorMessage}"
                     \nFrom Post of: 
                     <${stringCriteria}>`);
         }
@@ -93,11 +93,11 @@ function collectMiscInitialPeopleSelections(selections) {
     // misc addition: foreshadowing sorting
     selections.Sort = "relevance";
     selections.SearchType = gSearch.people;
-    initializePagingValues(selections, gPage.defaultPageSize, 0);
+    initializePagingValues(selections, gPage.defaultPageSize, 1);
 }
-function initializePagingValues(selections, size, offset) {
+function initializePagingValues(selections, size, offset1) {
     selections.Count = size;
-    selections.Offset = offset;
+    selections.Offset = offset1;
 }
 function createWhyLink(item, results) {
     let whySpan = spanify('Why?', 'link-ish');

@@ -229,7 +229,7 @@ gSearch.recentUpdateTokens = {}; // see recentUpdates.js
 
 gSearch.activityDetailsCount = 10;
 gSearch.activityPreviewCount = 3;
-gSearch.activityInitialHighId = 5000000;
+gSearch.activityInitialHighId = 50000000;
 gSearch.activityCurrentHighId = gSearch.activityInitialHighId;
 
 gSearch.defaultPeopleSort = 'relevance';

@@ -35,7 +35,7 @@ function emitActivityData(activities, target) {
     let activityLogId;
     for (let i=0; i<activities.length; i++) {
         let activity = activities[i];
-        emitOneActivity(activity, colspecs, target);
+        activityLogId = emitOneActivity(activity, colspecs, target);
     }
     gSearch.activityCurrentHighId = activityLogId; // final id is new high-sentinel
 }
@@ -56,5 +56,5 @@ function emitOneActivity(activity, colspecs, target) {
         divSpanifyTo(blurb, col3, 'recentUpdateBlurb', 'ps-3');
         target.append($('<hr class="tightHr"/>'));
     }
-
+    return activityLogId;
 }

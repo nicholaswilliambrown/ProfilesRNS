@@ -7,8 +7,7 @@ async function setupSearchAllElseResults() {
         gPage.sizes);
 
     let resultsAsString = fromSession(makeSearchResultsKey(gSearch.allElse));
-    gSearch.searchAllElseResults = JSON.parse(resultsAsString);
-    let results = gSearch.searchAllElseResults;
+    let results = JSON.parse(resultsAsString);
 
     if (! results || ! results.SearchQuery) { // sanity check
         alert(`Error with search results: ${resultsAsString}`);

@@ -8,6 +8,7 @@ function InfiniteScrollDiv(getMoreFn, target, divClass, emitRowsFn, freezeDuring
     this.freezeDuringMore = freezeDuringMore;
 }
 
+InfiniteScrollDiv.prototype.maybeMoreAvailable = true;
 // correct 'this' might be available after init(),
 //   we will use 'that' to be safe  %^$#$@&^%!!
 InfiniteScrollDiv.prototype.init = async (that) => {
@@ -21,12 +22,15 @@ InfiniteScrollDiv.prototype.init = async (that) => {
 
     // https://stackoverflow.com/questions/6271237/detecting-when-user-scrolls-to-bottom-of-div-with-jquery
     theDiv.on('scroll', async function() {
+        if ( ! that.maybeMoreAvailable) {
+            return;
+        }
         let scrollTop = $(this).scrollTop();
-        let innerHeight = $(this).innerHeight();
-        let scrollHeight = $(that.target).innerHeight() - 1;
-        console.log(`Scroll top, innerH, scrollH: ${scrollTop}, ${innerHeight}, ${scrollHeight}`)
-        if(scrollTop + innerHeight >= scrollHeight) {
-            console.log('end reached');
+        let divInnerHeight = $(this).innerHeight();
+        let scrollHeight = $(this)[0].scrollHeight;
+        if($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight - 1) {
+            console.log(`T:${scrollTop}+IH:${divInnerHeight}=${scrollTop+divInnerHeight}, cf:${scrollHeight}`);
+            console.log('Try for more activities');
             await that.getAndEmitData(that);
         }
     });
@@ -49,6 +53,7 @@ InfiniteScrollDiv.prototype.getAndEmitData = async function(that) {
         }
         else {
             console.log(`Empty array or non-array (error message?): ${JSON.stringify(items)}`);
+            that.maybeMoreAvailable = false;
         }
     }
 }

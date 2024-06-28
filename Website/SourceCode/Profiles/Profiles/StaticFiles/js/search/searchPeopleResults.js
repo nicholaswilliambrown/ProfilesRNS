@@ -94,9 +94,8 @@ function emitPeopleResultsHeader(results, optionalShows, colspecs, target) {
     }
 }
 function emitPeopleDataRows(results, optionalShows, colspecs, target) {
-    let items = sortArrayViaSortLabel(results.People, "SortOrder");
-
-    if (items) {
+    if (results.People && results.People.length > 0) {
+        let items = sortArrayViaSortLabel(results.People, "SortOrder");
         for (let i = 0; i < items.length; i++) {
             let item = items[i];
 

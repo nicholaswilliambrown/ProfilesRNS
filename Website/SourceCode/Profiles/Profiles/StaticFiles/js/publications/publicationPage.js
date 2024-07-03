@@ -28,22 +28,25 @@ function emitTopItems(data, mainDiv) {
     mainDiv.append(pubMedDiv);
 }
 function emitSubjects(data, mainDiv) {
-    let theDiv = $(`<div class="bordCcc mt-3 p-2"></div>`);
-    mainDiv.append(theDiv);
-
-    divSpanifyTo('subject areas', theDiv, 'divTitleSpan', 'mb-2');
-    for (let i=0; i<data.length; i++) {
-        divSpanifyTo(`item ${i}`, theDiv);
-    }
+    emitPublicationHelper(data, mainDiv, 'subject areas', 'DescriptorName')
 }
 
 function emitAuthors(data, mainDiv) {
+    emitPublicationHelper(data, mainDiv, 'authors with profiles', 'DisplayName')
+}
+function emitPublicationHelper(data, mainDiv, subTitle, displayProperty) {
     let theDiv = $(`<div class="bordCcc mt-3 p-2"></div>`);
     mainDiv.append(theDiv);
 
-    divSpanifyTo('authors with profiles', theDiv, 'divTitleSpan', 'mb-2');
+    divSpanifyTo(subTitle, theDiv, 'divTitleSpan', 'mb-2');
     for (let i=0; i<data.length; i++) {
-        divSpanifyTo(`item ${i}`, theDiv);
+        let item = data[i];
+
+        let anchorDiv = $('<div></div>');
+        theDiv.append(anchorDiv);
+
+        let anchor = createAnchorElement(item[displayProperty], URL);
+        anchorDiv.append(anchor);
     }
 }
 

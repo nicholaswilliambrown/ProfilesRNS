@@ -452,4 +452,6 @@ function emitAndHistoricizeTitle(title, targetId, mainDiv) {
     target.html(title);
 
     moveContentTo(target, mainDiv);
+
+    addItemToNavHistory(title, window.location.href);
 }

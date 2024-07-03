@@ -5,7 +5,8 @@ function generalInfoParser(json, moduleTitle) {
 
     setTabTitleAndFavicon(`${jsonElt.FirstName} ${jsonElt.LastName}`);
 
-    addPersonToNavHistory(jsonElt.FirstName, jsonElt.LastName, window.location.href);
+    let nameForHistory = `${jsonElt.LastName}, ${jsonElt.FirstName}`;
+    addItemToNavHistory(nameForHistory, window.location.href);
 
     let giDiv = $(`<div id="giDiv" class="mb-3"></div>`);
     dataDiv.append(giDiv);

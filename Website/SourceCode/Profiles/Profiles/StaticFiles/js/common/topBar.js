@@ -36,7 +36,7 @@ function setupTopNav() {
     setUrlByAnchorId("helpA", gCommon.helpUrl);
     setUrlByAnchorId("logoutA", gCommon.logoutUrl);
 
-    setupNavHistory(`${gCommon.cols12}`);
+    populateHistoryDropdown();
 
     setupNavSearch(topNavbar);
 
@@ -137,28 +137,6 @@ function doNavSearch(e) {
 
     minimalPeopleSearch(searchTerm);
 }
-function setupNavHistory() {
-    // todo: prob a REST call -- or does client page keep track of whom we've seen before??
-}
-function addPersonToNavHistory(fname, lname, url) {
-    if (sessionStorage.profilesNavHistory) {
-        sessionStorage.profilesNavHistory = sessionStorage.profilesNavHistory + "|||" + lname + ", " + fname + "||" + url
-    }
-    else {
-        sessionStorage.profilesNavHistory = lname + ", " + fname + "||" + url
-    }
-    let ul = $('#topHistoryDropdown');
-
-    let numPersons = ul.find('.dropdown-item').length - 1; // don't count the "See All" item
-
-    let personLi = $(`<li><a class="dropdown-item" href="${url}">${lname}, ${fname}</a></li>`);
-    ul.prepend(personLi);
-
-    let historyHtml = 'History' + (++numPersons > 0 ? ` (${numPersons})` : "");
-
-    let ourA = ul.closest('.nav-item').find('.nav-link');
-    ourA.html(historyHtml);
-}
 function showVsHideNavDropdown(e, showVsHide) {
     let jqItem = $(e.target);
 
@@ -180,7 +158,45 @@ function showVsHideNavDropdown(e, showVsHide) {
         }
     }
 }
-
 function setUrlByAnchorId(aid, url) {
     $(`#${aid}`).attr('href', url);
 }
+///////// history tab /////////
+function getOrInitHistory() {
+    let history = fromSession(gCommon.historyKey);
+    if ( ! history) {
+        history = [];
+        toSession(gCommon.historyKey, history);
+    }
+    return history;
+}
+function addItemToNavHistory(display, url) {
+    let history = getOrInitHistory();
+
+    let displays = history.map((item) => item.display);
+    if ( ! displays.includes(display)) {
+        history.push({display: display, url: url});
+        toSession(gCommon.historyKey, history);
+
+        populateHistoryDropdown();
+    }
+}
+function populateHistoryDropdown() {
+    let history = getOrInitHistory();
+    let ul = $('#topHistoryDropdown');
+    ul.find('.history').remove();
+
+    let numItems = history.length;
+
+    for (let i=0; i<numItems; i++) {
+        let item = history[i];
+        let li = $(`<li><a class="dropdown-item history" href="${item.url}">${item.display}</a></li>`);
+        ul.prepend(li);
+    }
+
+    let historyHtml = 'History' + (numItems > 0 ? ` (${numItems})` : "");
+
+    let dropdownHeader = ul.closest('.nav-item').find('.nav-link');
+    dropdownHeader.html(historyHtml);
+}
+

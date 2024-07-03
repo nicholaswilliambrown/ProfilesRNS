@@ -22,7 +22,11 @@ async function setupSearchAllElseResults() {
 
     let count = getAllElseResultsCount(results);
 
-    emitSearchResultCountAndBackTo(results, `searchForm.html?${gSearch.allElse}`, 'Modify Search', count);
+    emitSearchResultCountAndBackTo(
+        results,
+        `searchForm.html?${gSearch.allElse}`,
+        'Modify Search',
+        count);
     emitAllElseRhs(results, pagination);
 
     emitResults(results);
@@ -109,7 +113,7 @@ function redoAllElseSearch(results, url) {
         "searchAllElseResults.html");
 }
 function filterSearch(type, label, results) {
-    let searchUrl  = gSearch.findEverythingElseUrl + `?filterType=${type}`;
+    let searchUrl  = gSearch.findEverythingElseUrl + `&filterType=${type}`;
     addUpdateSearchQueryKey(results, gSearch.currentFilterKey, label);
 
     redoAllElseSearch(results, searchUrl);

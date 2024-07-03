@@ -17,6 +17,7 @@ const AccordionNestingOption = Object.freeze({
 ///////////////////////////////////////
 
 let gCommon = {};
+gCommon.historyKey = 'profilesNavHistory';
 gCommon.undefined = 'undefined';
 
 gCommon.loggedIn = null; // falsy val returned by tryForLoggedIn()

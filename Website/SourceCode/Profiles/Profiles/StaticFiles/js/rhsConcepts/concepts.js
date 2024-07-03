@@ -5,7 +5,7 @@ const ConceptsTab = Object.freeze({
     Details: Symbol("Details")
 });
 
-async function setupConcepts() {
+async function setupRhsConcepts() {
     let [jsonArray, lhsModules, rhsModules] = await commonSetupWithJson(compareLhsModules);
     setupScrolling();
 

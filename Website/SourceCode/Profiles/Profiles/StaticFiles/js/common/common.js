@@ -447,3 +447,9 @@ function makeArrowedConnectionLine() {
 
     return doubleArrow;
 }
+function emitAndHistoricizeTitle(title, targetId, mainDiv) {
+    let target = $(`#${targetId}`);
+    target.html(title);
+
+    moveContentTo(target, mainDiv);
+}

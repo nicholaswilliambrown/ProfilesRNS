@@ -95,14 +95,14 @@ function emitOtherPositions(target, affiliationArray, idSuffix, wideVsNarrow) {
 }
 function emitHeadshot(target, jsonElt) {
     let headshot;
-    if (jsonElt.PhotoUrl) {
-        headshot = $(`<img class="headshot" width="${jsonElt.PhotoWidth}" height="${jsonElt.PhotoHeight}" src="${jsonElt.PhotoUrl}"></img>`);
+    if (jsonElt.ImageURL) {
+        headshot = $(`<img class="headshot" 
+            width="120px" 
+            height="160px" 
+            src="${jsonElt.ImageURL}"></img>`);
     }
     else {
-        headshot = $(`<div>data would say sth like:
-        <br/>"PhotoUrl": "url-of-headshot.jpeg",
-        <br/>"PhotoWidth": "120px",
-        <br/>"PhotoHeight": "160px"</div>`);
+        headshot = $(`<div>(No headshot available)</div>`);
     }
     target.append(headshot);
 }

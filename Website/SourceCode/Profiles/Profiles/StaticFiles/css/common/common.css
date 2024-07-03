@@ -147,6 +147,9 @@ header._ci_shared_asset.tool-page.mayHelpResponsivenessSm {
     color: #b23f45;
     font-weight: 700;
 }
+.titleForHistory {
+    font-size: 28px !important;
+}
 
 .explore_title {
     font-weight: bold;

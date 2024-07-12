@@ -81,7 +81,9 @@ gCommon.bsMarginsPaddingIncreasing = `ms-0 ms-sm-0 ms-md-2 ms-lg-2 ms-xl-4 ms-xx
                         ps-0 ps-sm-0 ps-md-2 ps-lg-2 ps-xl-4 ps-xxl-4`;
 
 
-gCommon.personThumbnailSchema = "/profile/Modules/CustomViewPersonGeneralInfo/PhotoHandler.ashx?NodeID=%%FOO%%&Thumbnail=True&Width=45"
+gCommon.personThumbnailSchema = "/profile/Modules/CustomViewPersonGeneralInfo/PhotoHandler.ashx?NodeID=%%FOO%%&Thumbnail=True&Width=45";
+gCommon.personEmailToImageUrlPrefix = `../../Profile/Modules/CustomViewPersonGeneralInfo/EmailHandler.ashx?msg=`;
+gCommon.personOrcidUrlPrefix = "https://orcid.org/";
 
 function setupBrandingDependentVals() {
     gCommon.helpUrl = `${gBrandingConstants.htmlFiles}help.html`;

@@ -130,6 +130,9 @@
     text-decoration: underline;
     font-weight: bold;
 }
+.orcidLabel {
+
+}
 /************* authorship ***********************************************************************/
 .auth_topDiv1 {
     font-weight: 700 !important;

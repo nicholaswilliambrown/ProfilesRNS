@@ -45,7 +45,7 @@ function generalInfoParser(json, moduleTitle) {
 
     return giDiv;
 }
-function emitMainPosition(target, mainAffiliation, jsonElt, name, idSuffix, wideVsNarrow) {
+async function emitMainPosition(target, mainAffiliation, jsonElt, name, idSuffix, wideVsNarrow) {
     giTwoColumnInfo(target, spanify("Title"), spanify(mainAffiliation.Title),
         `giTitleM${idSuffix}`, wideVsNarrow);
     giTwoColumnInfo(target, spanify("Institution"), spanify(mainAffiliation.InstitutionName),
@@ -65,6 +65,24 @@ function emitMainPosition(target, mainAffiliation, jsonElt, name, idSuffix, wide
     if (jsonElt.Email) {
         giTwoColumnInfo(target, spanify("Email"), spanify(jsonElt.Email),
             `giEmailM${idSuffix}`, wideVsNarrow);
+    }
+    else if (jsonElt.EmailEncrypted) {
+        let emailImage = await getEmailImage(jsonElt.EmailEncrypted);
+        giTwoColumnInfo(target, spanify("Email"), emailImage,
+            `giEmailM${idSuffix}`, wideVsNarrow);
+    }
+    let orcid = jsonElt.ORCID;
+    if (orcid) {
+        let orcDiv = $('<div></div>');
+        let orcLabel = spanify('ORCID', 'bold me-1');
+        let orcImage = $(`<img class="pb-1" src="${gBrandingConstants.jsPersonImageFiles}orcid_16x16.gif"/>`);
+        orcDiv.append(orcLabel)
+        orcDiv.append(orcImage);
+
+        let link = createAnchorElement(orcid, `${gCommon.personOrcidUrlPrefix}${orcid}`);
+
+        giTwoColumnInfo(target, orcDiv, link,
+            `orcidM${idSuffix}`, wideVsNarrow);
     }
 
     let vCardSpan = $('<span></span>');
@@ -166,5 +184,10 @@ END:VCARD`;
 }
 function escapeComma(input) {
     let result = input.replace(/,/g, "\\,");
+    return result;
+}
+async function getEmailImage(emailEcrypted) {
+    emailEcrypted = encodeURIComponent(emailEcrypted);
+    let result = await $(`<img src="${gCommon.personEmailToImageUrlPrefix}${emailEcrypted}"/>`);
     return result;
 }

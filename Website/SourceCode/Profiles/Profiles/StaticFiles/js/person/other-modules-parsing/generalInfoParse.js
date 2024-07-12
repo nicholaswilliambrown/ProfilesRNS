@@ -11,10 +11,11 @@ function generalInfoParser(json, moduleTitle) {
     let giDiv = $(`<div id="giDiv" class="mb-3"></div>`);
     dataDiv.append(giDiv);
 
-    let nameH2 = $(`<h2>${jsonElt.DisplayName}</h2>`);
+    let vcfName = jsonElt.FirstName + '_' + jsonElt.LastName;
+    let nameA = $(`<h2>${jsonElt.DisplayName}</h2>`);
     let nameDiv = $('<div class="gi_fullName"></div>');
     giDiv.append(nameDiv);
-    nameDiv.append(nameH2);
+    nameDiv.append(nameA);
 
     let affiliationArray = sortArrayViaSortLabel(jsonElt.Affiliation, "SortOrder");
     let mainAffiliation = affiliationArray[0];
@@ -29,13 +30,13 @@ function generalInfoParser(json, moduleTitle) {
     bigLeft.append(wideLeft);
     bigLeft.append(narrowLeft);
 
-    emitMainPosition(wideLeft, mainAffiliation, jsonElt,
+    emitMainPosition(wideLeft, mainAffiliation, jsonElt, vcfName,
         "wide", true);
     if (affiliationArray.length > 1) {
         emitOtherPositions(wideLeft, affiliationArray,
             "wide", true);
     }
-    emitMainPosition(narrowLeft, mainAffiliation, jsonElt,
+    emitMainPosition(narrowLeft, mainAffiliation, jsonElt, vcfName,
         "narrow", false);
     if (affiliationArray.length > 1) {
         emitOtherPositions(narrowLeft, affiliationArray,
@@ -44,7 +45,7 @@ function generalInfoParser(json, moduleTitle) {
 
     return giDiv;
 }
-function emitMainPosition(target, mainAffiliation, jsonElt, idSuffix, wideVsNarrow) {
+function emitMainPosition(target, mainAffiliation, jsonElt, name, idSuffix, wideVsNarrow) {
     giTwoColumnInfo(target, spanify("Title"), spanify(mainAffiliation.Title),
         `giTitleM${idSuffix}`, wideVsNarrow);
     giTwoColumnInfo(target, spanify("Institution"), spanify(mainAffiliation.InstitutionName),
@@ -67,8 +68,11 @@ function emitMainPosition(target, mainAffiliation, jsonElt, idSuffix, wideVsNarr
     }
 
     let vCardSpan = $('<span></span>');
-    let vcardUrl = window.location.href + '/viewas/vcard';
-    let vcardAnchor = $(`<a class="link-ish" href="${vcardUrl}"> Download vCard</a>`);
+    let vCardContent = createVcardContent(jsonElt);
+    let vcardUrl = `data:text;base64,${btoa(vCardContent)}`;
+    let vcardAnchor = $(`<a class="link-ish" target="_blank" 
+                            href="${vcardUrl}"
+                            download="${name}.vcf">Download vCard</a>`);
     vCardSpan.append(vcardAnchor);
 
     if (! gCommon.loggedIn) {
@@ -126,4 +130,41 @@ function giOuterTwoColumns(target, idLabel) {
     let row = makeRowWithColumns(target, idLabel, colSpecs);
     return row;
 }
+function createVcardContent(jsonElt) {
+    let affiliation = jsonElt.Affiliation;
 
+    let title = "";
+    let org = "";
+    if (affiliation && affiliation.length > 0) {
+        title = escapeComma(`TITLE:${affiliation[0].Title}\n`);
+        org = escapeComma(`ORG:${affiliation[0].InstitutionName}\n`);
+    }
+    let phone = "";
+    if (jsonElt.Phone) {
+        phone = escapeComma(`TEL;type=WORK;type=VOICE;type=pref:${jsonElt.Phone}\n`);
+    }
+    let address = "";
+    for (let i=1; i<=4; i++) {
+        let addrLine = jsonElt[`AddressLine${i}`];
+        if (addrLine) {
+            address += escapeComma(addrLine) + "\\n";
+        }
+    }
+    if (address) {
+        address = address.replace(/\\n$/, "");
+        address = `ADR;type=WORK;type=pref:;;${address}\n`;
+    }
+
+    let result =
+`BEGIN:VCARD
+VERSION:3.0
+N:${escapeComma(jsonElt.LastName)};${escapeComma(jsonElt.FirstName)};;;\n` +
+    `${title}${org}${phone}${address}URL;type=WORK;type=pref:${window.location.href}
+NOTE:
+END:VCARD`;
+    return result;
+}
+function escapeComma(input) {
+    let result = input.replace(/,/g, "\\,");
+    return result;
+}

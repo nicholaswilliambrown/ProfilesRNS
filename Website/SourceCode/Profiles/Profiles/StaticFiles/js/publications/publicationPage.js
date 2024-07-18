@@ -28,11 +28,11 @@ function emitTopItems(data, mainDiv) {
     mainDiv.append(pubMedDiv);
 }
 function emitSubjects(data, mainDiv) {
-    emitPublicationHelper(data, mainDiv, 'subject areas', 'DescriptorName')
+    emitPublicationHelper(data, mainDiv, 'subject areas', 'DescriptorName');
 }
 
 function emitAuthors(data, mainDiv) {
-    emitPublicationHelper(data, mainDiv, 'authors with profiles', 'DisplayName')
+    emitPublicationHelper(data, mainDiv, 'authors with profiles', 'DisplayName');
 }
 function emitPublicationHelper(data, mainDiv, subTitle, displayProperty) {
     let theDiv = $(`<div class="bordCcc mt-3 p-2"></div>`);

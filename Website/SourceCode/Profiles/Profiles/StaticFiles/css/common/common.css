@@ -305,3 +305,10 @@ header._ci_shared_asset.tool-page.mayHelpResponsivenessSm {
 .parentWidth {
     width: 100%;
 }
+.hiZ {
+    z-index: 300 !important;
+}
+.hiZ.nav-item {
+    text-decoration: none !important;
+    border-bottom: none !important;
+}

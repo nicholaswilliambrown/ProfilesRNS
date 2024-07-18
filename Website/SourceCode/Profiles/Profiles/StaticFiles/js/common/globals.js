@@ -244,7 +244,8 @@ gPage.defaultPageSize = gPage.sizes[0];
 gAbout = {};
 gAbout.rnsUrl = '/';
 
-
+gConcepts.meshSiteUrl = 'http://www.nlm.nih.gov/mesh/';
+gConcepts.meshSiteText = 'MeSH (Medical Subject Headings)';
 
 
 

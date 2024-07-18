@@ -9,25 +9,25 @@ function addPublicationsFirstTwoHeaderItems(target) {
 
     target.append(gPerson.topDiv1);
 
-    gPerson.authNavButtonNewest = addAuthNavItem("authNavButtonNewest"              ,
+    gPerson.authNavButtonNewest = createNavItemDiv("authNavButtonNewest"              ,
                                     "Newest",
                                     authNavNewest);
-    gPerson.authNavButtonOldest = addAuthNavItem("authNavButtonOldest"              ,
+    gPerson.authNavButtonOldest = createNavItemDiv("authNavButtonOldest"              ,
                                     "Oldest",
                                     authNavOldest);
-    gPerson.authNavButtonMostCited = addAuthNavItem("authNavButtonMostCited"        ,
+    gPerson.authNavButtonMostCited = createNavItemDiv("authNavButtonMostCited"        ,
                                     "Most Cited",
                                     authNavMostCited);
-    gPerson.authNavButtonMostDiscussed = addAuthNavItem("authNavButtonMostDiscussed",
+    gPerson.authNavButtonMostDiscussed = createNavItemDiv("authNavButtonMostDiscussed",
                                     "Most Discussed",
                                     authNavMostDiscussed);
-    gPerson.authNavButtonTimeline = addAuthNavItem("authNavButtonTimeline"          ,
+    gPerson.authNavButtonTimeline = createNavItemDiv("authNavButtonTimeline"          ,
                                     "Timeline",
                                     authNavTimeline , "green"    );
-    gPerson.authNavButtonFieldSummary = addAuthNavItem("authNavButtonFieldSummary"  ,
+    gPerson.authNavButtonFieldSummary = createNavItemDiv("authNavButtonFieldSummary"  ,
                                     "Field Summary",
                                     authNavFieldSummary, "green" );
-    gPerson.authNavButtonPlainText = addAuthNavItem("authNavButtonPlainText"        ,
+    gPerson.authNavButtonPlainText = createNavItemDiv("authNavButtonPlainText"        ,
                                     "Plain Text",
                                     authNavPlainText);
 
@@ -43,15 +43,8 @@ function addPublicationsFirstTwoHeaderItems(target) {
         newColumnSpec(`${gCommon.cols2or12}`, gPerson.authNavButtonPlainText)
     ];
     makeRowWithColumns(target, `nav-uls`, colSpecs);
-}
-function addAuthNavItem(id, text, clickFn, aClass) {
-    if (!aClass) {
-        aClass = "";
-    }
-    // trivial href's accomplish getting the link to be tab-able, for accessibility
-    let div = $(`<div class="hiZ nav-item"><button class="link-ish nav-link ${aClass}" id="${id}">${text}</button></div>`);
-    div.on("click", clickFn);
-    return div;
+
+    gPerson.authNavButtonNewest.click();
 }
 
 

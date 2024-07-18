@@ -455,3 +455,15 @@ function emitAndHistoricizeTitle(title, targetId, mainDiv) {
 
     addItemToNavHistory(title, window.location.href);
 }
+function createNavItemDiv(id, text, clickFn, aClass) {
+    if (!aClass) {
+        aClass = "";
+    }
+    let div = $(`<div class="hiZ nav-item">
+                  <button class="link-ish nav-link ${aClass}" 
+                    id="${id}">${text}</button></div>`);
+    if (clickFn) {
+        div.on("click", clickFn);
+    }
+    return div;
+}

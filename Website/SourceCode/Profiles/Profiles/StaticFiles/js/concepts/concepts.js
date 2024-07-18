@@ -49,6 +49,8 @@ function createNavItemDivWithContent(idBase, title, generalClass, boxDiv) {
     return buttonDiv;
 }
 function emitMeshInfo(data, mainDiv) {
+    let title = data.DescriptorName;
+
     let boxDiv = emitBoxedInfoHelper(data,
                                         mainDiv,
                                 'MeSH information',
@@ -79,27 +81,51 @@ function emitMeshInfo(data, mainDiv) {
     // emit content for under the buttons
     boxDiv2.find('.meshDefinitionContent').append(data.DescriptorDefinition);
 
-    emitDetails(boxDiv2.find('.meshDetailsContent'), data);
-    emitConceptsTree(boxDiv2.find('.meshMoreGeneralContent'), data.ParentDescriptors);
-    emitConceptsTree(boxDiv2.find('.meshMoreSpecificContent'), data.ChildDescriptors);
-    emitConceptsTree(boxDiv2.find('.meshRelatedContent'), data.SiblingDescriptors);
+    // wide and narrow versions of the details
+    emitDetails(boxDiv2.find('.meshDetailsContent'), data, true);
+    emitDetails(boxDiv2.find('.meshDetailsContent'), data, false);
 
+    emitConceptsTree(boxDiv2.find('.meshMoreGeneralContent'),
+        data.ParentDescriptors, title, "more general than");
+    emitConceptsTree(boxDiv2.find('.meshMoreSpecificContent'),
+        data.ChildDescriptors, title, "more specific than");
+    emitConceptsTree(boxDiv2.find('.meshRelatedContent'),
+        data.SiblingDescriptors, title, "related to");
+
+    meshDefinition.find('button').addClass("ps-0");
     meshDefinition.find('button').click();
 }
-function emitDetails(target, data) {
+function emitDetails(target, data, wideVsNarrow) {
+    let col0ExtraClasses;
+    let col1ExtraClasses;
+    let hideShowDiv;
+    let wideNarrowSuffix = wideVsNarrow ? 'Wide' : 'Narrow'
+
+    if (wideVsNarrow) {
+        col0ExtraClasses = 'text-end';
+        col1ExtraClasses = 'text-start';
+        hideShowDiv = $(`<div class="${gCommon.hideXsSmallShowOthers}"></div>`);
+    }
+    else {
+        col0ExtraClasses = 'text-start';
+        col1ExtraClasses = 'ps-4';
+        hideShowDiv = $(`<div class="${gCommon.showXsSmallHideOthers}"></div>`);
+    }
+    target.append(hideShowDiv);
+
     let colSpecs = [
-        newColumnSpec(`${gCommon.cols2or12} d-flex justify-content-end`),
-        newColumnSpec(`${gCommon.cols2or12} d-flex justify-content-start`),
+        newColumnSpec(`${gCommon.cols2or12} ${col0ExtraClasses}`),
+        newColumnSpec(`${gCommon.cols2or12} ${col1ExtraClasses}`),
         newColumnSpec(`${gCommon.cols8or12}`)
         ];
 
-    let rowId = "descriptorID";
-    let row = makeRowWithColumns(target, rowId, colSpecs);
+    let rowId = `descriptorID${wideNarrowSuffix}`;
+    let row = makeRowWithColumns(hideShowDiv, rowId, colSpecs);
     row.find(`#${rowId}Col0`).html('Descriptor ID');
     row.find(`#${rowId}Col1`).html(data.DescriptorID);
 
-    rowId = "meshNums";
-    row = makeRowWithColumns(target, rowId, colSpecs);
+    rowId = `meshNums${wideNarrowSuffix}`;
+    row = makeRowWithColumns(hideShowDiv, rowId, colSpecs);
     let numListDiv = $('<div id="numListDiv"></div>');
     row.find(`#${rowId}Col0`).html('MeSH Number(s)');
     row.find(`#${rowId}Col1`).append(numListDiv);
@@ -108,8 +134,8 @@ function emitDetails(target, data) {
         divSpanifyTo(meshNums[i].TreeNumber, numListDiv);
     }
 
-    rowId = "terms";
-    row = makeRowWithColumns(target, rowId, colSpecs);
+    rowId = `terms${wideNarrowSuffix}`;
+    row = makeRowWithColumns(hideShowDiv, rowId, colSpecs);
     let termListDiv = $('<div id="numListDiv"></div>');
     row.find(`#${rowId}Col0`).html('Concept/Term(s)');
     row.find(`#${rowId}Col1`).append(termListDiv);
@@ -122,11 +148,15 @@ function countDots(input) {
     // https://stackoverflow.com/questions/2903542/javascript-how-many-times-a-character-occurs-in-a-string
     return input.replace(/[^\.]/g, "").length;
 }
-function emitConceptsTree(target, data) {
+function emitConceptsTree(target, data, title, blurbEndish) {
     let initialPreSpace = "";
     let preSpace;
     let prefix = "---"; // will not match any tree code
     let numPrefixDots;
+
+    let blurb = `Below are MeSH descriptors whose meaning is 
+                    ${blurbEndish} "${title}".`;
+    divSpanifyTo(blurb, target, null, "mb-2");
 
     for (let i=0; i<data.length; i++) {
         let item = data[i];
@@ -139,18 +169,24 @@ function emitConceptsTree(target, data) {
         }
         else { // indent via num dots, or if it's like E0 after E
             let indent = countDots(treeNum) - numPrefixDots;
-            if (treeNum.match(`^${prefix}0.*`)) { // attached 0 acts like a dot
-                indent = 1;
+            if (treeNum.match(/^\w\d.*/)) { // initial letter followed by num acts like a dot
+                indent++;
             }
-            preSpace = initialPreSpace + "&nbsp;".repeat(indent);
+            preSpace = initialPreSpace + "&nbsp;&nbsp;".repeat(indent);
         }
 
         let itemDiv = $('<div></div>');
         target.append(itemDiv);
 
-        let text = `${preSpace} ${item.DescriptorName} [${treeNum}]`;
+        let name = item.DescriptorName;
+        let titleIsName = false;
+        if (name == title) {
+            itemDiv.addClass('bold'); // current item (title) stands out
+            titleIsName = true;
+        }
+        let text = `${preSpace} ${name} `;
 
-        if (item.NodeURI) {
+        if (item.NodeURI && ! titleIsName) { // link if possible, but not current
             let a = createAnchorElement(text, item.NodeURI);
             itemDiv.append(a);
         }
@@ -158,6 +194,9 @@ function emitConceptsTree(target, data) {
             let span = spanify(text);
             itemDiv.append(span);
         }
+        // bracketed code
+        let codeSpan = spanify( ` [${treeNum}]`);
+        itemDiv.append(codeSpan);
     }
 }
 function emitPublications(data, mainDiv) {

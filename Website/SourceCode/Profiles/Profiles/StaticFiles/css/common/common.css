@@ -312,3 +312,13 @@ header._ci_shared_asset.tool-page.mayHelpResponsivenessSm {
     text-decoration: none !important;
     border-bottom: none !important;
 }
+button.nav-link.active {
+    font-weight: 700;
+    color: black !important;
+    font-size: 12px;
+    padding-top: 3px;
+    margin-top: 5px;
+    pointer-events: none;
+    border: none !important;
+    outline: none !important;
+}

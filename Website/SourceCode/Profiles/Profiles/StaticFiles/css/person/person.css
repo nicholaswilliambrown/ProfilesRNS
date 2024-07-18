@@ -152,16 +152,6 @@
     outline: 5px auto -webkit-focus-ring-color !important;
     outline-offset: -2px !important;
 }
-.nav-link.active {
-    font-weight: 700;
-    color: black !important;
-    font-size: 12px;
-    padding-top: 3px;
-    margin-top: 5px;
-    pointer-events: none;
-    border: none !important;
-    outline: none !important;
-}
 .nav-link:hover {
     font-weight: 600;
     font-size: 12px;

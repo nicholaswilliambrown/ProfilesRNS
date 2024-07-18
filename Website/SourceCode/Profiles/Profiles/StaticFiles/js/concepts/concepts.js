@@ -33,14 +33,18 @@ function emitTopBlurb(title, target) {
     target.append(topBlurbDiv);
 }
 function createNavItemDivWithContent(idBase, title, generalClass, boxDiv) {
-    let buttonDiv = createNavItemDiv(`${idBase}Button`, title);
+    let generalButtonClass = generalClass + 'NavButton';
+    let buttonDiv = createNavItemDiv(`${idBase}Button`, title, null, generalButtonClass);
     let contentDiv = $(`<div id="${idBase}Content" class="${generalClass} ${idBase}Content"></div>`);
 
     boxDiv.append(contentDiv);
 
-    buttonDiv.on('click', () => {
+    buttonDiv.on('click', (e) => {
         $(`.${generalClass}`).hide();
+        $(`.${generalButtonClass}`).removeClass('active').attr('aria-current', false);
+
         $(`.${idBase}Content`).show();
+        $(e.target).addClass("active").attr("aria-current", true);
     })
     return buttonDiv;
 }
@@ -49,7 +53,7 @@ function emitMeshInfo(data, mainDiv) {
                                         mainDiv,
                                 'MeSH information',
                             'DescriptorName');
-    let boxDiv2 = $('<div id="boxDiv2" class="mt-2"></div>');
+    let boxDiv2 = $('<div id="boxDiv2" class="mt-1 mb-2"></div>');
 
     let meshDefinition = createNavItemDivWithContent(
         "meshDefinition", "Definition", "meshInfo", boxDiv2);
@@ -74,51 +78,86 @@ function emitMeshInfo(data, mainDiv) {
 
     // emit content for under the buttons
     boxDiv2.find('.meshDefinitionContent').append(data.DescriptorDefinition);
+
     emitDetails(boxDiv2.find('.meshDetailsContent'), data);
-    emitConceptsTree(boxDiv2.find('.meshMoreGeneral'), data.ParentDescriptors);
-    emitConceptsTree(boxDiv2.find('.meshMoreSpecific'), data.ChildDescriptors);
-    emitConceptsTree(boxDiv2.find('.meshMoreGeneral'), data.SiblingDescriptors);
+    emitConceptsTree(boxDiv2.find('.meshMoreGeneralContent'), data.ParentDescriptors);
+    emitConceptsTree(boxDiv2.find('.meshMoreSpecificContent'), data.ChildDescriptors);
+    emitConceptsTree(boxDiv2.find('.meshRelatedContent'), data.SiblingDescriptors);
+
+    meshDefinition.find('button').click();
 }
 function emitDetails(target, data) {
     let colSpecs = [
-        newColumnSpec(`${gCommon.cols6or12}`),
-        newColumnSpec(`${gCommon.cols6or12}`)
+        newColumnSpec(`${gCommon.cols2or12} d-flex justify-content-end`),
+        newColumnSpec(`${gCommon.cols2or12} d-flex justify-content-start`),
+        newColumnSpec(`${gCommon.cols8or12}`)
         ];
 
     let rowId = "descriptorID";
-    let row = makeRowWithColumns(target, "${rowId}", colSpecs);
+    let row = makeRowWithColumns(target, rowId, colSpecs);
     row.find(`#${rowId}Col0`).html('Descriptor ID');
     row.find(`#${rowId}Col1`).html(data.DescriptorID);
 
     rowId = "meshNums";
-    row = makeRowWithColumns(target, "${rowId}", colSpecs);
+    row = makeRowWithColumns(target, rowId, colSpecs);
     let numListDiv = $('<div id="numListDiv"></div>');
-    row.find(`#${rowId}Col1`).html('MeSH Number(s)');
+    row.find(`#${rowId}Col0`).html('MeSH Number(s)');
     row.find(`#${rowId}Col1`).append(numListDiv);
     let meshNums = data.TreeNumberList;
     for (let i=0; i<meshNums.length; i++) {
-        divSpanifyTo(meshNums[i], numListDiv);
+        divSpanifyTo(meshNums[i].TreeNumber, numListDiv);
     }
 
     rowId = "terms";
-    row = makeRowWithColumns(target, "${rowId}", colSpecs);
+    row = makeRowWithColumns(target, rowId, colSpecs);
     let termListDiv = $('<div id="numListDiv"></div>');
     row.find(`#${rowId}Col0`).html('Concept/Term(s)');
     row.find(`#${rowId}Col1`).append(termListDiv);
     let meshTerms = data.TermList
     for (let i=0; i<meshTerms.length; i++) {
-        divSpanifyTo(meshTerms[i], termListDiv);
+        divSpanifyTo(meshTerms[i].Term, termListDiv);
     }
 }
+function countDots(input) {
+    // https://stackoverflow.com/questions/2903542/javascript-how-many-times-a-character-occurs-in-a-string
+    return input.replace(/[^\.]/g, "").length;
+}
 function emitConceptsTree(target, data) {
+    let initialPreSpace = "";
+    let preSpace;
+    let prefix = "---"; // will not match any tree code
+    let numPrefixDots;
+
     for (let i=0; i<data.length; i++) {
         let item = data[i];
 
-        let anchorDiv = $('<div></div>');
-        target.append(anchorDiv);
+        let treeNum = item.TreeNumber;
+        if ( ! treeNum.match(`^${prefix}.*`)) {
+            preSpace = initialPreSpace;
+            prefix = treeNum;
+            numPrefixDots = countDots(prefix);
+        }
+        else { // indent via num dots, or if it's like E0 after E
+            let indent = countDots(treeNum) - numPrefixDots;
+            if (treeNum.match(`^${prefix}0.*`)) { // attached 0 acts like a dot
+                indent = 1;
+            }
+            preSpace = initialPreSpace + "&nbsp;".repeat(indent);
+        }
 
-        let span = spanify(item.TreeNumber);
-        target.append(span);
+        let itemDiv = $('<div></div>');
+        target.append(itemDiv);
+
+        let text = `${preSpace} ${item.DescriptorName} [${treeNum}]`;
+
+        if (item.NodeURI) {
+            let a = createAnchorElement(text, item.NodeURI);
+            itemDiv.append(a);
+        }
+        else {
+            let span = spanify(text);
+            itemDiv.append(span);
+        }
     }
 }
 function emitPublications(data, mainDiv) {

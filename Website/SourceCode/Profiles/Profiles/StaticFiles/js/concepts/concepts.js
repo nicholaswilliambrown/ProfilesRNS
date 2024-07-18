@@ -71,9 +71,9 @@ function emitMeshInfo(data, mainDiv) {
     let colSpecs = [
         newColumnSpec(`${gCommon.cols1or12}`, meshDefinition),
         newColumnSpec(`${gCommon.cols1or12}`, meshDetails),
-        newColumnSpec(`${gCommon.cols2or12}`, meshMoreGeneral),
-        newColumnSpec(`${gCommon.cols2or12}`, meshRelated),
-        newColumnSpec(`${gCommon.cols2or12}`, meshMoreSpecific)
+        newColumnSpec(`${gCommon.cols3or12}`, meshMoreGeneral),
+        newColumnSpec(`${gCommon.cols3or12}`, meshRelated),
+        newColumnSpec(`${gCommon.cols3or12}`, meshMoreSpecific)
     ];
     makeRowWithColumns(boxDiv, "meshTabs", colSpecs);
     boxDiv.append(boxDiv2);

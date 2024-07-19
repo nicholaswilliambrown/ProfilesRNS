@@ -172,15 +172,16 @@ gPerson.maxAltMetricScoreTries = 5;
 gPerson.researcherNumRecent = 5;
 gPerson.researcherUseRecent = true;
 ///////////////////////////////////////
-
-let gCoauthor = {};
-gCoauthor.coAuthsKey = "numCoauths";
-gCoauthor.coauthorsWithDash = 'Co-Authors'
-
 let gConnections = {};
 gConnections.conceptDetailsUrlSchema = "/display/Person/%%FOO%%/Network/ResearchAreas/details"
 gConnections.personDetailsUrlSchema = "/display/Person/%%FOO%%/Network/SimilarTo/details"
 gConnections.details = "Details";
+
+gConnections.pubMedUrlSchema = "https://www.ncbi.nlm.nih.gov/pubmed/%%FOO%%";
+
+let gCoauthor = {};
+gCoauthor.coAuthsKey = "numCoauths";
+gCoauthor.coauthorsWithDash = 'Co-Authors'
 
 let gSearch = {};
 

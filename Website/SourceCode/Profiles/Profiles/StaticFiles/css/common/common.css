@@ -258,9 +258,12 @@ header._ci_shared_asset.tool-page.mayHelpResponsivenessSm {
     background-color: white !important;
     background-image: none !important;
 }
-.nav-item {
+.hiZ.nav-item {
     border-bottom: 1px solid #ccc !important;
-    margin-bottom: -1px;
+}
+#nav-ulsRow {
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
 }
 .borderOneSolid {
     border: 1px solid;

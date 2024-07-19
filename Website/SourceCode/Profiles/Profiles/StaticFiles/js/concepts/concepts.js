@@ -100,7 +100,7 @@ function emitMeshInfo(data, target) {
                                         target,
                                 'MeSH information',
                             'DescriptorName');
-    let boxDiv2 = $('<div id="boxDiv2" class="mt-1 mb-2"></div>');
+    let boxDiv2 = $('<div id="meshBox2" class="mt-1 mb-2"></div>');
 
     let meshDefinition = createNavItemDivWithContent(
         "meshDefinition", "Definition", "meshInfo", boxDiv2);
@@ -120,7 +120,7 @@ function emitMeshInfo(data, target) {
         newColumnSpec(`${gCommon.cols3or12}`, meshRelated),
         newColumnSpec(`${gCommon.cols3or12}`, meshMoreSpecific)
     ];
-    makeRowWithColumns(boxDiv, "meshTabs", colSpecs);
+    makeRowWithColumns(boxDiv, "meshTabs", colSpecs, "mb-2");
     boxDiv.append(boxDiv2);
 
     // emit content for under the buttons
@@ -246,7 +246,60 @@ function emitConceptsTree(target, data, title, blurbEndish) {
 }
 function emitPublications(data, target) {
     let boxDiv = emitBoxedInfoHelper(data, target, 'publications', 'DisplayName');
+
+    let boxDiv2 = $('<div id="pubBoxDiv2" class="mt-1 mb-2"></div>');
+
+    let timeline = createNavItemDivWithContent(
+        "pubTimeline", "Timeline", "pubInfo", boxDiv2);
+    let recent = createNavItemDivWithContent(
+        "pubRecent", "Most Recent", "pubInfo", boxDiv2);
+
+    let headerDiv = $('<div class="d-flex align-items-center">|</div>');
+    boxDiv.append(headerDiv);
+    headerDiv.prepend(timeline);
+    headerDiv.append(recent);
+
+    boxDiv.append(boxDiv2);
+
+    emitTimeline(data, boxDiv2.find('.pubTimelineContent'));
+    emitMostRecent(data, boxDiv2.find('.pubRecentContent'));
+
+    timeline.find('button').addClass("ps-0");
+    timeline.find('button').click();
 }
+function emitMostRecent(data, target) {
+    data = data[0].Publications;
+
+    divSpanifyTo(
+        'Below are the most recent publications written about "Keloid" by people in Profiles.',
+        target, null, "mt-2 mb-2");
+
+    let ol = $('<ol></ol>');
+    target.append(ol);
+
+    let numPubs = data.length;
+    for (let i=0; i<numPubs; i++) {
+        let item = data[i];
+        let li = $(`<li>${item.prns_informationResourceReference}</li>`);
+        ol.append(li);
+
+        let pubMedUrl = gConnections.pubMedUrlSchema.replace(gCommon.schemaPlaceholder, item.bibo_pmid);
+        let div = $('<div class="d-inline-block mt-1 mb-1">View in: </div>');
+        let a = createAnchorElement('PubMed', pubMedUrl);
+        div.append(a);
+        ol.append(div);
+
+        if (i != numPubs-1) {
+            let hr = $('<hr class="tightHr"/>');
+            ol.append(hr);
+        }
+    }
+}
+function emitTimeline(data, target) {
+    divSpanifyTo("timeline", target);
+
+}
+
 function emitBoxedInfoHelper(data, target, subTitle, displayProperty) {
     let theDiv = $(`<div class="box1 bordCcc mt-3 p-2"></div>`);
     target.append(theDiv);

@@ -32,8 +32,6 @@ function conceptConnectionParser(target, data) {
     let list = $('<ol></ol>');
     target.append(list);
 
-    gConnections.pubMedUrlSchema = "https://www.ncbi.nlm.nih.gov/pubmed/%%FOO%%";
-
     let pubs = reverseSortArrayByWeight(data.Publications);
     for (let i=0; i<pubs.length; i++) {
         let pub = pubs[i];

@@ -8,7 +8,7 @@ function exploreParser(json, anchorsDiv) {
     let exploreDiv = $(`<div class="exploreDiv"></div>`);
     dataDiv.append(exploreDiv);
 
-    exploreDiv.append($("<hr>"));
+    exploreDiv.append($("<hr class='tig'>"));
 
     let elt = json.ModuleData[0];
     let title = $(`<div class="explore_title">${elt.Title} (${elt.Count})</div>`);

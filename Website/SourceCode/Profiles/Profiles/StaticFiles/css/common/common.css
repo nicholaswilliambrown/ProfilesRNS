@@ -129,7 +129,7 @@ header._ci_shared_asset.tool-page.mayHelpResponsivenessSm {
 .green {
     color: #090 !important;
 }
-.greenButton {
+.link-ish.greenButton {
     color: white !important;
     background-color: #090 !important;
     padding: 5px 10px;

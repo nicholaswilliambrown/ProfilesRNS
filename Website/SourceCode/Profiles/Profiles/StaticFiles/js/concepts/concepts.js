@@ -2,21 +2,66 @@ async function setupConceptPage() {
     let [json] = await commonSetupWithJson();
     // page json is also available in global: g.pageJSON
 
+    emitLhs(json);
+    emitRhs(json);
+}
+function emitRhs(json) {
+    let similarConcepts = getModuleData(json, 'Concept.SimilarConcept');
+
+    let target = $('#modules-right-div');
+
+    divSpanifyTo('Related Networks', target, 'boldCrimson');
+    target.append($('<hr class="tightHr"/>'));
+
+    emitSimilarConcepts(target, similarConcepts);
+    //     when json is ready:
+    // target.append($('<hr class="tightHr"/>'));
+    // emitRelatedPeople();
+    // target.append($('<hr class="tightHr"/>'));
+    // emitTopJournals();
+}
+function emitSimilarConcepts(target, similarConcepts) {
+    similarConcepts = sortArrayViaSortLabel(similarConcepts, 'SortOrder');
+
+    let headerDiv = divSpanifyTo('Similar Concepts ',
+        target, null, 'explore_title')
+
+    let info = $('<img src="/StaticFiles/img/common/info.png" class="noBorder">');
+    headerDiv.append(info);
+
+    let blurbDiv = $('<div class="exploreBlurbDiv">' +
+        'Similar concepts derived from published works.</div>');
+    target.append(blurbDiv);
+
+    blurbDiv.hide();
+    info.on('click', function() {
+        toggleVisibility(blurbDiv);
+    });
+
+    for (let i=0; i<similarConcepts.length; i++) {
+        let concept = similarConcepts[i];
+        let a = createAnchorElement(concept.DescriptorName, concept.URL);
+        let div = $('<div></div>');
+        target.append(div);
+        div.append(a);
+    }
+}
+function emitLhs(json) {
     let generalInfo = getModuleData(json, 'Concept.GeneralInfo');
     let publicationsData = getModuleData(json, 'Concept.Publications');
 
-    let mainDiv = $('#mainDiv');
+    let target = $('#modules-left-div');
 
-    emitTopItems(generalInfo, mainDiv);
-    emitMeshInfo(generalInfo, mainDiv);
-    emitPublications(publicationsData, mainDiv);
+    emitTopItems(generalInfo, target);
+    emitMeshInfo(generalInfo, target);
+    emitPublications(publicationsData, target);
 }
-function emitTopItems(data, mainDiv) {
+function emitTopItems(data, target) {
     let title = data.DescriptorName;
 
-    emitAndHistoricizeTitle(title, 'titleForHistory', mainDiv);
+    emitAndHistoricizeTitle(title, 'titleForHistory', target);
 
-    emitTopBlurb(title, mainDiv);
+    emitTopBlurb(title, target);
 }
 function emitTopBlurb(title, target) {
     let blurb1 = `"${title}" is a descriptor in the National Library of Medicine's 
@@ -48,11 +93,11 @@ function createNavItemDivWithContent(idBase, title, generalClass, boxDiv) {
     })
     return buttonDiv;
 }
-function emitMeshInfo(data, mainDiv) {
+function emitMeshInfo(data, target) {
     let title = data.DescriptorName;
 
     let boxDiv = emitBoxedInfoHelper(data,
-                                        mainDiv,
+                                        target,
                                 'MeSH information',
                             'DescriptorName');
     let boxDiv2 = $('<div id="boxDiv2" class="mt-1 mb-2"></div>');
@@ -199,12 +244,12 @@ function emitConceptsTree(target, data, title, blurbEndish) {
         itemDiv.append(codeSpan);
     }
 }
-function emitPublications(data, mainDiv) {
-    let boxDiv = emitBoxedInfoHelper(data, mainDiv, 'publications', 'DisplayName');
+function emitPublications(data, target) {
+    let boxDiv = emitBoxedInfoHelper(data, target, 'publications', 'DisplayName');
 }
-function emitBoxedInfoHelper(data, mainDiv, subTitle, displayProperty) {
+function emitBoxedInfoHelper(data, target, subTitle, displayProperty) {
     let theDiv = $(`<div class="box1 bordCcc mt-3 p-2"></div>`);
-    mainDiv.append(theDiv);
+    target.append(theDiv);
 
     divSpanifyTo(subTitle, theDiv, 'divTitleSpan', 'mb-2');
     return theDiv;

@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.IO;
+using Profiles.Framework.Utilities;
 
 namespace Profiles.Search
 {
@@ -21,10 +22,12 @@ namespace Profiles.Search
             if (Request.QueryString["SearchType"] != null) searchType = Request.QueryString["SearchType"].ToString();
             string storedProc = null;
             string body = null;
+            SessionManagement sessionManagement = new SessionManagement();
+            Session session = sessionManagement.Session();
             if ("params".Equals(searchType))
             {
                 storedProc = "[Display.].[Search.Params]";
-                cachetimeout = Convert.ToInt32(ConfigurationSettings.AppSettings["STATIC_PAGE_CACHE_EXPIRE"]);
+                cachetimeout = Convert.ToInt32(ConfigurationManager.AppSettings["STATIC_PAGE_CACHE_EXPIRE"]);
             }
             else
             {
@@ -42,7 +45,7 @@ namespace Profiles.Search
                     Response.StatusCode = 500;
                     Response.End();
                 }
-                cachetimeout = Convert.ToInt32(ConfigurationSettings.AppSettings["SEARCH_CACHE_EXPIRE"]);
+                cachetimeout = Convert.ToInt32(ConfigurationManager.AppSettings["SEARCH_CACHE_EXPIRE"]);
             }
             
  /*           using (StreamReader stream = new StreamReader(Request.))
@@ -59,10 +62,10 @@ namespace Profiles.Search
             {
                 try
                 {
-                    string connstr = ConfigurationManager.ConnectionStrings["ProfilesDB"].ConnectionString;
+                    string connstr = ConfigurationHelper.GetConnectionString(session);
                     SqlConnection dbconnection = new SqlConnection(connstr);
                     SqlCommand dbcommand = new SqlCommand(storedProc);
-                    dbcommand.CommandTimeout = 500;//Convert.ToInt32(ConfigurationSettings.AppSettings["COMMANDTIMEOUT"]);
+                    dbcommand.CommandTimeout = Convert.ToInt16(ConfigurationManager.AppSettings["COMMANDTIMEOUT"]);
 
                     SqlDataReader dbreader;
                     dbconnection.Open();

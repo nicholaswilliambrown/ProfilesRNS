@@ -173,7 +173,7 @@ function searchPeopleFn(searchInput, exactCheckbox, lnameInput, fnameInput) {
         gSearch.findPeopleUrl,
         gSearch.people,
         selections,
-        "searchPeopleResults.html");
+        g.profilesPath + "/search/?PersonResults");
 }
 function searchEverythingFn(searchInput, exactCheckbox) {
     let selections = collectKeywordSelections(searchInput, exactCheckbox);
@@ -189,7 +189,7 @@ function searchEverythingFn(searchInput, exactCheckbox) {
         gSearch.findEverythingElseUrl,
         gSearch.allElse,
         selections,
-        "searchAllElseResults.html");
+        g.profilesPath + "/search/?EverythingResults");
 }
 function setupOneSearchSubmitSection(idPrefix, label, title, searchFn) {
     let outerTarget = $(`#${idPrefix}`);

@@ -2,7 +2,7 @@
 let gBrandingConstants = {};
 
 // gBrandingConstants.staticFiles helps locate all the other site-specific resources
-gBrandingConstants.staticRoot = "/StaticFiles/";
+gBrandingConstants.staticRoot = g.staticRoot;
 
 async function emitBrandingHeader() {
 

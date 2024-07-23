@@ -690,6 +690,7 @@
     <Compile Include="Framework\Modules\MainMenu\MyLists.ascx.designer.cs">
       <DependentUpon>MyLists.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Framework\Utilities\ConfigurationHelper.cs" />
     <Compile Include="Framework\Utilities\GenericRDFDataIO.cs" />
     <Compile Include="Framework\Utilities\UserHistory.cs" />
     <Compile Include="GroupAdmin\Default.aspx.cs">

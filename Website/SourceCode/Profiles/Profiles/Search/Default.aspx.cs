@@ -38,20 +38,27 @@ namespace Profiles.Search
             {
                 if ("PersonResults".Equals(Request.QueryString[0]))
                 {
-                    pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/searchPeopleResults.html");
+                    pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/searchPeopleResults.html")
+                        .Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)
+                        .Replace("{searchApiPath}", ConfigurationHelper.ProfilesRootURL + "/Search/SearchSvc.aspx")
+                        .Replace("{activityApiPath}", ConfigurationHelper.ProfilesRootURL + "/Activity/ActivitySvc.aspx");
                 }
                 else if ("EverythingResults".Equals(Request.QueryString[0]))
                 {
-                    pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/searchAllElseResults.html");
+                    pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/searchAllElseResults.html")
+                        .Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)
+                        .Replace("{searchApiPath}", ConfigurationHelper.ProfilesRootURL + "/Search/SearchSvc.aspx")
+                        .Replace("{activityApiPath}", ConfigurationHelper.ProfilesRootURL + "/Activity/ActivitySvc.aspx");
                 }
             }
             else
             {
-                pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/searchForm.html");
+                pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/searchForm.html")
+                    .Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)
+                    .Replace("{searchApiPath}", ConfigurationHelper.ProfilesRootURL + "/Search/SearchSvc.aspx")
+                    .Replace("{activityApiPath}", ConfigurationHelper.ProfilesRootURL + "/Activity/ActivitySvc.aspx");
             }
-
-            string path = WebConfigurationManager.AppSettings["ProfilesRootPath"];
-            if (path != null && !"".Equals(path)) { pageText = pageText.Replace("/StaticFiles/", "/" + path + "/StaticFiles/"); }
+            //activityApiPath searchApiPath
             litText.Text = pageText;
         }
     }

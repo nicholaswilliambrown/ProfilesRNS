@@ -1,4 +1,4 @@
-let g = {}; // used for initial data from back-end
+//let g = {}; // used for initial data from back-end
 
 const PubsSortOption = Object.freeze({
     Newest: Symbol("Newest"),
@@ -189,13 +189,13 @@ gSearch.people = 'people';
 gSearch.allElse = 'allElse';
 gSearch.whyPrefix = 'why';
 
-gSearch.searchFormParamsUrl =   `/Search/SearchSVC.aspx?SearchType=params`;
+gSearch.searchFormParamsUrl = `${g.searchApiPath}?SearchType=params`;
 
 
-gSearch.findPeopleUrl =         `/Search/SearchSVC.aspx?SearchType=person`;
-gSearch.findEverythingElseUrl = `/Search/SearchSVC.aspx?SearchType=everything`;
-gSearch.whyUrl =                `/Search/SearchSVC.aspx?SearchType=why`;
-gSearch.activityDetailsUrl =    `/Activity/ActivitySVC.aspx?count=%%FOO%%&lastActivityLogID=%%FOO2%%`;
+gSearch.findPeopleUrl = `${g.searchApiPath}?SearchType=person`;
+gSearch.findEverythingElseUrl = `${g.searchApiPath}?SearchType=everything`;
+gSearch.whyUrl = `${g.searchApiPath}?SearchType=why`;
+gSearch.activityDetailsUrl = `${g.activityApiPath}?count=%%FOO%%&lastActivityLogID=%%FOO2%%`;
 
 gSearch.selectedSt = " selected";
 gSearch.noneSt = "None";

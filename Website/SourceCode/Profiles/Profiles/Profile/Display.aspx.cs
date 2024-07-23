@@ -43,6 +43,8 @@ namespace Profiles.Profile
         private DisplayParams GetParameters(long subject, long predicate, long obj, string tab)
         {
             DisplayParams dp = new DisplayParams();
+            SessionManagement sessionManagement = new SessionManagement();
+            Framework.Utilities.Session session = sessionManagement.Session();
 
             string presentationType = "";
             string tab2 = "";
@@ -54,10 +56,10 @@ namespace Profiles.Profile
             string str = string.Empty;
             try
             {
-                string connstr = ConfigurationManager.ConnectionStrings["ProfilesDB"].ConnectionString;
+                string connstr = ConfigurationHelper.GetConnectionString(session);
                 SqlConnection dbconnection = new SqlConnection(connstr);
                 SqlCommand dbcommand = new SqlCommand("[Display.].[GetDataURLs]");
-                dbcommand.CommandTimeout = 500;//Convert.ToInt32(ConfigurationSettings.AppSettings["COMMANDTIMEOUT"]);
+                dbcommand.CommandTimeout = Convert.ToInt32(ConfigurationManager.AppSettings["COMMANDTIMEOUT"]);
 
                 SqlDataReader dbreader;
                 dbconnection.Open();
@@ -174,8 +176,7 @@ namespace Profiles.Profile
             }
 
             dp.HTML = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/" + htmlfilename);
-            dp.HTML = dp.HTML.Replace("{dataURLs}", dp.DataURLs).Replace("{apiBasePath}", "http://localhost:55956/Profile/ProfileJsonSvc.aspx").Replace("{profilesRootURL}", "http://localhost:55956").Replace("{tab}", dp.Tab);
-
+            dp.HTML = dp.HTML.Replace("{dataURLs}", dp.DataURLs).Replace("{apiBasePath}", ConfigurationHelper.ProfilesRootURL + "/Profile/ProfileJsonSvc.aspx").Replace("{profilesRootURL}", ConfigurationHelper.ProfilesRootURL).Replace("{tab}", dp.Tab).Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath);
             return dp;
         }
 

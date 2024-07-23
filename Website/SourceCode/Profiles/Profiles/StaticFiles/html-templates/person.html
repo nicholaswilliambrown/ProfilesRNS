@@ -13,14 +13,14 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
 
-    <link href="/StaticFiles/Configuration/myBranding.css" rel="stylesheet" type="text/css">
-    <link href="/StaticFiles/css/common/bigAndSmall.css" rel="stylesheet" type="text/css">
-    <link href="/StaticFiles/css/common/common.css" rel="stylesheet" type="text/css">
-    <link href="/StaticFiles/css/common/common-top-nav.css" rel="stylesheet" type="text/css">
-    <link href="/StaticFiles/css/common/common-access.css" rel="stylesheet" type="text/css">
+    <link href="{profilesPath}/StaticFiles/Configuration/myBranding.css" rel="stylesheet" type="text/css">
+    <link href="{profilesPath}/StaticFiles/css/common/bigAndSmall.css" rel="stylesheet" type="text/css">
+    <link href="{profilesPath}/StaticFiles/css/common/common.css" rel="stylesheet" type="text/css">
+    <link href="{profilesPath}/StaticFiles/css/common/common-top-nav.css" rel="stylesheet" type="text/css">
+    <link href="{profilesPath}/StaticFiles/css/common/common-access.css" rel="stylesheet" type="text/css">
 
-    <link href="/StaticFiles/css/person/person.css" rel="stylesheet" type="text/css">
-    <link href="/StaticFiles/css/person/etlPubFields.css" rel="stylesheet" type="text/css">
+    <link href="{profilesPath}/StaticFiles/css/person/person.css" rel="stylesheet" type="text/css">
+    <link href="{profilesPath}/StaticFiles/css/person/etlPubFields.css" rel="stylesheet" type="text/css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 
@@ -34,61 +34,62 @@
     <script src='https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js' type='text/javascript'></script>
     <script src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script>
 
-    <script src="/StaticFiles/profile.js" type="text/javascript"></script>
-
-    <script src="/StaticFiles/js/common/globals.js" type="text/javascript"></script>
-    <script src="/StaticFiles/Configuration/myBranding.js" type="text/javascript"></script>
-    <script src="/StaticFiles/js/common/brandingUtil.js" type="text/javascript"></script>
-
-    <script src="/StaticFiles/js/search/searchCommon.js" type="text/javascript"></script>
-    <script src="/StaticFiles/js/common/common.js" type="text/javascript"></script>
-    <script src="/StaticFiles/js/common/exploreParse.js" type="text/javascript"></script>
-    <script src="/StaticFiles/js/common/insertCommonContent.js" type="text/javascript"></script>
-    <script src="/StaticFiles/js/common/misc.js" type="text/javascript"></script>
-    <script src="/StaticFiles/js/common/sorting.js" type="text/javascript"></script>
-    <script src="/StaticFiles/js/common/topBar.js" type="text/javascript"></script>
-
-    <script src="/StaticFiles/js/person/general/person.js" type="text/javascript"></script>
-
-    <script src="/StaticFiles/js/person/coordinate-the-parsing/personParse.js" type="text/javascript"></script>
-
-    <script src="/StaticFiles/js/person/authorship-parsing/authorshipParse.js" type="text/javascript"></script>
-    <script src="/StaticFiles/js/person/authorship-parsing/authorshipNav.js" type="text/javascript"></script>
-    <script src="/StaticFiles/js/person/authorship-parsing/etlPubFields.js" type="text/javascript"></script>
-
-    <script src="/StaticFiles/js/person/authorship-parsing/badges-citations/authorshipBadgesAndCitations.js"
-            type="text/javascript"></script>
-    <script src="/StaticFiles/js/person/authorship-parsing/filters/authorshipFilters.js" type="text/javascript"></script>
-    <script src="/StaticFiles/js/person/authorship-parsing/graphs-and-text/authorshipPlainText.js" type="text/javascript"></script>
-    <script src="/StaticFiles/js/person/authorship-parsing/graphs-and-text/timelineAndFieldSummary.js" type="text/javascript"></script>
-
-    <script src="/StaticFiles/js/person/embedded-media-parsing/embeddedMediaParse.js" type="text/javascript"></script>
-
-    <script src="/StaticFiles/js/person/other-modules-parsing/education.js" type="text/javascript"></script>
-    <script src="/StaticFiles/js/person/other-modules-parsing/award.js" type="text/javascript"></script>
-    <script src="/StaticFiles/js/person/other-modules-parsing/generalInfoParse.js" type="text/javascript"></script>
-    <script src="/StaticFiles/js/person/other-modules-parsing/researchParse.js" type="text/javascript"></script>
-    <script src="/StaticFiles/js/person/other-modules-parsing/trialsParse.js" type="text/javascript"></script>
-    <script src="/StaticFiles/js/person/other-modules-parsing/opportunityParse.js" type="text/javascript"></script>
-    <script src="/StaticFiles/js/person/other-modules-parsing/twitterParse.js" type="text/javascript"></script>
-    <script src="/StaticFiles/js/person/overview-parsing/overviewParse.js" type="text/javascript"></script>
-    <script src="/StaticFiles/js/person/overview-parsing/websites.js" type="text/javascript"></script>
-    <script src="/StaticFiles/js/person/overview-parsing/media.js" type="text/javascript"></script>
-    <script src="/StaticFiles/js/person/overview-parsing/keyword.js" type="text/javascript"></script>
-
-    <script src="/StaticFiles/js/person/sorting/personSorting.js" type="text/javascript"></script>
-
     <script type="text/javascript">
+        let g = {};
         g.dataURLs = '{dataURLs}';
         g.profilesRootURL = '{profilesRootURL}';
         g.apiBasePath = '{apiBasePath}';
+        g.staticRoot = '{profilesPath}/StaticFiles/';
         g.tab = '{tab}';
         console.log("Global values after DisplayRepository replace", g);
-
-        $(document).ready(personReady);
     </script>
+
+    <script src="{profilesPath}/StaticFiles/js/common/globals.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/Configuration/myBranding.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/common/brandingUtil.js" type="text/javascript"></script>
+
+    <script src="{profilesPath}/StaticFiles/js/search/searchCommon.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/common/common.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/common/exploreParse.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/common/insertCommonContent.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/common/misc.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/common/sorting.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/common/topBar.js" type="text/javascript"></script>
+
+    <script src="{profilesPath}/StaticFiles/js/person/general/person.js" type="text/javascript"></script>
+
+    <script src="{profilesPath}/StaticFiles/js/person/coordinate-the-parsing/personParse.js" type="text/javascript"></script>
+
+    <script src="{profilesPath}/StaticFiles/js/person/authorship-parsing/authorshipParse.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/person/authorship-parsing/authorshipNav.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/person/authorship-parsing/etlPubFields.js" type="text/javascript"></script>
+
+    <script src="{profilesPath}/StaticFiles/js/person/authorship-parsing/badges-citations/authorshipBadgesAndCitations.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/person/authorship-parsing/filters/authorshipFilters.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/person/authorship-parsing/graphs-and-text/authorshipPlainText.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/person/authorship-parsing/graphs-and-text/timelineAndFieldSummary.js" type="text/javascript"></script>
+
+    <script src="{profilesPath}/StaticFiles/js/person/embedded-media-parsing/embeddedMediaParse.js" type="text/javascript"></script>
+
+    <script src="{profilesPath}/StaticFiles/js/person/other-modules-parsing/education.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/person/other-modules-parsing/award.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/person/other-modules-parsing/generalInfoParse.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/person/other-modules-parsing/researchParse.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/person/other-modules-parsing/trialsParse.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/person/other-modules-parsing/opportunityParse.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/person/other-modules-parsing/twitterParse.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/person/overview-parsing/overviewParse.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/person/overview-parsing/websites.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/person/overview-parsing/media.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/person/overview-parsing/keyword.js" type="text/javascript"></script>
+
+    <script src="{profilesPath}/StaticFiles/js/person/sorting/personSorting.js" type="text/javascript"></script>
+
+    <script type="text/javascript">$(document).ready(personReady);</script>
+    <script src="{profilesPath}/StaticFiles/profile.js" type="text/javascript"></script>
 </head>
 <body>
+
 <!-- banner is inserted dynamically-->
 
 <div  class="row modulesRow" id="preFooter">

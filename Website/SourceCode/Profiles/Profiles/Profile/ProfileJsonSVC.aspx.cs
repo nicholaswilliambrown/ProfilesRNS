@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Configuration;
+using Profiles.Framework.Utilities;
 
 namespace Profiles.Profile
 {
@@ -28,11 +29,14 @@ namespace Profiles.Profile
             string t = "";
             if (Request.QueryString["t"] != null) t = Request.QueryString["t"].ToString();
 
-            Framework.Utilities.RDFTriple request = new Profiles.Framework.Utilities.RDFTriple(1);
+
+            SessionManagement sessionManagement = new SessionManagement();
+            Framework.Utilities.Session session = sessionManagement.Session();
+            //Framework.Utilities.RDFTriple request = new Profiles.Framework.Utilities.RDFTriple(1);
             
             string str = null;
 
-            if (request.Session.IsBot)
+            if (session.IsBot)
             { 
                 string botCacheKey = (string)Framework.Utilities.Cache.FetchObject("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|bot" );
                 if (botCacheKey != null)
@@ -41,9 +45,9 @@ namespace Profiles.Profile
                     cacheLengthInt = (int)Framework.Utilities.Cache.FetchObject(botCacheKey + "CacheLength");
                 }
             }
-            else if (request.Session.UserID > 0) 
+            else if (session.UserID > 0) 
             {
-                if (!hasOwnerVisibilty(Int64.Parse(s), request.Session))
+                if (!hasOwnerVisibilty(Int64.Parse(s), session))
                 {
                     string userCacheKey = (string)Framework.Utilities.Cache.FetchObject("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|user");
                     if (userCacheKey != null)
@@ -66,14 +70,14 @@ namespace Profiles.Profile
             if (str == null)
             {
 
-                string sessionID = request.Session.SessionID;
+                string sessionID = session.SessionID;
 
                 try
                 {
-                    string connstr = this.GetConnectionString(request.Session);
-                    SqlConnection dbconnection = new SqlConnection(connstr);// "Data Source=.;Initial Catalog=ProfilesRNS_HMS_NewUI;Connection Timeout=5;User ID=app_HCProfiles;Password=Password1234");
+                    string connstr = ConfigurationHelper.GetConnectionString(session);
+                    SqlConnection dbconnection = new SqlConnection(connstr);
                     SqlCommand dbcommand = new SqlCommand("[Display.].[GetJson]");
-                    dbcommand.CommandTimeout = 500;//Convert.ToInt32(ConfigurationSettings.AppSettings["COMMANDTIMEOUT"]);
+                    dbcommand.CommandTimeout = Convert.ToInt16(ConfigurationManager.AppSettings["COMMANDTIMEOUT"]); 
 
                     SqlDataReader dbreader;
                     dbconnection.Open();
@@ -99,7 +103,7 @@ namespace Profiles.Profile
                     }
 
 
-                    if (ConfigurationSettings.AppSettings[cacheLength] != null) { cacheLengthInt = Convert.ToInt32(ConfigurationSettings.AppSettings[cacheLength]);  }
+                    if (System.Configuration.ConfigurationManager.AppSettings[cacheLength] != null) { cacheLengthInt = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings[cacheLength]);  }
 
 
                     if (pageSecurityType == "Global")
@@ -173,7 +177,7 @@ namespace Profiles.Profile
 
             //if (canEdit == null)
             //{
-                string connstr = this.GetConnectionString(session);
+                string connstr = ConfigurationHelper.GetConnectionString(session);
                 using (var dbconnection = new SqlConnection(connstr))
                 {
                     SqlCommand dbcommand = new SqlCommand("[RDF.Security].[CanEditNode]");
@@ -181,7 +185,7 @@ namespace Profiles.Profile
                     SqlDataReader dbreader;
                     dbconnection.Open();
                     dbcommand.CommandType = CommandType.StoredProcedure;
-                    dbcommand.CommandTimeout = 500;
+                    dbcommand.CommandTimeout = Convert.ToInt16(ConfigurationManager.AppSettings["COMMANDTIMEOUT"]);
                     dbcommand.Parameters.Add(new SqlParameter("@NodeID", NodeID));
                     dbcommand.Parameters.Add(new SqlParameter("@SessionID", session.SessionID));
 
@@ -200,29 +204,6 @@ namespace Profiles.Profile
             return canEdit == "True";
         }
 
-        public string GetConnectionString(Framework.Utilities.Session session)
-        {
-            string connstr = string.Empty;
-            try
-            {
-                if (session != null)
-                {
-                    if (session.IsBot)
-                        connstr = ConfigurationManager.ConnectionStrings["ProfilesBOTDB"].ConnectionString;
-                    else
-                        connstr = ConfigurationManager.ConnectionStrings["ProfilesDB"].ConnectionString;
-                }
-                else
-                    connstr = connstr = ConfigurationManager.ConnectionStrings["ProfilesDB"].ConnectionString;
-            }
-            catch (Exception ex)
-            {//An error will kick in if this is an Application level request for the rest path data because a session does not exist. If no session exists
-                Framework.Utilities.DebugLogging.Log(connstr + " CONNECTION USED" + "\r\n");
-                connstr = connstr = ConfigurationManager.ConnectionStrings["ProfilesDB"].ConnectionString;
-            }
-
-
-            return connstr;
-        }
+      
     }
 }

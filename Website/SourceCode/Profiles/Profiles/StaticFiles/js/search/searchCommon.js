@@ -19,7 +19,7 @@ function searchPost(url, prefix, selections, resultPage) {
             let resultsKey = makeSearchResultsKey(prefix);
             // https://stackoverflow.com/questions/13734893/javascript-how-do-i-open-a-new-page-and-pass-json-data-to-it
             toSession(resultsKey, stringResults);
-            window.location.href = gBrandingConstants.htmlFiles + resultPage;
+            window.location.href = resultPage;
         }
     });
 }function searchBodyStructure() {

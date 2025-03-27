@@ -8,10 +8,12 @@
 *.suo
 *.csproj.user
 *.vspscc
+/Website/SourceCode/Profiles/.vs
 /Website/SourceCode/Profiles/Profiles/Profiles.Publish.xml
 /Website/SourceCode/Profiles/Profiles/ProfilesDebuggingLog.txt
 /Website/SourceCode/Profiles/Profiles/obj/Debug
 /Website/SourceCode/Profiles/Profiles/obj/Release
+/Website/SourceCode/Profiles/Profiles/bin/Release
 /Website/SourceCode/Profiles/Profiles/bin/IKVM.GNU.Classpath.dll
 /Website/SourceCode/Profiles/Profiles/bin/IKVM.Runtime.dll
 /Website/SourceCode/Profiles/Profiles/bin/Microsoft.ServiceModel.Web.dll
@@ -23,6 +25,7 @@
 /Website/SourceCode/Profiles/Profiles/bin/SemWeb.dll
 /Website/SourceCode/Profiles/Profiles/bin/SemWeb.pdb
 /Website/SourceCode/Profiles/Profiles/bin/sparql-core.dll
+/Website/SourceCode/Profiles/packages
 /Website/SourceCode/ProfilesBetaAPI/Connects.Profiles.Service/bin/Connects.Profiles.Common.dll
 /Website/SourceCode/ProfilesBetaAPI/Connects.Profiles.Service/bin/Connects.Profiles.Common.pdb
 /Website/SourceCode/ProfilesBetaAPI/Connects.Profiles.Service/bin/Connects.Profiles.ProfileService.dll
@@ -94,3 +97,6 @@ UpgradeLog.XML
 /Website/SourceCode/ProfilesDataAPI/Views
 /Website/SourceCode/ProfilesDataAPI/Web.Debug.config
 /Website/SourceCode/ProfilesDataAPI/Web.Release.config
+
+/Database/.NetJobs
+/Database/.Net_ProfilesRNS_CallPRNSWebservice

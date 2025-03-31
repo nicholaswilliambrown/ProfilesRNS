@@ -1,0 +1,313 @@
+.AcquiredImmunodeficiencySyndrome { border-color: #BF3030; }
+.AcquiredImmunodeficiencySyndrome[checked="checked"] { background-color: #BF3030 !important; }
+.AerospaceMedicine { border-color: #BF3730; }
+.AerospaceMedicine[checked="checked"] { background-color: #BF3730 !important; }
+.AllergyandImmunology { border-color: #BF3E30; }
+.AllergyandImmunology[checked="checked"] { background-color: #BF3E30 !important; }
+.Anatomy { border-color: #BF4430; }
+.Anatomy[checked="checked"] { background-color: #BF4430 !important; }
+.Anesthesiology { border-color: #BF4B30; }
+.Anesthesiology[checked="checked"] { background-color: #BF4B30 !important; }
+.Anthropology { border-color: #BF5230; }
+.Anthropology[checked="checked"] { background-color: #BF5230 !important; }
+.AntiInfectiveAgents { border-color: #BF5930; }
+.AntiInfectiveAgents[checked="checked"] { background-color: #BF5930 !important; }
+.AntineoplasticAgents { border-color: #BF6030; }
+.AntineoplasticAgents[checked="checked"] { background-color: #BF6030 !important; }
+.Audiology { border-color: #BF6730; }
+.Audiology[checked="checked"] { background-color: #BF6730 !important; }
+.Bacteriology { border-color: #BF6E30; }
+.Bacteriology[checked="checked"] { background-color: #BF6E30 !important; }
+.BehavioralSciences { border-color: #BF7530; }
+.BehavioralSciences[checked="checked"] { background-color: #BF7530 !important; }
+.Biochemistry { border-color: #BF7C30; }
+.Biochemistry[checked="checked"] { background-color: #BF7C30 !important; }
+.Biology { border-color: #BF8230; }
+.Biology[checked="checked"] { background-color: #BF8230 !important; }
+.BiomedicalEngineering { border-color: #BF8930; }
+.BiomedicalEngineering[checked="checked"] { background-color: #BF8930 !important; }
+.Biophysics { border-color: #BF9030; }
+.Biophysics[checked="checked"] { background-color: #BF9030 !important; }
+.Biotechnology { border-color: #BF9730; }
+.Biotechnology[checked="checked"] { background-color: #BF9730 !important; }
+.Botany { border-color: #BF9E30; }
+.Botany[checked="checked"] { background-color: #BF9E30 !important; }
+.Brain { border-color: #BFA530; }
+.Brain[checked="checked"] { background-color: #BFA530 !important; }
+.Cardiology { border-color: #BFAC30; }
+.Cardiology[checked="checked"] { background-color: #BFAC30 !important; }
+.CellBiology { border-color: #BFB330; }
+.CellBiology[checked="checked"] { background-color: #BFB330 !important; }
+.Chemistry { border-color: #BFBA30; }
+.Chemistry[checked="checked"] { background-color: #BFBA30 !important; }
+.ChemistryTechniques { border-color: #Che; }
+.ChemistryTechniques[checked="checked"] { background-color: #Che !important; }
+.Chemistry { border-color: #Che; }
+.Chemistry[checked="checked"] { background-color: #Che !important; }
+.Chiropractic { border-color: #B0BF30; }
+.Chiropractic[checked="checked"] { background-color: #B0BF30 !important; }
+.ClinicalLaboratoryTechniques { border-color: #A9BF30; }
+.ClinicalLaboratoryTechniques[checked="checked"] { background-color: #A9BF30 !important; }
+.CommunicableDiseases { border-color: #A3BF30; }
+.CommunicableDiseases[checked="checked"] { background-color: #A3BF30 !important; }
+.ComplementaryTherapies { border-color: #9CBF30; }
+.ComplementaryTherapies[checked="checked"] { background-color: #9CBF30 !important; }
+.ComputationalBiology { border-color: #95BF30; }
+.ComputationalBiology[checked="checked"] { background-color: #95BF30 !important; }
+.CriticalCare { border-color: #8EBF30; }
+.CriticalCare[checked="checked"] { background-color: #8EBF30 !important; }
+.Dentistry { border-color: #87BF30; }
+.Dentistry[checked="checked"] { background-color: #87BF30 !important; }
+.Dermatology { border-color: #80BF30; }
+.Dermatology[checked="checked"] { background-color: #80BF30 !important; }
+.DiagnosticImaging { border-color: #79BF30; }
+.DiagnosticImaging[checked="checked"] { background-color: #79BF30 !important; }
+.DisasterMedicine { border-color: #72BF30; }
+.DisasterMedicine[checked="checked"] { background-color: #72BF30 !important; }
+.DrugTherapy { border-color: #6BBF30; }
+.DrugTherapy[checked="checked"] { background-color: #6BBF30 !important; }
+.Education { border-color: #65BF30; }
+.Education[checked="checked"] { background-color: #65BF30 !important; }
+.Embryology { border-color: #5EBF30; }
+.Embryology[checked="checked"] { background-color: #5EBF30 !important; }
+.EmergencyMedicine { border-color: #57BF30; }
+.EmergencyMedicine[checked="checked"] { background-color: #57BF30 !important; }
+.Endocrinology { border-color: #50BF30; }
+.Endocrinology[checked="checked"] { background-color: #50BF30 !important; }
+.EnvironmentalHealth { border-color: #49BF30; }
+.EnvironmentalHealth[checked="checked"] { background-color: #49BF30 !important; }
+.Epidemiology { border-color: #42BF30; }
+.Epidemiology[checked="checked"] { background-color: #42BF30 !important; }
+.Ethics { border-color: #3BBF30; }
+.Ethics[checked="checked"] { background-color: #3BBF30 !important; }
+.FamilyPlanningServices { border-color: #34BF30; }
+.FamilyPlanningServices[checked="checked"] { background-color: #34BF30 !important; }
+.ForensicSciences { border-color: #30BF32; }
+.ForensicSciences[checked="checked"] { background-color: #30BF32 !important; }
+.Gastroenterology { border-color: #30BF39; }
+.Gastroenterology[checked="checked"] { background-color: #30BF39 !important; }
+.GeneralSurgery { border-color: #30BF40; }
+.GeneralSurgery[checked="checked"] { background-color: #30BF40 !important; }
+.Genetics { border-color: #30BF47; }
+.Genetics[checked="checked"] { background-color: #30BF47 !important; }
+.Genetics { border-color: #Gen; }
+.Genetics[checked="checked"] { background-color: #Gen !important; }
+.Geriatrics { border-color: #30BF55; }
+.Geriatrics[checked="checked"] { background-color: #30BF55 !important; }
+.Gynecology { border-color: #30BF5B; }
+.Gynecology[checked="checked"] { background-color: #30BF5B !important; }
+.HealthServices { border-color: #30BF62; }
+.HealthServices[checked="checked"] { background-color: #30BF62 !important; }
+.HealthServicesResearch { border-color: #30BF69; }
+.HealthServicesResearch[checked="checked"] { background-color: #30BF69 !important; }
+.Hematology { border-color: #30BF70; }
+.Hematology[checked="checked"] { background-color: #30BF70 !important; }
+.Histocytochemistry { border-color: #30BF77; }
+.Histocytochemistry[checked="checked"] { background-color: #30BF77 !important; }
+.Histology { border-color: #30BF7E; }
+.Histology[checked="checked"] { background-color: #30BF7E !important; }
+.HistoryofMedicine { border-color: #30BF85; }
+.HistoryofMedicine[checked="checked"] { background-color: #30BF85 !important; }
+.Hospitals { border-color: #30BF8C; }
+.Hospitals[checked="checked"] { background-color: #30BF8C !important; }
+.InternalMedicine { border-color: #30BF92; }
+.InternalMedicine[checked="checked"] { background-color: #30BF92 !important; }
+.Jurisprudence { border-color: #30BF99; }
+.Jurisprudence[checked="checked"] { background-color: #30BF99 !important; }
+.LaboratoryAnimalScience { border-color: #30BFA0; }
+.LaboratoryAnimalScience[checked="checked"] { background-color: #30BFA0 !important; }
+.LibraryScience { border-color: #30BFA7; }
+.LibraryScience[checked="checked"] { background-color: #30BFA7 !important; }
+.MedicalInformatics { border-color: #30BFAE; }
+.MedicalInformatics[checked="checked"] { background-color: #30BFAE !important; }
+.MedicineGeneral { border-color: #30BFB5; }
+.MedicineGeneral[checked="checked"] { background-color: #30BFB5 !important; }
+.Metabolism { border-color: #30BFBC; }
+.Metabolism[checked="checked"] { background-color: #30BFBC !important; }
+.Microbiology { border-color: #30BCBF; }
+.Microbiology[checked="checked"] { background-color: #30BCBF !important; }
+.MilitaryMedicine { border-color: #30B5BF; }
+.MilitaryMedicine[checked="checked"] { background-color: #30B5BF !important; }
+.MolecularBiology { border-color: #30AEBF; }
+.MolecularBiology[checked="checked"] { background-color: #30AEBF !important; }
+.Nanotechnology { border-color: #30A7BF; }
+.Nanotechnology[checked="checked"] { background-color: #30A7BF !important; }
+.Neoplasms { border-color: #30A0BF; }
+.Neoplasms[checked="checked"] { background-color: #30A0BF !important; }
+.Nephrology { border-color: #3099BF; }
+.Nephrology[checked="checked"] { background-color: #3099BF !important; }
+.Neurology { border-color: #3092BF; }
+.Neurology[checked="checked"] { background-color: #3092BF !important; }
+.Neurosurgery { border-color: #308CBF; }
+.Neurosurgery[checked="checked"] { background-color: #308CBF !important; }
+.NuclearMedicine { border-color: #3085BF; }
+.NuclearMedicine[checked="checked"] { background-color: #3085BF !important; }
+.Nursing { border-color: #307EBF; }
+.Nursing[checked="checked"] { background-color: #307EBF !important; }
+.NutritionalSciences { border-color: #3077BF; }
+.NutritionalSciences[checked="checked"] { background-color: #3077BF !important; }
+.Obstetrics { border-color: #3070BF; }
+.Obstetrics[checked="checked"] { background-color: #3070BF !important; }
+.OccupationalMedicine { border-color: #3069BF; }
+.OccupationalMedicine[checked="checked"] { background-color: #3069BF !important; }
+.Ophthalmology { border-color: #3062BF; }
+.Ophthalmology[checked="checked"] { background-color: #3062BF !important; }
+.Orthodontics { border-color: #305BBF; }
+.Orthodontics[checked="checked"] { background-color: #305BBF !important; }
+.Orthopedics { border-color: #3055BF; }
+.Orthopedics[checked="checked"] { background-color: #3055BF !important; }
+.OsteopathicMedicine { border-color: #304EBF; }
+.OsteopathicMedicine[checked="checked"] { background-color: #304EBF !important; }
+.Otolaryngology { border-color: #3047BF; }
+.Otolaryngology[checked="checked"] { background-color: #3047BF !important; }
+.PalliativeCare { border-color: #3040BF; }
+.PalliativeCare[checked="checked"] { background-color: #3040BF !important; }
+.Parasitology { border-color: #3039BF; }
+.Parasitology[checked="checked"] { background-color: #3039BF !important; }
+.Pathology { border-color: #3032BF; }
+.Pathology[checked="checked"] { background-color: #3032BF !important; }
+.Pediatrics { border-color: #3430BF; }
+.Pediatrics[checked="checked"] { background-color: #3430BF !important; }
+.Perinatology { border-color: #3B30BF; }
+.Perinatology[checked="checked"] { background-color: #3B30BF !important; }
+.Pharmacology { border-color: #4230BF; }
+.Pharmacology[checked="checked"] { background-color: #4230BF !important; }
+.Pharmacy { border-color: #4930BF; }
+.Pharmacy[checked="checked"] { background-color: #4930BF !important; }
+.Photography { border-color: #5030BF; }
+.Photography[checked="checked"] { background-color: #5030BF !important; }
+.PhysicalandRehabilitationMedicine { border-color: #5730BF; }
+.PhysicalandRehabilitationMedicine[checked="checked"] { background-color: #5730BF !important; }
+.Physics { border-color: #5E30BF; }
+.Physics[checked="checked"] { background-color: #5E30BF !important; }
+.Physiology { border-color: #6530BF; }
+.Physiology[checked="checked"] { background-color: #6530BF !important; }
+.Podiatry { border-color: #6B30BF; }
+.Podiatry[checked="checked"] { background-color: #6B30BF !important; }
+.PrimaryHealthCare { border-color: #7230BF; }
+.PrimaryHealthCare[checked="checked"] { background-color: #7230BF !important; }
+.Psychiatry { border-color: #7930BF; }
+.Psychiatry[checked="checked"] { background-color: #7930BF !important; }
+.Psychology { border-color: #8030BF; }
+.Psychology[checked="checked"] { background-color: #8030BF !important; }
+.Psychopharmacology { border-color: #8730BF; }
+.Psychopharmacology[checked="checked"] { background-color: #8730BF !important; }
+.Psychophysiology { border-color: #8E30BF; }
+.Psychophysiology[checked="checked"] { background-color: #8E30BF !important; }
+.PublicHealth { border-color: #9530BF; }
+.PublicHealth[checked="checked"] { background-color: #9530BF !important; }
+.PulmonaryMedicine { border-color: #9C30BF; }
+.PulmonaryMedicine[checked="checked"] { background-color: #9C30BF !important; }
+.Radiology { border-color: #A330BF; }
+.Radiology[checked="checked"] { background-color: #A330BF !important; }
+.Radiotherapy { border-color: #A930BF; }
+.Radiotherapy[checked="checked"] { background-color: #A930BF !important; }
+.ReproductiveMedicine { border-color: #B030BF; }
+.ReproductiveMedicine[checked="checked"] { background-color: #B030BF !important; }
+.Rheumatology { border-color: #B730BF; }
+.Rheumatology[checked="checked"] { background-color: #B730BF !important; }
+.Science { border-color: #BE30BF; }
+.Science[checked="checked"] { background-color: #BE30BF !important; }
+.SexuallyTransmittedDiseases { border-color: #BF30BA; }
+.SexuallyTransmittedDiseases[checked="checked"] { background-color: #BF30BA !important; }
+.SocialSciences { border-color: #BF30B3; }
+.SocialSciences[checked="checked"] { background-color: #BF30B3 !important; }
+.SpeechLanguagePathology { border-color: #BF30AC; }
+.SpeechLanguagePathology[checked="checked"] { background-color: #BF30AC !important; }
+.SportsMedicine { border-color: #BF30A5; }
+.SportsMedicine[checked="checked"] { background-color: #BF30A5 !important; }
+.StatisticsasTopic { border-color: #BF309E; }
+.StatisticsasTopic[checked="checked"] { background-color: #BF309E !important; }
+.SubstanceRelatedDisorders { border-color: #BF3097; }
+.SubstanceRelatedDisorders[checked="checked"] { background-color: #BF3097 !important; }
+.Technology { border-color: #BF3090; }
+.Technology[checked="checked"] { background-color: #BF3090 !important; }
+.Teratology { border-color: #BF3089; }
+.Teratology[checked="checked"] { background-color: #BF3089 !important; }
+.Therapeutics { border-color: #BF3082; }
+.Therapeutics[checked="checked"] { background-color: #BF3082 !important; }
+.Toxicology { border-color: #BF307C; }
+.Toxicology[checked="checked"] { background-color: #BF307C !important; }
+.Transplantation { border-color: #BF3075; }
+.Transplantation[checked="checked"] { background-color: #BF3075 !important; }
+.Traumatology { border-color: #BF306E; }
+.Traumatology[checked="checked"] { background-color: #BF306E !important; }
+.TropicalMedicine { border-color: #BF3067; }
+.TropicalMedicine[checked="checked"] { background-color: #BF3067 !important; }
+.Urology { border-color: #BF3060; }
+.Urology[checked="checked"] { background-color: #BF3060 !important; }
+.VascularDiseases { border-color: #BF3059; }
+.VascularDiseases[checked="checked"] { background-color: #BF3059 !important; }
+.VeterinaryMedicine { border-color: #BF3052; }
+.VeterinaryMedicine[checked="checked"] { background-color: #BF3052 !important; }
+.Virology { border-color: #BF304B; }
+.Virology[checked="checked"] { background-color: #BF304B !important; }
+.VitalStatistics { border-color: #BF3044; }
+.VitalStatistics[checked="checked"] { background-color: #BF3044 !important; }
+.WomensHealth { border-color: #BF303E; }
+.WomensHealth[checked="checked"] { background-color: #BF303E !important; }
+.Zoology { border-color: #BF3037; }
+.Zoology[checked="checked"] { background-color: #BF3037 !important; }
+
+.altmetric-embed {
+    margin-left: 0px !important;
+}
+.RCR-citations {
+    height: 15px;
+    background-image: url("../../img/person/RCR_Icon_Wide.png");
+    display: inline-block;
+    text-decoration: none;
+    line-height: 13px;
+    width: 80px !important;
+}
+.RCR-count {
+    margin-left: 70px;
+    width: 29px;
+    text-align: right  !important;
+    font-size: 10px;
+    font-weight: normal;
+    color: #333;
+    display: inline-flex;
+    justify-content: space-evenly;
+}
+
+/** fixed number in DB schema: 5 translation types */
+.Translation {
+    border-color: #999999;
+    font-family: 'Times';
+}
+/*.TranslationHumans {        color: #3333cc;}*/
+/*.TranslationAnimals {       color: #33aa33;}*/
+/*.TranslationCells {         color: #bb3333;}*/
+/*.TranslationPublicHealth {  color: #609;}*/
+/*.TranslationClinicalTrial { color: #00C;}*/
+
+.Translation {
+    border-color: black;
+}
+.TranslationHumans        {  border-color: #3333cc !important;}
+.TranslationAnimals       {  border-color: #33aa33 !important;}
+.TranslationCells         {  border-color: #bb3333 !important;}
+.TranslationPublicHealth  {
+    border-color: #999 !important;
+    color: #609 !important;
+}
+.TranslationClinicalTrial {
+    border-color: #999 !important;
+    color: #00C !important;
+}
+/** see https://medium.com/mkdir-awesome/how-to-change-the-bootstrap-5-tooltip-background-and-arrow-color-67e6c5aea510**/
+.TranslationHumans[checked="checked"]       , .TranslationHumansTt .tooltip-inner  {
+    background-color: #3333cc;}
+.TranslationAnimals[checked="checked"]      , .TranslationAnimalsTt .tooltip-inner {
+    background-color: #33aa33;}
+.TranslationCells[checked="checked"]        , .TranslationCellsTt .tooltip-inner   {
+    background-color: #bb3333;}
+.TranslationPublicHealth[checked="checked"] , .TranslationPublicHealthTt .tooltip-inner      {
+    background-color: #609   ;}
+.TranslationClinicalTrial[checked="checked"], .TranslationClinicalTrialTt .tooltip-inner      {
+    background-color: #00C   ;}
+
+/* bullet-proofing: all field classes should be accounted for in etlPubFields.css */
+.defaultFieldClass[checked="checked"]  { background-color: grey; }
+.defaultFieldClass  { border-color: grey; }

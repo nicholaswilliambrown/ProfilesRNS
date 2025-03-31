@@ -1,0 +1,110 @@
+
+/********** from Custom...InAuthorship.css *****************************/
+.__dimensions_badge_embed__ .__dimensions_Badge_style_small_rectangle .__db_score, .__dimensions_badge_embed__ .__dimensions_Badge_style_large_rectangle .__db_score {
+    left: 50% !important;
+}
+
+.__dimensions_badge_embed__ .__dimensions_Badge_style_small_rectangle .__dimensions_Badge_Image {
+    height: 20px !important;
+}
+
+.__dimensions_badge_embed__ {
+    display: inline-block !important;
+}
+
+.__dimensions_badge_embed__ .__dimensions_Link {
+}
+
+.__dimensions_Badge_Image {
+    font-size: 10px !important;
+    font-family: arial !important;
+}
+.__dimensions_Badge_stat_icon {
+    margin-right: 30px !important;
+}
+.__dimensions_Badge_stat_count {
+    margin-right: 5px !important;
+}
+
+.pmc_citation {
+    width: 82px;
+    height: 15px;
+    display: inline-block;
+    border: none;
+    text-decoration: none;
+    line-height: 13px;
+    text-align: end;
+    font-size: 10px;
+    font-weight: normal;
+    color: #333;
+}
+.pmc_citation_label {
+    text-decoration: none;
+    color: #666;
+    font-weight: 550;
+}
+.field-summary-row {
+    width: 75%;
+    margin-left: 0%;
+}
+.nav-link:hover {
+    font-weight: 600;
+    font-size: 12px;
+}
+.mediaDiv {
+    width: 440px;
+    height: 400px;
+}
+.thumbsDiv {
+    height: 400px;
+    overflow-y: scroll;
+}
+.thumbsDiv .oneThumb {
+    margin-bottom: 4px !important;
+}
+.video-name {
+    vertical-align: top;
+}
+.video-thumb {
+    vertical-align: top;
+    width: 120px;
+    height: 90px;
+    margin-left: 10px;
+}
+.video-iframe {
+    width: 480px;
+    height: 400px;
+
+
+    frameborder: 0;
+    marginwidth: 0;
+    marginheight: 0;
+    scrolling: no;
+    border: 1px solid #CCC;
+    margin-bottom:5px;
+    max-width: 100%;"
+}
+.wrap2 .__cits__.wrap3 {
+    padding-left: 15px !important;
+    text-indent: -15px !important;
+}
+.wrap2 .__db_score.wrap3 {
+    padding-left: 20px !important;
+    text-indent: -20px !important;
+}
+.fieldOrTrans[checked="checked"] {
+    color: white !important;
+    border: 1px solid;
+    border-radius: 3px;
+    padding: 0px 2px;
+    font-size: 11px;
+}
+.fieldOrTrans {
+    border: 1px solid;
+    border-radius: 3px;
+    padding: 0px 2px;
+    font-size: 11px;
+    background-color: white;
+    color: black;
+}
+

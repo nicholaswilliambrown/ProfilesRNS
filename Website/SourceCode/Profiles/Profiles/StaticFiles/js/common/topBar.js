@@ -1,29 +1,4 @@
 
-function adjustMyPersonList() {
-    $('#nav2Persons').html(`My Person List (${gCommon.numPersons})`);
-
-    // todo: we might have more granular semantics based on 'this person'
-    //   vis-a-vis elements of the list
-    switch (gCommon.numPersons) {
-        case 0:
-            $('#addPersonList').show();
-
-            $('#clearPersonList').hide();
-            $('#removePersonList').hide();
-            break;
-        case 1:
-            $('#removePersonList').show();
-
-            $('#clearPersonList').hide();
-            $('#addPersonList').hide();
-            break;
-        default:
-            $('#clearPersonList').show();
-            $('#addPersonList').hide();
-
-            $('#removePersonList').hide();
-    }
-}
 
 function setupTopNav() {
     let topNavbar = $('#topNavbar, #topNavbar2');
@@ -35,7 +10,26 @@ function setupTopNav() {
     setUrlByAnchorId("topHome", gSearch.searchFormPeopleUrl);
     setUrlByAnchorId("helpA", gCommon.helpUrl);
     setUrlByAnchorId("logoutA", gCommon.logoutUrl);
+    setUrlByAnchorId("viewMyProfileA", g.profilesRootURL + '/display/' + sessionInfo.personNodeID);
 
+   
+
+    if (sessionInfo.canEditPage) {
+        var firstPass = JSON.parse(g.dataURLs)[0].dataURL.split('=');
+        var nodeId = firstPass[1].slice(0, -2);
+        setUrlByAnchorId("editThisProfileA", gCommon.editMyProfileUrl + nodeId);
+    } else {
+        $("#topNav2EditThis").remove(); 
+    }
+
+    if (nodeId === sessionInfo.personNodeID.toString()) {
+        $("#topNav2EditThis").remove(); 
+    }
+    setUrlByAnchorId("editMyProfileA", gCommon.editMyProfileUrl + sessionInfo.personNodeID);
+    setUrlByAnchorId("manageProxiesA", gCommon.manageProxiesUrl);
+    setUrlByAnchorId("dashboardA", gCommon.dashboardUrl + sessionInfo.personNodeID)
+    setUrlByAnchorId("opportunitySearchA", gCommon.opportunitySearch);
+    setUrlByAnchorId("viewMyListA", gCommon.viewMyListUrl)
     populateHistoryDropdown();
 
     setupNavSearch(topNavbar);
@@ -43,7 +37,7 @@ function setupTopNav() {
     $('#navbar1outerRow').addClass(`${gCommon.cols12}`);
 
     $('#fourItems').addClass(`${gCommon.cols5or12Lg}`);
-    $('#longerItem').addClass(`${gCommon.cols7or12Lg}`);
+   // $('#longerItem').addClass(`${gCommon.cols7or12Lg}`);
 
     $(`#topNavHome`).addClass(`${gCommon.cols3or12}`);
     $(`#topNavAbout`).addClass(`${gCommon.cols3or12}`);
@@ -52,13 +46,28 @@ function setupTopNav() {
 
     $(`#topNavSearch`).addClass(`${gCommon.cols12} pe-2`);
 
-    $(`#topNav2Edit`).addClass(`${gCommon.cols2or12}`);
-    $(`#topNav2Proxies`).addClass(`${gCommon.cols2or12}`);
-    $(`#topNav2Persons`).addClass(`${gCommon.cols2or12}`);
-    $(`#topNav2Opportunity`).addClass(`${gCommon.cols2or12}`);
-    $(`#topNav2Logout`).addClass(`${gCommon.cols1or12} pe-2`);
+   // $(`#topNav2Edit`).addClass(`${gCommon.cols2or12}`);
+   // $(`#topNav2Proxies`).addClass(`${gCommon.cols2or12}`);
+   // $(`#topNav2Persons`).addClass(`${gCommon.cols2or12}`);
+   // $(`#topNav2Opportunity`).addClass(`${gCommon.cols2or12}`);
+   // $(`#topNav2Logout`).addClass(`${gCommon.cols1or12} pe-2`);
 
     $(`#topNav2White`).addClass(`${gCommon.cols3or12}`);
+
+    if (!sessionInfo.canEditPage) {
+        $("#topNav2EditThis").remove();       
+    }
+    //if person does not have a profile they will not see the following menu items
+    if (!sessionInfo.personNodeID>0) {
+        $("#topNav2Edit").remove();        
+        $("#topNav2View").remove();
+        $("#topNav2Dashboard").remove();
+    }
+    
+    
+
+
+
 
     adjustMyPersonList();
 
@@ -70,10 +79,22 @@ function setupTopNav() {
     });
 
 
+
+
+
+
+
+
+
 }
 
 function addSearchForm(target, formClass, searchGlassClass, displayClass, sizeFlavor, justifyPos) {
-    let displayDiv = $(`<div class="${displayClass}"></div>`);
+    let sdId = `searchFormDiv-${sizeFlavor}`;
+    if ($(`#${sdId}`).length) {
+        // already displayed by skeleton
+        return;
+    }
+    let displayDiv = $(`<div id="${sdId}" class="${displayClass}"></div>`);
     target.append(displayDiv);
 
     let form = $(`<form class="top ${formClass} d-flex justify-content-${justifyPos}">
@@ -90,14 +111,14 @@ function addSearchForm(target, formClass, searchGlassClass, displayClass, sizeFl
                 <img class="downArrow downArrow${sizeFlavor}">
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown3">
-                <li><a id="findPeopleA${sizeFlavor}" class="dropdown-item" href="#">Find People</a></li>
-                <li><a id="findEverythingA${sizeFlavor}" class="dropdown-item" href="#">Find Everything</a></li>
+                <li><a id="findPeopleA${sizeFlavor}" class="dropdown-item find-people-menu" href="#">Find People</a></li>
+                <li><a id="findEverythingA${sizeFlavor}" class="dropdown-item find-everything-menu" href="#">Find Everything</a></li>
             </ul>
         </div>
         </form>`);
     displayDiv.append(form);
-    setUrlByAnchorId(`findPeopleA${sizeFlavor}`, gSearch.searchFormPeopleUrl);
-    setUrlByAnchorId(`findEverythingA${sizeFlavor}`, gSearch.searchFormAllElseUrl);
+    setUrlByAnchorId(`findPeopleA${sizeFlavor}`, g.profilesRootURL + "/search");
+    setUrlByAnchorId(`findEverythingA${sizeFlavor}`, g.profilesRootURL + "/search/all");
 }
 
 function setupNavSearch(topNavbar) {
@@ -106,17 +127,19 @@ function setupNavSearch(topNavbar) {
     // large and small versions
     addSearchForm(navSearchItem, "formHeightDesktop",
         "searchMagGlassWide", gCommon.hideXsSmallShowOthers, gCommon.large, "end");
-    addSearchForm(navSearchItem, "formHeightPhone",
-        "searchMagGlassNarrow", gCommon.showXsSmallHideOthers, gCommon.small, "start");
+   // addSearchForm(navSearchItem, "formHeightPhone",
+   //     "searchMagGlassNarrow", gCommon.showXsSmallHideOthers, gCommon.small, "start");
 
-    let searchGlass = $('.navSearchGlass:visible');
-    let searchTerm = $('.navSearchTerm:visible');
+    let searchGlass = $('.navSearchGlass'); 
+    let searchTerm = $('.navSearchTerm');  
+ 
 
     searchGlass.on("click", doNavSearch);
+   
 
-    searchTerm.on("keypress", function(e) {
+    searchTerm.on("keypress", function (e) {
         let keycode = e.keyCode || e.which;
-        if(keycode == '13') {
+        if (keycode == '13') {
             doNavSearch(e);
         }
     });
@@ -128,20 +151,23 @@ function setupNavSearch(topNavbar) {
         .find('.searchMagGlass')
         .attr("src", `${gBrandingConstants.jsCommonImageFiles}blackMagnifyGlass.png`);
 }
+
 function doNavSearch(e) {
     e.preventDefault();
     e.stopPropagation();
-
+    $("#topNavSearch").css("cursor", "progress");
     let searchTerm = $('.navSearchTerm:visible').val().trim();
     console.log(`searching: [${searchTerm}]`);
 
-    minimalPeopleSearch(searchTerm);
+    minimalPeopleSearchByTerm(searchTerm);
+
+
 }
 function showVsHideNavDropdown(e, showVsHide) {
     let jqItem = $(e.target);
 
     // start from correct parent 'nav-item'
-    if (! jqItem.hasClass('nav-item')) {
+    if (!jqItem.hasClass('nav-item')) {
         jqItem = jqItem.closest('.nav-item');
     }
 
@@ -163,10 +189,10 @@ function setUrlByAnchorId(aid, url) {
 }
 ///////// history tab /////////
 function getOrInitHistory() {
-    let history = fromSession(gCommon.historyKey);
-    if ( ! history) {
+    let history = fromSession(gCommon.historyKey, true);
+    if (!history) {
         history = [];
-        toSession(gCommon.historyKey, history);
+        toSession(gCommon.historyKey, history, true);
     }
     return history;
 }
@@ -174,9 +200,9 @@ function addItemToNavHistory(display, url) {
     let history = getOrInitHistory();
 
     let displays = history.map((item) => item.display);
-    if ( ! displays.includes(display)) {
-        history.push({display: display, url: url});
-        toSession(gCommon.historyKey, history);
+    if (!displays.includes(display)) {
+        history.push({ display: display, url: url });
+        toSession(gCommon.historyKey, history, true);
 
         populateHistoryDropdown();
     }
@@ -188,7 +214,7 @@ function populateHistoryDropdown() {
 
     let numItems = history.length;
 
-    for (let i=0; i<numItems; i++) {
+    for (let i = 0; i < numItems; i++) {
         let item = history[i];
         let li = $(`<li><a class="dropdown-item history" href="${item.url}">${item.display}</a></li>`);
         ul.prepend(li);
@@ -199,4 +225,130 @@ function populateHistoryDropdown() {
     let dropdownHeader = ul.closest('.nav-item').find('.nav-link');
     dropdownHeader.html(historyHtml);
 }
+// for logged-in topBars
+function adjustMyPersonList() {
+    $('#nav2Persons').html(`My Person List (${gCommon.numPersons})`);
+
+    // todo: we might have more granular semantics based on 'this person'
+    //   vis-a-vis elements of the list
+
+
+    switch (g.pageContext) {
+        case 'search-form':
+            $('#addPersonList').hide();
+            (gCommon.numPersons === 0 ? $('#clearPersonList').hide() : $('#clearPersonList').show());
+            $('#removePersonList').hide();
+            $("#addMatchingPeopleList").hide()
+            $("#removeMatchingPeopleList").hide();
+            break;
+        case 'search-results':
+            $('#addPersonList').hide();
+            (gCommon.numPersons === 0 ? $('#clearPersonList').hide() : $('#clearPersonList').show());
+            $('#removePersonList').hide();
+            if (JSON.parse(fromSession(makeSearchResultsKey(gSearch.people))).Count > 0) {
+                $("#addMatchingPeopleList").show();
+                (gCommon.numPersons === 0 ? $("#removeMatchingPeopleList").hide() : $("#removeMatchingPeopleList").show());
+            }
+            else {
+                $("#addMatchingPeopleList").hide();
+                (gCommon.numPersons === 0 ? $("#removeMatchingPeopleList").hide() : $("#removeMatchingPeopleList").show());
+            }
+            break;
+        case 'profile':
+            $("#addMatchingPeopleList").hide();
+            (gCommon.numPersons === 0 ? $("#removeMatchingPeopleList").hide() : $("#removeMatchingPeopleList").hide());
+            $('#addPersonList').show();
+            (gCommon.numPersons === 0 ? $('#clearPersonList').hide() : $('#clearPersonList').show());
+            (gCommon.numPersons === 0 ? $('#removePersonList').hide() : $('#removePersonList').show());
+            
+
+            break;
+        default:
+            $("#addMatchingPeopleList").hide();
+            $("#removeMatchingPeopleList").hide();
+            $('#addPersonList').hide();
+            (gCommon.numPersons === 0 ? $('#clearPersonList').hide() : $('#clearPersonList').show());
+            $('#removePersonList').hide();
+
+    }  
+
+
+    $("#addPersonToListA").on("click", listsAddPerson);
+    $("#removePersonFromListA").on("click", listsDeletePerson);
+    $("#deleteAllFromListA").on("click", listsDeleteAll);
+    $("#addMatchingPeopleA").on("click", listsAddSearch);
+    $("#removeMatchingPeopleA").on("click", listsDeleteSearch);
+    
+}
+function listsDeleteAll() {
+    let listsUrl = g.listsApiPath + "?action=deleteall";
+    var data = {};
+    listsPost(listsUrl, data);
+}
+function listsDeletePerson() {
+    let listsUrl = g.listsApiPath + "?action=deleteperson";
+    var data = {};
+    data.SubjectPersonID = g.pageJSON.find(x => x.DisplayModule == 'Person.Label').ModuleData[0].PersonID;
+    listsPost(listsUrl, data);
+}
+function listsDeleteSearch() {
+    let listsUrl = g.listsApiPath + "?action=deletesearch";
+    var data = {};
+    data = fromSession(makeSearchResultsKey(gSearch.people));
+    listsPost(listsUrl, data);
+}
+function listsAddPerson() {
+    let listsUrl = g.listsApiPath + "?action=addperson";
+    var data = {};
+    data.SubjectPersonID = g.pageJSON.find(x => x.DisplayModule == 'Person.Label').ModuleData[0].PersonID;
+    listsPost(listsUrl, data);
+}
+function listsAddSearch() {
+    let listsUrl = g.listsApiPath + "?action=addsearch";
+    var data = {};
+    var tmp = JSON.parse(fromSession(makeSearchResultsKey(gSearch.people)));
+    data = tmp.SearchQuery;
+    listsPost(listsUrl, data);
+}
+
+function listsPost(url, data) {
+    console.log("listPost : ", url);
+    console.log('--------listsPost data----------');
+    console.log(data);
+
+    let listsActionData = JSON.stringify(data);
+    //let listsActionData = data;
+
+
+
+    $.post(url, listsActionData, function (results) {
+        if (isArray(results)
+            && results.length == 1
+            && results[0].ErrorMessage !== gCommon.undefined) {
+
+            console.log(`Error message from back-end: "${results[0].ErrorMessage}"
+                    \nFrom Post of: 
+                    <${data}>`);
+        }
+        else {
+            gCommon.numPersons = results.Size;
+            adjustMyPersonList();
+           // $('#nav2Persons').html(`My Person List (${results.Size})`);
+        }
+    });
+
+}
+
+$(window).resize(function () {
+
+    if ($(window).width() <= 770) {
+        $('.myNavbar-nav2').removeClass('d-flex flex-row');      
+       
+    }
+    if ($(window).width() >= 770) {
+        $('.myNavbar-nav2').addClass('d-flex flex-row');
+    }
+});
+
+  
 

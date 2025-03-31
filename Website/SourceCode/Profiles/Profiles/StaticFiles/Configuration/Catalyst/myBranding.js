@@ -3,7 +3,7 @@
 //////   You supply your own versions of
 //////
 //////   setupHeadIncludesAndTabTitle()
-//////   emitBrandingHeader()
+//////   emitBrandingHeader(targetId)
 //////   emitBrandingFooter()
 //////
 //////        and optionally also
@@ -16,7 +16,7 @@
 let gBrandingConstants = {};
 
 // gBrandingConstants.staticFiles helps locate all the other site-specific resources
-gBrandingConstants.staticRoot = "/StaticFiles/";
+gBrandingConstants.staticRoot = g.staticRoot;
 
 async function setupHeadIncludesAndTabTitle() {
     let head = $('head');
@@ -25,11 +25,10 @@ async function setupHeadIncludesAndTabTitle() {
 
     $.getScript(gBrandingConstants.headerFooterJsUrl);
 
-    setTabTitleAndFavicon();
+    setTabTitleAndOrFavicon();
 }
-async function emitBrandingHeader() {
-
-    $('body').prepend(`<div id="brandingBanner"></div>`);
+async function emitBrandingHeader(targetId) {
+    $(`#${targetId}`).prepend(`<div id="brandingBanner" style="height: 190px;"></div>`);
 
     // versions for small and large
     let largeBannerDiv = $(`<div class="${gCommon.hideXsSmallShowOthers}"></div>`);
@@ -43,10 +42,11 @@ async function emitBrandingHeader() {
         responsiveBanner(smallBannerDiv, gCommon.small, bannerHtml);
     });
 }
-async function emitBrandingFooter() {
+async function emitBrandingFooter(targetId) {
 
     let brandingFooter = $(`<div id="brandingFooter"></div>`);
-    $('body').append(brandingFooter);
+    brandingFooter.hide(); // show once rest of page is loaded!
+    $(`#${targetId}`).append(brandingFooter);
 
     // versions for small and large
     let largeFooterDiv = $(`<div class="${gCommon.hideXsSmallShowOthers}"></div>`);
@@ -64,6 +64,10 @@ async function emitBrandingFooter() {
     });
 }
 function emitPrefooter() {
+    if ($('#prefooterBlurb').length) {
+        // already emitted by skeleton
+        return;
+    }
     let movingPreFooter = $('body').find('#preFooter').detach();
 
     movingPreFooter.addClass(`mb-2`);
@@ -80,7 +84,7 @@ function emitPrefooter() {
         demographic information, contact HMS Human Resources at human_resources@hms.harvard.edu.
         For faculty personal and demographic information, contact
         HMS Office for Faculty Affairs at facappt@hms.harvard.edu.`;
-    preFooterLeft.append($(`<p>${blurb}</p>`));
+    preFooterLeft.append($(`<div id="prefooterBlurb">${blurb}</div>`));
 
     $('#markPreFooter').append(movingPreFooter);
 }
@@ -90,7 +94,7 @@ function emitPrefooter() {
 //////    default-provided Harvard Catalyst branding
 
 function getBrandingLogo() {
-    let logo = $(`<a href="${gBrandingConstants.brandingHomeUrl}" 
+    let logo = $(`<a href="${gBrandingConstants.homeUrl}" 
         className="main-logo" title="${gBrandingConstants.logoTitle}">
         <img src="${gBrandingConstants.logoUrl}"
             alt="${gBrandingConstants.logoAlt}"></a>`);

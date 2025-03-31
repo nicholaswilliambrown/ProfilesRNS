@@ -21,16 +21,16 @@ function applySystematicBlurbs() {
     $(`.${topicClass}`).each((index, element) => {
         let elt = $(element);
         let sharedAttr = elt.attr('sharedAttr');
-        let blurbAttrList = $(`.${blurbClass}[sharedAttr="${sharedAttr}"]`)
-            .attr('blurb');
-        // singles assimilated into array type
-        if (typeof blurbAttrList == "string") {
-            blurbAttrList = [ blurbAttrList ];
-        }
+        let blurbAttrs = [];
+        $(`.${blurbClass}[sharedAttr="${sharedAttr}"]`)
+            .get() // to array
+            .forEach(i => {
+                blurbAttrs.push($(i).attr('blurb'));
+            });
 
-        hideEmptyTopics(sharedAttr, blurbAttrList);
+        hideEmptyTopics(sharedAttr, blurbAttrs);
 
-        $.each(blurbAttrList, (index, attr) => {
+        blurbAttrs.forEach(attr => {
             let elt = $(`div[blurb="${attr}"]`);
             let blurbText = gBrandingConstants[attr];
             $(elt).html(blurbText);

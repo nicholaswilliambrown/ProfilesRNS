@@ -15,9 +15,10 @@
 
     <link href="{profilesPath}/StaticFiles/Configuration/myBranding.css" rel="stylesheet" type="text/css">
     <link href="{profilesPath}/StaticFiles/css/common/bigAndSmall.css" rel="stylesheet" type="text/css">
-    <link href="{profilesPath}/StaticFiles/css/common/common.css" rel="stylesheet" type="text/css">
     <link href="{profilesPath}/StaticFiles/css/common/common-top-nav.css" rel="stylesheet" type="text/css">
     <link href="{profilesPath}/StaticFiles/css/common/common-access.css" rel="stylesheet" type="text/css">
+    <!-- common should come after common-access, since hoverDark comes later than link-ish, so its 'important' prevails -->
+    <link href="{profilesPath}/StaticFiles/css/common/common.css" rel="stylesheet" type="text/css">
 
     <link href="{profilesPath}/StaticFiles/css/search/search.css" rel="stylesheet" type="text/css">
     <link href="{profilesPath}/StaticFiles/css/paging/paging.css" rel="stylesheet" type="text/css">
@@ -30,21 +31,19 @@
 
     <script src="https://www.gstatic.com/charts/loader.js"></script>
 
-    <script type="text/javascript">
-        let g = {};
-        g.staticRoot = '{profilesPath}/StaticFiles/';
-        g.profilesPath = '{profilesPath}';
-        g.searchApiPath = '{searchApiPath}';
-        g.activityApiPath = '{activityApiPath}';
-    </script>
+    {globalVariables}
 
+    {SessionInfo}
+    <script>
+        g.pageContext = '';
+    </script>
     <script src="{profilesPath}/StaticFiles/js/common/globals.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/Configuration/myBranding.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/js/common/brandingUtil.js" type="text/javascript"></script>
 
     <script src="{profilesPath}/StaticFiles/js/search/searchCommon.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/js/common/common.js" type="text/javascript"></script>
-    <script src="{profilesPath}/StaticFiles/js/common/exploreParse.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/common/parsers/exploreParse.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/js/common/insertCommonContent.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/js/common/misc.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/js/common/sorting.js" type="text/javascript"></script>
@@ -61,21 +60,23 @@
         // g.tab = '{tab}';
         // console.log("Global values after DisplayRepository replace", g);
 
-        $(document).ready(setupSearchAllElseResults);
+        $(document).ready(function() {
+            setupSearchAllElseResults();
+        });
     </script>
 </head>
 <body>
 <!-- banner is inserted dynamically-->
 <!--maybe insert dynamically?-->
-<div id="mainRow" class="row mt-4 me-0 w-100">
+<div id="searchPageMarkup" class="moveable d-none row mt-4 me-0 w-100" dest="mainDiv">
     <div id="midDiv">
         <div id="midDivInner" class="row">
             <div id="resultsDiv" class="ps-0"></div>
         </div> <!-- midDivInner -->
     </div> <!-- midDiv -->
-    <div id="rhsDiv" class="mt-5"></div>  <!-- rhsDiv -->
+    <div id="rhsDiv" class="mt-5 panelPassive"></div>  <!-- rhsDiv -->
 
-</div> <!-- mainRow -->
+</div> <!-- searchPageMarkup -->
 
 <!-- footer is inserted dynamically-->
 </body>

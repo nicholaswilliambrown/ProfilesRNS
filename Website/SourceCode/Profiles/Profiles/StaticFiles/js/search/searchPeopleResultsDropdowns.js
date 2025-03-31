@@ -25,7 +25,9 @@ function setupShowDropdown(results) {
         });
     }
 
-    $(`#showDropdown`).on('click', function() {
+    $(`#showDropdown`).on('click', function(e) {
+        e.stopPropagation();
+
         $('.li-sort').hide();
         $('.li-show').toggle();
 
@@ -56,19 +58,22 @@ function setupDropdownsAndInitialSelections(results) {
 
     syncSortOptionsToShownHeaders(results);
 
-    $(`#sortDropdown`).on('click', function(e) {
-        let target = $(e.target); // for debugging
+    $('body').on('click', function() {
         if ($('.li-show:visible').length > 0) { // need to harvest the show selections and redo
-            adjustChosenSort(results);
-            installSelectedShows(results);
-            redoPeopleSearch(results);
+            applyShowsFromDropdown(results);
         }
-
+    })
+    $(`#sortDropdown`).on('click', function(e) {
         $('.li-sort').toggle();
         $(`.li-sort[${gSearch.omitOptionalColumnSt}="${gSearch.omitOptionalColumnSt}"]`).hide();
     });
 
    $(`.li-sort`).on('click', function(e) { liSortClick(e, results); });
+}
+function applyShowsFromDropdown(results) {
+    adjustChosenSort(results);
+    installSelectedShows(results);
+    redoPeopleSearch(results);
 }
 function liSortClick(e, results) {
     let target = $(e.target);
@@ -92,7 +97,7 @@ function redoPeopleSearch(searchResults) {
         gSearch.findPeopleUrl,
         gSearch.people,
         searchResults.SearchQuery,
-        "searchPeopleResults.html");
+        gSearch.peopleResultsUrl);
 }
 function adjustShowChoicesHeader(results) {
     let selected = harvestCheckedOptions('showCheck');

@@ -15,9 +15,9 @@
 
     <link href="{profilesPath}/StaticFiles/Configuration/myBranding.css" rel="stylesheet" type="text/css">
     <link href="{profilesPath}/StaticFiles/css/common/bigAndSmall.css" rel="stylesheet" type="text/css">
-    <link href="{profilesPath}/StaticFiles/css/common/common.css" rel="stylesheet" type="text/css">
     <link href="{profilesPath}/StaticFiles/css/common/common-top-nav.css" rel="stylesheet" type="text/css">
     <link href="{profilesPath}/StaticFiles/css/common/common-access.css" rel="stylesheet" type="text/css">
+    <link href="{profilesPath}/StaticFiles/css/common/common.css" rel="stylesheet" type="text/css">
 
     <link href="{profilesPath}/StaticFiles/css/coauthors/coauthors.css" rel="stylesheet" type="text/css">
     <link href="{profilesPath}/StaticFiles/css/coauthors/viz.css" rel="stylesheet" type="text/css">
@@ -31,23 +31,19 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.13/d3.min.js"></script>
 
-    <script type="text/javascript">
-        let g = {};
-        g.dataURLs = '{dataURLs}';
-        g.profilesRootURL = '{profilesRootURL}';
-        g.apiBasePath = '{apiBasePath}';
-        g.staticRoot = '{profilesPath}/StaticFiles/';
-        g.tab = '{tab}';
-        console.log("Global values after DisplayRepository replace", g);
-    </script>
+    {globalVariables}
 
+    {SessionInfo}
+    <script>
+        g.pageContext = 'profile';
+    </script>
     <script src="{profilesPath}/StaticFiles/js/common/globals.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/Configuration/myBranding.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/js/common/brandingUtil.js" type="text/javascript"></script>
 
     <script src="{profilesPath}/StaticFiles/js/search/searchCommon.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/js/common/common.js" type="text/javascript"></script>
-    <script src="{profilesPath}/StaticFiles/js/common/exploreParse.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/common/parsers/exploreParse.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/js/common/insertCommonContent.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/js/common/misc.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/js/common/sorting.js" type="text/javascript"></script>
@@ -56,7 +52,11 @@
     <script src="{profilesPath}/StaticFiles/js/coauthors/co-authors.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/js/coauthors/tabParsers/listParse.js"></script>
 
-    <script type="text/javascript">$(document).ready(setupCoauthors);</script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            setupCoauthors();
+        });
+    </script>
     <script src="{profilesPath}/StaticFiles/profile.js" type="text/javascript"></script>
 
 </head>

@@ -15,9 +15,9 @@
 
     <link href="{profilesPath}/StaticFiles/Configuration/myBranding.css" rel="stylesheet" type="text/css">
     <link href="{profilesPath}/StaticFiles/css/common/bigAndSmall.css" rel="stylesheet" type="text/css">
-    <link href="{profilesPath}/StaticFiles/css/common/common.css" rel="stylesheet" type="text/css">
     <link href="{profilesPath}/StaticFiles/css/common/common-top-nav.css" rel="stylesheet" type="text/css">
     <link href="{profilesPath}/StaticFiles/css/common/common-access.css" rel="stylesheet" type="text/css">
+    <link href="{profilesPath}/StaticFiles/css/common/common.css" rel="stylesheet" type="text/css">
 
     <link href="{profilesPath}/StaticFiles/css/search/search.css" rel="stylesheet" type="text/css">
 
@@ -29,14 +29,12 @@
 
     <script src="https://www.gstatic.com/charts/loader.js"></script>
 
-    <script type="text/javascript">
-        let g = {};
-        g.staticRoot = '{profilesPath}/StaticFiles/';
-        g.profilesPath = '{profilesPath}';
-        g.searchApiPath = '{searchApiPath}';
-        g.activityApiPath = '{activityApiPath}';
-    </script>
+    {globalVariables}
 
+    {SessionInfo}
+    <script>
+        g.pageContext = 'search-form';
+    </script>
     <script src="{profilesPath}/StaticFiles/js/common/globals.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/Configuration/myBranding.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/js/common/brandingUtil.js" type="text/javascript"></script>
@@ -44,7 +42,7 @@
     <script src="{profilesPath}/StaticFiles/js/search/searchCommon.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/js/common/common.js" type="text/javascript"></script>
 
-    <script src="{profilesPath}/StaticFiles/js/common/exploreParse.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/common/parsers/exploreParse.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/js/common/insertCommonContent.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/js/common/misc.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/js/common/sorting.js" type="text/javascript"></script>
@@ -70,7 +68,7 @@
 <body>
 <!-- banner is inserted dynamically-->
 <!--maybe insert dynamically?-->
-<div id="mainRow" class="row mt-4 me-0 w-100">
+<div id="searchPageMarkup" class="moveable d-none row mt-4 me-0 w-100" dest="mainDiv">
     <div id="lhsDiv"></div> <!-- lhsDiv -->
     <div id="midDiv">
         <ul class="nav nav-tabs tabChoices mb-2" id="myTab" role="tablist">
@@ -83,8 +81,8 @@
                 </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link tabTopHat" id="allElse-tab" data-bs-toggle="tab" data-bs-target="#allElse"
-                        type="button" role="tab" aria-controls="allElse" aria-selected="true">
+                <button class="nav-link tabTopHat" id="all-tab" data-bs-toggle="tab" data-bs-target="#all"
+                        type="button" role="tab" aria-controls="all" aria-selected="true">
                             Find Everything Else
                 </button>
             </li>
@@ -93,7 +91,7 @@
             <div class="tab-pane fade show active mt-3" id="people" role="tabpanel" aria-labelledby="people-tab">
                 <div id="peopleBox" class="tab-pane-box mt-3 pt-3 pb-3">
                     <div id="dropdownsAndNames">
-                        <div id="institutionsUlDiv" class="ulDiv w-100">
+                        <div id="institutionsUlDiv" position="1" class="ulDiv w-100">
                             <ul class="w-100 ps-0">
                                 <li class="dropdown-no-bullet gradient" selected="selected">
                                     <span class="theChosen"></span>
@@ -101,7 +99,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div id="departmentsUlDiv" class="ulDiv w-100">
+                        <div id="departmentsUlDiv" position="2" class="ulDiv w-100">
                             <ul class="w-100 ps-0">
                                 <li class="dropdown-no-bullet gradient" selected="selected">
                                     <span class="theChosen"></span>
@@ -109,7 +107,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div id="facultyTypesUlDiv" class="ulDiv w-100">
+                        <div id="facultyTypesUlDiv" position="3" class="ulDiv w-100">
                             <ul class="w-100 ps-0">
                                 <li class="dropdown-no-bullet gradient" selected="selected">
                                     <span class="theChosen"></span>
@@ -117,7 +115,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div id="otherOptionsUlDiv" class="ulDiv w-100">
+                        <div id="otherOptionsUlDiv" position="4" class="ulDiv w-100">
                             <ul class="w-100 ps-0">
                                 <li class="dropdown-no-bullet gradient" selected="selected">
                                     <span class="theChosen"></span>
@@ -128,15 +126,15 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade mt-3" id="allElse" role="tabpanel" aria-labelledby="allElse-tab">
-                <div id="allElseBox" class="tab-pane-box mt-3 pt-3 pb-3">
+            <div class="tab-pane fade mt-3" id="all" role="tabpanel" aria-labelledby="all-tab">
+                <div id="allBox" class="tab-pane-box mt-3 pt-3 pb-3">
                 </div>
             </div>
         </div> <!-- myTabContent -->
     </div> <!-- midDiv -->
-    <div id="rhsDiv"></div>  <!-- rhsDiv -->
+    <div id="rhsDiv" class="search-passive"></div>  <!-- rhsDiv -->
 
-</div> <!-- mainRow -->
+</div> <!-- searchPageMarkup -->
 
 <!-- footer is inserted dynamically-->
 </body>

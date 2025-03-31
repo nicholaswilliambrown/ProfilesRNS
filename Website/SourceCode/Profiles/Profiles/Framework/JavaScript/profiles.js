@@ -51,6 +51,7 @@ function toggleVisibility(id) {
         e.style.display = 'block';
     else
         e.style.display = 'none';
+        
 }
 
 function toggleImage(key,id) {

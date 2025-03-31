@@ -76,7 +76,7 @@ namespace Profiles.Activity
                 }
                 catch (Exception ex)
                 {
-                    str = "{\"Error\":\"There was an error\"}";
+                    str = "[{\"ErrorMessage\":\"There was an error: " + ex.Message + "\"}]";
                     /*               return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError)
                                    {
                                        ReasonPhrase = "An Error Occurred",
@@ -120,7 +120,7 @@ namespace Profiles.Activity
                 }
                 catch (Exception ex)
                 {
-                    str = "{\"Error\":\"There was an error\"}";
+                    str = "[{\"ErrorMessage\":\"There was an error: " + ex.Message + "\"}]";
                     /*               return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError)
                                    {
                                        ReasonPhrase = "An Error Occurred",

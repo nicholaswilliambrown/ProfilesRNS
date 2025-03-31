@@ -19,45 +19,54 @@ namespace Profiles.Search
 
             double cachetimeout = 0;
             string searchType = "params";
-            if (Request.QueryString["SearchType"] != null) searchType = Request.QueryString["SearchType"].ToString();
+            string str = string.Empty;
             string storedProc = null;
             string body = null;
+            string cacheKey = string.Empty;
             SessionManagement sessionManagement = new SessionManagement();
             Session session = sessionManagement.Session();
-            if ("params".Equals(searchType))
+
+            try
             {
-                storedProc = "[Display.].[Search.Params]";
-                cachetimeout = Convert.ToInt32(ConfigurationManager.AppSettings["STATIC_PAGE_CACHE_EXPIRE"]);
-            }
-            else
-            {
-                if (!string.Equals(Request.HttpMethod, "POST"))
+                if (Request.QueryString["SearchType"] != null) searchType = Request.QueryString["SearchType"].ToString();
+
+
+                if ("params".Equals(searchType))
                 {
-                    Response.StatusCode = 405;
-                    Response.End();
+                    storedProc = "[Display.].[Search.Params]";
+                    cachetimeout = Convert.ToInt32(ConfigurationManager.AppSettings["STATIC_PAGE_CACHE_EXPIRE"]);
                 }
-                body = new StreamReader(Request.InputStream).ReadToEnd(); // "{\"Keyword\": \"asthma\",\"KeywordExact\": false,\"Offset\": 0,\"Count\": 15}";
-                if ("person".Equals(searchType)) storedProc = "[Display.].[SearchPeople]";
-                else if ("everything".Equals(searchType)) storedProc = "[Display.].[SearchEverything]";
-                else if ("why".Equals(searchType)) storedProc = "[Display.].[SearchWhy]";
                 else
                 {
-                    Response.StatusCode = 500;
-                    Response.End();
+                    if (!string.Equals(Request.HttpMethod, "POST"))
+                    {
+                        Response.StatusCode = 405;
+                        Response.End();
+                    }
+                    body = new StreamReader(Request.InputStream).ReadToEnd(); // "{\"Keyword\": \"asthma\",\"KeywordExact\": false,\"Offset\": 0,\"Count\": 15}";
+                    if ("person".Equals(searchType)) storedProc = "[Display.].[SearchPeople]";
+                    else if ("everything".Equals(searchType)) storedProc = "[Display.].[SearchEverything]";
+                    else if ("why".Equals(searchType)) storedProc = "[Display.].[SearchWhy]";
+                    else
+                    {
+                        Response.StatusCode = 500;
+                        Response.End();
+                    }
+                    cachetimeout = Convert.ToInt32(ConfigurationManager.AppSettings["SEARCH_CACHE_EXPIRE"]);
                 }
-                cachetimeout = Convert.ToInt32(ConfigurationManager.AppSettings["SEARCH_CACHE_EXPIRE"]);
+
+                /*           using (StreamReader stream = new StreamReader(Request.))
+                           {
+                               body = stream.ReadToEndAsync().Result;
+                               // body = "param=somevalue&param2=someothervalue"
+                           }
+                */
+
+                cacheKey = storedProc + (body != null ? body : string.Empty);
+                // Return from cache 
+                str = (string)Framework.Utilities.Cache.FetchObject(cacheKey);
             }
-            
- /*           using (StreamReader stream = new StreamReader(Request.))
-            {
-                body = stream.ReadToEndAsync().Result;
-                // body = "param=somevalue&param2=someothervalue"
-            }
- */
-            string str = string.Empty;
-            string cacheKey = storedProc + (body != null ? body : string.Empty);
-            // Return from cache 
-            str = (string) Framework.Utilities.Cache.FetchObject(cacheKey);
+            catch (Exception ex) { Framework.Utilities.DebugLogging.Log($"Search/SearchSVC.aspx.cs : {ex.Message}"); }
             if (str == null)
             {
                 try

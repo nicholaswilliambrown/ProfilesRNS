@@ -15,9 +15,10 @@
 
     <link href="{profilesPath}/StaticFiles/Configuration/myBranding.css" rel="stylesheet" type="text/css">
     <link href="{profilesPath}/StaticFiles/css/common/bigAndSmall.css" rel="stylesheet" type="text/css">
-    <link href="{profilesPath}/StaticFiles/css/common/common.css" rel="stylesheet" type="text/css">
     <link href="{profilesPath}/StaticFiles/css/common/common-top-nav.css" rel="stylesheet" type="text/css">
     <link href="{profilesPath}/StaticFiles/css/common/common-access.css" rel="stylesheet" type="text/css">
+    <!-- common should come after common-access, since hoverDark comes later than link-ish, so its 'important' prevails -->
+    <link href="{profilesPath}/StaticFiles/css/common/common.css" rel="stylesheet" type="text/css">
 
     <link href="{profilesPath}/StaticFiles/css/paging/paging.css" rel="stylesheet" type="text/css">
     <link href="{profilesPath}/StaticFiles/css/search/search.css" rel="stylesheet" type="text/css">
@@ -30,21 +31,19 @@
 
     <script src="https://www.gstatic.com/charts/loader.js"></script>
 
-    <script type="text/javascript">
-        let g = {};
-        g.staticRoot = '{profilesPath}/StaticFiles/';
-        g.profilesPath = '{profilesPath}';
-        g.searchApiPath = '{searchApiPath}';
-        g.activityApiPath = '{activityApiPath}';
-    </script>
+    {globalVariables}
 
+    {SessionInfo}
+    <script>
+        g.pageContext = 'search-results';
+    </script>
     <script src="{profilesPath}/StaticFiles/js/common/globals.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/Configuration/myBranding.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/js/common/brandingUtil.js" type="text/javascript"></script>
 
     <script src="{profilesPath}/StaticFiles/js/search/searchCommon.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/js/common/common.js" type="text/javascript"></script>
-    <script src="{profilesPath}/StaticFiles/js/common/exploreParse.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/common/parsers/exploreParse.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/js/common/insertCommonContent.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/js/common/misc.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/js/common/sorting.js" type="text/javascript"></script>
@@ -62,19 +61,21 @@
         // g.tab = '{tab}';
         // console.log("Global values after DisplayRepository replace", g);
 
-        $(document).ready(setupSearchPeopleResults);
+        $(document).ready(function() {
+            setupSearchPeopleResults();
+        });
     </script>
 </head>
 <body>
 <!-- banner is inserted dynamically-->
 <!--maybe insert dynamically?-->
-<div id="mainRow" class="row ms-0 mt-2 w-100">
+<div id="searchPageMarkup" class="moveable d-none row ms-0 mt-2 w-100" dest="mainDiv">
     <div id="midDiv">
         <div id="midDivInner" class="row">
-            <div id="sortDropdownDiv" class="ps-0 pe-0">
-                <span class="bold float-start pt-2">Sort</span>
-                <ul id="sortDropdown" class="ulDropdown ms-0">
-                    <li class="dropdown-no-bullet gradient header4sort">
+            <div id="sortDropdownDiv" class="ps-0 pe-0 peopleResultDropdown">
+                <span id="searchSort" class="bold float-start pt-2">Sort</span>
+                <ul id="sortDropdown" class="ulDropdown ms-3 ps-0">
+                    <li class="dropdown-no-bullet gradient header4dropdown">
                         <span class="theChosen"></span>
                         <span id="dropDownMarker" class="float-end">&#x25BE;</span>
                     </li>
@@ -107,10 +108,10 @@
                     </li>
                 </ul>
             </div> <!-- sort -->
-            <div id="showDropdownDiv">
+            <div id="showDropdownDiv" class="peopleResultDropdown">
                 <span class="bold float-start me-1 pt-2">Show</span>
-                <ul id="showDropdown" class="ulDropdown ms-2">
-                    <li class="dropdown-no-bullet gradient header4show">
+                <ul id="showDropdown" class="ulDropdown ms-1">
+                    <li class="dropdown-no-bullet gradient header4dropdown">
                         <span class="theChosen"></span>
                         <span class="float-end">&#x25BE;</span>
                     </li>
@@ -133,7 +134,7 @@
     </div> <!-- midDiv -->
     <div id="rhsDiv" class="mt-5"></div>  <!-- rhsDiv -->
 
-</div> <!-- mainRow -->
+</div> <!-- searchPageMarkup -->
 
 <!-- footer is inserted dynamically-->
 </body>

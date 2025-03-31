@@ -11,7 +11,7 @@ Sound = {
   tracks: {},
   _enabled: true,
   template:
-    new Template('<embed style="height:0" id="sound_#{track}_#{id}" src="#{url}" loop="false" autostart="true" hidden="true"/>'),
+      new Template('<embed style="height:0" id="sound_#{track}_#{id}" src="#{url}" loop="false" autostart="true" hidden="true"/>'),
   enable: function(){
     Sound._enabled = true;
   },
@@ -40,10 +40,10 @@ Sound = {
 
     options.id = this.tracks[options.track].id;
     $$('body')[0].insert(
-      Prototype.Browser.IE ? new Element('bgsound',{
-        id: 'sound_'+options.track+'_'+options.id,
-        src: options.url, loop: 1, autostart: true
-      }) : Sound.template.evaluate(options));
+        Prototype.Browser.IE ? new Element('bgsound',{
+          id: 'sound_'+options.track+'_'+options.id,
+          src: options.url, loop: 1, autostart: true
+        }) : Sound.template.evaluate(options));
   }
 };
 
@@ -56,4 +56,4 @@ if(Prototype.Browser.Gecko && navigator.userAgent.indexOf("Win") > 0){
     Sound.template = new Template('<embed type="audio/x-pn-realaudio-plugin" style="height:0" id="sound_#{track}_#{id}" src="#{url}" loop="false" autostart="true" hidden="true"/>');
   else
     Sound.play = function(){};
-} 
+}

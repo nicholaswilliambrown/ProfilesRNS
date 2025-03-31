@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Configuration;
 using Profiles.Framework.Utilities;
+using System.Web.Caching;
 
 namespace Profiles.Profile
 {
@@ -18,54 +19,75 @@ namespace Profiles.Profile
             //Profiles.Profile.Modules.CustomViewAuthorInAuthorship.DataIO data = new Profiles.Profile.Modules.CustomViewAuthorInAuthorship.DataIO();
 
             //Profiles.Framework.Utilities.RDFTriple request = new RDFTriple(Convert.ToInt32(Request.QueryString["p"]));
+            string str = null;
+            SessionManagement sessionManagement = new SessionManagement();
+            Framework.Utilities.Session session = sessionManagement.Session();
+            string s = string.Empty;
+            string p = string.Empty;
+            string o = string.Empty;
+            string t = string.Empty;
 
             int cacheLengthInt = 0;
 
-            string s = Request.QueryString["s"].ToString();
-            string p = "";
-            if (Request.QueryString["p"] != null) p = Request.QueryString["p"].ToString();
-            string o = "";
-            if (Request.QueryString["o"] != null) o = Request.QueryString["o"].ToString();
-            string t = "";
-            if (Request.QueryString["t"] != null) t = Request.QueryString["t"].ToString();
+            string pageSecurityType = string.Empty;
+            string cacheLength = string.Empty;
+            long pageCacheSecurityGroup = 0;
 
-
-            SessionManagement sessionManagement = new SessionManagement();
-            Framework.Utilities.Session session = sessionManagement.Session();
-            //Framework.Utilities.RDFTriple request = new Profiles.Framework.Utilities.RDFTriple(1);
-            
-            string str = null;
-
-            if (session.IsBot)
-            { 
-                string botCacheKey = (string)Framework.Utilities.Cache.FetchObject("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|bot" );
-                if (botCacheKey != null)
-                {
-                    str = (string)Framework.Utilities.Cache.FetchObject(botCacheKey);
-                    cacheLengthInt = (int)Framework.Utilities.Cache.FetchObject(botCacheKey + "CacheLength");
-                }
-            }
-            else if (session.UserID > 0) 
+            try
             {
-                if (!hasOwnerVisibilty(Int64.Parse(s), session))
+
+
+                s = Request.QueryString["s"].ToString();
+                p = "";
+                if (Request.QueryString["p"] != null) p = Request.QueryString["p"].ToString();
+                o = "";
+                if (Request.QueryString["o"] != null) o = Request.QueryString["o"].ToString();
+                t = "";
+                if (Request.QueryString["t"] != null) t = Request.QueryString["t"].ToString();
+                bool usecache = true;
+                if (Request.QueryString["nocachekey"] != null)
                 {
-                    string userCacheKey = (string)Framework.Utilities.Cache.FetchObject("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|user");
-                    if (userCacheKey != null)
+                    string noCacheKeyFromConfig = ConfigurationManager.AppSettings["noCacheKey"];
+                    string noCacheKey = Request.QueryString["nocachekey"].ToString();
+                    if (noCacheKeyFromConfig.Equals(noCacheKey)) usecache = false;
+                }
+
+                //Framework.Utilities.RDFTriple request = new Profiles.Framework.Utilities.RDFTriple(1);
+                if (usecache)
+                {
+                    if (session.IsBot)
                     {
-                        str = (string)Framework.Utilities.Cache.FetchObject(userCacheKey);
-                        cacheLengthInt = (int)Framework.Utilities.Cache.FetchObject(userCacheKey + "CacheLength");
+                        string botCacheKey = (string)Framework.Utilities.Cache.FetchObject("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|bot");
+                        if (botCacheKey != null)
+                        {
+                            str = (string)Framework.Utilities.Cache.FetchObject(botCacheKey);
+                            cacheLengthInt = (int)Framework.Utilities.Cache.FetchObject(botCacheKey + "CacheLength");
+                        }
+                    }
+                    else if (session.UserID > 0)
+                    {
+                        if (!hasOwnerVisibilty(Int64.Parse(s), session))
+                        {
+                            string userCacheKey = (string)Framework.Utilities.Cache.FetchObject("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|user");
+                            if (userCacheKey != null)
+                            {
+                                str = (string)Framework.Utilities.Cache.FetchObject(userCacheKey);
+                                cacheLengthInt = (int)Framework.Utilities.Cache.FetchObject(userCacheKey + "CacheLength");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        string publicCacheKey = (string)Framework.Utilities.Cache.FetchObject("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|public");
+                        if (publicCacheKey != null)
+                        {
+                            str = (string)Framework.Utilities.Cache.FetchObject(publicCacheKey);
+                            cacheLengthInt = (int)Framework.Utilities.Cache.FetchObject(publicCacheKey + "CacheLength");
+                        }
                     }
                 }
             }
-            else 
-            {
-                string publicCacheKey = (string)Framework.Utilities.Cache.FetchObject("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|public");
-                if (publicCacheKey != null)
-                {
-                    str = (string)Framework.Utilities.Cache.FetchObject(publicCacheKey);
-                    cacheLengthInt = (int)Framework.Utilities.Cache.FetchObject(publicCacheKey + "CacheLength");
-                }
-            }
+            catch (Exception ex) { Framework.Utilities.DebugLogging.Log($"Profile/ProfileJsonSVC.aspx.cs : {ex.Message}"); }
 
             if (str == null)
             {
@@ -74,10 +96,12 @@ namespace Profiles.Profile
 
                 try
                 {
-                    string connstr = ConfigurationHelper.GetConnectionString(session);
+                    string connstr;
+                    if (!"".Equals(o)) connstr = ConfigurationHelper.GetConnectionPageConnectionString(session);
+                    else connstr = ConfigurationHelper.GetConnectionString(session);
                     SqlConnection dbconnection = new SqlConnection(connstr);
                     SqlCommand dbcommand = new SqlCommand("[Display.].[GetJson]");
-                    dbcommand.CommandTimeout = Convert.ToInt16(ConfigurationManager.AppSettings["COMMANDTIMEOUT"]); 
+                    dbcommand.CommandTimeout = Convert.ToInt16(ConfigurationManager.AppSettings["COMMANDTIMEOUT"]);
 
                     SqlDataReader dbreader;
                     dbconnection.Open();
@@ -91,19 +115,17 @@ namespace Profiles.Profile
 
                     dbcommand.Connection = dbconnection;
                     dbreader = dbcommand.ExecuteReader(CommandBehavior.CloseConnection);
-                    string pageSecurityType = string.Empty;
-                    string cacheLength = string.Empty;
-                    long pageCacheSecurityGroup = 0;
+
                     while (dbreader.Read())
                     {
                         str += dbreader[0].ToString(); //jsonData
-                        pageSecurityType = dbreader[1].ToString(); 
+                        pageSecurityType = dbreader[1].ToString();
                         cacheLength = dbreader[2].ToString();
                         pageCacheSecurityGroup = long.Parse(dbreader[3].ToString());
                     }
 
 
-                    if (System.Configuration.ConfigurationManager.AppSettings[cacheLength] != null) { cacheLengthInt = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings[cacheLength]);  }
+                    if (System.Configuration.ConfigurationManager.AppSettings[cacheLength] != null) { cacheLengthInt = Convert.ToInt32(ConfigurationManager.AppSettings[cacheLength]); }
 
 
                     if (pageSecurityType == "Global")
@@ -112,28 +134,31 @@ namespace Profiles.Profile
                         Framework.Utilities.Cache.SetWithTimeout("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|dataCacheLength", cacheLengthInt, cacheLengthInt);
                         Framework.Utilities.Cache.SetWithTimeout("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|public", "ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|data", cacheLengthInt);
                         Framework.Utilities.Cache.SetWithTimeout("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|user", "ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|data", cacheLengthInt);
-                        Framework.Utilities.Cache.SetWithTimeout("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|public", "ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|data", cacheLengthInt);
+                        Framework.Utilities.Cache.SetWithTimeout("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|bot", "ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|data", cacheLengthInt);
 
                     }
                     else if (pageSecurityType == "Session")
                     {
+                        String[] dependencyKey = new String[1];
+                        dependencyKey[0] = s;
+
                         if (pageCacheSecurityGroup == -1)
                         {
-                            Framework.Utilities.Cache.SetWithTimeout("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|botdata", str, cacheLengthInt);
-                            Framework.Utilities.Cache.SetWithTimeout("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|botdataCacheLength", cacheLengthInt, cacheLengthInt);
-                            Framework.Utilities.Cache.SetWithTimeout("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|bot", "ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|botdata", cacheLengthInt);
+                            Framework.Utilities.Cache.Set("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|botdata", str, cacheLengthInt, new CacheDependency(null, dependencyKey));
+                            Framework.Utilities.Cache.Set("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|botdataCacheLength", cacheLengthInt, cacheLengthInt, new CacheDependency(null, dependencyKey));
+                            Framework.Utilities.Cache.Set("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|bot", "ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|botdata", cacheLengthInt, new CacheDependency(null, dependencyKey));
                         }
                         else if (pageCacheSecurityGroup == -10)
                         {
-                            Framework.Utilities.Cache.SetWithTimeout("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|publicdata", str, cacheLengthInt);
-                            Framework.Utilities.Cache.SetWithTimeout("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|publicdataCacheLength", cacheLengthInt, cacheLengthInt);
-                            Framework.Utilities.Cache.SetWithTimeout("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|public", "ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|publicdata", cacheLengthInt);
+                            Framework.Utilities.Cache.Set("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|publicdata", str, cacheLengthInt, new CacheDependency(null, dependencyKey));
+                            Framework.Utilities.Cache.Set("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|publicdataCacheLength", cacheLengthInt, cacheLengthInt, new CacheDependency(null, dependencyKey));
+                            Framework.Utilities.Cache.Set("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|public", "ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|publicdata", cacheLengthInt, new CacheDependency(null, dependencyKey));
                         }
                         else if (pageCacheSecurityGroup == -20)
                         {
-                            Framework.Utilities.Cache.SetWithTimeout("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|userdata", str, Convert.ToInt32(ConfigurationSettings.AppSettings["cacheLength"]));
-                            Framework.Utilities.Cache.SetWithTimeout("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|userdataCacheLength", cacheLengthInt, cacheLengthInt);
-                            Framework.Utilities.Cache.SetWithTimeout("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|user", "ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|userdata", cacheLengthInt);
+                            Framework.Utilities.Cache.Set("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|userdata", str, Convert.ToInt32(ConfigurationManager.AppSettings["cacheLength"]), new CacheDependency(null, dependencyKey));
+                            Framework.Utilities.Cache.Set("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|userdataCacheLength", cacheLengthInt, cacheLengthInt, new CacheDependency(null, dependencyKey));
+                            Framework.Utilities.Cache.Set("ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|user", "ProfileJsonSVC" + s + "|" + p + "|" + o + "|" + t + "|userdata", cacheLengthInt, new CacheDependency(null, dependencyKey));
                         }
                     }
 
@@ -144,6 +169,8 @@ namespace Profiles.Profile
                 }
                 catch (Exception ex)
                 {
+                    Framework.Utilities.DebugLogging.Log($"Profile/ProfileJsonSVC.aspx.cs : {ex.Message}");
+
                     str = "[{\"ErrorMessage\":\"There was an error: " + ex.Message + "\"}]";
                     /*               return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError)
                                    {
@@ -175,8 +202,8 @@ namespace Profiles.Profile
             //string key = "s" + NodeID + sessionKey;
             //canEdit = (string)Framework.Utilities.Cache.FetchObject(key + "|canEdit");
 
-            //if (canEdit == null)
-            //{
+            try
+            {
                 string connstr = ConfigurationHelper.GetConnectionString(session);
                 using (var dbconnection = new SqlConnection(connstr))
                 {
@@ -200,10 +227,11 @@ namespace Profiles.Profile
 
                     //Framework.Utilities.Cache.Set(key + "|canEdit", canEdit, request.Subject, request.Session.SessionID);
                 }
-            //}
+            }
+            catch (Exception ex) { Framework.Utilities.DebugLogging.Log($"Profile/ProfileJsonSVC.aspx.cs : {ex.Message}"); }
             return canEdit == "True";
         }
 
-      
+
     }
 }

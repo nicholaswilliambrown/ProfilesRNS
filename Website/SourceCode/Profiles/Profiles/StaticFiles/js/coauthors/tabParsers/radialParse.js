@@ -9,19 +9,28 @@ async function radialParse(target, moduleJson) {
     emitRadialGraph(jsonData);
     emitRadialText(jsonData);
 
-    setupRadialGraphTextFlips();
     showRadialAsGraph();
 }
 function emitRadialText(jsonData) {
     emitClusterText(jsonData, $('#rgTextTarget'));
 }
+
+
 function emitRadialGraph(jsonData) {
     // cf. viz.js, ...prototype.loadNetwork
 
-    let radial_viz = new RadialGraph_Visualization(jQuery('#radial_view')[0], {radius: 100});
-    radial_viz.data.center_id = gCoauthor.personId;
-    radial_viz.loadedNetwork.bind(radial_viz);
-    radial_viz.loadedNetwork({}, jsonData);
+    try {
+        let personId = getPersonId(jsonData);
+        
+        let radial_viz = new RadialGraph_Visualization(jQuery('#radial_view')[0], {radius: 85});
+        radial_viz.data.center_id = personId;
+        radial_viz.loadedNetwork.bind(radial_viz);
+        radial_viz.loadedNetwork({}, jsonData);
+    }
+    catch (error) {
+        console.log(error);
+        $('#radialViewDiv').html("<h1>Trouble loading Radial graph</h1>");
+    }
 }
 
 function makeRadialSliderColSpecs() {
@@ -112,7 +121,9 @@ function setupRadialGraphTextFlips() {
 }
 function showRadialAsGraph() {
     showAndHideClasses('rgGraph', 'rgText');
+    setupRadialGraphTextFlips();
 }
 function showRadialAsText() {
     showAndHideClasses('rgText', 'rgGraph');
+    setupRadialGraphTextFlips();
 }

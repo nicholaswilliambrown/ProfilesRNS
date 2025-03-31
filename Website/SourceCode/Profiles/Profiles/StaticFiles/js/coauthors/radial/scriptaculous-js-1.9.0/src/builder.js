@@ -48,36 +48,36 @@ var Builder = {
     // attributes (or text)
     if(arguments[1])
       if(this._isStringOrNumber(arguments[1]) ||
-        (arguments[1] instanceof Array) ||
-        arguments[1].tagName) {
-          this._children(element, arguments[1]);
-        } else {
-          var attrs = this._attributes(arguments[1]);
-          if(attrs.length) {
-            try { // prevent IE "feature": http://dev.rubyonrails.org/ticket/2707
-              parentElement.innerHTML = "<" +elementName + " " +
+          (arguments[1] instanceof Array) ||
+          arguments[1].tagName) {
+        this._children(element, arguments[1]);
+      } else {
+        var attrs = this._attributes(arguments[1]);
+        if(attrs.length) {
+          try { // prevent IE "feature": http://dev.rubyonrails.org/ticket/2707
+            parentElement.innerHTML = "<" +elementName + " " +
                 attrs + "></" + elementName + ">";
-            } catch(e) {}
-            element = parentElement.firstChild || null;
-            // workaround firefox 1.0.X bug
-            if(!element) {
-              element = document.createElement(elementName);
-              for(attr in arguments[1])
-                element[attr == 'class' ? 'className' : attr] = arguments[1][attr];
-            }
-            if(element.tagName.toUpperCase() != elementName)
-              element = parentElement.getElementsByTagName(elementName)[0];
+          } catch(e) {}
+          element = parentElement.firstChild || null;
+          // workaround firefox 1.0.X bug
+          if(!element) {
+            element = document.createElement(elementName);
+            for(attr in arguments[1])
+              element[attr == 'class' ? 'className' : attr] = arguments[1][attr];
           }
+          if(element.tagName.toUpperCase() != elementName)
+            element = parentElement.getElementsByTagName(elementName)[0];
         }
+      }
 
     // text, or array of children
     if(arguments[2])
       this._children(element, arguments[2]);
 
-     return $s(element);
+    return $s(element);
   },
   _text: function(text) {
-     return document.createTextNode(text);
+    return document.createTextNode(text);
   },
 
   ATTR_MAP: {
@@ -102,12 +102,12 @@ var Builder = {
         if(typeof e=='object')
           element.appendChild(e);
         else
-          if(Builder._isStringOrNumber(e))
-            element.appendChild(Builder._text(e));
+        if(Builder._isStringOrNumber(e))
+          element.appendChild(Builder._text(e));
       });
     } else
-      if(Builder._isStringOrNumber(children))
-        element.appendChild(Builder._text(children));
+    if(Builder._isStringOrNumber(children))
+      element.appendChild(Builder._text(children));
   },
   _isStringOrNumber: function(param) {
     return(typeof param=='string' || typeof param=='number');
@@ -121,11 +121,11 @@ var Builder = {
     if(typeof scope != 'object' && typeof scope != 'function') scope = window; //global scope
 
     var tags = ("A ABBR ACRONYM ADDRESS APPLET AREA B BASE BASEFONT BDO BIG BLOCKQUOTE BODY " +
-      "BR BUTTON CAPTION CENTER CITE CODE COL COLGROUP DD DEL DFN DIR DIV DL DT EM FIELDSET " +
-      "FONT FORM FRAME FRAMESET H1 H2 H3 H4 H5 H6 HEAD HR HTML I IFRAME IMG INPUT INS ISINDEX "+
-      "KBD LABEL LEGEND LI LINK MAP MENU META NOFRAMES NOSCRIPT OBJECT OL OPTGROUP OPTION P "+
-      "PARAM PRE Q S SAMP SCRIPT SELECT SMALL SPAN STRIKE STRONG STYLE SUB SUP TABLE TBODY TD "+
-      "TEXTAREA TFOOT TH THEAD TITLE TR TT U UL VAR").split(/\s+/);
+        "BR BUTTON CAPTION CENTER CITE CODE COL COLGROUP DD DEL DFN DIR DIV DL DT EM FIELDSET " +
+        "FONT FORM FRAME FRAMESET H1 H2 H3 H4 H5 H6 HEAD HR HTML I IFRAME IMG INPUT INS ISINDEX "+
+        "KBD LABEL LEGEND LI LINK MAP MENU META NOFRAMES NOSCRIPT OBJECT OL OPTGROUP OPTION P "+
+        "PARAM PRE Q S SAMP SCRIPT SELECT SMALL SPAN STRIKE STRONG STYLE SUB SUP TABLE TBODY TD "+
+        "TEXTAREA TFOOT TH THEAD TITLE TR TT U UL VAR").split(/\s+/);
 
     tags.each( function(tag){
       scope[tag] = function() {

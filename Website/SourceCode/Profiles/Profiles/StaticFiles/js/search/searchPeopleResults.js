@@ -1,5 +1,10 @@
 
 async function setupSearchPeopleResults() {
+    await setupPageStub(searchResultsBodyStructure);
+
+    let specificContent = $('#searchPageMarkup');
+    innerCurtainsDown(specificContent);
+
     let pagination = new Paging(
         redoPeopleSearch,
         gSearch.findPeopleUrl,
@@ -9,33 +14,61 @@ async function setupSearchPeopleResults() {
     let resultsAsString = fromSession(makeSearchResultsKey(gSearch.people));
     let results = JSON.parse(resultsAsString);
 
-    if (! results || ! results.SearchQuery) { // sanity check
+    if (!results || !results.SearchQuery) { // sanity check
         alert(`Error with search results: ${resultsAsString}`);
     }
     console.log('Results: ', results);
 
-    await setupPageStub(searchResultsBodyStructure);
-
     let mainDiv = $('#mainDiv');
     mainDiv.addClass(gCommon.mainDivClasses);
-    moveContentByIdTo("mainRow", mainDiv);
+    moveContentByIdTo("searchPageMarkup", mainDiv);
 
     // not all usages of the below use 'count' from results
-    emitSearchResultCountAndBackTo(results, `searchForm.html?${gSearch.people}`, 'Modify Search', results.Count);
+    emitSearchResultCountAndRelatedLinks(
+        results,
+        `${gSearch.searchForm}/${gSearch.people}`,
+        'Modify Search',
+        results.Count,
+        'sortDropdownDiv');
 
-    $('#sortDropdownDiv').addClass(`${gCommon.cols3or12}`);
-    $('#showDropdownDiv').addClass(`${gCommon.cols3or12}`);
+    $('#sortDropdownDiv').addClass(`${gCommon.cols3or12} ulDiv`);
+    $('#showDropdownDiv').addClass(`${gCommon.cols3or12} ulDiv`);
+    dropdownVisibilityAdjustToOverlaps();
 
     hideLiItems();
 
-    setupDropdownsAndInitialSelections(results);
-    emitCriteriaOnRhs(results, true);
+    if (results.Count) {
+        setupDropdownsAndInitialSelections(results);
+    }
+    else {
+        $('.peopleResultDropdown').hide();
+    }
 
-    emitPeopleResults(results);
+    let keyword = results.SearchQuery.Keyword;
+    emitCriteriaOnRhs(results, keyword);
 
-    pagination.emitPagingRow($('#resultsDiv'),
-        "pt-1 ms-1 me-1 borderOneSolid",
-        results);
+    if (results.Count == 0) {
+        let midInner = $("#midDivInner");
+        let noResultsDiv = $(`<div class='ps-0'><b>No matching results.</b></div>`);
+        midInner.append(noResultsDiv);
+
+        let searchQuery = results.SearchQuery;
+        if (searchQuery.SearchType == gSearch.people && searchQuery.Keyword) {
+            let url = `${gSearch.otherInstitutions}&${searchQuery.Keyword}`;
+            emitLinkTo(midInner, 'Search Other Institutions', url);
+        }
+
+    }
+    else {
+        await emitPeopleResults(results);
+
+        pagination.emitPagingRow($('#resultsDiv'),
+            "pt-1 ms-1 me-1 borderOneSolid tableHeaderPagingRow",
+            results);
+
+        assembleSearchOtherLink(results);
+    }
+    innerCurtainsUp(specificContent);
 }
 function getPeopleResultsCount(results) {
     let result = results.Count ? results.Count : 0;
@@ -50,30 +83,51 @@ function emitPeopleResults(results) {
         ['SearchQuery', gSearch.selectedOptionalPeopleShowsKey],
         gSearch.initialOptionalPeopleShows);
 
-    let colspecs = makePpleSearchResultsColspecs(optionalShows);
-
-    emitPeopleResultsHeader(results, optionalShows, colspecs, target);
-    emitPeopleDataRows(results, optionalShows, colspecs, target);
+    let keyword = results.SearchQuery.Keyword;
+    let colspecs = makePpleSearchResultsColspecs(optionalShows, keyword);
+    emitPeopleResultsHeader(results, optionalShows, colspecs, target, keyword);
+    emitPeopleDataRows(results, optionalShows, colspecs, target, keyword);
 }
-function emitPeopleResultsHeader(results, optionalShows, colspecs, target) {
+function assembleSearchOtherLink(results) {
+    let target = $('#resultsDiv');
+    let keyword = results.SearchQuery.Keyword;
+
+    if (keyword &&
+        !results.SearchQuery.FirstName &&
+        !results.SearchQuery.LastName) {
+
+        let directUrl = `${g.directLink}?keyword=${keyword}&searchtype=people`;
+        let searchArrow = $(`<img src="${gBrandingConstants.jsSearchImageFiles}arrowRight.png" class="me-1"/>`);
+        let searchOtherA = createAnchorElement('Search Other Institutions', directUrl);
+        let searchOtherSpan = $('<span class="mt-2 d-flex justify-content-end"></span>');
+
+        target.append(searchOtherSpan);
+        searchOtherSpan.append(searchArrow)
+            .append(searchOtherA);
+    }
+}
+function emitPeopleResultsHeader(results, optionalShows, colspecs, target, keyword) {
     let rowId = `peopleResultsHeader`;
-    let row = makeRowWithColumns(target, rowId, colspecs,  "borderOneSolid mt-2");
+    let row = makeRowWithColumns(target, rowId, colspecs, "borderOneSolid mt-2 tableHeaderPagingRow");
 
     // always 1st is Name and last is Why, middle columns can vary
     let column = row.find(`#${rowId}Col0`);
     column.attr(gSearch.columnNameSt, 'DisplayName');
     column.append(spanify('Name', `${gSearch.sortableSt} bold`));
-    for (let i=0; i<optionalShows.length; i++) {
+    for (let i = 0; i < optionalShows.length; i++) {
         let rawShow = optionalShows[i];
         let displayShow = gSearch.peopleResultDisplay[rawShow];
-        column = row.find(`#${rowId}Col${i+1}`);
+        column = row.find(`#${rowId}Col${i + 1}`);
         column.attr(gSearch.columnNameSt, rawShow)
         column.append(spanify(displayShow, `${gSearch.sortableSt} bold`));
     }
-    row.find(`#${rowId}Col${colspecs.length-1}`).append(spanify('Why', ' bold'));
+    if (keyword) {
+        row.find(`#${rowId}Col${colspecs.length - 1}`).append(spanify('Why', ' bold'));
+    }
 
-    // all columns except last / Why are sortable, so can use triangle-images
-    for (let i=0; i<colspecs.length - 1; i++) {
+    let sortableHighIndex = keyword ? colspecs.length - 1 : colspecs.length;
+    // all columns except Why are sortable, so can use triangle-images
+    for (let i = 0; i < sortableHighIndex; i++) {
         let column = row.find(`#${rowId}Col${i}`);
         column.append(spanify(
             `<img src="${gBrandingConstants.jsSearchImageFiles}sort_asc.gif" alt="sort ${gSearch.ascendingSt}">`,
@@ -93,18 +147,26 @@ function emitPeopleResultsHeader(results, optionalShows, colspecs, target) {
         sortIcon.show();
     }
 }
-function emitPeopleDataRows(results, optionalShows, colspecs, target) {
+function emitPeopleDataRows(results, optionalShows, colspecs, target, keyword) {
     if (results.People && results.People.length > 0) {
         let items = sortArrayViaSortLabel(results.People, "SortOrder");
+        let backgroundColor = "tableOddRowColor";
         for (let i = 0; i < items.length; i++) {
             let item = items[i];
 
             let rowId = `peopleResults${i}`;
-            let row = makeRowWithColumns(target, rowId, colspecs, "borderOneSolid bordE");
+            if (i % 2) {
+                backgroundColor = "tableOddRowColor";
+            } else {
+                backgroundColor = "";
+            }
+
+
+            let row = makeRowWithColumns(target, rowId, colspecs, "borderOneSolid bordE " + backgroundColor);
 
             // always 1st is Name and last is Why, middle columns can vary
             let column = row.find(`#${rowId}Col0`);
-            column.append(createAnchorElement(item.DisplayName, item.URL));
+            column.append(createAnchorElement(item.DisplayName, item.URL, backgroundColor));
 
             for (let i = 0; i < optionalShows.length; i++) {
                 let show = optionalShows[i];
@@ -112,25 +174,29 @@ function emitPeopleDataRows(results, optionalShows, colspecs, target) {
                 column.append(spanify(item[show]));
             }
 
-            column = row.find(`#${rowId}Col${colspecs.length - 1}`);
-            column.append(createWhyLink(item, results));
+            if (keyword) {
+                column = row.find(`#${rowId}Col${colspecs.length - 1}`);
+                column.append(createWhyLink(item, results));
+            }
 
             let rhsPreview = () => previewPerson(item);
             let hidePreview = () => {
-                gSearch.rhsDiv2.empty();
+                gSearch.rhsDiv2.remove();
             }
             hoverLight(row, rhsPreview, hidePreview);
         }
     }
 }
 function previewPerson(item) {
-    let target = gSearch.rhsDiv2;
+    let target = $('<div id="innerRhsDiv2" class="p-2 fs12"></div>');
+    gSearch.outerRhs.append(target);
+    gSearch.rhsDiv2 = target;
 
-    addIfPresent(item.FirstLastName, target); // in prod, is it in our json?
-    addIfPresent(item.DisplayName, target);
-    addIfPresent(item.FacultyRank, target);
-    addIfPresent(item.InstitutionName, target);
-    addIfPresent(item.DepartmentName, target);
+    addIfPresent({text: item.FirstLastName,     target: target, klass: 'bold'}); // in prod, is it in our json?
+    addIfPresent({text: item.DisplayName,       target: target, klass: 'bold'});
+    addIfPresent({text: item.FacultyRank,       target: target});
+    addIfPresent({text: item.InstitutionName,   target: target});
+    addIfPresent({text: item.DepartmentName,    target: target});
 }
 function syncSortDropdownToHeaders(e) {
     e.stopPropagation();
@@ -148,35 +214,63 @@ function syncSortDropdownToHeaders(e) {
 
     li.click();
 }
-function makePpleSearchResultsColspecs(optionalShows) {
+function makePpleSearchResultsColspecs(optionalShows, keyword) {
     let numOptShows = optionalShows.length;
     let columnWidths, classRef;
 
-    switch (numOptShows) {
-        case 0:
-            columnWidths = {first: 8, last:4};
-            break;
-        case 1:
-            columnWidths = {first:5, mid:5, last:2};
-            break;
-        case 2:
-            columnWidths = {first:3, mid:3, last:2};
-            break;
-        case 3:
-            columnWidths = {first:3, mid:2, last:2};
-            break;
+    if (keyword) {
+        switch (numOptShows) {
+            case 0:
+                columnWidths = { first: 8, last: 4 };
+                break;
+            case 1:
+                columnWidths = { first: 5, mid: 5, last: 2 };
+                break;
+            case 2:
+                columnWidths = { first: 3, mid: 3, last: 2 };
+                break;
+            case 3:
+                columnWidths = { first: 3, mid: 2, last: 2 };
+                break;
+        }
+    }
+    else {
+        switch (numOptShows) {
+            case 0:
+                columnWidths = { first: 12 };
+                break;
+            case 1:
+                columnWidths = { first: 6, mid: 6 };
+                break;
+            case 2:
+                columnWidths = { first: 4, mid: 4 };
+                break;
+            case 3:
+                columnWidths = { first: 3, mid: 3 };
+                break;
+        }
     }
 
     classRef = `cols${columnWidths.first}or12`;
-    let colspecs = [newColumnSpec(` pt-1 pb-1 bordE ${gCommon[classRef]}`)];
-
-    for (let i=0; i<optionalShows.length; i++) {
+    let colSmall = "colSmall";    
+    let colspecs = [newColumnSpec(` pt-1 pb-1 bordE colSmall ${gCommon[classRef]}`)];
+    let bordE = "bordE";
+    
+    for (let i = 0; i < optionalShows.length; i++) {
         classRef = `cols${columnWidths.mid}or12`;
-        colspecs.push(newColumnSpec(` pt-1 pb-1 bordE ${gCommon[classRef]}`));
+        if (!keyword) {
+            bordE = (i == (optionalShows.length-1) ? "" : bordE)
+        }
+        else { bordE = (i == (optionalShows.length) ? "" : bordE) }
+        colSmall = "colSmall" + i;
+        colspecs.push(newColumnSpec(` pt-1 pb-1 ${bordE} ${colSmall} ${gCommon[classRef]}`));
     }
 
-    classRef = `cols${columnWidths.last}or12`;
-    colspecs.push(newColumnSpec(` pt-1 pb-1 t-center ${gCommon[classRef]}`));
+    if (keyword) {
+        classRef = `cols${columnWidths.last}or12`;
+        colSmall = `colSmall${optionalShows.length}`;
+        colspecs.push(newColumnSpec(` pt-1 pb-1 t-center ${colSmall} ${gCommon[classRef]}`));
+    }
 
     return colspecs;
 }

@@ -49,10 +49,10 @@ Control.Slider = Class.create({
     this.trackLength = this.maximumOffset() - this.minimumOffset();
 
     this.handleLength = this.isVertical() ?
-      (this.handles[0].offsetHeight != 0 ?
-        this.handles[0].offsetHeight : this.handles[0].style.height.replace(/px$/,"")) :
-      (this.handles[0].offsetWidth != 0 ? this.handles[0].offsetWidth :
-        this.handles[0].style.width.replace(/px$/,""));
+        (this.handles[0].offsetHeight != 0 ?
+            this.handles[0].offsetHeight : this.handles[0].style.height.replace(/px$/,"")) :
+        (this.handles[0].offsetWidth != 0 ? this.handles[0].offsetWidth :
+            this.handles[0].style.width.replace(/px$/,""));
 
     this.active   = false;
     this.dragging = false;
@@ -75,9 +75,9 @@ Control.Slider = Class.create({
     this.handles.each( function(h,i) {
       i = slider.handles.length-1-i;
       slider.setValue(parseFloat(
-        (Object.isArray(slider.options.sliderValue) ?
-          slider.options.sliderValue[i] : slider.options.sliderValue) ||
-         slider.range.start), i);
+          (Object.isArray(slider.options.sliderValue) ?
+              slider.options.sliderValue[i] : slider.options.sliderValue) ||
+          slider.range.start), i);
       h.makePositioned().observe("mousedown", slider.eventMouseDown);
     });
 
@@ -140,23 +140,24 @@ Control.Slider = Class.create({
     this.value = this.values[0]; // assure backwards compat
 
     this.handles[handleIdx].style[this.isVertical() ? 'top' : 'left'] =
-      this.translateToPx(sliderValue);
+        this.translateToPx(sliderValue);
 
     this.drawSpans();
     if (!this.dragging || !this.event) this.updateFinished();
   },
   setValueBy: function(delta, handleIdx) {
     this.setValue(this.values[handleIdx || this.activeHandleIdx || 0] + delta,
-      handleIdx || this.activeHandleIdx || 0);
+        handleIdx || this.activeHandleIdx || 0);
   },
   translateToPx: function(value) {
+    if ((this.range.end-this.range.start)==0) { return "0px"; }
     return Math.round(
-      ((this.trackLength-this.handleLength)/(this.range.end-this.range.start)) *
-      (value - this.range.start)) + "px";
+        ((this.trackLength-this.handleLength)/(this.range.end-this.range.start)) *
+        (value - this.range.start)) + "px";
   },
   translateToValue: function(offset) {
     return ((offset/(this.trackLength-this.handleLength) *
-      (this.range.end-this.range.start)) + this.range.start);
+        (this.range.end-this.range.start)) + this.range.start);
   },
   getRange: function(range) {
     var v = this.values.sortBy(Prototype.K);
@@ -168,10 +169,10 @@ Control.Slider = Class.create({
   },
   maximumOffset: function(){
     return(this.isVertical() ?
-      (this.track.offsetHeight != 0 ? this.track.offsetHeight :
-        this.track.style.height.replace(/px$/,"")) - this.alignY :
-      (this.track.offsetWidth != 0 ? this.track.offsetWidth :
-        this.track.style.width.replace(/px$/,"")) - this.alignX);
+        (this.track.offsetHeight != 0 ? this.track.offsetHeight :
+            this.track.style.height.replace(/px$/,"")) - this.alignY :
+        (this.track.offsetWidth != 0 ? this.track.offsetWidth :
+            this.track.style.width.replace(/px$/,"")) - this.alignX);
   },
   isVertical:  function(){
     return (this.axis == 'vertical');
@@ -182,10 +183,10 @@ Control.Slider = Class.create({
       $R(0, this.spans.length-1).each(function(r) { slider.setSpan(slider.spans[r], slider.getRange(r)) });
     if (this.options.startSpan)
       this.setSpan(this.options.startSpan,
-        $R(0, this.values.length>1 ? this.getRange(0).min() : this.value ));
+          $R(0, this.values.length>1 ? this.getRange(0).min() : this.value ));
     if (this.options.endSpan)
       this.setSpan(this.options.endSpan,
-        $R(this.values.length>1 ? this.getRange(this.spans.length-1).max() : this.value, this.maximum));
+          $R(this.values.length>1 ? this.getRange(this.spans.length-1).max() : this.value, this.maximum));
   },
   setSpan: function(span, range) {
     if (this.isVertical()) {
@@ -212,7 +213,7 @@ Control.Slider = Class.create({
           var offsets  = this.track.cumulativeOffset();
           this.event = event;
           this.setValue(this.translateToValue(
-           (this.isVertical() ? pointer[1]-offsets[1] : pointer[0]-offsets[0])-(this.handleLength/2)
+              (this.isVertical() ? pointer[1]-offsets[1] : pointer[0]-offsets[0])-(this.handleLength/2)
           ));
           var offsets  = this.activeHandle.cumulativeOffset();
           this.offsetX = (pointer[0] - offsets[0]);
@@ -237,12 +238,12 @@ Control.Slider = Class.create({
     }
   },
   update: function(event) {
-   if (this.active) {
+    if (this.active) {
       if (!this.dragging) this.dragging = true;
       this.draw(event);
       if (Prototype.Browser.WebKit) window.scrollBy(0,0);
       Event.stop(event);
-   }
+    }
   },
   draw: function(event) {
     var pointer = [Event.pointerX(event), Event.pointerY(event)];

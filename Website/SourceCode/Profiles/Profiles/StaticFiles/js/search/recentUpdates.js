@@ -1,27 +1,54 @@
+
 function emitSidebarRecentUpdates() {
+    if (gSearch.formData) { // bullet-proofing
+        emitSidebarHelper(true);
+        emitSidebarHelper(false);
+    }
+}
+
+function emitSidebarHelper(wideVsNarrow) {
     // data comes in as strings, needs to be html objects
     // https://stackoverflow.com/questions/54186016/how-do-i-use-the-javascript-map-function-with-object-literals
     let items = gSearch.formData.ProfilesStats.map((item) =>
         ({lhs: spanify(item.count), rhs: spanify(item.label) }));
 
-    let target = gSearch.lhsDiv;
-    emitLeftColumnPairs(
-        target,
-        items,
-        'count',
-        'label',
-        'Profiles',
-        'Stats',
-        'pStats',
-        'statsClass');
+    let responsiveTarget = gSearch.lhsDiv;
+    let wideTarget = $(`<div class="${gCommon.hideXsSmallShowOthers} ps-2"></div>`);
+    let narrowTarget = $(`<div class="${gCommon.showXsSmallHideOthers} mb-3"></div>`);
+    responsiveTarget.append(wideTarget).append(narrowTarget);
+
+    let colSpecsWide = [
+        newColumnSpec(`${gCommon.cols4or12} pe-2 d-flex justify-content-end`),
+        newColumnSpec(`${gCommon.cols8or12} ps-0 d-flex justify-content-start `)
+    ];
+    let colSpecsNarrow = [
+        newColumnSpec(`${gCommon.cols4or12} pe-2 d-flex justify-content-start`),
+        newColumnSpec(`${gCommon.cols8or12} ps-2 d-flex justify-content-start pb-2`)
+    ];
+
+    let colSpecs = wideVsNarrow ? colSpecsWide : colSpecsNarrow;
+    let target = wideVsNarrow ? wideTarget : narrowTarget;
+
+    emitProfileStats({
+        target:     target,
+        items:      items,
+        colSpecs:   colSpecs,
+        lHeader:    'Profiles',
+        rHeader:    'Stats',
+        idPrefix:   'pStats',
+        klass:      'statsClass',
+        });
 
     target.append($('<hr class="tightHr"/>'));
 
-    emitLeftColumnPairs(target,
-        [],
-        '', '',
-        'Recent', 'Updates',
-        'rUpdates');
+    emitLeftColumnPairs({
+        target: target,
+        items: [],
+        colSpecs:   colSpecs,
+        lHeader: 'Recent',
+        rHeader: 'Updates',
+        idPrefix: 'rUpdates'
+    });
 
     let dataUrl = activityUrlFromSchema(
         gSearch.activityDetailsUrl,
@@ -29,14 +56,15 @@ function emitSidebarRecentUpdates() {
         gSearch.activityCurrentHighId);
 
     $.get(dataUrl, function(activities) {
+        console.log("Activities: ", activities);
         emitActivityLhsRows(activities, target);
 
         // proceed w 'continuation'
-        emitMoreUpdatesLink();
+        emitMoreUpdatesLink(target);
     });
 }
 function activityThumbnailAndDate(activity) {
-    let date = dateStringToMDY_1(activity.createdDT.replace(/T.*/, ""));
+    let date = dateStringToMDY_strings(activity.createdDT.replace(/T.*/, ""));
 
     let personUrl = activity.URL;
     let name = `${activity.firstname} ${activity.lastname}`;
@@ -66,38 +94,40 @@ function emitLhsActivity(activity, i, target) {
     if (blurb) {
         let {thumbnail, nameDateDiv} = activityThumbnailAndDate(activity);
 
-        let pairRow = emitLeftColumnPairs(target,
-            [{lhs: thumbnail, rhs: nameDateDiv}],
-            '',
-            '',
-            '',
-            '',
-            `rUpdates${i}`,
-            "",
-            true);
+        let colSpecs = [
+            newColumnSpec(`${gCommon.cols4or12} pe-2 d-flex justify-content-end`),
+            newColumnSpec(`${gCommon.cols8or12} ps-0 d-flex justify-content-start `)
+        ];
+
+        let pairRow = emitLeftColumnPairs( {
+            target:   target,
+            items:    [{lhs: thumbnail, rhs: nameDateDiv}],
+            lHeader: '',
+            rHeader: '',
+            idPrefix: `rUpdates${i}`,
+            colSpecs: colSpecs,
+            addHr:    true
+        });
 
         divSpanifyTo(blurb, pairRow, 'recentUpdateBlurb', 'ps-3');
     }
-
 }
-function emitLeftColumnPairs(target,
-                             items,
-                             lhs, rhs,
-                             lHeader, rHeader,
-                             idPrefix,
-                             klass,
-                             addHr) {
-    if (! klass) {
-        klass = "";
-    }
 
-    let colspecs = [
-        newColumnSpec(`${gCommon.cols4or12} ${klass} pe-2 d-flex justify-content-end`),
-        newColumnSpec(`${gCommon.cols8or12} ${klass} ps-0 d-flex justify-content-start `)
-    ];
+function emitProfileStats(options) {
+    emitLeftColumnPairs(options);
+}
+function emitLeftColumnPairs(options) {
+    let target           = options.target; 
+    let items            = options.items; 
+    let lHeader          = options.lHeader;
+    let rHeader          = options.rHeader;
+    let idPrefix         = options.idPrefix; 
+    let addHr            = options.addHr;
+    let colSpecs         = options.colSpecs;
+    let klass            = options.klass;
 
     let rowId = idPrefix;
-    let row = makeRowWithColumns(target, rowId, colspecs, "bold");
+    let row = makeRowWithColumns(target, rowId, colSpecs, "bold");
     row.find(`#${rowId}Col0`).html(lHeader);
     row.find(`#${rowId}Col1`).html(rHeader);
 
@@ -105,11 +135,15 @@ function emitLeftColumnPairs(target,
         for (let i=0; i<items.length; i++) {
             let item = items[i];
             rowId = `${idPrefix}${i}`;
-            row = makeRowWithColumns(target, rowId, colspecs);
+            row = makeRowWithColumns(target, rowId, colSpecs);
 
             let col0 = row.find(`#${rowId}Col0`);
             let col1 = row.find(`#${rowId}Col1`);
 
+            if (klass) {
+                col0.addClass(klass);
+                col1.addClass(klass);
+            }
             col0.append(item.lhs);
             col1.append(item.rhs);
 
@@ -123,98 +157,15 @@ function emitLeftColumnPairs(target,
     return row;
 }
 function emitActivityBlurb(activity) {
-    let tokens = gSearch.recentUpdateTokens;
-    tokens.peud = "Profiles.Edit.Utilities.DataIO";
+    let blurb = activity.label;
 
-    tokens.AddPublication =         tokens.peud + ".AddPublication";
-    tokens.AddCustomPublication =   tokens.peud + ".AddCustomPublication";
-    tokens.UpdateSecuritySetting =  tokens.peud + ".UpdateSecuritySetting";
-    tokens.AddUpdateFunding =       tokens.peud + ".AddUpdateFunding";
-    tokens.Add =                    tokens.peud + ".Add";
-    tokens.Update =                 tokens.peud + ".Update";
-    tokens.Login =                  "Profiles.Login.Utilities.DataIO.UserLogin";
+    while (blurb.match(/\$\w+/)) {
+        let match = blurb.match(/\$\w+/);
+        let dollarKeyword = match[0];
+        let keyword = dollarKeyword.replace(/\$/, "");
+        let replacement = activity[keyword] ? activity[keyword] : `::${keyword}::`;
 
-    tokens.ResearcherRole                   = "http://vivoweb.org/ontology/core#ResearcherRole";
-    tokens.PubmedLoadDisambiguationResults  = "[Profile.Data].[Publication.Pubmed.LoadDisambiguationResults]";
-    tokens.AddPMID                          = "Add PMID";
-    tokens.LoadProfilesData                 = "[Profile.Import].[LoadProfilesData]";
-    tokens.PersonInsert                     = "Person Insert";
-    tokens.PersonUpdate                     = "Person Update";
-    tokens.FundingLoadDisambiguationResults = "[Profile.Data].[Funding.LoadDisambiguationResults]";
-    tokens.hasMemberRole                    = "http://vivoweb.org/ontology/core#hasMemberRole";
-    
-    let agreementLabel  = orNA(activity.AgreementLabel);
-    let property        = orNA(activity.property);
-    let methodName      = orNA(activity.methodName);
-    let param1          = orNA(activity.param1);
-    let param2          = orNA(activity.param2);
-    let propertyLabel   = orNA(activity.propertyLabel);
-    let groupName       = orNA(activity.groupName);
-
-    let journalTitle    = orNA(activity.JournalTitle);
-    if (property == tokens.ResearcherRole) {
-        journalTitle = agreementLabel;
+        blurb = blurb.replace(dollarKeyword, replacement);
     }
-
-    let body = gCommon.NA;  // hope to provide a useful value below
-
-    if (methodName == tokens.AddPublication) {
-        body = "added a publication from: " + journalTitle;
-    }
-    else if (methodName == tokens.AddCustomPublication) {
-        body = "added \"" + param1 + "\" into " + propertyLabel +
-            " section : " + param2;
-    }
-    else if (methodName == tokens.UpdateSecuritySetting) {
-        body = "made \"" + propertyLabel + "\"public";
-    }
-    else if (methodName == tokens.AddUpdateFunding) {
-        body = "added a research activity or funding: " + journalTitle;
-    }
-    else if (methodName == tokens.FundingLoadDisambiguationResults) {
-        body = "has a new research activity or funding: " + journalTitle;
-    }
-    else if (property == tokens.hasMemberRole) {
-        body = "joined group: " + groupName;
-    }
-    else if (property == tokens.Add) {
-        if (param1 != gCommon.NA)
-        {
-            body = body = "added \"" + param1 + "\" into " + propertyLabel + " section";
-        }
-        else
-        {
-            body = "added \"" + propertyLabel + "\" section";
-        }
-    }
-    else if (methodName == tokens.Update) {
-        if (param1 != gCommon.NA)
-        {
-            body = "updated \"" + param1 + "\" in " + propertyLabel + " section";
-        }
-        else
-        {
-            body = "updated \"" + propertyLabel + "\" section";
-        }
-    }
-    else if (methodName == tokens.PubmedLoadDisambiguationResults && param1 == tokens.AddPMID) {
-        body = "has a new publication listed from: " + journalTitle;
-    }
-    else if (methodName == tokens.LoadProfilesData && param1 == tokens.PersonInsert) {
-        body = "now has a profiles page";
-    }
-    else if (methodName == tokens.LoadProfilesData && param1 == tokens.PersonUpdate) {
-        body = "updated their profiles page";
-    }
-    else if (methodName == tokens.Login) {
-        body = "logged in";
-    }
-    else {
-        console.log(`<b>Cannot assemble blurb from methodName: 
-                    ${methodName}, property: ${property}, 
-                    and/or param1: ${param1}</b>`);
-        body = "";
-    }
-
-    return body;
+    return blurb;
 }

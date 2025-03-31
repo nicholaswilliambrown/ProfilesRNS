@@ -22,11 +22,14 @@ async function loadBrandingConstants() {
         setupBrandingDependentVals();
     });
 }
-async function loadBrandingAssets() {
+async function loadBrandingAssets(targetId) {
     await loadBrandingConstants();
 
     await setupHeadIncludesAndTabTitle();
-    await emitBrandingHeader();
-    await emitBrandingFooter();
+    await emitBrandingHeader(targetId);
+    await emitBrandingFooter(targetId);
+}
+function unHideFooter() {
+    $('#brandingFooter').show();
 }
 

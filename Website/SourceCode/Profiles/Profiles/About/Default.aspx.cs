@@ -1,17 +1,6 @@
-﻿/*  
- 
-    Copyright (c) 2008-2012 by the President and Fellows of Harvard College. All rights reserved.  
-    Profiles Research Networking Software was developed under the supervision of Griffin M Weber, MD, PhD.,
-    and Harvard Catalyst: The Harvard Clinical and Translational Science Center, with support from the 
-    National Center for Research Resources and Harvard University.
-
-
-    Code licensed under a BSD License. 
-    For details, see: LICENSE.txt 
-  
-*/
-
+﻿
 using System;
+
 using System.Web.UI;
 using System.Xml;
 using System.Web.UI.HtmlControls;
@@ -26,25 +15,58 @@ namespace Profiles.About
 
         public void Page_Load(object sender, EventArgs e)
         {
-            masterpage = (Framework.Template)base.Master;
-            this.LoadAssets();
+            try
+            {
+                SessionManagement sessionManagement = new SessionManagement();
+                Framework.Utilities.Session session = sessionManagement.Session();
+                string sessionInfo = ConfigurationHelper.GetSessionInfoJavascriptObject(session);
 
-            masterpage.Tab = "";
-            masterpage.RDFData = null;
-            XmlDocument presentationxml = new XmlDocument();
-            presentationxml.LoadXml(System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/About/PresentationXML/AboutPresentation.xml"));
-            masterpage.PresentationXML = presentationxml;
+                string pageText = "";
 
-        }
+                string type;
+                if (Request.QueryString["type"] != null) type = Request.QueryString["type"].ToString().ToLower();
+                else type = "about";
 
-        private void LoadAssets()
-        {
-            HtmlLink Aboutcss = new HtmlLink();
-            Aboutcss.Href = Root.Domain + "/About/CSS/about.css";
-            Aboutcss.Attributes["rel"] = "stylesheet";
-            Aboutcss.Attributes["type"] = "text/css";
-            Aboutcss.Attributes["media"] = "all";
-            Page.Header.Controls.Add(Aboutcss);
+
+                if ("opensourcesoftware".Equals(type))
+                {
+                    pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/aboutOpenSource.html")
+                        .Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)
+                        .Replace("{globalVariables}", ConfigurationHelper.GlobalJavascriptVariables)
+                        .Replace("{SessionInfo}", sessionInfo)
+                        .Replace("{ProfilesSiteName}", ConfigurationHelper.ProfilesSiteName)
+                        .Replace("{ProfilesInstitution}", ConfigurationHelper.ProfilesInstitution);
+                }
+                else if ("useourdata".Equals(type))
+                {
+                    pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/useOurData.html")
+                        .Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)
+                        .Replace("{globalVariables}", ConfigurationHelper.GlobalJavascriptVariables)
+                        .Replace("{SessionInfo}", sessionInfo)
+                        .Replace("{ProfilesSiteName}", ConfigurationHelper.ProfilesSiteName)
+                        .Replace("{ProfilesInstitution}", ConfigurationHelper.ProfilesInstitution);
+                }
+                else if ("help".Equals(type))
+                {
+                    pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/help.html")
+                        .Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)
+                        .Replace("{globalVariables}", ConfigurationHelper.GlobalJavascriptVariables)
+                        .Replace("{SessionInfo}", sessionInfo)
+                        .Replace("{ProfilesSiteName}", ConfigurationHelper.ProfilesSiteName)
+                        .Replace("{ProfilesInstitution}", ConfigurationHelper.ProfilesInstitution);
+                }
+                else  //if ("about".Equals(type)) Default to About page.
+                {
+                    pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/aboutProfiles.html")
+                        .Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)
+                        .Replace("{globalVariables}", ConfigurationHelper.GlobalJavascriptVariables)
+                        .Replace("{SessionInfo}", sessionInfo)
+                        .Replace("{ProfilesSiteName}", ConfigurationHelper.ProfilesSiteName)
+                        .Replace("{ProfilesInstitution}", ConfigurationHelper.ProfilesInstitution);
+                }
+                litText.Text = pageText;
+            }
+            catch (Exception ex) { Framework.Utilities.DebugLogging.Log($"About/Default.aspx.cs : {ex.Message}"); }
         }
     }
 }

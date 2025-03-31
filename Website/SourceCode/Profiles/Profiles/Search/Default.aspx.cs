@@ -33,33 +33,55 @@ namespace Profiles.Search
         //public void Page_Load(object sender, EventArgs e)
         override protected void OnInit(EventArgs e)
         {
-            string pageText = "";
-            if (Request.QueryString.Count > 0)
+            try
             {
-                if ("PersonResults".Equals(Request.QueryString[0]))
+                SessionManagement sessionManagement = new SessionManagement();
+                Framework.Utilities.Session session = sessionManagement.Session();
+                string sessionInfo = ConfigurationHelper.GetSessionInfoJavascriptObject(session);
+
+                string pageText = "";
+                if (Request.QueryString.Count > 0)
                 {
-                    pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/searchPeopleResults.html")
-                        .Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)
-                        .Replace("{searchApiPath}", ConfigurationHelper.ProfilesRootURL + "/Search/SearchSvc.aspx")
-                        .Replace("{activityApiPath}", ConfigurationHelper.ProfilesRootURL + "/Activity/ActivitySvc.aspx");
+                    if ("PersonResults".Equals(Request.QueryString[0]))
+                    {
+                        pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/searchPeopleResults.html")
+                            .Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)
+                            .Replace("{globalVariables}", ConfigurationHelper.GlobalJavascriptVariables)
+                            .Replace("{SessionInfo}", sessionInfo);
+                    }
+                    else if ("EverythingResults".Equals(Request.QueryString[0]))
+                    {
+                        pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/searchAllElseResults.html")
+                            .Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)
+                            .Replace("{globalVariables}", ConfigurationHelper.GlobalJavascriptVariables)
+                            .Replace("{SessionInfo}", sessionInfo);
+                    }
+                    else if ("WhyResults".Equals(Request.QueryString[0]))
+                    {
+                        pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/searchWhyResults.html")
+                            .Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)
+                            .Replace("{globalVariables}", ConfigurationHelper.GlobalJavascriptVariables)
+                            .Replace("{SessionInfo}", sessionInfo);
+                    }
+                    else
+                    {
+                        pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/searchForm.html")
+                            .Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)
+                            .Replace("{globalVariables}", ConfigurationHelper.GlobalJavascriptVariables)
+                            .Replace("{SessionInfo}", sessionInfo);
+                    }
                 }
-                else if ("EverythingResults".Equals(Request.QueryString[0]))
+                else
                 {
-                    pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/searchAllElseResults.html")
+                    pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/searchForm.html")
                         .Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)
-                        .Replace("{searchApiPath}", ConfigurationHelper.ProfilesRootURL + "/Search/SearchSvc.aspx")
-                        .Replace("{activityApiPath}", ConfigurationHelper.ProfilesRootURL + "/Activity/ActivitySvc.aspx");
+                        .Replace("{globalVariables}", ConfigurationHelper.GlobalJavascriptVariables)
+                        .Replace("{SessionInfo}", sessionInfo);
                 }
+                //activityApiPath searchApiPath
+                litText.Text = pageText;
             }
-            else
-            {
-                pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/searchForm.html")
-                    .Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)
-                    .Replace("{searchApiPath}", ConfigurationHelper.ProfilesRootURL + "/Search/SearchSvc.aspx")
-                    .Replace("{activityApiPath}", ConfigurationHelper.ProfilesRootURL + "/Activity/ActivitySvc.aspx");
-            }
-            //activityApiPath searchApiPath
-            litText.Text = pageText;
+            catch (Exception ex) { Framework.Utilities.DebugLogging.Log($"Search/Default.aspx.cs : {ex.Message}"); }
         }
     }
 }

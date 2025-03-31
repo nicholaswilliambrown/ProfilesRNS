@@ -38,7 +38,7 @@ namespace Profiles.Profile
             litText.Text = dp.HTML;
 
             string str = base.RDFTriple.Subject + "; " + base.RDFTriple.Predicate + "; " + base.RDFTriple.Object + "; " + base.Tab;
-       }
+        }
 
         private DisplayParams GetParameters(long subject, long predicate, long obj, string tab)
         {
@@ -52,8 +52,11 @@ namespace Profiles.Profile
             string redirectURL = null;
             string dataURLs = null;
             bool validURL = true;
-
+            bool canEdit = false;
             string str = string.Empty;
+            bool botindex = true;
+            string layoutData = "{}";
+
             try
             {
                 string connstr = ConfigurationHelper.GetConnectionString(session);
@@ -69,7 +72,8 @@ namespace Profiles.Profile
                 dbcommand.Parameters.Add(new SqlParameter("@predicate", predicate));
                 dbcommand.Parameters.Add(new SqlParameter("@object", obj));
                 dbcommand.Parameters.Add(new SqlParameter("@tab", tab));
- 
+                if (session.UserID > 0) dbcommand.Parameters.Add(new SqlParameter("@SessionID", session.SessionID));
+
                 dbcommand.Connection = dbconnection;
                 dbreader = dbcommand.ExecuteReader(CommandBehavior.CloseConnection);
 
@@ -81,102 +85,126 @@ namespace Profiles.Profile
                     redirect = (dbreader["Redirect"] as int? == 1) ? true : false;
                     redirectURL = dbreader["RedirectURL"].ToString();
                     dataURLs = dbreader["dataURLs"].ToString();
+                    canEdit = (dbreader["canEdit"] as int? == 1) ? true : false;
+                    botindex = (dbreader["botIndex"] as int? == 1) ? true : false;
+                    layoutData = dbreader["layoutData"].ToString();
                 }
 
                 if (!dbreader.IsClosed)
                     dbreader.Close();
 
             }
-            catch (Exception ex)
+            catch (Exception ex) { Framework.Utilities.DebugLogging.Log($"Profile/Display.aspx.cs : {ex.Message}"); }
+
+            if (session.IsBot && !botindex)
             {
-                str = "[{\"ErrorMessage\":\"There was an error: " + ex.Message + "\"}]";
-                /*               return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError)
-                               {
-                                   ReasonPhrase = "An Error Occurred",
-                                   Content = new StringContent(ex.Message, System.Text.Encoding.UTF8, "text/plain")
-                               };
-               */
+                string sessionInfo = ConfigurationHelper.GetSessionInfoJavascriptObject(session, canEdit);
+
+                dp.HTML = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/noindex.html");
+                dp.HTML = dp.HTML.Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)
+                    .Replace("{globalVariables}", ConfigurationHelper.GlobalJavascriptVariablesProfilePage)
+                    .Replace("{SessionInfo}", sessionInfo);
+                Response.AddHeader("X-Robots-Tag", "noindex");
+                return dp;
             }
 
 
 
-
-
-            // string url = _hostingSiteRepository.GetConfiguration().DisplayApiURL + "/getPageParams?p1=" + p1 + "&p2=" + p2 + "&p3=" + p3 + "&p4=" + p4 + "&p5=" + p5 + "&p6=" + p6 + "&p7=" + p7 + "&p8=" + p8 + "&p9=" + p9 + "&p10=" + p10;
-            //string url = "https://localhost:7208/api" + "/getPageParams?p1=" + p1 + "&p2=" + p2 + "&p3=" + p3 + "&p4=" + p4 + "&p5=" + p5 + "&p6=" + p6 + "&p7=" + p7 + "&p8=" + p8 + "&p9=" + p9 + "&p10=" + p10;
-
-            //Task<string> task = Task.Run<string>(async () => await httpGetParams(url));
-            //string j = task.Result;
-            //var jsonObject = JsonNode.Parse(j);
-            dp.DataURLs = dataURLs;// jsonObject[0]["DataURLS"].ToString();
-            dp.DataURLs = dp.DataURLs.Replace("\r", "").Replace("\n", "");
-            //string jsonValidURL = jsonObject[0]["validURL"].ToString();
-            dp.ValidURL = validURL; //jsonValidURL.Equals("True");
-            dp.PresentationType = int.Parse(presentationType); //jsonObject[0]["PresentationType"];
-            dp.Tab = tab; // jsonObject[0]["Tab"].ToString();
-
-            //string jsonRedirect = jsonObject[0]["Redirect"].ToString();
-            dp.Redirect = redirect; // jsonRedirect.Equals("True");
-            dp.RedirectURL = redirectURL;//jsonObject[0]["RedirectURL"].ToString();
-
-            string htmlfilename;
-            switch (dp.PresentationType)
+            try
             {
-                case 1:
-                    htmlfilename = "profile.html";
-                    break;
-                case 2:
-                    htmlfilename = "network.html";
-                    break;
-                case 3:
-                    htmlfilename = "connection.html";
-                    break;
-                case 4:
-                    htmlfilename = "concept.html";
-                    break;
-                case 5:
-                    htmlfilename = "person.html";
-                    break;
-                case 6:
-                    if (dp.Tab.ToLower().Equals("data")) { htmlfilename = "personCoAuthors.html"; }
-                    else if (dp.Tab.ToLower().Equals("map")) { htmlfilename = "personCoAuthorsMap.html"; }
-                    else if (dp.Tab.ToLower().Equals("radial")) { htmlfilename = "personCoAuthorsRadial.html"; }
-                    else if (dp.Tab.ToLower().Equals("cluster")) { htmlfilename = "personCoAuthorsCluster.html"; }
-                    else if (dp.Tab.ToLower().Equals("timeline")) { htmlfilename = "personCoAuthorsTimeline.html"; }
-                    else if (dp.Tab.ToLower().Equals("details")) { htmlfilename = "personCoAuthorsDetails.html"; }
-                    else { htmlfilename = "personCoAuthors.html"; }
-                    break;
-                case 7:
-                    htmlfilename = "personSimilarPeople.html";
-                    break;
-                case 8:
-                    htmlfilename = "personConcepts.html";
-                    break;
-                case 9:
-                    htmlfilename = "personCoAuthorConnection.html";
-                    break;
-                case 10:
-                    htmlfilename = "personSimilarConnection.html";
-                    break;
-                case 11:
-                    htmlfilename = "personConceptConnection.html";
-                    break;
-                case 13:
-                    htmlfilename = "publication.html";
-                    break;
-                case 17:
-                    htmlfilename = "group.html";
-                    break;
-                case 18:
-                    htmlfilename = "groupRole.html";
-                    break;
-                default:
-                    htmlfilename = "default.html";
-                    break;
-            }
+                // string url = _hostingSiteRepository.GetConfiguration().DisplayApiURL + "/getPageParams?p1=" + p1 + "&p2=" + p2 + "&p3=" + p3 + "&p4=" + p4 + "&p5=" + p5 + "&p6=" + p6 + "&p7=" + p7 + "&p8=" + p8 + "&p9=" + p9 + "&p10=" + p10;
+                //string url = "https://localhost:7208/api" + "/getPageParams?p1=" + p1 + "&p2=" + p2 + "&p3=" + p3 + "&p4=" + p4 + "&p5=" + p5 + "&p6=" + p6 + "&p7=" + p7 + "&p8=" + p8 + "&p9=" + p9 + "&p10=" + p10;
 
-            dp.HTML = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/" + htmlfilename);
-            dp.HTML = dp.HTML.Replace("{dataURLs}", dp.DataURLs).Replace("{apiBasePath}", ConfigurationHelper.ProfilesRootURL + "/Profile/ProfileJsonSvc.aspx").Replace("{profilesRootURL}", ConfigurationHelper.ProfilesRootURL).Replace("{tab}", dp.Tab).Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath);
+                //Task<string> task = Task.Run<string>(async () => await httpGetParams(url));
+                //string j = task.Result;
+                //var jsonObject = JsonNode.Parse(j);
+                dp.DataURLs = dataURLs;// jsonObject[0]["DataURLS"].ToString();
+                dp.DataURLs = dp.DataURLs.Replace("\r", "").Replace("\n", "");
+                //string jsonValidURL = jsonObject[0]["validURL"].ToString();
+                dp.ValidURL = validURL; //jsonValidURL.Equals("True");
+                dp.PresentationType = int.Parse(presentationType); //jsonObject[0]["PresentationType"];
+                dp.Tab = tab; // jsonObject[0]["Tab"].ToString();
+
+                //string jsonRedirect = jsonObject[0]["Redirect"].ToString();
+                dp.Redirect = redirect; // jsonRedirect.Equals("True");
+                dp.RedirectURL = redirectURL;//jsonObject[0]["RedirectURL"].ToString();
+
+                string htmlfilename;
+                switch (dp.PresentationType)
+                {
+                    case 1:
+                    case 2:
+                    case 3:
+                        htmlfilename = "profile.html";
+                        break;
+                    case 4:
+                        htmlfilename = "concept.html";
+                        break;
+                    case 5:
+                        htmlfilename = "person.html";
+                        break;
+                    case 6:
+                        if (dp.Tab.ToLower().Equals("data")) { htmlfilename = "personCoAuthors.html"; }
+                        else if (dp.Tab.ToLower().Equals("map")) { htmlfilename = "personCoAuthorsMap.html"; }
+                        else if (dp.Tab.ToLower().Equals("radial")) { htmlfilename = "personCoAuthorsRadial.html"; }
+                        else if (dp.Tab.ToLower().Equals("cluster")) { htmlfilename = "personCoAuthorsCluster.html"; }
+                        else if (dp.Tab.ToLower().Equals("timeline")) { htmlfilename = "personCoAuthorsTimeline.html"; }
+                        else if (dp.Tab.ToLower().Equals("details")) { htmlfilename = "personCoAuthorsDetails.html"; }
+                        else { htmlfilename = "personCoAuthors.html"; }
+                        break;
+                    case 7:
+                        htmlfilename = "personSimilarPeople.html";
+                        break;
+                    case 8:
+                        htmlfilename = "personConcepts.html";
+                        break;
+                    case 9:
+                        htmlfilename = "personCoAuthorConnection.html";
+                        break;
+                    case 10:
+                        htmlfilename = "personSimilarConnection.html";
+                        break;
+                    case 11:
+                        htmlfilename = "personConceptConnection.html";
+                        break;
+                    case 13:
+                        htmlfilename = "publication.html";
+                        break;
+                    case 14:
+                        htmlfilename = "MentoringCurrentStudentOpportunity.html";
+                        break;
+                    case 15:
+                        htmlfilename = "MentoringCompletedStudentProject.html";
+                        break;
+                    case 16:
+                        htmlfilename = "AwardReceipt.html";
+                        break;
+                    case 17:
+                        htmlfilename = "group.html";
+                        break;
+                    case 18:
+                        if (dp.Tab.ToLower().Equals("data")) { htmlfilename = "groupRole.html"; }
+                        else if (dp.Tab.ToLower().Equals("byname")) { htmlfilename = "groupRole.html"; }
+                        else if (dp.Tab.ToLower().Equals("byrole")) { htmlfilename = "groupRoleByRole.html"; }
+                        else if (dp.Tab.ToLower().Equals("map")) { htmlfilename = "groupRoleMap.html"; }
+                        else if (dp.Tab.ToLower().Equals("coauthors")) { htmlfilename = "groupRoleCoAuthors.html"; }
+                        else { htmlfilename = "groupRole.html"; }
+                        break;
+                    default:
+                        htmlfilename = "default.html";
+                        break;
+                }
+
+                string sessionInfo = ConfigurationHelper.GetSessionInfoJavascriptObject(session, canEdit);
+                string g = ConfigurationHelper.GlobalJavascriptVariablesProfilePage.Replace("{dataURLs}", dp.DataURLs).Replace("{tab}", dp.Tab).Replace("{preLoad}", layoutData.Replace("'", "\\'"));
+
+                dp.HTML = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/" + htmlfilename);
+                dp.HTML = dp.HTML.Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)
+                    .Replace("{globalVariables}", g)
+                    .Replace("{SessionInfo}", sessionInfo);
+            }
+            catch (Exception ex) { Framework.Utilities.DebugLogging.Log($"Profile/Display.aspx.cs : {ex.Message}"); }
+
             return dp;
         }
 
@@ -188,15 +216,19 @@ namespace Profiles.Profile
                 //client.BaseAddress = new Uri("http://localhost:55587/");
 
                 //GET Method
-                HttpResponseMessage response = await client.GetAsync(url);
-                if (response.IsSuccessStatusCode)
+                try
                 {
-                    str = await response.Content.ReadAsStringAsync();
+                    HttpResponseMessage response = await client.GetAsync(url);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        str = await response.Content.ReadAsStringAsync();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Internal server Error");
+                    }
                 }
-                else
-                {
-                    Console.WriteLine("Internal server Error");
-                }
+                catch (Exception ex) { Framework.Utilities.DebugLogging.Log($"Profile/Display.aspx.cs : {ex.Message}"); }
             }
             return str;
 

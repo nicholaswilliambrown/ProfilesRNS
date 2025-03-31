@@ -6,7 +6,7 @@ function searchPost(url, prefix, selections, resultPage) {
     console.log(stringCriteria);
 
     $.post(url, stringCriteria, function(results) {
-        if (results.constructor === Array
+        if (isArray(results)
             && results.length == 1
             && results[0].ErrorMessage !== gCommon.undefined) {
 
@@ -22,7 +22,8 @@ function searchPost(url, prefix, selections, resultPage) {
             window.location.href = resultPage;
         }
     });
-}function searchBodyStructure() {
+}
+function searchBodyStructure() {
     let lhsDiv = $('#lhsDiv');
     gSearch.lhsDiv = lhsDiv;
 
@@ -30,12 +31,9 @@ function searchPost(url, prefix, selections, resultPage) {
     let outerRhs = $('#rhsDiv');
     gSearch.rhsDiv = outerRhs;
 
-    lhsDiv.addClass("col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2 col-xxl-2 ");
+    lhsDiv.addClass("col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2 col-xxl-2 statsUpdates");
     midDiv.addClass("col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8 col-xxl-8 ");
     outerRhs.addClass("col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2 col-xxl-2 ps-1");
-
-    let innerRhsDiv = $('<div id="innerRhsDiv" class="p-2"></div>');
-    outerRhs.append(innerRhsDiv);
 }
 function searchResultsBodyStructure() {
     let midDiv = $('#midDiv');
@@ -45,14 +43,13 @@ function searchResultsBodyStructure() {
     midDiv.addClass("col-12 col-sm-12 col-md-10 col-lg-10 col-xl-10 col-xxl-10 ");
     outerRhs.addClass("col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2 col-xxl-2 ps-1 pe-0");
 
-    let innerRhsDiv = $('<div id="innerRhsDiv" class="p-2"></div>');
+    let innerRhsDiv = $('<div id="innerRhsDiv" class="p-2 searchCriteriaDiv"></div>');
     outerRhs.append(innerRhsDiv);
-    let innerRhsDiv2 = $('<div id="innerRhsDiv2" class="p-2 fs12"></div>');
-    gSearch.rhsDiv2 = innerRhsDiv2;
-    outerRhs.append(innerRhsDiv2);
+    gSearch.outerRhs = outerRhs;
 }
 function hideLiItems() {
     $('.li-item').hide();
+    $('.ulDiv').show();
 }
 function harvestCheckedOptions(prefix) {
     let result = [];
@@ -106,6 +103,23 @@ function createWhyLink(item, results) {
     })
     return whySpan;
 }
+function searchEverythingFn(searchInput, exactCheckbox) {
+
+    let selections = collectKeywordSelections(searchInput, exactCheckbox);
+
+    selections.SearchType = gSearch.allElse;
+
+    // new search starts with 'All' filter
+    addUpdateSearchQuery(selections, gSearch.currentFilterKey, gSearch.allFilterLabel);
+    initializePagingValues(selections, gPage.defaultPageSize, 1);
+
+    //alert(`Json (from everything tab): ${JSON.stringify(selections)}`);
+    searchPost(
+        gSearch.findEverythingElseUrl,
+        gSearch.allElse,
+        selections,
+        g.profilesPath + "/search/?EverythingResults");
+}
 function searchWhy(item, results) {
     let whyUrl = gSearch.whyUrl;
     let searchQuery = results.SearchQuery;
@@ -115,14 +129,23 @@ function searchWhy(item, results) {
         whyUrl,
         'Why',
         searchQuery,
-        'searchWhyResults.html'
-        );
+        g.profilesPath + "/search/?WhyResults");
 }
+function collectKeywordSelections(searchInput, exactCheckbox) {
+    let selections = {};
+    selections.Keyword = searchInput.val();
+    if (exactCheckbox) {
+        selections.KeywordExact = exactCheckbox.is(':checked');
+    } else {
+        selections.KeywordExact = false;
+    }
 
+    return selections;
+}
 function makeSearchResultsKey(prefix) {
     return `search${initialCapital(prefix)}ResultsKey`;
 }
-function minimalPeopleSearch(term) {
+function minimalPeopleSearchByTerm(term) {
     let selections = {};
     selections.Keyword = term;
     selections.LastName = "";
@@ -142,7 +165,31 @@ function minimalPeopleSearch(term) {
         gSearch.findPeopleUrl,
         gSearch.people,
         selections,
-        "searchPeopleResults.html");
+        gSearch.peopleResultsUrl);
+}
+function minimalPeopleSearchByDept(institution, dept, deptName) {
+    let selections = {};
+    selections.Institution = institution;
+    selections.Department = dept;
+    selections.DepartmentName = deptName;
+    selections.Keyword = "";
+    selections.LastName = "";
+    selections.FirstName = "";
+    selections.InstitutionName = "";
+    selections.FacultyTypeName = "";
+    selections.OtherOptionsName = [];
+
+    selections.KeywordExact = false;
+    selections.DepartmentExcept = false;
+    selections.InstitutionExcept = false;
+
+    collectMiscInitialPeopleSelections(selections);
+
+    searchPost(
+        gSearch.findPeopleUrl,
+        gSearch.people,
+        selections,
+        gSearch.peopleResultsUrl);
 }
 function emitCriteriaOnRhs(results, withWhy) {
     let target = $('#innerRhsDiv');
@@ -150,15 +197,32 @@ function emitCriteriaOnRhs(results, withWhy) {
     let titleDiv = $('<div class="mb-1"></div>');
     target.empty();
     target.append(titleDiv);
-    titleDiv.append(spanify('Search Criteria', 'bold mb-4'));
+    titleDiv.append(spanify('Search Criteria', 'bold'));
 
-    addIfPresent(results.SearchQuery.Keyword, target);
-    addIfPresent(results.SearchQuery.LastName, target);
-    addIfPresent(results.SearchQuery.FirstName, target);
-    addIfPresent(results.SearchQuery.InstitutionName, target);
-    addIfPresent(results.SearchQuery.DepartmentName, target);
-    addIfPresent(results.SearchQuery.FacultyTypeName, target);
-    addIfPresent(results.SearchQuery.OtherOptionsName, target);
+    let eltType = 'div';
+    let klass = 'wrap';
+    let addedBreaks = [];
+
+    addedBreaks.push(addIfPresent({text: results.SearchQuery.Keyword,
+        target: target, klass: klass, eltType: eltType}));
+    addedBreaks.push(addIfPresent({text: results.SearchQuery.LastName,
+        target: target, klass: klass, eltType: eltType}));
+    addedBreaks.push(addIfPresent({text: results.SearchQuery.FirstName,
+        target: target, klass: klass, eltType: eltType}));
+    addedBreaks.push(addIfPresent({text: results.SearchQuery.InstitutionName,
+        target: target, klass: klass, eltType: eltType, except: results.SearchQuery.InstitutionExcept}));
+    addedBreaks.push(addIfPresent({text: results.SearchQuery.DepartmentName,
+        target: target, klass: klass, eltType: eltType, except: results.SearchQuery.DepartmentExcept}));
+    addedBreaks.push(addIfPresent({text: results.SearchQuery.FacultyTypeName,
+        target: target, klass: klass, eltType: eltType}));
+    addedBreaks.push(addIfPresent({text: results.SearchQuery.OtherOptionsName,
+        target: target, klass: klass, eltType: eltType}));
+
+    addedBreaks = addedBreaks.filter(lb => lb); // ie, keep non-empties
+    if (addedBreaks.length) {
+        let lastBreak = addedBreaks[addedBreaks.length - 1];
+        lastBreak.remove();
+    }
 
     if (withWhy) {
         target.append($('<hr class="tightHr"/>'));
@@ -166,29 +230,83 @@ function emitCriteriaOnRhs(results, withWhy) {
             target, 'fs12');
     }
 }
-function emitSearchResultCountAndBackTo(results, url, backText, count) {
-    let target = $('#midDiv');
-    url = gBrandingConstants.htmlFiles + url;
+function emitTitle(target, title) {
+    setTabTitleAndOrFavicon(title);
+    let titleSpan = $(`<div class="row page-title mt-3">${title}</div>`);
+    target.prepend(titleSpan);
+}
+function emitLinkTo(target, linkText, url, leftVsRight) {
+    let direction = leftVsRight ? "Left" : "Right";
+    let arrow = $(`<img src="${gBrandingConstants.jsSearchImageFiles}arrow${direction}.png" class="me-1"/>`);
+    let toAnchor = createAnchorElement(linkText, url);
+    let anchorDiv = $('<div class="d-flex justify-content-end"></div>');
+
+    anchorDiv.append(arrow).append(toAnchor);
+    target.append(anchorDiv);
+}
+function emitSearchResultCountAndRelatedLinks(
+                                    results,
+                                    url,
+                                    backText,
+                                    count,
+                                    insertBeforeId) {
+    let target = $('#midDivInner');
 
     let countDetail = (typeof count !== gCommon.undefined) ? ` (${count})` : "";
-    // calling title a row adds the negative 12 margin
-    let title = $(`<h2 class="row boldCrimson">Search Results Details${countDetail}</h2>`);
+    let titleContent = `Search Results Details${countDetail}`;
 
-    let backToArrow = $(`<img src="${gBrandingConstants.jsSearchImageFiles}arrowLeft.png" class="me-1"/>`);
-    let backTo = createAnchorElement(backText, url);
-    let backToDiv = $('<div class="d-flex justify-content-end"></div>');
-    backToDiv.append(backToArrow).append(backTo);
-    target.prepend(backToDiv);
-    target.prepend(title);
+    emitTitle(target, titleContent);
+
+    let beforeTarget = $('<div id="beforeResults"></div>');
+    beforeTarget.insertBefore($(`#${insertBeforeId}`));
+    emitLinkTo(beforeTarget, backText, url, true);
 }
-function addIfPresent(text, target, klass) {
+function addIfPresent(options) {
+    let text   = options.text   ;
+    let target = options.target ;
+    let klass  = options.klass  ;
+    let except = options.except ;
+    let eltType = options.eltType ;
+    let noBreak = options.noBreak ;
+
+    let maybeAddedBreak = '';
+
     if (typeof text !== gCommon.undefined && text) {
-        divSpanifyTo(text, target, klass);
+        if (!eltType) {
+            eltType = 'span';
+        }
+        let elt = $(`<${eltType} class="${klass}"></${eltType}>`);
+        target.append(elt);
+
+        if (except) {
+            text = `(Except) ${text}`;
+        }
+        maybeAddedBreak = noBreak ? '' : $('<br/>');
+        elt.html(text);
+        if (maybeAddedBreak) {
+            elt.append(maybeAddedBreak);
+        }
     }
+    return maybeAddedBreak;
 }
 function activityUrlFromSchema(urlSchema, desiredCount, lastId) {
     let result = urlSchema
         .replace(gCommon.schemaPlaceholder, desiredCount)
         .replace(gCommon.schemaPlaceholder2, lastId);
     return result;
+}
+function dropdownVisibilityAdjustToOverlaps() {
+    $('.ulDiv li').on('click', function(e) {
+        $(e.target).closest('.ulDiv').show();
+        let targetPositionString = $(e.target).closest('.ulDiv').attr('position');
+        let targetPosition = Number(targetPositionString);
+        $('.ulDiv').each(function() {
+            let that = $(this);
+            let positionString = that.attr('position');
+            let position = Number(positionString);
+            if (position > targetPosition) {
+                that.hide();
+            }
+        })
+    });
 }

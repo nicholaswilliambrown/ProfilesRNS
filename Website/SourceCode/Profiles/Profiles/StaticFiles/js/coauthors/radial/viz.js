@@ -1,58 +1,61 @@
 /*
-	HTML5/d3-Based Network Visualizer  
+	HTML5/d3-Based Network Visualizer
 	(C)opyright 2015, Harvard Medical School
 	All Rights Reserved.
 
 	Author(s): Nick Benik
  */
-function RadialGraph_Visualization(svg_reference, config) {
-		var that = this;
-		var nid = 0;
-		this.config = (typeof config === "undefined" ? {} : config);
-		var svgDims = svg_reference.parentNode.getBoundingClientRect();
-		this.svg = {
-				ref: svg_reference,
-				width: Math.round(svgDims.width),
-				height: Math.round(svgDims.height),
-				center_x: Math.round(svgDims.width / 2),
-				center_y: Math.round(svgDims.height / 2)
-		};
-		this.svg.offset_x = Math.floor(this.svg.width/2);
-		this.svg.offset_y = Math.floor(this.svg.height/2);
-		this.data = {
-			center_id: undefined,
-			hover_el: null,
-			hover_evt: null,
-			hover_active: true,
-			nodes: [],
-			edges: [],
-			circles: {
-				svgGroupEl: undefined,
-				anipos: []
-			},
-			adjmtx: {},
-			ranges: {
-				nodes: {},
-				edges: {}
-			},
-			filters: {
-				node: d3.map(null, function(d) {return d.attrib; }),
-				edge: d3.map(null, function(d) {return d.attrib; })
-			}
-		};
-		// this should be replaced for loading from remote data sources
-		this.nid_func_DEFAULT = function(obj) { nid++; return nid;}
-		this.nid_func = function(obj) { return parseInt(obj.id);}
 
-		// attach the master mouse event handler
-		var mouseMaster = this._handleMouseEvents.bind(this);
-		d3.select(this.svg.ref).on({
+var radialWatchDog;
+
+function RadialGraph_Visualization(svg_reference, config) {
+	var that = this;
+	var nid = 0;
+	this.config = (typeof config === "undefined" ? {} : config);
+	var svgDims = svg_reference.parentNode.getBoundingClientRect();
+	this.svg = {
+		ref: svg_reference,
+		width: Math.round(svgDims.width),
+		height: Math.round(svgDims.height),
+		center_x: Math.round(svgDims.width / 2),
+		center_y: Math.round(svgDims.height / 2)
+	};
+	this.svg.offset_x = Math.floor(this.svg.width/2);
+	this.svg.offset_y = Math.floor(this.svg.height/2);
+	this.data = {
+		center_id: undefined,
+		hover_el: null,
+		hover_evt: null,
+		hover_active: true,
+		nodes: [],
+		edges: [],
+		circles: {
+			svgGroupEl: undefined,
+			anipos: []
+		},
+		adjmtx: {},
+		ranges: {
+			nodes: {},
+			edges: {}
+		},
+		filters: {
+			node: d3.map(null, function(d) {return d.attrib; }),
+			edge: d3.map(null, function(d) {return d.attrib; })
+		}
+	};
+	// this should be replaced for loading from remote data sources
+	this.nid_func_DEFAULT = function(obj) { nid++; return nid;}
+	this.nid_func = function(obj) { return parseInt(obj.id);}
+
+	// attach the master mouse event handler
+	var mouseMaster = this._handleMouseEvents.bind(this);
+	d3.select(this.svg.ref).on({
 //			mousemove: mouseMaster,
-			mouseenter: mouseMaster,
-			mouseover: mouseMaster,
-			click: mouseMaster,
-			dblclick: mouseMaster
-		});
+		mouseenter: mouseMaster,
+		mouseover: mouseMaster,
+		click: mouseMaster,
+		dblclick: mouseMaster
+	});
 };
 // ----------------------------------------------------------------------------
 RadialGraph_Visualization.prototype.setFilter = function(type, attribute, min, max) {
@@ -89,7 +92,7 @@ RadialGraph_Visualization.prototype.setFilter = function(type, attribute, min, m
 			}
 		});
 	});
-	
+
 	// reapply filter criteria for edges
 	this.data.filters.edge.forEach(function(attrib,range) {
 		d3.selectAll('.radialVizEdge').each(function(el) {
@@ -101,7 +104,7 @@ RadialGraph_Visualization.prototype.setFilter = function(type, attribute, min, m
 			}
 		});
 	});
-	
+
 
 };
 // ----------------------------------------------------------------------------
@@ -115,6 +118,8 @@ RadialGraph_Visualization.prototype.loadNetwork = function(url, id) {
 // ----------------------------------------------------------------------------
 RadialGraph_Visualization.prototype.loadedNetwork = function(error, json) {
 	this.clearNetwork();
+
+	radialWatchDog = getClusterWatchdog();
 
 	// processes nodes
 	this.data.nodes ={};
@@ -132,7 +137,7 @@ RadialGraph_Visualization.prototype.loadedNetwork = function(error, json) {
 		node.polar = {"new": [0,0]}; // in the form of [theta,radius]
 		this.data.nodes[node.nid] = node;
 	}
-	
+
 	// process edges (and adjacency matrix)
 	this.data.edges ={};
 	this.data.adjmtx = {};
@@ -148,12 +153,12 @@ RadialGraph_Visualization.prototype.loadedNetwork = function(error, json) {
 			y2: 0
 		};
 		this.data.edges[i] = temp;
-		
+
 		// we populate matrix using sub-objects (O^n) and later convert to sub-arrays
 		if (typeof this.data.adjmtx[temp.id1] === 'undefined') { this.data.adjmtx[temp.id1] = {}; }
 		this.data.adjmtx[temp.id1][temp.id2] = true;
 		if (typeof this.data.adjmtx[temp.id2] === 'undefined') { this.data.adjmtx[temp.id2] = {}; }
-		this.data.adjmtx[temp.id2][temp.id1] = true;			
+		this.data.adjmtx[temp.id2][temp.id1] = true;
 	}
 	// remove convert adjacency matrix from sub-objects to sub-arrays
 	var keylist = d3.keys(this.data.adjmtx);
@@ -161,15 +166,15 @@ RadialGraph_Visualization.prototype.loadedNetwork = function(error, json) {
 	for (var i=0; i<l; i++) {
 		this.data.adjmtx[keylist[i]] = d3.keys(this.data.adjmtx[keylist[i]]);
 	}
-	
+
 	// Calculate the ranges needed for later use
 	this.getDataRange('NODE', 'pubs', true);
 	this.getDataRange('EDGE', 'w', true);
 	this.getDataRange('EDGE', 'y2', true);
 	this.getDataRange('EDGE', 'n', true);
-        
-    // generate the visual elements
-    this._generateEdges();
+
+	// generate the visual elements
+	this._generateEdges();
 	this._generateCircles(false);
 	this._generateNodes();
 	this.centerOn(this.data.center_id, false);
@@ -181,33 +186,32 @@ RadialGraph_Visualization.prototype.loadedNetwork = function(error, json) {
 };
 // ----------------------------------------------------------------------------
 RadialGraph_Visualization.prototype._connectSliders = function() {
-	let watchdog = getClusterWatchdog();
 	network_sliders.Init(this);
-    watchdog.cancel();
+	radialWatchDog.cancel();
 };
 // ----------------------------------------------------------------------------
 RadialGraph_Visualization.prototype.centerOn = function (nodeID, animate) {
-    // calculate the new layout
-    var layout_eng = new RadialGraph_Layout(this.data.nodes, this.data.edges, this.data.adjmtx);
-    layout_eng.plot(nodeID);
+	// calculate the new layout
+	var layout_eng = new RadialGraph_Layout(this.data.nodes, this.data.edges, this.data.adjmtx);
+	layout_eng.plot(nodeID);
 
-    // recalculate the hop radius based on the max hop distance
+	// recalculate the hop radius based on the max hop distance
 	this.data.circles.maxHops = layout_eng.getMaxHops();
-    this.config.radius = ((this.svg.width / 2) * 0.75) / this.data.circles.maxHops;
+	this.config.radius = ((this.svg.width / 2) * 0.75) / this.data.circles.maxHops;
 
-    var polars = layout_eng.getLocationsPolar(this.config.radius);
-			
-    // copy the new layout to the nodes
-    var keylist = d3.keys(polars);
-    var l = keylist.length;
-    for (var i = 0; i < l; i++) {
-        if (keylist[i] == parseInt(keylist[i])) {
-            // copy the new polar values to the old values
-            this.data.nodes[polars[keylist[i]].id].polar.old = this.data.nodes[polars[keylist[i]].id].polar['new'];
-            // update the new polar values [theta]
-            this.data.nodes[polars[keylist[i]].id].polar['new'] = [polars[keylist[i]].t, polars[keylist[i]].r];
-        } 
-    }
+	var polars = layout_eng.getLocationsPolar(this.config.radius);
+
+	// copy the new layout to the nodes
+	var keylist = d3.keys(polars);
+	var l = keylist.length;
+	for (var i = 0; i < l; i++) {
+		if (keylist[i] == parseInt(keylist[i])) {
+			// copy the new polar values to the old values
+			this.data.nodes[polars[keylist[i]].id].polar.old = this.data.nodes[polars[keylist[i]].id].polar['new'];
+			// update the new polar values [theta]
+			this.data.nodes[polars[keylist[i]].id].polar['new'] = [polars[keylist[i]].t, polars[keylist[i]].r];
+		}
+	}
 
 	// extract the hop rings' information
 	var ringO = {};
@@ -217,7 +221,7 @@ RadialGraph_Visualization.prototype.centerOn = function (nodeID, animate) {
 	var l = keylist.length;
 	for (var i=0; i<l; i++) {
 		ringN[this.data.nodes[keylist[i]].polar.new[1]] = true;
-		ringO[this.data.nodes[keylist[i]].polar.old[1]] = true;	
+		ringO[this.data.nodes[keylist[i]].polar.old[1]] = true;
 	}
 	// delete the center node coordinate
 	delete ringN[0];
@@ -242,94 +246,94 @@ RadialGraph_Visualization.prototype.centerOn = function (nodeID, animate) {
 	// output is circles.anipos[circleNum][0|1] where 0 = new positions & 1 = old positions
 	this.data.circles.anipos = d3.zip(ringN, ringO);
 	this._generateCircles(animate);
-	
-    // update the global center node identifier
-    this.data.center_id = nodeID;
 
-    // nasty scope hacking closure functions
-    var func_UpdateXY = (function (d) {
-        var offset_x = this.svg.center_x;
-        var offset_y = this.svg.center_y;
-        var r = d.polar['new'][1];
-        var a = (d.polar['new'][0] * Math.PI / 180);
-        var x = Math.floor(r * Math.cos(a));
-        var y = Math.floor(-r * Math.sin(a));
-        d.xy.x = offset_x + x;
-        d.xy.y = offset_y + y;
-    }).bind(this);
-    // (...see above)
-    var func_UpdateEdges = (function (d) {
-        var node = this.data.nodes[d.id1];
-        d.xy.x1 = node.xy.x;
-        d.xy.y1 = node.xy.y;
-        var node = this.data.nodes[d.id2];
-        d.xy.x2 = node.xy.x;
-        d.xy.y2 = node.xy.y;
-    }).bind(this);
+	// update the global center node identifier
+	this.data.center_id = nodeID;
+
+	// nasty scope hacking closure functions
+	var func_UpdateXY = (function (d) {
+		var offset_x = this.svg.center_x;
+		var offset_y = this.svg.center_y;
+		var r = d.polar['new'][1];
+		var a = (d.polar['new'][0] * Math.PI / 180);
+		var x = Math.floor(r * Math.cos(a));
+		var y = Math.floor(-r * Math.sin(a));
+		d.xy.x = offset_x + x;
+		d.xy.y = offset_y + y;
+	}).bind(this);
+	// (...see above)
+	var func_UpdateEdges = (function (d) {
+		var node = this.data.nodes[d.id1];
+		d.xy.x1 = node.xy.x;
+		d.xy.y1 = node.xy.y;
+		var node = this.data.nodes[d.id2];
+		d.xy.x2 = node.xy.x;
+		d.xy.y2 = node.xy.y;
+	}).bind(this);
 
 
-    // are we doing an animation?
-    if (animate == true) {
-        // copy the old theta value for the new center node so that the animation is a straight line to center position
-        this.data.nodes[nodeID].polar['new'][0] = this.data.nodes[nodeID].polar.old[0];
+	// are we doing an animation?
+	if (animate == true) {
+		// copy the old theta value for the new center node so that the animation is a straight line to center position
+		this.data.nodes[nodeID].polar['new'][0] = this.data.nodes[nodeID].polar.old[0];
 
-        // build the D3 transition animation
-        var func_animateNodes = function (d, i, a) {
-            var node_cnt = d3.values(this.data.nodes).length;
-            var cx = this.svg.center_x;
-            var cy = this.svg.center_y;
-            var i1 = d3.interpolateRound(d.polar['old'][0], d.polar['new'][0]);
-            var i2 = d3.interpolateRound(d.polar['old'][1], d.polar['new'][1]);
-            return function (t) {
-                var r = i2(t);
-                var a = (i1(t) * Math.PI / 180);
-                d.xy.x = cx + Math.floor(r * Math.cos(a));
-                d.xy.y = cy + Math.floor(-r * Math.sin(a));
-                if (i == node_cnt - 1) {
-                    // once all the nodes have been updated for this frame
-                    // we need to also update all the edges and the circles
-                    d3.selectAll(".radialVizEdge")
+		// build the D3 transition animation
+		var func_animateNodes = function (d, i, a) {
+			var node_cnt = d3.values(this.data.nodes).length;
+			var cx = this.svg.center_x;
+			var cy = this.svg.center_y;
+			var i1 = d3.interpolateRound(d.polar['old'][0], d.polar['new'][0]);
+			var i2 = d3.interpolateRound(d.polar['old'][1], d.polar['new'][1]);
+			return function (t) {
+				var r = i2(t);
+				var a = (i1(t) * Math.PI / 180);
+				d.xy.x = cx + Math.floor(r * Math.cos(a));
+				d.xy.y = cy + Math.floor(-r * Math.sin(a));
+				if (i == node_cnt - 1) {
+					// once all the nodes have been updated for this frame
+					// we need to also update all the edges and the circles
+					d3.selectAll(".radialVizEdge")
 						.each(func_UpdateEdges)
 						.attr("x1", function (d) { return d.xy.x1; })
 						.attr("y1", function (d) { return d.xy.y1; })
 						.attr("x2", function (d) { return d.xy.x2; })
 						.attr("y2", function (d) { return d.xy.y2; });
-                }
-                return "translate(" + d.xy.x + "," + d.xy.y + ")";
-            };
-        };
+				}
+				return "translate(" + d.xy.x + "," + d.xy.y + ")";
+			};
+		};
 
 		// animate the circles
-        d3.select(this.svg.ref).selectAll(".radialVizNode")
+		d3.select(this.svg.ref).selectAll(".radialVizNode")
 			.transition()
-				.duration(1500)
-				.attrTween("transform", func_animateNodes.bind(this));
-		
-        d3.select(this.svg.ref).selectAll(".radialVizCircles circle")
-			.transition()
-				.duration(1500)
-				.attrTween("r", function(d,i,j) {
-					return d3.interpolateRound(parseInt(d[1]), parseInt(d[0]));
-				});
-				
-        d3.select(this.svg.ref).selectAll(".radialVizCircles circle").style({visibility: "visible"});
+			.duration(1500)
+			.attrTween("transform", func_animateNodes.bind(this));
 
-    } else {
-		
-		
-        // place the nodes [NO ANIMATION]
-        var nodes = d3.select(this.svg.ref).selectAll(".radialVizNode")
+		d3.select(this.svg.ref).selectAll(".radialVizCircles circle")
+			.transition()
+			.duration(1500)
+			.attrTween("r", function(d,i,j) {
+				return d3.interpolateRound(parseInt(d[1]), parseInt(d[0]));
+			});
+
+		d3.select(this.svg.ref).selectAll(".radialVizCircles circle").style({visibility: "visible"});
+
+	} else {
+
+
+		// place the nodes [NO ANIMATION]
+		var nodes = d3.select(this.svg.ref).selectAll(".radialVizNode")
 			.each(func_UpdateXY)
 			.attr("transform", function (d, i) { return "translate(" + d.xy.x + "," + d.xy.y + ")"; });
 
-        // move the edges
-        var edges = d3.select(this.svg.ref).selectAll(".radialVizEdge")
+		// move the edges
+		var edges = d3.select(this.svg.ref).selectAll(".radialVizEdge")
 			.each(func_UpdateEdges)
 			.attr("x1", function (d) { return d.xy.x1; })
 			.attr("y1", function (d) { return d.xy.y1; })
 			.attr("x2", function (d) { return d.xy.x2; })
 			.attr("y2", function (d) { return d.xy.y2; });
-    }
+	}
 };
 // ----------------------------------------------------------------------------
 RadialGraph_Visualization.prototype._highlighter = function(type, element) {
@@ -371,7 +375,7 @@ RadialGraph_Visualization.prototype._highlighter = function(type, element) {
 					this.parentNode.appendChild(this);
 				});
 			element.parentNode.appendChild(element);
-			this.data.hover_active = true;				
+			this.data.hover_active = true;
 			break;
 		case "EDGE":
 			var d = element.__data__;
@@ -412,7 +416,7 @@ RadialGraph_Visualization.prototype._handleMouseEvents = function() {
 
 	// traverse up the DOM tree until we hit an element with tag/class we want
 	var done = false;
-	do { 
+	do {
 		// check current element class name
 		for (var i=0; i<classes.length; i++) {
 			if (d3.select(el).classed(classes[i])) {
@@ -423,9 +427,9 @@ RadialGraph_Visualization.prototype._handleMouseEvents = function() {
 				break;
 			}
 		}
-		// check current element tag name		
+		// check current element tag name
 		if (!done) {
-			if (tags.indexOf(el.tagName) != -1) {				
+			if (tags.indexOf(el.tagName) != -1) {
 				// found it!
 				el_type = 'BACKGROUND';
 				done = true;
@@ -433,7 +437,7 @@ RadialGraph_Visualization.prototype._handleMouseEvents = function() {
 			}
 		}
 		if (!done) {
-			// take one step up the DOM tree			
+			// take one step up the DOM tree
 			el = el.parentNode;
 			if (el === null) {
 				// we are at the top of the DOM tree - no interesting element was found
@@ -441,7 +445,7 @@ RadialGraph_Visualization.prototype._handleMouseEvents = function() {
 			}
 		}
 	} while (!done);
-	
+
 	// el now contains an element we are interested in or null if not.
 	if (el === null) {
 		// fire an OUT command for the last element that had focus
@@ -489,11 +493,11 @@ RadialGraph_Visualization.prototype._handleMouseEvents = function() {
 
 	// determine if it's a redundent event on the same node or edge
 	if (this.data.hover_el === el && this.data.hover_evt == action) { return; }
-	
+
 	// save state to prevent redundant calls
 	this.data.hover_el = el;
 	this.data.hover_evt = action;
-	
+
 	var func_Recenter = (function(d) {
 		if (d.nid != this.data.center_id) {
 			// node has been clicked that is not the center node
@@ -503,8 +507,8 @@ RadialGraph_Visualization.prototype._handleMouseEvents = function() {
 	var func_noSelect = function() {
 		try { window.getSelection().empty(); } catch(e) {}
 	};
-	
-	
+
+
 	// process according to the event type
 	var dataObject = el.__data__;
 	switch (action) {
@@ -554,12 +558,12 @@ RadialGraph_Visualization.prototype._generateCircles = function(animate) {
 	} else {
 		var circleGrp = d3.select(t[0][0]);
 	}
-		
+
 	var circles = circleGrp.selectAll('circle').data(this.data.circles.anipos);
 	circles.enter()
 		.append("circle")
 		.attr("transform",(function(d, i) { return "translate("+this.svg.center_x+","+this.svg.center_y+")"; }).bind(this));
-	
+
 	if (animate === true) {
 		circles.attr('r', function(d) {return String(d[1]);});
 	} else {
@@ -571,29 +575,29 @@ RadialGraph_Visualization.prototype._generateCircles = function(animate) {
 
 // ----------------------------------------------------------------------------
 RadialGraph_Visualization.prototype._generateNodes = function() {
-	
+
 	var data = d3.values(this.data.nodes);
 	var nodes = d3.select(this.svg.ref).selectAll(".radialVizNode")
 		.data(data)
 		.enter().append("svg:g")
-			.attr("class", "radialVizNode")
-			.attr("id", function(d) { return "node"+d.nid; })
-			.attr("transform",function(d,i) { return "translate("+(14*i)+","+(12*i)+")"; });
-			
+		.attr("class", "radialVizNode")
+		.attr("id", function(d) { return "node"+d.nid; })
+		.attr("transform",function(d,i) { return "translate("+(14*i)+","+(12*i)+")"; });
+
 	nodes.append("circle")
 		.attr("r", (function (d) {
-		    return (((d.pubs - this.data.ranges.nodes.pubs['min']) / (this.data.ranges.nodes.pubs['max'] - this.data.ranges.nodes.pubs['min'])) * 20); 
-        }).bind(this));
+			return (((d.pubs - this.data.ranges.nodes.pubs['min']) / (this.data.ranges.nodes.pubs['max'] - this.data.ranges.nodes.pubs['min'])) * 20);
+		}).bind(this));
 
 	nodes.append("rect")
 		.attr("x", "0")
 		.attr("y", "0")
 		.attr("height", "13")
 		.attr("width", "50");
-	
+
 	nodes.append("title")
-		.text(function(d) { return d.label; });		
-		
+		.text(function(d) { return d.label; });
+
 	nodes.append("text")
 		.attr("y",".3em")
 		.text(function(d) { return d.label; });
@@ -604,22 +608,22 @@ RadialGraph_Visualization.prototype._generateNodes = function() {
 		.attr("x", function() {return this.parentNode.childNodes[3].getBBox().x-4;} )
 		.attr("y", function() {return this.parentNode.childNodes[3].getBBox().y-4;} )
 		.attr("height", function() {return this.parentNode.childNodes[3].getBBox().height+6;} )
-		.attr("width", function() {return this.parentNode.childNodes[3].getBBox().width+10;} );		
+		.attr("width", function() {return this.parentNode.childNodes[3].getBBox().width+10;} );
 };
 // ----------------------------------------------------------------------------
 RadialGraph_Visualization.prototype._generateEdges = function() {
 	var data = d3.values(this.data.edges);
 	var edges = d3.select(this.svg.ref).append("svg:g")
-			.selectAll(".radialVizEdge")
-			.data(data)
-			.enter()
-				.append("line")
-				.attr("stroke-width", (function(d) { return Math.round(2*Math.log(d.n))+1; }).bind(this))
-				.attr("class", "radialVizEdge")
-				.attr("x1","0")
-				.attr("y1","0")
-				.attr("x2","0")
-				.attr("y2","0");
+		.selectAll(".radialVizEdge")
+		.data(data)
+		.enter()
+		.append("line")
+		.attr("stroke-width", (function(d) { return Math.round(2*Math.log(d.n))+1; }).bind(this))
+		.attr("class", "radialVizEdge")
+		.attr("x1","0")
+		.attr("y1","0")
+		.attr("x2","0")
+		.attr("y2","0");
 };
 // ----------------------------------------------------------------------------
 RadialGraph_Visualization.prototype.getDataRange = function(obj_name, attrib_name, recalc) {
@@ -660,8 +664,8 @@ RadialGraph_Visualization.prototype.getDataRange = function(obj_name, attrib_nam
 };
 // ----------------------------------------------------------------------------
 RadialGraph_Visualization.prototype.configCallback = function(callback_ref) {
-		console.debug(typeof callback_ref);
-		this.callback_func = callback_ref;
+	console.debug(typeof callback_ref);
+	this.callback_func = callback_ref;
 };
 RadialGraph_Visualization.prototype.configSetting = function(settingName, settingValue) {};
 RadialGraph_Visualization.prototype.plot = function(center_nid) {};

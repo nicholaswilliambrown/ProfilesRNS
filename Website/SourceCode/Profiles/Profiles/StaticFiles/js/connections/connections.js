@@ -1,20 +1,24 @@
 function emitConnectionTopStuff(params) {
-    target =        params.target;
-    displayName =   params.displayName;
-    name =          params.text1;
-    nameUrl =       params.url1;
-    name2 =         params.text2;
-    name2Url =      params.url2;
-    pid =           params.pid;
-    weight =        params.weight;
-    lhsBlurb =      params.lhsBlurb;
+    let target =        params.target;
+    let displayName =   params.displayName;
+    let name =          params.text1;
+    let nameUrl =       params.url1;
+    let name2 =         params.text2;
+    let name2Url =      params.url2;
+    let weight =        params.weight;
+    let lhsBlurb =      params.lhsBlurb;
+    let subtitle =      params.subtitle;
+    let backUrl =       params.backUrl;
+    let backLabel =     params.backLabel;
 
+    if (! weight) {
+        weight = gCommon.NA;
+    }
     gCommon.displayName = displayName;
 
-    let backUrl = gConnections.personDetailsUrlSchema.replace(gCommon.schemaPlaceholder, pid);
-
-    emitCommonTopOfLhs(target, `${name} to ${name2}`, 0,
-        backUrl, gConnections.details);
+    backLabel = backLabel ? backLabel : gConnections.details;
+    emitCommonTopOfLhs(target, `${subtitle}`, 0,
+        backUrl, backLabel, getPersonDisplayName());
 
     emitConnectionLhsBlurb(target, lhsBlurb);
 
@@ -60,7 +64,7 @@ function connectionMiddleColumn(strength) {
     return result;
 }
 function emitConnectionLhsBlurb(target, content) {
-    let blurbContent = $(`<div class="mb-1" id="blurbContent">${content}</div>`);
+    let blurbContent = $(`<div class="mb-1 mt-2" id="blurbContent">${content}</div>`);
 
     target.append(blurbContent);
 }

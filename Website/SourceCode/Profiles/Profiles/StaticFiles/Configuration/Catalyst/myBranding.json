@@ -3,10 +3,11 @@
 
   "homeUrl":"https://catalyst.harvard.edu",
 
-  "headerFooterCssUrl":"https://dev-hcat.pantheonsite.io/wp-content/themes/_curryint/assets/shared_assets/header_footer.css",
-  "headerFooterJsUrl":"https://dev-hcat.pantheonsite.io/wp-content/themes/_curryint/assets/shared_assets/sharedAssetsJS.js",
-  "headerUrl":"https://dev-hcat.pantheonsite.io/shared-asset/profiles-header",
-  "footerUrl":"https://dev-hcat.pantheonsite.io/shared-asset/tool-page-footer",
+  "headerFooterCssUrl":"https://catalyst.harvard.edu/wp-content/themes/_curryint/assets/shared_assets/header_footer.css",
+  "headerFooterJsUrl":"https://catalyst.harvard.edu/wp-content/themes/_curryint/assets/shared_assets/sharedAssetsJS.js",
+  "headerUrl":"https://catalyst.harvard.edu/shared-asset/profiles-header/",
+  "footerUrl":"https://catalyst.harvard.edu/shared-asset/tool-page-footer",
+
   "iconUrlBase":"https://dev-hcat.pantheonsite.io",
   "logoUrl": "https://catalyst.harvard.edu/wp-content/themes/_curryint/assets/img/tool-page-logo.png",
   "logoTitle": "View Harvard Catalyst Homepage",
@@ -16,10 +17,14 @@
   "tabTitleSuffix": " | Harvard Catalyst Profiles | Harvard Catalyst",
   "profilesTitle": "Harvard Catalyst Profiles",
 
+  "NB2": "mapProvider can be either 'google' or 'leaflet' -- leaflet does not require an account",
+  "mapProvider": "google",
+
   "help-howToContact": "Email us at <a href='mailto:contact@catalyst.harvard.edu'>contact@catalyst.harvard.edu</a>.",
   "help-whoIsListed": "Harvard Catalyst Profiles includes all faculty from Harvard Medical School, Harvard School of Dental Medicine, and Harvard School of Public Health. Listings in Harvard Catalyst Profiles are automatic and based on maintaining an active faculty appointment; removal occurs only upon termination or retirement from the faculty appointment.",
   "help-whoCanView": "This website is open to the general public. However, people with an HMS eCommons account or relevant HUID privileges can login for additional features, such as active networking, which is described above.",
   "help-howToEdit1": "To edit your profile, click the Edit My Profile link on the sidebar. You might be prompted to login with your HMS eCommons or Harvard PIN account. The Edit Menu page lists all the types of content that can be included on your profile. They are grouped into categories and listed in the same order as they appear when viewing your profile. Click any content type to view/edit the items or change the privacy settings. Some types of content are imported automatically from other systems, and you cannot edit them through Profiles. They appear with a \"locked\" icon and contain more information when you click them.",
+  "help-howToEdit15": "Your affiliation, title, mailing address, email address come from your Human Resources record.",
   "help-howToEdit2": "If you have questions about your Human Resources record, please contact:",
   "help-howToEdit3": "<ul><li>HMS/HSDM faculty - <a title=\"human_resources@hms.harvard.edu\" href='mailto:human_resources@hms.harvard.edu'>HMS Office of Human Resources (human_resources@hms.harvard.edu)</a></li><li>HSPH faculty - <a title=\"facultyaffairs@hsph.harvard.edu\" href='mailto:facultyaffairs@hsph.harvard.edu'>HSPH Faculty Affairs (facultyaffairs@hsph.harvard.edu)</a></li></ul>",
   "help-howToEdit4": "To view your profile as others see it, click the View My Profile link on the sidebar.",
@@ -33,7 +38,7 @@
   "aboutProfiles-profilesTitle": "Harvard Catalyst Profiles",
   "aboutProfiles-profilesInstitution": "Harvard",
 
-  "useOurData-sparqlContactUrl": "/display/38278",
+  "useOurData-sparqlContactUrl": "/Profiles/display/Person/32213",
   "useOurData-sparqlContactName": "Griffin Weber",
   "useOurData-xmlSearchUrl": "https://connects.catalyst.harvard.edu/API/Profiles/Public/Search",
   "useOurData-oldXmlSearchUrl": "https://connects.catalyst.harvard.edu/ProfilesAPI",

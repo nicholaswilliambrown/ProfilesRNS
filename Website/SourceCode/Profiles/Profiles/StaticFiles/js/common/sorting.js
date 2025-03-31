@@ -33,11 +33,13 @@ function reverseSortArrayByWeight(array) {
     return sortArrayViaSortLabel(array, "Weight", true);
 }
 function sortModules(personJson, compareFn) {
-    console.log("B4 rearrange", personJson);
+    let result = personJson;
 
-    let result = copyArray(personJson).sort(compareFn);
-
-    console.log("F2 rearrange", personJson);
+    // sort iff compareFn exists
+    if (compareFn) {
+        result = copyArray(personJson).sort(compareFn);
+    }
+    console.log("F2 rearrange", result);
     return result;
 }
 // for firefox compatibility -- it doesn't support toSorted()
@@ -55,7 +57,8 @@ function exploreModuleInfo(moduleTitle) {
     let sort = 5000; // big number
     let blurb = "need blurb";
 
-    switch (moduleTitle.replace("Person.", "")) {
+    let title = moduleTitle.replace("Person.", "");
+    switch (title) {
         case "Concept":
             sort = 10;
             blurb = "Derived automatically from this person's publications.";
@@ -68,14 +71,17 @@ function exploreModuleInfo(moduleTitle) {
             sort = 30;
             blurb = "People who share similar concepts with this person.";
             break;
-        case "SameDepartment":
+        case "SameDepartment.Top5":
             sort = 40;
             blurb = "People in same department with this person.";
             break;
-        case "PhysicalNeighbors":
+        case "PhysicalNeighbour.Top5":
             sort = 50;
             blurb = "People whose addresses are nearby this person.";
             break;
+        default:
+            sort = 1000;
+            blurb = "Unknown module: " + title;
     }
 
     return {

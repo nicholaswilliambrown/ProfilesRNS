@@ -1,3 +1,4 @@
+
 const SimilarsTab = Object.freeze({
     List: Symbol("List"),
     Map: Symbol("Map"),
@@ -5,37 +6,40 @@ const SimilarsTab = Object.freeze({
 });
 
 async function setupSimilars() {
-    let [jsonArray, lhsModules, rhsModules] = await commonSetupWithJson(compareLhsModules);
-    setupScrolling();
+    let [jsonArray, lhsModules, rhsModules] = await commonSetupWithJson();
+    setupScrolling(null, true);
 
-    mainParse(jsonArray, lhsModules, rhsModules);
+    setupExploreNetworks(rhsModules);
+    await mainParse(jsonArray, lhsModules, rhsModules);
 }
 function mainParse(moduleJson, lhsModules, rhsModules) {
-    rememberArraySizeOfJsonModule(moduleJson, "SimilarPeople.Connection", gSimilars.similarsKey); // if in Json remember how many
-
-    let whatAreSimilarsDiv = $('<div class="mb-3" id="whatAreSimilars">' +
-        'Similar people share similar sets of concepts, but are not necessarily co-authors.</div>');
-
-    emitTopOfLhsAndExplores({
+    emitTopAndTabs({
         numThingsKey:   gSimilars.similarsKey,
-        descriptionDiv: whatAreSimilarsDiv,
+        description:    'Similar people share similar sets of concepts, but are not necessarily co-authors.',
         thingsLabel:    "Similar People",
         thingTabs:      gSimilars.similarsTabs,
-        adjustTabs:     adjustActiveSimilarsTab,
-        rhsModules:     rhsModules  });
+        harvestTabSyms:  harvestSimilarsTabInfoFromUrl,
+        target:         createOrGetTopLhsDiv()  });
+
+    let topLhsDiv = $('#topLhsDiv');
+    innerCurtainsDown(topLhsDiv);
+
+    rememberArraySizeOfJsonModule(moduleJson, "SimilarPeople.Connection", gSimilars.similarsKey); // if in Json remember how many
 
     // expecting exactly one lhs module
     let lhsModuleJson = lhsModules[0];
     let data = lhsModuleJson.ModuleData;
 
     let target = $('#topLhsDiv');
+    adjustActiveSimilarsTab();
+
     let result;
     switch (gSimilars.whichTabSym) {
         case SimilarsTab.List:
             result = similarsListParser(data);
             break;
         case SimilarsTab.Map:
-            result = mapParse(data, false, 'similar people');
+            result = mapParse(data, 'similar people');
             break;
         case SimilarsTab.Details:
             result = similarsDetailsParser(data);
@@ -43,6 +47,23 @@ function mainParse(moduleJson, lhsModules, rhsModules) {
     }
 
     target.append(result);
+
+    innerCurtainsUp(topLhsDiv);
+}
+function harvestSimilarsTabInfoFromUrl() {
+    let myUrl = window.location.href;
+
+    if (myUrl.match(/similarTo(\/list)?(#.*)?$/i)) { // #.* handles post-scroll-top
+        gSimilars.whichTabSym = SimilarsTab.List;
+    }
+    else if (myUrl.match(/similarTo.map/i)) {
+        gSimilars.whichTabSym = SimilarsTab.Map;
+    }
+    else if (myUrl.match(/similarTo.details/i)) {
+        gSimilars.whichTabSym = SimilarsTab.Details;
+    }
+
+    toSession(gSimilars.whichTabKey, {url: myUrl, label: gSimilars.whichTabSym.description});
 }
 function adjustActiveSimilarsTab() {
     let myUrl = window.location.href;
@@ -61,15 +82,12 @@ function adjustActiveSimilarsTab() {
 
     if (myUrl.match(/similarTo(\/list)?(#.*)?$/i)) { // #.* handles post-scroll-top
         gSimilars.whichTabDiv = toList;
-        gSimilars.whichTabSym = SimilarsTab.List;
     }
     else if (myUrl.match(/similarTo.map/i)) {
         gSimilars.whichTabDiv = toMap;
-        gSimilars.whichTabSym = SimilarsTab.Map;
     }
     else if (myUrl.match(/similarTo.details/i)) {
         gSimilars.whichTabDiv = toDetails;
-        gSimilars.whichTabSym = SimilarsTab.Details;
     }
 
     gSimilars.whichTabDiv.addClass("active");

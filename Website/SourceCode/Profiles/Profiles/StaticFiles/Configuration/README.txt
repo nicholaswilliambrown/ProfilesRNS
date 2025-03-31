@@ -16,15 +16,11 @@ in the code (brandingUtil.js, aboutAndHelp.js, etc.) that customizes webpages.
 
 In your version of myBranding.js, you may supply your own implementation of
     setupHeadIncludesAndTabTitle()
-    emitBrandingHeader()
+    emitBrandingHeader(targetId)
     emitBrandingFooter()
 
 and perhaps
     emitPreFooter()
 
 You might also supply other files (e.g., images) that your *.js can reference.
-
-You can run the Bash script, checkFolder.bash to compare the json, js and css files
-in this folder with the corresponding ones in a sub-folder. Initially, there should
-be no difference between these files and the corresponding OpenSource files.
 

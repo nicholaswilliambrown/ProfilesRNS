@@ -1,14 +1,16 @@
 
 /******** cluster ********/
 #divClusterGraph {
-    margin-top:16px;
-    width:100%
+    margin-top: 16px;
+    width: 100%
 }
+
 #dcgIntro {
     font-size: 12px;
     line-height: 16px;
     border-bottom: 1px dotted #999;
 }
+
 #dcgName {
     margin-top: 8px;
     font-weight: bold;
@@ -17,64 +19,87 @@
     width: 100%;
     height: 20px;
     text-align: center;
- }
+}
+
 #divSwfScript.clusterView {
     position: relative;
 }
+
 #dcgDirections {
     border-top: 1px dotted #999;
     text-align: left;
 }
-#dcgDirections span {
-    font-weight: bold;
-    color: #666;
-}
+
+    #dcgDirections span {
+        font-weight: bold;
+        color: #666;
+    }
+
 #person_name {
     text-align: left;
 }
+
 #whoAreCoauths {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 18px;
 }
+
 .cgVerbiage {
     font-size: 12px;
     line-height: 16px;
     font-font: arial, sans-serif;
 }
+
 .cgText {
     margin-top: 10px;
 }
+
 .cgGraph {
     margin-top: 10px;
 }
-.cgGraph.clusterView {
-    min-width: 700px;
-    width: max-content;
-}
+
+    .cgGraph.clusterView {
+        min-width: 700px;
+        width: max-content;
+    }
+
 .mlMuch {
     margin-left: 320px !important;
 }
+
+#radial_view {
+    /* width: 100%;
+    height: 100%;
+    visibility: hidden;*/
+}
+
 /*** from radial/cluster inline styles ***/
 #radialViewDiv {
-    height: 100%;
+    position: relative;
+    height: 0;
     width: 100%;
+    padding: 0;
+    padding-bottom: 100%;
 }
-#radialViewDiv svg {
-    height: 100%;
-    width: 100%;
-}
-#radial_view {
-    visibility: hidden;
-}
+
+    #radialViewDiv svg {
+        position: absolute;     
+        left: 0;
+        top: 0;
+       
+    }
+
 #viz_sliders0 {
     margin: 0 auto;
 }
+
 #viz_sliders1 {
     margin-top: 15px
 }
+
 #viz_sliders {
     margin-left: 5px;
 }
+
 #graph_info0 {
     margin-top: 8px;
     font-weight: bold;
@@ -83,12 +108,14 @@
     height: 20px;
     text-align: center;
 }
+
 #above_graph_info {
     width: 100%;
     font-size: 12px;
     line-height: 16px;
     border-bottom: 1px dotted #999;
 }
+
 .radialSliderHeader {
     text-align: left;
     line-height: 12px;
@@ -96,8 +123,16 @@
     padding-top: 0px;
     font-size: 11px;
 }
-#radial_view {
-    width: 100%;
-    height: 100%;
+
+
+
+#fourListsRow a,
+#twoListsRow a {
+    color: #3366cc !important;
+    text-decoration: none !important;
+    margin-top: 16px !important;
 }
 
+#footer-push-down {
+    /*height: 350px !important*/
+}

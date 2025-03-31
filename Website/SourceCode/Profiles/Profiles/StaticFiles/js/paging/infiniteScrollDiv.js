@@ -48,7 +48,7 @@ InfiniteScrollDiv.prototype.getAndEmitData = async function(that) {
         let items = await that.getMoreFn();
         that.unSayMore(that);
 
-        if (items.constructor === Array && items.length > 0) {
+        if (isArray(items) && items.length > 0) {
             that.emitRowsFn(items, that.div);
         }
         else {

@@ -1,19 +1,25 @@
+
 async function setupSearchForm() {
-    await setupPageStub(searchBodyStructure);
 
     let data = await getJsonData(gSearch.searchFormParamsUrl);
     gSearch.formData = data;
     console.log("========> formData", data);
 
+    await setupPageStub(searchBodyStructure);
+    setTabTitleAndOrFavicon(`Search`);
+
     let mainDiv = $('#mainDiv');
     mainDiv.addClass(gCommon.mainDivClasses);
-    moveContentByIdTo("mainRow", mainDiv);
+    moveContentByIdTo("searchPageMarkup", mainDiv);
+
+    let searchPageMarkup = $('#searchPageMarkup');
+    innerCurtainsDown(searchPageMarkup);
 
     setupRightAndLeftSides();
 
     // now mid-section
     gSearch.midSectionColspecs = [
-        newColumnSpec(`${gCommon.cols3or12} d-flex justify-content-end pt-1 bold`),
+        newColumnSpec(`${gCommon.cols3or12} d-flex justify-content-end pt-1 searchLabel`),
         newColumnSpec(`${gCommon.cols5or12} d-flex justify-content-start`),
         newColumnSpec(`${gCommon.cols4or12} d-flex justify-content-start `)
     ];
@@ -24,15 +30,21 @@ async function setupSearchForm() {
     respectPriorCriteria(gSearch.people);
     respectPriorCriteria(gSearch.allElse);
 
-    let searchType = tryMatchUrlParam(`(${gSearch.allElse})`) ? gSearch.allElse : gSearch.people;
+    let searchType = tryMatchPathParam(`(/${gSearch.allElse})$`) ? gSearch.allElse : gSearch.people;
     console.log("searchTab: ", searchType);
     $(`#${searchType}-tab`).click();
+   
+    $("#allSearchButton").on('click', function () { $("#mainDiv").css("cursor", "progress"); });
+    $("#peopleSearchButton").on('click', function () {
+        $("#mainDiv").css("cursor", "progress");
+    });
+    $("#allElseSearchButton").on('click', function () { $("#mainDiv").css("cursor", "progress"); });
+
+    innerCurtainsUp(searchPageMarkup);
 }
 function respectPriorCriteria(prefix) {
     let priorResultsKey = makeSearchResultsKey(prefix);
     let priorResults = JSON.parse(fromSession(priorResultsKey));
-    console.log('session key: ', priorResultsKey);
-    console.log('Criteria: ', prefix, priorResults);
     if (priorResults && priorResults.SearchQuery) { // bullet-proofing, in case results were json error}
         let searchInput = priorResults.SearchQuery.Keyword;
         let exactCheckbox = priorResults.SearchQuery.KeywordExact;
@@ -69,7 +81,7 @@ function respectPriorCriteria(prefix) {
 function pushForRestore(candidate, target) {
     if (candidate) {
         // https://stackoverflow.com/questions/4059147/check-if-a-variable-is-a-string-in-javascript
-        if (candidate.constructor === Array) {
+        if (isArray(candidate)) {
             target.push(...candidate);
         }
         // https://stackoverflow.com/questions/767486/how-do-i-check-if-a-variable-is-an-array-in-javascript
@@ -95,9 +107,7 @@ function restoreCheck(targetId, checked) {
         $(`#${targetId}`).click();
     }
 }
-function emitMoreUpdatesLink() {
-    let target = gSearch.lhsDiv;
-
+function emitMoreUpdatesLink(target) {
     let anchor = createAnchorElement(`<img src="${gBrandingConstants.jsSearchImageFiles}icon_squareArrow.gif"/> See more updates`,
         gSearch.moreUpdatesUrl);
 
@@ -114,32 +124,37 @@ function setupRightAndLeftSides() {
     let mostTodayStr = 'MostViewedDay';
     let mostMonthStr = 'MostViewedMonth'
     gSearch.rhsDiv.addClass("t30s"); // but not added in corresponding results page
-    gSearch.rhsDiv.append($(`<div id="${mostTodayStr}" class="bold mb-2">Most viewed (today)</div>`));
+    gSearch.rhsDiv.append($(`<div id="${mostTodayStr}" class="bold mb-2 searchPassivePanel">Most viewed (today)</div>`));
     gSearch.rhsDiv.append($(`<hr class="tightHr"/>`));
-    gSearch.rhsDiv.append($(`<div id="${mostMonthStr}" class="bold mt-2">Most viewed (month)</div>`));
+    gSearch.rhsDiv.append($(`<div id="${mostMonthStr}" class="bold mt-2 searchPassivePanel">Most viewed (month)</div>`));
 
     emitMosts(mostTodayStr);
     emitMosts(mostMonthStr);
 }
 function emitMosts(whichMost) {
-    if (gSearch.formData[whichMost]) {
-        let data = sortArrayViaSortLabel(gSearch.formData[whichMost], 'NumberOfQueries', true);
-        let target = $(`#${whichMost}`);
+    if (gSearch.formData) { // bullet-proofing
+        if (gSearch.formData[whichMost]) {
+            let data = sortArrayViaSortLabel(gSearch.formData[whichMost], 'NumberOfQueries', true);
+            let target = $(`#${whichMost}`);
 
-        for (let i = 0; i < data.length; i++) {
-            let item = data[i];
-            let nameUrl = $(`<a href="#" class="link-ish unbold">${item.Phrase}</a>`);
-
-            let div = $('<div class="mt-1"></div>');
-            div.append(nameUrl);
-            target.append(div);
+            for (let i = 0; i < data.length; i++) {
+                let item = data[i];
+                let searchTerm = item.Phrase;
+                let nameSpan = $(`<span class="link-ish unbold">${searchTerm}</span>`);
+                nameSpan.on('click', function () {
+                    minimalPeopleSearchByTerm(searchTerm);
+                })
+                let div = $('<div class="mt-1"></div>');
+                div.append(nameSpan);
+                target.append(div);
+            }
         }
     }
 }
 function setupSearchSubmitAndNameSections() {
     setupOneSearchSubmitSection(
         gSearch.people,
-        "Research Topics",
+        "<span class='researchTopics'>Research Topics</span>",
         'Find People by Research Topic or Name',
         searchPeopleFn);
 
@@ -149,13 +164,7 @@ function setupSearchSubmitAndNameSections() {
         'Find Publications, Projects, Concepts and More',
         searchEverythingFn);
 }
-function collectKeywordSelections(searchInput, exactCheckbox) {
-    let selections = {};
-    selections.Keyword = searchInput.val();
-    selections.KeywordExact = exactCheckbox.is(':checked');
 
-    return selections;
-}
 function collectNames(lnameInput, fnameInput, selections) {
     selections.LastName = lnameInput.val();
     selections.FirstName = fnameInput.val();
@@ -175,22 +184,7 @@ function searchPeopleFn(searchInput, exactCheckbox, lnameInput, fnameInput) {
         selections,
         g.profilesPath + "/search/?PersonResults");
 }
-function searchEverythingFn(searchInput, exactCheckbox) {
-    let selections = collectKeywordSelections(searchInput, exactCheckbox);
 
-    selections.SearchType = gSearch.allElse;
-
-    // new search starts with 'All' filter
-    addUpdateSearchQuery(selections, gSearch.currentFilterKey, gSearch.allFilterLabel);
-    initializePagingValues(selections, gPage.defaultPageSize, 1);
-
-    //alert(`Json (from everything tab): ${JSON.stringify(selections)}`);
-    searchPost(
-        gSearch.findEverythingElseUrl,
-        gSearch.allElse,
-        selections,
-        g.profilesPath + "/search/?EverythingResults");
-}
 function setupOneSearchSubmitSection(idPrefix, label, title, searchFn) {
     let outerTarget = $(`#${idPrefix}`);
     let boxTarget = $(`#${idPrefix}Box`);
@@ -205,7 +199,7 @@ function setupOneSearchSubmitSection(idPrefix, label, title, searchFn) {
     let searchButton = $(`<img id="${idPrefix}SearchButton" src="${gBrandingConstants.jsSearchImageFiles}search.jpg" alt="Search">`);
     let exactCheckbox = $(`<input id="${idPrefix}ExactCheckbox" type="checkbox" aria-label="Exact match"/>`);
     // separate label for checkbox, so only precise clicks on box have effect
-    let checkboxLabel = $(`<label class="ms-2"> Search for exact phrase</label>`);
+    let checkboxLabel = $(`<label class="ms-2 searchExactLabel"> Search for <b>exact</b> phrase</label>`);
 
     let checkboxSpan = $('<span></span>');
     checkboxSpan.append(exactCheckbox);

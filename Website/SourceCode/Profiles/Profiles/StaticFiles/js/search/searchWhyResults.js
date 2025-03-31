@@ -3,28 +3,40 @@ async function setupSearchWhyResults() {
     let resultsAsString = fromSession(makeSearchResultsKey(gSearch.whyPrefix));
     let results = JSON.parse(resultsAsString);
     gSearch.searchWhyResults = results;
+   
     console.log('Results: ', results);
 
     await setupPageStub(searchResultsBodyStructure);
+    setTabTitleAndOrFavicon("Connection");
     setupScrolling();
 
     let mainDiv = $('#mainDiv');
+    innerCurtainsDown(mainDiv);
+
     mainDiv.addClass(gCommon.mainDivClasses);
-    moveContentByIdTo("mainRow", mainDiv);
+    moveContentByIdTo("searchPageMarkup", mainDiv);
 
     emitCriteriaOnRhs(results, false);
 
-    let returnUrl = results.SearchQuery.SearchType == gSearch.people ? 'searchPeopleResults.html' :
-        'searchAllElseResults.html'
-    emitSearchResultCountAndBackTo(results, returnUrl, 'Back to Search Results');
+    let returnUrl = results.SearchQuery.SearchType == gSearch.people ?
+        gSearch.peopleResultsUrl :
+        gSearch.everythingElseResultsUrl;
 
     let target = $('#resultsDiv');
     target.empty();
+
+    emitTitle(target, 'Search Results Details');
+    emitLinkTo(target,
+        'Back to Search Results',
+        returnUrl,
+        true);
 
     emitGraphicAndItsHeader(results, target, returnUrl);
 
     emitWhyDirectResults(results, target);
     emitWhyIndirectResults(results, target);
+
+    innerCurtainsUp(mainDiv);
 }
 function emitGraphicAndItsHeader(results, target, returnUrl) {
     let header = $(`<div>This page shows the details of why an item matched 
@@ -37,7 +49,7 @@ function emitGraphicAndItsHeader(results, target, returnUrl) {
         newColumnSpec(` p-1 d-flex justify-content-start ${gCommon.cols2or12}`)
     ];
     let rowId = `whyResultsGraphic`;
-    let row = makeRowWithColumns(target, rowId, colspecs, "borderOneSolid mt-2");
+    let row = makeRowWithColumns(target, rowId, colspecs, "borderOneSolid mt-2 connectionBox");
 
     let resultsAnchor = createAnchorElement('Search Results', returnUrl);
     row.find(`#${rowId}Col0`).append(resultsAnchor);
@@ -51,7 +63,7 @@ function emitWhyDirectResults(results, target) {
 
     let matches = results.Connections.DirectMatchList;
     if (matches
-        && matches.constructor === Array
+        && isArray(matches)
         && matches.length > 0) {
 
         emitResultsIntro(
@@ -72,7 +84,7 @@ function emitWhyIndirectResults(results, target) {
 
     let matches = results.Connections.IndirectMatchList;
     if (matches
-        && matches.constructor === Array
+        && isArray(matches)
         && matches.length > 0) {
 
         emitResultsIntro(

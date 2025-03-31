@@ -62,7 +62,7 @@ function adjustedSelections(dropdownPrefix, list) {
 function setupDropdowns() {
 
     let peoplePaneBox = $(`#${gSearch.people}Box`);
-    peoplePaneBox.append($('<div class="separator ms-4 me-4 mb-2"><span class="ms-1 me-1"> and / or </span></div>'));
+    
     peoplePaneBox.on('click', hideLiItems);
 
     let selectDataLists = prepareDropdownData(gSearch.formData);
@@ -101,7 +101,7 @@ function setupDropdowns() {
         let dropdownColumnCheckbox = row.find(`#${rowId}Col2`);
 
         dropdownColumnLabel.addClass("pt-1"); // tweak vertical
-        dropdownColumnCheckbox.addClass("pt-2"); // tweak vertical
+        dropdownColumnCheckbox.addClass("pt-2 dropdownCheckbox"); // tweak vertical
 
         moveContentTo(ulDiv, dropdownColumnOptions);
         dropdownColumnLabel.html(data.label);
@@ -113,6 +113,12 @@ function setupDropdowns() {
             e.stopPropagation();
             $(`.li-item:not(.${dropdownPrefix})`).hide();
             $(`.li-item.${dropdownPrefix}`).toggle();
+
+            if ( ! $(`.li-item.${dropdownPrefix}`).is(':visible')) {
+                setTimeout(function() {
+                    $('.ulDiv').show();
+                }, 10);
+            }
         })
 
         // if no multi-checkboxes, then there are all-except checkboxes
@@ -185,6 +191,7 @@ function setupDropdowns() {
         }
     }
     hideLiItems();
+    dropdownVisibilityAdjustToOverlaps();
 }
 function showSearchFilterSelections(dropdownPrefix) {
     let displayProperty = gSearch[dropdownPrefix].displayProperty;

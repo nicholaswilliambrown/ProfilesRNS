@@ -4,3 +4,6 @@
     border-bottom: #b23f45 8px solid;
     padding: 25px 50px;
 }
+#brandingBanner {
+    height: 99px !important;
+}

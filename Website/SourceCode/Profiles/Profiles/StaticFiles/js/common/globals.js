@@ -1,4 +1,3 @@
-//let g = {}; // used for initial data from back-end
 
 const PubsSortOption = Object.freeze({
     Newest: Symbol("Newest"),
@@ -6,8 +5,14 @@ const PubsSortOption = Object.freeze({
     MostCited: Symbol("MostCited"),
     MostDiscussed: Symbol("MostDiscussed")
 });
+const PubsLimitedSortParam = Object.freeze({
+    Oldest: Symbol("pubsOldest"),
+    MostCited: Symbol("pubsCited"),
+    MostDiscussed: Symbol("pubsDiscussed"),
+    All: Symbol("pubsAll")
+});
 const PubsLimitOption = Object.freeze({
-    Limit: 25,
+    Limit: Symbol("Limit"),
     All: Symbol("All")
 });
 const AccordionNestingOption = Object.freeze({
@@ -20,8 +25,8 @@ let gCommon = {};
 gCommon.historyKey = 'profilesNavHistory';
 gCommon.undefined = 'undefined';
 
-gCommon.loggedIn = null; // falsy val returned by tryForLoggedIn()
-gCommon.numPersons = 0;
+gCommon.loggedIn = null;
+gCommon.numPersons = sessionInfo.listSize;
 
 gCommon.NA = "N/A";
 gCommon.monthNames = [
@@ -30,7 +35,7 @@ gCommon.monthNames = [
 ];
 gCommon.scrollTime = 500;
 
-gCommon.anchorLinksDivSpacing = 'pt-1 pe-2 pb-1 ps-2 ms-2';
+gCommon.anchorLinksDivSpacing = 'pt-1 pe-2 pb-1 ps-2 ms-2 mb-2';
 
 gCommon.showXsHideOthers = "d-block d-sm-none d-md-none d-lg-none d-xl-none d-xxl-none";
 gCommon.hideXsShowOthers = "d-none d-sm-block d-md-block d-lg-block d-xl-block d-xxl-block";
@@ -55,6 +60,7 @@ gCommon.cols8 = " col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8 col-xxl-8 ";
 gCommon.cols9 = " col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9 col-xxl-9 ";
 gCommon.cols10 = " col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10 col-xxl-10 ";
 gCommon.cols12 = " col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12 ";
+gCommon.cols12or12 = gCommon.cols12;
 
 gCommon.cols2or6 = " col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 col-xxl-2 ";
 gCommon.cols5or6 = " col-6 col-sm-6 col-md-5 col-lg-5 col-xl-5 col-xxl-5 ";
@@ -80,31 +86,44 @@ gCommon.bsMarginVarying = "ms-1 ms-sm-1 ms-md-0 ms-lg-3 ms-xl-0 ms-xxl-0";
 gCommon.bsMarginsPaddingIncreasing = `ms-0 ms-sm-0 ms-md-2 ms-lg-2 ms-xl-4 ms-xxl-4
                         ps-0 ps-sm-0 ps-md-2 ps-lg-2 ps-xl-4 ps-xxl-4`;
 
-
-gCommon.personThumbnailSchema = "/profile/Modules/CustomViewPersonGeneralInfo/PhotoHandler.ashx?NodeID=%%FOO%%&Thumbnail=True&Width=45";
-gCommon.personEmailToImageUrlPrefix = `../../Profile/Modules/CustomViewPersonGeneralInfo/EmailHandler.ashx?msg=`;
+gCommon.personThumbnailSchema = `${g.profilesRootURL}/profile/Modules/CustomViewPersonGeneralInfo/PhotoHandler.ashx?NodeID=%%FOO%%&Thumbnail=True&Width=45`;
+gCommon.personEmailToImageUrlPrefix = `${g.profilesRootURL}/Profile/Modules/CustomViewPersonGeneralInfo/EmailHandler.ashx?msg=`;
 gCommon.personOrcidUrlPrefix = "https://orcid.org/";
 
 function setupBrandingDependentVals() {
-    gCommon.helpUrl = `${gBrandingConstants.htmlFiles}help.html`;
-    gCommon.overviewAUrl = `${gBrandingConstants.htmlFiles}aboutProfiles.html`;
-    gCommon.openSourceSoftwareAUrl = `${gBrandingConstants.htmlFiles}aboutOpenSource.html`;
-    gCommon.useOurDataAUrl = `${gBrandingConstants.htmlFiles}useOurData.html`;
+    gCommon.helpUrl = `${g.profilesRootURL}/about/default.aspx?type=Help`;
+    gCommon.overviewAUrl = `${g.profilesRootURL}/about/default.aspx?type=About`;
+    gCommon.openSourceSoftwareAUrl = `${g.profilesRootURL}/about/default.aspx?type=OpenSourceSoftware`;
+    gCommon.useOurDataAUrl = `${g.profilesRootURL}/about/default.aspx?type=UseOurData`;
 
-    gSearch.searchFormUrl =        `${gBrandingConstants.htmlFiles}searchForm.html`;
-    gSearch.searchFormPeopleUrl =      `${gSearch.searchFormUrl}?${gSearch.people}`;
-    gSearch.searchFormAllElseUrl =     `${gSearch.searchFormUrl}?${gSearch.allElse}`;
+    gSearch.searchFormUrl = `${g.profilesRootURL}/search/`;
+    gSearch.searchFormPeopleUrl =      `${gSearch.searchFormUrl}`;
+    gSearch.searchFormAllElseUrl =     `${gSearch.searchFormUrl}/all`;
 
-    gSearch.moreUpdatesUrl =        `${gBrandingConstants.htmlFiles}activityDetails.html`;
+    gSearch.moreUpdatesUrl =        `${g.profilesPath}/Activity/Modules/ActivityHistory/ActivityDetails.aspx`;
 
     gAbout.griffinUrl = `${gBrandingConstants.staticRoot}display/Person/32213`;
     gAbout.licenseUrl = `${gBrandingConstants.staticRoot}LICENSE.txt`;
+
+    // possibly override default of google-maps
+    if (gBrandingConstants.mapProvider) {
+        let lcProvider = gBrandingConstants.mapProvider.toLowerCase();
+        if (g.mapProviderOptions[lcProvider]) {
+            g.mapProvider = g.mapProviderOptions[lcProvider];
+        }
+    }
 }
+g.mapProviderOptions = {google: "google", leaflet: "leaflet"};
+g.mapProvider = g.mapProviderOptions.google;
 
-gCommon.loginUrl = `/login/index?sessionid=6ef03c16-e8db-429a-93f8-e2881153901a`;
-gCommon.seeAllPagesAUrl = `/history`;
-gCommon.logoutUrl = `/logout.aspx`;
-
+gCommon.loginUrl = '/../profiles/login/index?sessionid=';
+gCommon.seeAllPagesAUrl = `${g.profilesPath}/history`;
+gCommon.logoutUrl = '/../profiles/logout.aspx';
+gCommon.editMyProfileUrl = '/../profiles/edit/default.aspx?subject=';
+gCommon.viewMyListUrl = '/../profiles/lists/default.aspx';
+gCommon.dashboardUrl = '/../profiles/dashboard/default.aspx?subject='
+gCommon.manageProxiesUrl = '/../profiles/proxy/default.aspx';
+gCommon.opportunitySearch = '/../profiles/studentopportunities/index';
 gCommon.schemaPlaceholder = "%%FOO%%";
 gCommon.schemaPlaceholder2 = "%%FOO2%%";
 
@@ -166,36 +185,50 @@ gPerson.plain.shortNumOfAuthors = 2;
 gPerson.plain.old = "old";
 gPerson.plain.new = "new";
 
-gPerson.cachedParentDiv = {};
+gPerson.outerTargetCache = {};
+gPerson.innerTargetCache = {};
+gPerson.fleshySkeleton = new Map();
+gPerson.MAIN = "MAIN";
+gPerson.RHS = "RHS";
+gCommon.tentative = "tentative";
+
 gPerson.maxAltMetricScoreTries = 5;
 
 gPerson.researcherNumRecent = 5;
 gPerson.researcherUseRecent = true;
+
+gPerson.supportHowMsg = "How to update my information?";
+
 ///////////////////////////////////////
 let gConnections = {};
-gConnections.conceptDetailsUrlSchema = "/display/Person/%%FOO%%/Network/ResearchAreas/details"
-gConnections.personDetailsUrlSchema = "/display/Person/%%FOO%%/Network/SimilarTo/details"
 gConnections.details = "Details";
-
 gConnections.pubMedUrlSchema = "https://www.ncbi.nlm.nih.gov/pubmed/%%FOO%%";
 
 let gCoauthor = {};
+gCoauthor.whichTabKey = "whichCoauthTab";
 gCoauthor.coAuthsKey = "numCoauths";
 gCoauthor.coauthorsWithDash = 'Co-Authors'
 
 let gSearch = {};
+let gGroup = {};
+gGroup.membersListUpperLimit = 20;
+gGroup.maxBeforeColumnSplit = 20;
 
 gSearch.people = 'people';
-gSearch.allElse = 'allElse';
+gSearch.allElse = 'all';
 gSearch.whyPrefix = 'why';
 
 gSearch.searchFormParamsUrl = `${g.searchApiPath}?SearchType=params`;
 
-
+gSearch.searchForm = `${g.profilesRootURL}/search`;
+gSearch.otherInstitutions = `${g.profilesRootURL}/direct/default.aspx?searchtype=people`;
 gSearch.findPeopleUrl = `${g.searchApiPath}?SearchType=person`;
 gSearch.findEverythingElseUrl = `${g.searchApiPath}?SearchType=everything`;
 gSearch.whyUrl = `${g.searchApiPath}?SearchType=why`;
 gSearch.activityDetailsUrl = `${g.activityApiPath}?count=%%FOO%%&lastActivityLogID=%%FOO2%%`;
+
+gSearch.peopleResultsUrl = `${g.profilesPath}/search/?PersonResults`;
+gSearch.everythingElseResultsUrl = `${g.profilesPath}/search/?EverythingResults`;
 
 gSearch.selectedSt = " selected";
 gSearch.noneSt = "None";
@@ -243,10 +276,16 @@ gPage.sizes = [15, 25, 50, 100];
 gPage.defaultPageSize = gPage.sizes[0];
 
 gAbout = {};
-gAbout.rnsUrl = '/';
+gAbout.rnsUrl = 'http://profiles.catalyst.harvard.edu/';
 
 gConcepts.meshSiteUrl = 'http://www.nlm.nih.gov/mesh/';
 gConcepts.meshSiteText = 'MeSH (Medical Subject Headings)';
+
+let gPreloadable = {};
+gPreloadable.main = "MAIN";
+gPreloadable.rhs = "RHS";
+gPreloadable.none = "NONE";
+
 
 
 

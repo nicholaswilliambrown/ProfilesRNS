@@ -1,5 +1,10 @@
 
 async function setupSearchAllElseResults() {
+    await setupPageStub(searchResultsBodyStructure);
+
+    let specificContent = $('#searchPageMarkup');
+    innerCurtainsDown(specificContent);
+
     let pagination = new Paging(
         redoAllElseSearch,
         gSearch.findEverythingElseUrl,
@@ -9,31 +14,38 @@ async function setupSearchAllElseResults() {
     let resultsAsString = fromSession(makeSearchResultsKey(gSearch.allElse));
     let results = JSON.parse(resultsAsString);
 
-    if (! results || ! results.SearchQuery) { // sanity check
+    if (!results || !results.SearchQuery) { // sanity check
         alert(`Error with search results: ${resultsAsString}`);
     }
-    console.log('Results: ', results);
 
-    await setupPageStub(searchResultsBodyStructure);
+
+    console.log('Results: ', results);
 
     let mainDiv = $('#mainDiv');
     mainDiv.addClass(gCommon.mainDivClasses);
-    moveContentByIdTo("mainRow", mainDiv);
+    moveContentByIdTo("searchPageMarkup", mainDiv);
 
     let count = getAllElseResultsCount(results);
 
-    emitSearchResultCountAndBackTo(
+    emitSearchResultCountAndRelatedLinks(
         results,
-        `searchForm.html?${gSearch.allElse}`,
+        `${gSearch.searchForm}/${gSearch.allElse}`,
         'Modify Search',
-        count);
-    emitAllElseRhs(results, pagination);
+        count,
+        'resultsDiv');
+    if (count == 0) {
+        $("#midDivInner").html("<div id='resultsDiv'></div>");
+        $('#resultsDiv').html("<b>No matching results.</b>");
+    } else {
+        emitAllElseRhs(results, pagination);
 
-    emitResults(results);
+        await emitResults(results);
 
-    pagination.emitPagingRow($('#resultsDiv'),
-        "pt-1 ms-1 me-1 borderOneSolid",
-        results);
+        pagination.emitPagingRow($('#resultsDiv'),
+            "pt-1 ms-1 me-1 borderOneSolid tableHeaderPagingRow",
+            results);
+    }
+    innerCurtainsUp(specificContent);
 }
 function getAllElseResultsCount(results) {
     let filters = results.Filters;
@@ -61,7 +73,11 @@ function emitAllElseRhs(results, pagination) {
     target.append(titleDiv);
     titleDiv.append(spanify('Search Criteria', 'bold mb-4'));
 
-    addIfPresent(results.SearchQuery.Keyword, target);
+    addIfPresent({
+        text: results.SearchQuery.Keyword,
+        target: target,
+        noBreak: 'noBreak'
+    });
 
     target.append($('<hr class="tightHr"/>'));
 
@@ -70,7 +86,7 @@ function emitAllElseRhs(results, pagination) {
     target.append($('<hr class="tightHr"/>'));
 
     divSpanifyTo('Click "Why?" to see why a person matched the search.',
-                        target, 'fs12');
+        target, 'fs12');
 }
 function showAllElseFilters(target, results) {
     let filters = results.Filters;
@@ -79,7 +95,7 @@ function showAllElseFilters(target, results) {
     let allFilter = filters.filter(f => f.label == gSearch.allFilterLabel);
     let otherFilters = filters.filter(f => f.label !== gSearch.allFilterLabel);
     let orderedFilters = allFilter.concat(otherFilters);
-    for (let i=0; i<orderedFilters.length; i++) {
+    for (let i = 0; i < orderedFilters.length; i++) {
         let filter = orderedFilters[i];
 
         let klass;
@@ -93,7 +109,7 @@ function showAllElseFilters(target, results) {
         }
         else {
             klass = "link-ish fs12";
-            span.on('click', function() {
+            span.on('click', function () {
                 let selections = results.SearchQuery;
                 initializePagingValues(selections, gPage.defaultPageSize, 1);
                 filterSearch(filter.type, filter.label, results);
@@ -110,10 +126,10 @@ function redoAllElseSearch(results, url) {
         url,
         gSearch.allElse,
         results.SearchQuery,
-        "searchAllElseResults.html");
+        gSearch.everythingElseResultsUrl);
 }
 function filterSearch(type, label, results) {
-    let searchUrl  = gSearch.findEverythingElseUrl + `&filterType=${type}`;
+    let searchUrl = gSearch.findEverythingElseUrl + `&filterType=${type}`;
     addUpdateSearchQueryKey(results, gSearch.currentFilterKey, label);
 
     redoAllElseSearch(results, searchUrl);
@@ -121,7 +137,7 @@ function filterSearch(type, label, results) {
 function emitAllElseResultsHeader(colspecs, target) {
     let rowId = `allElseResultsHeader`;
 
-    let row = makeRowWithColumns(target, rowId, colspecs,  "borderOneSolid mt-2");
+    let row = makeRowWithColumns(target, rowId, colspecs, "borderOneSolid mt-2 tableHeaderPagingRow");
 
     row.find(`#${rowId}Col0`).append(spanify('Match', ' bold'));
     row.find(`#${rowId}Col1`).append(spanify('Type', ' bold'));
@@ -131,15 +147,22 @@ function emitAllElseResultsHeader(colspecs, target) {
 function emitAllElseDataRows(results, colspecs, target) {
     if (results && results.Results) {
         let items = reverseSortArrayByWeight(results.Results);
-
+        let backgroundColor = "tableOddRowColor";
         for (let i = 0; i < items.length; i++) {
             let item = items[i];
 
             let rowId = `allElseResults${i}`;
-            let row = makeRowWithColumns(target, rowId, colspecs, "borderOneSolid bordE");
+            if (i % 2) {
+                backgroundColor = "tableOddRowColor";
+            } else {
+                backgroundColor = "";
+            }
+            let row = makeRowWithColumns(target, rowId, colspecs, "borderOneSolid bordE " + backgroundColor);
 
             let whyAnchor = createWhyLink(item, results);
-            row.find(`#${rowId}Col0`).html(item.Label);
+            let labelAnchor = createAnchorElement(item.Label, item.URL, backgroundColor);
+
+            row.find(`#${rowId}Col0`).append(labelAnchor);
             row.find(`#${rowId}Col1`).html(item.ClassLabel);
             row.find(`#${rowId}Col2`).append(whyAnchor);
 
@@ -147,4 +170,3 @@ function emitAllElseDataRows(results, colspecs, target) {
         }
     }
 }
-

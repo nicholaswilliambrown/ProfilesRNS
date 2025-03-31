@@ -1,15 +1,22 @@
 async function setupConceptConnection() {
-    // only need jsonArray
-    let [jsonArray] = await commonSetupWithJson();
+    await commonSetup();
+    setTabTitleAndOrFavicon("Connection");
 
     setupScrolling();
 
-    mainParse(jsonArray[0].ModuleData);
+    captchavate(async function() {
+        let [jsonArray] = await setupJson();
+        mainParse(jsonArray[0].ModuleData);
+    });
 }
 function mainParse(data) {
-    let target = createTopLhsDiv();
+    let topLhsDiv = $('#topLhsDiv');
+    innerCurtainsDown(topLhsDiv);
+
+    let target = createOrGetTopLhsDiv();
     let name = data.Name;
     let concept = data.Concept;
+    let backUrl = data.BackToURL;
 
     emitConnectionTopStuff(
         {
@@ -19,13 +26,16 @@ function mainParse(data) {
             url1:           data.PersonURL,
             text2:          concept,
             url2:           data.ConceptURL,
-            pid:            data.PersonID,
             weight:         data.Weight,
+            subtitle:       'Concept',
+            backUrl:        backUrl,
             lhsBlurb:       `This page shows the publications ${name} 
                                 has written about ${concept}.`
         });
 
     conceptConnectionParser(target, data);
+
+    innerCurtainsUp(topLhsDiv);
 }
 function conceptConnectionParser(target, data) {
 

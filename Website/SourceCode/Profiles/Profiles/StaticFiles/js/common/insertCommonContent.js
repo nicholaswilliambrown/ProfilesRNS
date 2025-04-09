@@ -16,38 +16,37 @@ gCommon.mainDataContainer = $(`<div class="d-none container-fluid parentWidth p-
               </div>
               <div id="topNavAbout" class="nav-item dropdown">
                 <a class="nav-link top dropdown-toggle" href="#" 
-                    id="navbarDropdown1" role="button"
+                    id="topNavAboutDropdown" role="button"
                    data-bs-toggle="dropdown" aria-expanded="false">
                   About
                 </a>
-                <ul id="topAboutDropdown" class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown1">
+                <ul id="topAboutDropdown" class="dropdown-menu bg-dark" aria-labelledby="topNavAboutDropdown">
                   <li><a id="overviewA" class="dropdown-item">Overview</a></li>
                   <li><p class="dropdown-divider p-0 m-0"/></li>
                   <li><a id="openSourceSoftwareA" class="dropdown-item">Open Source Software</a></li>
-                  <li><p class="dropdown-divider p-0 m-0"/></li>
-                  <li><a id="useOurDataA" class="dropdown-item">Use Our Data</a></li>
+                  <li><p class="dropdown-divider p-0 m-0"/></li>                 
                 </ul>
               </div>
               <div id="topNavHelp" class="nav-item">
-                <a id="helpA" class="nav-link top" aria-current="page">Help</a>
+                <a id="topNavHelpDropdown" class="nav-link top" aria-current="page">Help</a>
               </div>
               <div id="topNavHistory" class="nav-item dropdown">
-                <a class="nav-link top dropdown-toggle" href="#" id="navbarDropdown2" role="button"
+                <a class="nav-link top dropdown-toggle" href="#" id="topNavHistoryDropdown" role="button"
                    data-bs-toggle="dropdown" aria-expanded="false">
                   History
                 </a>
-                <ul class="dropdown-menu" id="topHistoryDropdown" aria-labelledby="navbarDropdown2">
+                <ul class="dropdown-menu" id="topHistoryDropdown" aria-labelledby="topNavHistoryDropdown">
                   <li><a id="seeAllPagesA" class="dropdown-item" href="#">See All Pages</a></li>
                 </ul>
               </div>
             </div>
-            <div id="longerItem" class="row">
+            <div id="longerItem" class="row d-flex flex-fill">
               <div id="topNavSearch" class="nav-item ms-1"></div>
             </div>
           </div>
         </nav>
         <nav id="topNavbar2" class="top navbar2 me-1 navbar-expand-lg p-0 mb-2">
-          <div class="myNavbar-nav2 navbar-nav d-flex flex-row me-auto mb-2 mb-lg-0">
+          <div id='topNavbarUser' class="myNavbar-nav2 navbar-nav d-flex flex-row me-auto mb-2 mb-lg-0">
           <div id="topNav2View" class="nav-item r2 nav-link2">
              <a id="viewMyProfileA" class="nav-link" aria-current="page" href="#">
                 View My Profile

@@ -1,11 +1,13 @@
 /*
 * {
-    border: 1px solid cyan;
     outline: 1px solid greenyellow !important;
+    border: 1px solid cyan;
 }
 */
 @media (max-width: 1118px) {
-    #inviteLoginDiv{margin-top:40px;}
+    #inviteLoginDiv {
+        margin-top: 40px;
+    }
 }
 
 .tabTopHat {
@@ -13,8 +15,8 @@
 }
 
 .outBlue {
-    outline: 3px solid blue !important;
-    border: 3px solid blue !important;
+    outline: 1px solid blue !important;
+    border: 1px solid blue !important;
 }
 
 .outOrange {
@@ -117,7 +119,7 @@ header._ci_shared_asset.tool-page.mayHelpResponsivenessLg {
 }
 
 header._ci_shared_asset.tool-page.mayHelpResponsivenessSm {
-    height: 225px !important;
+    height: 225px;
     min-width: 0 !important
 }
 
@@ -200,6 +202,11 @@ header._ci_shared_asset.tool-page.mayHelpResponsivenessSm {
     color: #b23f45;
     font-weight: normal;
 }
+.boldNetworks {
+    color: #b23f45;
+    font-weight: normal;
+    font-weight:700
+}
 
 .boldBlue {
     color: #00C;
@@ -226,6 +233,10 @@ header._ci_shared_asset.tool-page.mayHelpResponsivenessSm {
     margin-bottom: 5px;
     color: #333;
 }
+
+    .explore_title img {
+        cursor: pointer;
+    }
 
 .exploreBlurbDiv {
     line-height: 11px;
@@ -435,6 +446,12 @@ button.nav-link.active {
     pointer-events: none;
     outline: none !important;
 }
+span.nav-link.active {
+    color: #333 !important;
+    font-size: 14px;
+    pointer-events: none;
+    outline: none !important;
+}
 
 .inputSearch {
     height: fit-content;
@@ -517,16 +534,22 @@ button.nav-link.active {
 #captchaCheck {
     outline: 2px solid black;
 }
+
 .connectionBox {
     background-color: #eaf0f8;
-    padding:5px;
+    padding: 5px;
 }
+
 #whyResultsHeaderRow {
     background-color: #EEEBE5;
     font-weight: bold;
     color: #333;
     font-family: Arial;
     font-size: 13px;
-    height: 26px;    
+    height: 26px;
     width: 100%;
+}
+
+#brandingFooter {
+    margin-top: 32px;
 }

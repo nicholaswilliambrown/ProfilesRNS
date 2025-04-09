@@ -29,7 +29,7 @@
 
 .accordion-item.nested .row, .accordion-item.nested .accordion-collapse {
     margin: 0px !important;
-    padding-left: 8px !important;
+    padding-left: 8px ;
     padding-right: 12px !important;
 }
 

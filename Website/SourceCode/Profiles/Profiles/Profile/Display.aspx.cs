@@ -25,6 +25,7 @@ using System.Net.Http;
 using System.Data.SqlClient;
 using System.Data;
 using System.Configuration;
+using Profiles.Activity.Utilities;
 
 namespace Profiles.Profile
 {
@@ -72,7 +73,7 @@ namespace Profiles.Profile
                 dbcommand.Parameters.Add(new SqlParameter("@predicate", predicate));
                 dbcommand.Parameters.Add(new SqlParameter("@object", obj));
                 dbcommand.Parameters.Add(new SqlParameter("@tab", tab));
-                if (session.UserID > 0) dbcommand.Parameters.Add(new SqlParameter("@SessionID", session.SessionID));
+                dbcommand.Parameters.Add(new SqlParameter("@SessionID", session.SessionID));
 
                 dbcommand.Connection = dbconnection;
                 dbreader = dbcommand.ExecuteReader(CommandBehavior.CloseConnection);
@@ -129,21 +130,29 @@ namespace Profiles.Profile
                 dp.Redirect = redirect; // jsonRedirect.Equals("True");
                 dp.RedirectURL = redirectURL;//jsonObject[0]["RedirectURL"].ToString();
 
+                ConfigurationHelper.PageTypes pageType;
+                pageType = ConfigurationHelper.getPageType(dp.PresentationType);
                 string htmlfilename;
-                switch (dp.PresentationType)
+
+/*                public enum PageTypes
+        {
+            profile, concept, person, personCoAuthors, personSimilarPeople, personConcepts, personCoAuthorConnection,
+            personSimilarConnection, personConceptConnection, publication, MentoringCurrentStudentOpportunity, MentoringCompletedStudentProject,
+            AwardReceipt, group, groupRole
+        };
+*/
+                switch (pageType)
                 {
-                    case 1:
-                    case 2:
-                    case 3:
+                    case ConfigurationHelper.PageTypes.profile:
                         htmlfilename = "profile.html";
                         break;
-                    case 4:
+                    case ConfigurationHelper.PageTypes.concept:
                         htmlfilename = "concept.html";
                         break;
-                    case 5:
+                    case ConfigurationHelper.PageTypes.person:
                         htmlfilename = "person.html";
                         break;
-                    case 6:
+                    case ConfigurationHelper.PageTypes.personCoAuthors:
                         if (dp.Tab.ToLower().Equals("data")) { htmlfilename = "personCoAuthors.html"; }
                         else if (dp.Tab.ToLower().Equals("map")) { htmlfilename = "personCoAuthorsMap.html"; }
                         else if (dp.Tab.ToLower().Equals("radial")) { htmlfilename = "personCoAuthorsRadial.html"; }
@@ -152,37 +161,37 @@ namespace Profiles.Profile
                         else if (dp.Tab.ToLower().Equals("details")) { htmlfilename = "personCoAuthorsDetails.html"; }
                         else { htmlfilename = "personCoAuthors.html"; }
                         break;
-                    case 7:
+                    case ConfigurationHelper.PageTypes.personSimilarPeople:
                         htmlfilename = "personSimilarPeople.html";
                         break;
-                    case 8:
+                    case ConfigurationHelper.PageTypes.personConcepts:
                         htmlfilename = "personConcepts.html";
                         break;
-                    case 9:
+                    case ConfigurationHelper.PageTypes.personCoAuthorConnection:
                         htmlfilename = "personCoAuthorConnection.html";
                         break;
-                    case 10:
+                    case ConfigurationHelper.PageTypes.personSimilarConnection:
                         htmlfilename = "personSimilarConnection.html";
                         break;
-                    case 11:
+                    case ConfigurationHelper.PageTypes.personConceptConnection:
                         htmlfilename = "personConceptConnection.html";
                         break;
-                    case 13:
+                    case ConfigurationHelper.PageTypes.publication:
                         htmlfilename = "publication.html";
                         break;
-                    case 14:
+                    case ConfigurationHelper.PageTypes.MentoringCurrentStudentOpportunity:
                         htmlfilename = "MentoringCurrentStudentOpportunity.html";
                         break;
-                    case 15:
+                    case ConfigurationHelper.PageTypes.MentoringCompletedStudentProject:
                         htmlfilename = "MentoringCompletedStudentProject.html";
                         break;
-                    case 16:
+                    case ConfigurationHelper.PageTypes.AwardReceipt:
                         htmlfilename = "AwardReceipt.html";
                         break;
-                    case 17:
+                    case ConfigurationHelper.PageTypes.group:
                         htmlfilename = "group.html";
                         break;
-                    case 18:
+                    case ConfigurationHelper.PageTypes.groupRole:
                         if (dp.Tab.ToLower().Equals("data")) { htmlfilename = "groupRole.html"; }
                         else if (dp.Tab.ToLower().Equals("byname")) { htmlfilename = "groupRole.html"; }
                         else if (dp.Tab.ToLower().Equals("byrole")) { htmlfilename = "groupRoleByRole.html"; }

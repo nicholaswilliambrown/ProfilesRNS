@@ -8,10 +8,15 @@
 *.suo
 *.csproj.user
 *.vspscc
+*.config
+*.bak
+*.user
 /Website/SourceCode/Profiles/.vs
+/Website/SourceCode/Profiles/Profiles/.vs
 /Website/SourceCode/Profiles/Profiles/Profiles.Publish.xml
 /Website/SourceCode/Profiles/Profiles/ProfilesDebuggingLog.txt
 /Website/SourceCode/Profiles/Profiles/obj/Debug
+/Website/SourceCode/Profiles/Profiles/bin
 /Website/SourceCode/Profiles/Profiles/obj/Release
 /Website/SourceCode/Profiles/Profiles/bin/Release
 /Website/SourceCode/Profiles/Profiles/bin/IKVM.GNU.Classpath.dll

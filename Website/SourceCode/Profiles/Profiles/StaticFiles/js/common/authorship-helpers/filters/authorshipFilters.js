@@ -112,7 +112,7 @@ function addFields(linkItems, pub) {
 
             // prepend label
             if (i == 0) {
-                pushStringSpan(linkItems, " Fields: ");
+                pushStringSpan(linkItems, " Fields: ","pubBadgeField");
             }
             linkItems.push(fieldButton);
         }
@@ -149,7 +149,7 @@ function addTranslations(linkItems, pub) {
 
         // prepend label
         if (translationsAdded == 1) { // ie, first one added
-            pushStringSpan(linkItems, " Translation: ");
+            pushStringSpan(linkItems, " Translation: ","pubBadgeField");
         }
 
         linkItems.push(transButton);

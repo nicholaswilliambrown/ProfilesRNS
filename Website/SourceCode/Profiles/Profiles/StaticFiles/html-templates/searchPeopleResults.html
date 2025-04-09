@@ -29,8 +29,6 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
 
-    <script src="https://www.gstatic.com/charts/loader.js"></script>
-
     {globalVariables}
 
     {SessionInfo}
@@ -70,65 +68,69 @@
 <!-- banner is inserted dynamically-->
 <!--maybe insert dynamically?-->
 <div id="searchPageMarkup" class="moveable d-none row ms-0 mt-2 w-100" dest="mainDiv">
-    <div id="midDiv">
-        <div id="midDivInner" class="row">
-            <div id="sortDropdownDiv" class="ps-0 pe-0 peopleResultDropdown">
-                <span id="searchSort" class="bold float-start pt-2">Sort</span>
-                <ul id="sortDropdown" class="ulDropdown ms-3 ps-0">
-                    <li class="dropdown-no-bullet gradient header4dropdown">
-                        <span class="theChosen"></span>
-                        <span id="dropDownMarker" class="float-end">&#x25BE;</span>
-                    </li>
-                    <li class="dropdown-no-bullet li-item li-sort initial"
-                        value="relevance">Query Relevance
-                    </li>
-                    <li class="dropdown-no-bullet li-item li-sort"
-                        name="DisplayName" dir="Asc" value="name">Name (A-Z)
-                    </li>
-                    <li class="dropdown-no-bullet li-item li-sort"
-                        name="DisplayName" dir="Desc" value="nameza">Name (Z-A)
-                    </li>
-                    <li class="dropdown-no-bullet li-item li-sort optional"
-                        name="InstitutionName" dir="Asc" value="institution">Institution (A-Z)
-                    </li>
-                    <li class="dropdown-no-bullet li-item li-sort optional"
-                        name="InstitutionName" dir="Desc" value="institutionza">Institution (Z-A)
-                    </li>
-                    <li class="dropdown-no-bullet li-item li-sort optional"
-                        name="DepartmentName" dir="Asc" value="department">Department (A-Z)
-                    </li>
-                    <li class="dropdown-no-bullet li-item li-sort optional"
-                        name="DepartmentName" dir="Desc" value="departmentza">Department (Z-A)
-                    </li>
-                    <li class="dropdown-no-bullet li-item li-sort optional"
-                        name="FacultyRank" dir="Asc" value="facultyrank">Faculty Rank (low-high)
-                    </li>
-                    <li class="dropdown-no-bullet li-item li-sort optional"
-                        name="FacultyRank" dir="Desc" value="facultyrankdesc">Faculty Rank (high-low)
-                    </li>
-                </ul>
-            </div> <!-- sort -->
-            <div id="showDropdownDiv" class="peopleResultDropdown">
-                <span class="bold float-start me-1 pt-2">Show</span>
-                <ul id="showDropdown" class="ulDropdown ms-1">
-                    <li class="dropdown-no-bullet gradient header4dropdown">
-                        <span class="theChosen"></span>
-                        <span class="float-end">&#x25BE;</span>
-                    </li>
-                    <li class="dropdown-no-bullet li-item li-show">
-                        <input id="showInstitution" class="showCheck" type="checkbox" value="InstitutionName">
-                        Institution
-                    </li>
-                    <li class="dropdown-no-bullet li-item li-show">
-                        <input id="showDepartment" class="showCheck" type="checkbox" value="DepartmentName">
-                        Department
-                    </li>
-                    <li class="dropdown-no-bullet li-item li-show">
-                        <input id="showFacultyRank" class="showCheck" type="checkbox" value="FacultyRank">
-                        Faculty Rank
-                    </li>
-                </ul>
-            </div>  <!-- show -->
+    <div id="midDiv" class="ps-0">
+        <div id="midDivInner" class="row ms-1">
+            <div id="dropdownsDiv" class="row w-100 mt-2">
+                <div class="ulDiv ps-0 pe-0 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 col-xxl-3">
+                    <span id="searchSort" class="bold float-start pt-1">Sort &nbsp;&nbsp;</span>
+                    <div class="ulDiv d-inline-block">
+                        <button class="ps-0 proxyDd gradient header4dropdown" id="sortButton" dd="sortDropdown" other="showDropdown">---sortDropdown</button>
+                        <div id="sortDropdownDiv" class="peopleResultDropdown ps-0 pe-0">
+                            <ul id="sortDropdown" class="ulDropdown ps-0 d-none" other="showDropdown">
+                                <li class="dropdown-no-bullet li-item li-sort initial"
+                                    value="relevance">Query Relevance
+                                </li>
+                                <li class="dropdown-no-bullet li-item li-sort"
+                                    name="DisplayName" dir="Asc" value="name">Name (A-Z)
+                                </li>
+                                <li class="dropdown-no-bullet li-item li-sort"
+                                    name="DisplayName" dir="Desc" value="nameza">Name (Z-A)
+                                </li>
+                                <li class="dropdown-no-bullet li-item li-sort optional"
+                                    name="InstitutionName" dir="Asc" value="institution">Institution (A-Z)
+                                </li>
+                                <li class="dropdown-no-bullet li-item li-sort optional"
+                                    name="InstitutionName" dir="Desc" value="institutionza">Institution (Z-A)
+                                </li>
+                                <li class="dropdown-no-bullet li-item li-sort optional"
+                                    name="DepartmentName" dir="Asc" value="department">Department (A-Z)
+                                </li>
+                                <li class="dropdown-no-bullet li-item li-sort optional"
+                                    name="DepartmentName" dir="Desc" value="departmentza">Department (Z-A)
+                                </li>
+                                <li class="dropdown-no-bullet li-item li-sort optional"
+                                    name="FacultyRank" dir="Asc" value="facultyrank">Faculty Rank (low-high)
+                                </li>
+                                <li class="dropdown-no-bullet li-item li-sort optional"
+                                    name="FacultyRank" dir="Desc" value="facultyrankdesc">Faculty Rank (high-low)
+                                </li>
+                            </ul>
+                        </div> <!-- sort -->
+                    </div>
+                </div>
+                <div class="ps-0 pe-0 col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 col-xxl-3">
+                    <span class="bold float-start me-1 pt-1">Show &nbsp;&nbsp;</span>
+                    <div class="ulDiv d-inline-block">
+                        <button class="ps-0 proxyDd gradient header4dropdown" id="showButton" dd="showDropdown" other="sortDropdown">---showDropdown</button>
+                        <div id="showDropdownDiv" class="peopleResultDropdown">
+                            <ul id="showDropdown" class="ulDropdown d-none" other="sortDropdown">
+                                <li class="dropdown-no-bullet li-item li-show">
+                                    <input id="showInstitution" class="showCheck" type="checkbox" value="InstitutionName">
+                                    Institution
+                                </li>
+                                <li class="dropdown-no-bullet li-item li-show">
+                                    <input id="showDepartment" class="showCheck" type="checkbox" value="DepartmentName">
+                                    Department
+                                </li>
+                                <li class="dropdown-no-bullet li-item li-show">
+                                    <input id="showFacultyRank" class="showCheck" type="checkbox" value="FacultyRank">
+                                    Faculty Rank
+                                </li>
+                            </ul>
+                        </div>  <!-- show -->
+                    </div>
+                </div>
+            </div>
             <div id="resultsDiv" class="ps-0"></div>
         </div> <!-- midDivInner -->
     </div> <!-- midDiv -->

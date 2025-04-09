@@ -27,7 +27,6 @@ function parsePerson(jsonArray, lhsModules, rhsModules, andThen) {
             andThen();
         }
     });
-
 }
 
 function whichParserInfo(moduleTitle, defaultTarget) {

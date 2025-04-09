@@ -1,6 +1,7 @@
 function detailsParse(target, moduleJson) {
 
     let jsonData = moduleJson.ModuleData;
+    jsonData = sortArrayViaSortLabel(jsonData, "Weight", true);
 
     target.append(`<div class="mt-2">${gCoauthor.coauthorsWithDash} are listed by decreasing relevence ` +
         'which is based on the number of co-publications and the years which ' +

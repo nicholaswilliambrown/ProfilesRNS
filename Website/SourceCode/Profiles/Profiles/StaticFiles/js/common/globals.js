@@ -116,14 +116,14 @@ function setupBrandingDependentVals() {
 g.mapProviderOptions = {google: "google", leaflet: "leaflet"};
 g.mapProvider = g.mapProviderOptions.google;
 
-gCommon.loginUrl = '/../profiles/login/index?sessionid=';
+gCommon.loginUrl = `${g.profilesPath}/login/default.aspx?method=login&redirectto=`;
 gCommon.seeAllPagesAUrl = `${g.profilesPath}/history`;
-gCommon.logoutUrl = '/../profiles/logout.aspx';
-gCommon.editMyProfileUrl = '/../profiles/edit/default.aspx?subject=';
-gCommon.viewMyListUrl = '/../profiles/lists/default.aspx';
-gCommon.dashboardUrl = '/../profiles/dashboard/default.aspx?subject='
-gCommon.manageProxiesUrl = '/../profiles/proxy/default.aspx';
-gCommon.opportunitySearch = '/../profiles/studentopportunities/index';
+gCommon.logoutUrl = `${g.profilesPath}/login/default.aspx?method=logout`;
+gCommon.editMyProfileUrl = `${g.profilesPath}/edit/default.aspx?subject=`;
+gCommon.viewMyListUrl = `${g.profilesPath} /lists/default.aspx`;
+gCommon.dashboardUrl = `${g.profilesPath}/dashboard/default.aspx?subject=`;
+gCommon.manageProxiesUrl = `${g.profilesPath} /proxy/default.aspx`;
+gCommon.opportunitySearch = `${g.profilesPath}/studentopportunities/index`;
 gCommon.schemaPlaceholder = "%%FOO%%";
 gCommon.schemaPlaceholder2 = "%%FOO2%%";
 
@@ -240,7 +240,7 @@ gSearch.peopleResultDisplay['DepartmentName'] = 'Department';
 gSearch.peopleResultDisplay['FacultyRank'] = 'Faculty&nbsp;Rank';
 
 gSearch.selectedOptionalPeopleShowsKey = 'selectedOptionalShows';
-gSearch.initialOptionalPeopleShows = ['InstitutionName'];
+gSearch.defaultOptionalPeopleShows = ['InstitutionName'];
 
 gSearch.selectedSortValueKey = 'selectedSortValueKey';
 

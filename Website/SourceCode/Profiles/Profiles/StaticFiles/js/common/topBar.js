@@ -8,7 +8,7 @@ function setupTopNav() {
     setUrlByAnchorId("useOurDataA", gCommon.useOurDataAUrl);
     setUrlByAnchorId("seeAllPagesA", gCommon.seeAllPagesAUrl);
     setUrlByAnchorId("topHome", gSearch.searchFormPeopleUrl);
-    setUrlByAnchorId("helpA", gCommon.helpUrl);
+    setUrlByAnchorId("topNavHelpDropdown", gCommon.helpUrl);
     setUrlByAnchorId("logoutA", gCommon.logoutUrl);
     setUrlByAnchorId("viewMyProfileA", g.profilesRootURL + '/display/' + sessionInfo.personNodeID);
 
@@ -97,7 +97,7 @@ function addSearchForm(target, formClass, searchGlassClass, displayClass, sizeFl
     let displayDiv = $(`<div id="${sdId}" class="${displayClass}"></div>`);
     target.append(displayDiv);
 
-    let form = $(`<form class="top ${formClass} d-flex justify-content-${justifyPos}">
+    let form = $(`<form id="topBarSearchForm" class="top ${formClass} d-flex justify-content-${justifyPos}">
         <input class="form-control navSearchTerm ps-1" id="navSearchTerm${sizeFlavor}" type="search" aria-label="Search"
                placeholder=" Search Profiles (people, publications, concepts, etc.)">
         <div id="searchGlassDiv${sizeFlavor}" class="searchGlassDiv">                              
@@ -342,11 +342,27 @@ function listsPost(url, data) {
 $(window).resize(function () {
 
     if ($(window).width() <= 770) {
-        $('.myNavbar-nav2').removeClass('d-flex flex-row');      
-       
+        $('.myNavbar-nav2').removeClass('d-flex flex-row');   
+        $('#topNavbarUser').addClass('topNavUserBarMax');
+        $('#topNavbarUser').removeClass('topNavUserBarMin');
+    
     }
     if ($(window).width() >= 770) {
         $('.myNavbar-nav2').addClass('d-flex flex-row');
+      
+    }
+    if ($(window).width() <= 1115) {        
+        $('#topBarSearchForm').removeClass('justify-content-end');
+        $('#topBarSearchForm').addClass('justify-content-start');
+        $('#topNavbarUser').addClass('topNavUserBarMin');
+        $('#topNavbarUser').removeClass('topNavUserBarMax');
+
+    }
+    if ($(window).width() >= 1115) {
+        $('#topBarSearchForm').removeClass('justify-content-start');
+        $('#topBarSearchForm').addClass('justify-content-end');
+        $('#topNavbarUser').addClass('topNavUserBarMax');
+        $('#topNavbarUser').removeClass('topNavUserBarMin');
     }
 });
 

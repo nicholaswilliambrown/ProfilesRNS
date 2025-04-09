@@ -66,15 +66,9 @@ async function emitMainPosition(target, mainAffiliation, jsonElt, name, idSuffix
         `giAddr4M${idSuffix}`, wideVsNarrow);
     twoColumnInfo(target, spanify("Phone", lhsClass),   spanify(jsonElt.Phone),
         `giPhoneM${idSuffix}`, wideVsNarrow);
-    if (jsonElt.Email) {
-        twoColumnInfo(target, spanify("Email", lhsClass), spanify(jsonElt.Email),
-            `giEmailM${idSuffix}`, wideVsNarrow);
-    }
-    else if (jsonElt.EmailEncrypted) {
-        let emailImage = await getEmailImage(jsonElt.EmailEncrypted);
-        twoColumnInfo(target, spanify("Email", lhsClass), emailImage,
-            `giEmailM${idSuffix}`, wideVsNarrow);
-    }
+
+    await emitEmailOrImage(target, jsonElt, wideVsNarrow, idSuffix, lhsClass);
+
     let orcid = jsonElt.ORCID;
     if (orcid) {
         let orcDiv = $('<div></div>');
@@ -106,9 +100,26 @@ async function emitMainPosition(target, mainAffiliation, jsonElt, name, idSuffix
     twoColumnInfo(target, spanify("vCard", lhsClass), vCardSpan,
         `giVcardM${idSuffix}`, wideVsNarrow);
 }
+async function emitEmailOrImage(target, jsonElt, wideVsNarrow, idSuffix, lhsClass) {
+    let emailRhsDiv = $(`<div class="emailRhsDiv"></div>`);
+    twoColumnInfo(target, spanify("Email", lhsClass), emailRhsDiv,
+        `giEmailM${idSuffix}`, wideVsNarrow);
+
+    let emailValue = gCommon.NA;
+    if (jsonElt.Email) {
+        emailValue = createAnchorElement(jsonElt.Email, `mailTo:${jsonElt.Email}`);
+    }
+    else if (jsonElt.EmailEncrypted) {
+        emailValue = await getEmailImage(jsonElt.EmailEncrypted);
+    }
+
+    emailRhsDiv.html(emailValue);
+}
 function emitOtherPositions(target, affiliationArray, idSuffix, wideVsNarrow) {
-    let othersHeading = $('<div class="giOthersHeading mt-2">Other Positions</div>');
-    target.append(othersHeading);
+   // let othersHeading = $('<div class="giOthersHeading mt-2">Other Positions</div>');
+    twoColumnInfo(target, spanify("Other Positions", "giOthersHeading mt-2"), spanify(""),
+        ``, wideVsNarrow);
+   // target.append(othersHeading);
 
     for (let i=1; i<affiliationArray.length; i++) {
         let affiliation = affiliationArray[i];
@@ -124,6 +135,7 @@ function emitHeadshot(target, jsonElt) {
     let headshotDiv = $('<div id="headshot"></div>');
     if (jsonElt.ImageURL) {
         headshot = $(`<div><img class="headshot" 
+            alt="headshot"
             width="auto" 
             height="160px" 
             src="${jsonElt.ImageURL}"></div>`);

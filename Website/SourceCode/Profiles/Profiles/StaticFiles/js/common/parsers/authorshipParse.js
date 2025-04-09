@@ -24,7 +24,7 @@ function authorshipParser(json, moduleTitle, miscInfo, explicitTarget) {
 
     gPerson.authorshipInnerDiv = authorshipInnerDiv;
 
-    gPerson.authNavCurrentNavItem.find("button").click();
+    gPerson.authNavCurrentNavItem.click();
 }
 
 function emitBlurbAndLimitDiv() {
@@ -67,11 +67,7 @@ function emitBlurbAndLimitDiv() {
             gPerson.limitOption = PubsLimitOption.All;
             gPerson.currentUnfilteredPubs = await getSortedLimitedPubs(PubsLimitedSortParam.All);
 
-            //divLimit.remove();
             await applySortsFiltersLimits();
-
-            //$('.nav-link.active').click();
-
         })
     }
 }
@@ -112,11 +108,11 @@ async function authorshipInnerParser() {
         addFields(bottomLinksFields, pub);
         addTranslations(bottomLinksTranslations, pub);
 
-        let citationTitleSpan = $(`<span class="citations-category me-1">Citations: </span>`);
+        let citationTitleSpan = $(`<span class="citations-category me-1 pubBadgeField">Citations: </span>`);
 
         harvestBottomlinkItems(pubLi, bottomLinksBadges, citationTitleSpan);
-        harvestBottomlinkItems(pubLi, bottomLinksFields, "");
-        harvestBottomlinkItems(pubLi, bottomLinksTranslations, "");
+        harvestBottomlinkFieldsTranslations(pubLi, bottomLinksFields, bottomLinksTranslations);
+        
     }
     await digestInjectedBadges();
 }

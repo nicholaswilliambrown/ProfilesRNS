@@ -2,6 +2,10 @@ using System.Configuration;
 using System;
 using System.Web.Configuration;
 using System.Web;
+using System.Web.UI.WebControls;
+using System.Data.SqlClient;
+using System.Data;
+using static System.Net.WebRequestMethods;
 
 namespace Profiles.Framework.Utilities
 {
@@ -20,9 +24,84 @@ namespace Profiles.Framework.Utilities
         public static string GlobalJavascriptVariablesProfilePage = "";
         public static bool SendConnectionPagesToBotDatabase = false;
 
+        public enum PageTypes { profile, concept, person, personCoAuthors, personSimilarPeople, personConcepts, personCoAuthorConnection, 
+                personSimilarConnection, personConceptConnection, publication, MentoringCurrentStudentOpportunity, MentoringCompletedStudentProject,
+                AwardReceipt, group, groupRole };
+
+        private static PageTypes[] PresentationIDMapping;
+
+        private static string liveConnectionString;
+        private static string botConnectionString;
+
+
+        public static void initializePageTypes()
+        {
+            //SELECT TOP(100) [PresentationID],[Type],[Subject],[Predicate],[Object] FROM[Ontology.Presentation].[XML]
+
+            int presentationID; string presentationCode; 
+            //initialize variables
+            PresentationIDMapping = new PageTypes[100];
+
+            try
+            {
+                string connstr = ConfigurationHelper.GetConnectionString();
+                SqlConnection dbconnection = new SqlConnection(connstr);
+                SqlCommand dbcommand = new SqlCommand("SELECT TOP (100) [PresentationID], [Type] + '||' + isnull([Subject], '') + '||' + isnull([Predicate], '') + '||' + isnull([Object], '') as PresentationCode FROM [Ontology.Presentation].[XML]");
+                dbcommand.CommandTimeout = Convert.ToInt32(ConfigurationManager.AppSettings["COMMANDTIMEOUT"]);
+
+                SqlDataReader dbreader;
+                dbconnection.Open();
+                dbcommand.CommandType = CommandType.Text;
+                //dbcommand.CommandTimeout = base.GetCommandTimeout();
+
+                dbcommand.Connection = dbconnection;
+                dbreader = dbcommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+                while (dbreader.Read())
+                {
+                    presentationID = Int32.Parse(dbreader["PresentationID"].ToString());
+                    presentationCode = dbreader["PresentationCode"].ToString();
+
+                    switch (presentationCode)
+                    {
+                        case "P||||||": PresentationIDMapping[presentationID] = PageTypes.profile; break;
+                        case "N||||||": PresentationIDMapping[presentationID] = PageTypes.profile; break;
+                        case "C||||||": PresentationIDMapping[presentationID] = PageTypes.profile; break;
+                        case "P||http://www.w3.org/2004/02/skos/core#Concept||||": PresentationIDMapping[presentationID] = PageTypes.concept; break;
+                        case "P||http://xmlns.com/foaf/0.1/Person||||": PresentationIDMapping[presentationID] = PageTypes.person; break;
+                        case "N||http://xmlns.com/foaf/0.1/Person||http://profiles.catalyst.harvard.edu/ontology/prns#coAuthorOf||": PresentationIDMapping[presentationID] = PageTypes.personCoAuthors; break;
+                        case "N||http://xmlns.com/foaf/0.1/Person||http://profiles.catalyst.harvard.edu/ontology/prns#similarTo||": PresentationIDMapping[presentationID] = PageTypes.personSimilarPeople; break;
+                        case "N||http://xmlns.com/foaf/0.1/Person||http://vivoweb.org/ontology/core#hasResearchArea||": PresentationIDMapping[presentationID] = PageTypes.personConcepts; break;
+                        case "C||http://xmlns.com/foaf/0.1/Person||http://profiles.catalyst.harvard.edu/ontology/prns#coAuthorOf||http://xmlns.com/foaf/0.1/Person": PresentationIDMapping[presentationID] = PageTypes.personCoAuthorConnection; break;
+                        case "C||http://xmlns.com/foaf/0.1/Person||http://profiles.catalyst.harvard.edu/ontology/prns#similarTo||http://xmlns.com/foaf/0.1/Person": PresentationIDMapping[presentationID] = PageTypes.personSimilarConnection; break;
+                        case "C||http://xmlns.com/foaf/0.1/Person||http://vivoweb.org/ontology/core#hasResearchArea||http://www.w3.org/2004/02/skos/core#Concept": PresentationIDMapping[presentationID] = PageTypes.personConceptConnection; break;
+                        case "P||http://vivoweb.org/ontology/core#InformationResource||||": PresentationIDMapping[presentationID] = PageTypes.publication; break;
+                        case "P||http://profiles.catalyst.harvard.edu/ontology/catalyst#MentoringCurrentStudentOpportunity||||": PresentationIDMapping[presentationID] = PageTypes.MentoringCurrentStudentOpportunity; break;
+                        case "P||http://profiles.catalyst.harvard.edu/ontology/catalyst#MentoringCompletedStudentProject||||": PresentationIDMapping[presentationID] = PageTypes.MentoringCompletedStudentProject; break;
+                        case "P||http://vivoweb.org/ontology/core#AwardReceipt||||": PresentationIDMapping[presentationID] = PageTypes.AwardReceipt; break;
+                        case "P||http://xmlns.com/foaf/0.1/Group||||": PresentationIDMapping[presentationID] = PageTypes.group; break;
+                        case "N||http://xmlns.com/foaf/0.1/Group||http://vivoweb.org/ontology/core#contributingRole||": PresentationIDMapping[presentationID] = PageTypes.groupRole; break;
+
+                    }
+                }
+                if (!dbreader.IsClosed)
+                    dbreader.Close();
+
+            }
+            catch (Exception ex) { Framework.Utilities.DebugLogging.Log($"Profile/Display.aspx.cs : {ex.Message}"); }
+        }
+
+        public static PageTypes getPageType(int PresentationID)
+        {
+            return PresentationIDMapping[PresentationID];
+        }
+
         //TODO this should come from the database and be overwritten app settings as needed.
         public static void initialize()
         {
+            initializeConnectionStrings();
+            initializePageTypes();
+
             if (WebConfigurationManager.AppSettings["ProfilesRootRelativePath"] != null)
                 if ("".Equals(WebConfigurationManager.AppSettings["ProfilesRootRelativePath"])) ProfilesRootRelativePath = "";
                 else ProfilesRootRelativePath = "/" + WebConfigurationManager.AppSettings["ProfilesRootRelativePath"];
@@ -69,6 +148,16 @@ namespace Profiles.Framework.Utilities
                             g2 +
                             "</script>";
         }
+
+
+        public static void initializeConnectionStrings()
+        {
+            liveConnectionString = ConfigurationManager.ConnectionStrings["ProfilesDB"].ConnectionString;
+            if (ConfigurationManager.ConnectionStrings["ProfilesBotDB"] != null)
+                botConnectionString = ConfigurationManager.ConnectionStrings["ProfilesBotDB"].ConnectionString;
+            else botConnectionString = liveConnectionString;
+        }
+
         public static string GetConnectionString(Framework.Utilities.Session session)
         {
             string connstr = string.Empty;
@@ -77,23 +166,32 @@ namespace Profiles.Framework.Utilities
                 if (session != null)
                 {
                     if (session.IsBot)
-                        connstr = ConfigurationManager.ConnectionStrings["ProfilesBOTDB"].ConnectionString;
+                        connstr = botConnectionString;
                     else
-                        connstr = ConfigurationManager.ConnectionStrings["ProfilesDB"].ConnectionString;
+                        connstr = liveConnectionString;
                 }
                 else
-                    connstr = connstr = ConfigurationManager.ConnectionStrings["ProfilesDB"].ConnectionString;
+                    connstr = liveConnectionString;
             }
             catch (Exception ex)
             {//An error will kick in if this is an Application level request for the rest path data because a session does not exist. If no session exists
                 Framework.Utilities.DebugLogging.Log(connstr + " CONNECTION USED" + "\r\n");
-                connstr = connstr = ConfigurationManager.ConnectionStrings["ProfilesDB"].ConnectionString;
+                connstr = connstr = liveConnectionString;
             }
 
 
             return connstr;
         }
-        
+
+        public static string GetConnectionString()
+        {
+            return liveConnectionString;
+        }
+
+        public static string GetBotConnectionString()
+        {
+            return botConnectionString;
+        }
 
         //This allows us to send connection pages to the bot database when we need to reduce load on the primary database.
         //Spiders or unidentified bots produce huge amounts of connection page usage, where humans usage hits these pages
@@ -105,22 +203,22 @@ namespace Profiles.Framework.Utilities
             {
                 if (SendConnectionPagesToBotDatabase)
                 {
-                    connstr = ConfigurationManager.ConnectionStrings["ProfilesBOTDB"].ConnectionString;
+                    connstr = botConnectionString;
                 }
                 else if (session != null)
                 {
                     if (session.IsBot)
-                        connstr = ConfigurationManager.ConnectionStrings["ProfilesBOTDB"].ConnectionString;
+                        connstr = botConnectionString;
                     else
-                        connstr = ConfigurationManager.ConnectionStrings["ProfilesDB"].ConnectionString;
+                        connstr = liveConnectionString;
                 }
                 else
-                    connstr = connstr = ConfigurationManager.ConnectionStrings["ProfilesDB"].ConnectionString;
+                    connstr = connstr = liveConnectionString;
             }
             catch (Exception ex)
             {//An error will kick in if this is an Application level request for the rest path data because a session does not exist. If no session exists
                 Framework.Utilities.DebugLogging.Log(connstr + " CONNECTION USED" + "\r\n");
-                connstr = connstr = ConfigurationManager.ConnectionStrings["ProfilesDB"].ConnectionString;
+                connstr = connstr = liveConnectionString;
             }
 
 

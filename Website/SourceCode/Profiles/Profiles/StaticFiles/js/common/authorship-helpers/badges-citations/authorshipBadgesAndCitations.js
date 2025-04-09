@@ -143,3 +143,21 @@ function harvestBottomlinkItems(target, linkItems, prefixItem) {
         }
     }
 }
+function harvestBottomlinkFieldsTranslations(target, fields, translations) {
+    if (fields.length > 0 || translations.length > 0) {
+        // private copy. see https://stackoverflow.com/questions/7486085/copy-array-by-value
+        let myFields = fields.slice();
+        let myTranslations = translations.slice();
+
+        let div = $('<div class="wrap2 mt-1 me-1"></div>')
+        target.append(div);
+        for (let j = 0; j < myFields.length; j++) {
+            div.append(myFields[j]);
+            div.append($('<span> </span>'));
+        }
+        for (let j = 0; j < myTranslations.length; j++) {
+            div.append(myTranslations[j]);
+            div.append($('<span> </span>'));
+        }
+    }
+}

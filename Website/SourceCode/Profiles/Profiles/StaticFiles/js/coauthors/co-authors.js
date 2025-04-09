@@ -107,7 +107,7 @@ async function mainParse(coauthJson, lhsModules, rhsModules) {
     }
 
     let curtainMsgTarget = $('#tabChoicesDiv');
-    let untilReady = target.find('.hideTilReady');
+    let untilReady = $('.hideTilReady');
 
     let useSpecialCurtain =
         gCoauthor.whichTabSym == CoauthorTab.Cluster ||
@@ -150,7 +150,7 @@ async function mainParse(coauthJson, lhsModules, rhsModules) {
             break;
     }
 
-    innerCurtainsUp(target);
+    innerCurtainsUp(curtainTarget);
 }
 
 gCoauthor.coauthorTabs = createFlavorTabs(

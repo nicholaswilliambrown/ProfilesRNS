@@ -65,8 +65,8 @@ function armTheTooltips() {
         $(this).tooltip('dispose');
     });
 }
-function pushStringSpan(targetArray, input) {
-    targetArray.push(spanify(input));
+function pushStringSpan(targetArray, input,klass) {
+    targetArray.push(spanify(input,klass));
 }
 function getAuthorNodeId() {
     return gCommon.authorId;

@@ -57,7 +57,7 @@
 }
 .thumbsDiv {
     height: 400px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 .thumbsDiv .oneThumb {
     margin-bottom: 4px !important;

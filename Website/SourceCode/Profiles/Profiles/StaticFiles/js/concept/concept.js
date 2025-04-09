@@ -27,7 +27,7 @@ function emitSkeletons() {
 function emitSkeletonRhs() {
     let target = $('#modules-right-div');
 
-    divSpanifyTo('Related Networks', target, 'boldCrimson');
+    divSpanifyTo('Related Networks', target, 'boldNetworks');
 
     emitRhsSkeleton(target, 'People', 'People who have written about this concept.', 'people');
     emitRhsSkeleton(target, 'Similar Concepts', 'Similar concepts derived from published works.', 'concepts');
@@ -250,6 +250,7 @@ async function emitPublications(data, conceptName, innerKey) {
     boxDiv.append(boxDiv2);
 
     let timelineTargetDiv = boxDiv2.find('.pubTimelineContent');
+    await emitTimeline(data, timelineTargetDiv, true);
     await emitTimeline(data, timelineTargetDiv);
     timelineTargetDiv.hide();
 
@@ -263,7 +264,7 @@ async function emitPublications(data, conceptName, innerKey) {
         $(`#${contentId}`).show();
     });
 
-    mostRecentButton.click();
+    timelineButton.click();
 }
 function emitTopBlurb(title, target) {
     let blurb1 = `"${title}" is a descriptor in the National Library of Medicine's 
@@ -445,10 +446,17 @@ function emitMostRecent(data, target, conceptName) {
     }
     target.hide();
 }
-async function emitTimeline(data, target) {
+async function emitTimeline(data, target, wideVsNarrow) {
     let yearArray = orNaPropertyList(data[0], 'Timeline');
 
-    await populateTimelineGraph(target, yearArray);
+    let classes = wideVsNarrow ? gCommon.hideXsSmallShowOthers :
+                            gCommon.showXsSmallHideOthers;
+    let responsiveTarget = $(`<div class="${classes}"></div>`);
+    target.append(responsiveTarget);
+
+    let chartHeight = wideVsNarrow ? 400 : 200;
+    let chartWidth = wideVsNarrow ? 800 : 400;
+    await populateTimelineGraph(responsiveTarget, yearArray, chartHeight, chartWidth);
     target.hide();
 }
 

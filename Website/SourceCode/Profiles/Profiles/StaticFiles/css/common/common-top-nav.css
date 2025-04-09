@@ -1,12 +1,19 @@
+@media (max-width: 1046px) {
+    .rDivTitles {
+        width: 440px !important;
+    }
+}
+
 @media (max-width: 770px) {
     .myNavbar-nav {
         flex-direction: column !important;
         z-index: 99999;
         background-color: #383737 !important;
     }
-    .myNavbar-nav2{
 
+    .myNavbar-nav2 {
     }
+
     .formHeightPhone {
         height: 40px !important;
     }
@@ -22,12 +29,69 @@
     #topNavHistory {
         padding-left: 11px !important;
     }
-   
+
+    #topNav2Dashboard {
+        padding-top: 5px !important;
+    }
+
     .nav-link.top {
         border-right: 0px !important;
     }
+
     #topNav2View {
         border-left: 1px solid #333333 !important;
+    }
+
+    #topNavbarUser {
+        padding-top: 0px;
+        margin-top: 0px;
+        flex-direction: column !important;
+    }
+
+    #topNav2PersonsDropdown {
+        padding-top: 0px !important;
+        margin-top: 0px !important;
+    }
+
+    .rDivTitles {
+        width: 440px !important;
+    }
+
+    footer._ci_shared_asset.tool-page .inner nav ul {
+        display: flex !important;
+    }
+
+    header._ci_shared_asset.tool-page.mayHelpResponsivenessSm {
+        height: 170px !important;
+    }
+    #viewMyProfileA {
+        text-align: left !important;
+    }
+    #editThisProfileA {
+        text-align: left !important;
+    }
+    #editMyProfileA {
+        text-align: left !important;
+    }
+
+    #manageProxiesA {
+        text-align: left !important;
+    }
+
+    #nav2Persons {
+        text-align: left !important;
+    }
+
+    #dashboardA {
+        text-align: left !important;
+    }
+
+    #opportunitySearchA {
+        text-align: left !important;
+    }
+
+    #logoutA {
+        text-align: left !important;
     }
 }
 
@@ -41,7 +105,21 @@
         background-color: #383737 !important;
     }
 
+    header._ci_shared_asset.tool-page.mayHelpResponsivenessSm {
+        height: 167px !important;
+        min-width: 0 !important
+    }
+   
+
+
 }
+
+@media (max-width:360px) {
+    ._ci_clearfix {
+        margin-left: unset !important;
+    }
+}
+
 
 .navSearchGlass {
     cursor: pointer;
@@ -55,7 +133,7 @@
 
     .dropdown-menu a:hover {
         background-color: #EDEBEB !important;
-        font-size:14px !important;
+        font-size: 14px !important;
     }
 
 
@@ -98,7 +176,7 @@ div.top {
 .nav-link.top:hover {
     background-color: #555 !important;
     font-size: 14px !important;
-    font-weight:400 !important;
+    font-weight: 400 !important;
 }
 
 .navbar.top {
@@ -145,13 +223,13 @@ form.top {
     color: #fff !important;
     padding: 5px 10px;
     text-align: left;
-    font-size:14px !important;
+    font-size: 14px !important;
 }
 
     .dropdown-item:hover {
         background-color: #fff !important;
         color: black !important;
-        font-size:14px !important;
+        font-size: 14px !important;
     }
 
 a.r2 {
@@ -184,7 +262,6 @@ a.r2 {
 }
 
 .searchMagGlassWide {
- 
     background-color: white !important;
 }
 
@@ -221,10 +298,12 @@ a.r2 {
 #topNav2White {
     background-color: white;
 }
+
 #topNavbar {
     background-color: #383737 !important;
     height: 39px;
 }
+
 #topNavbar2 {
     width: 100%;
 }
@@ -256,8 +335,8 @@ a.r2 {
     padding-left: 0px !important;
     margin-right: 0px !important;
     padding-right: 0px !important;
-    
 }
+
 #topNavHome {
     margin-left: 0px !important;
     padding-left: 0px !important;
@@ -311,25 +390,29 @@ a.r2 {
         top: 38px;
         left: -13px;
     }
+
 #longerItem {
     margin-left: 0px !important;
     padding-left: 0px !important;
     margin-right: 0px !important;
     padding-right: 0px !important;
-    width:500px;
+    width: 500px;
 }
+
 .myNavbar-nav {
     margin-left: 0px !important;
     padding-left: 0px !important;
     margin-right: 0px !important;
     padding-right: 0px !important;
 }
+
 myNavbar-nav2 {
     margin-left: 0px !important;
     padding-left: 0px !important;
     margin-right: 0px !important;
     padding-right: 0px !important;
 }
+
 .navSearchTerm {
     width: 320px;
     padding-right: 0px !important;
@@ -372,10 +455,74 @@ myNavbar-nav2 {
     font-size: 13px !important;
     vertical-align: middle !important;
 }
+
 #loginA {
     font-weight: 800 !important;
     color: #3366cc !important;
 }
-#topAboutDropdown{margin-left:12px;}
-#topHistoryDropdown{margin-left:12px;}
-#topNav2View{border:none;}
+
+#topAboutDropdown {
+    margin-left: 12px;
+}
+
+#topHistoryDropdown {
+    margin-left: 12px;
+}
+
+#topNav2View {
+    border: none;
+}
+
+.topNavUserBarMax {
+    padding-top: 0px;
+    padding-top: 0px;
+}
+
+.topNavUserBarMin {
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+#topHome {
+    text-align: center;
+}
+
+#topNavAboutDropdown {
+    text-align: center;
+}
+
+#topNavHelpDropdown {
+    text-align: center;
+}
+
+#topNavHistoryDropdown {
+    text-align: center;
+}
+
+#viewMyProfileA {
+    text-align: center;
+}
+#editThisProfileA{text-align:center;}
+#editMyProfileA {
+    text-align: center;
+}
+
+#manageProxiesA {
+    text-align: center;
+}
+
+#nav2Persons {
+    text-align: center;
+}
+
+#dashboardA {
+    text-align: center;
+}
+
+#opportunitySearchA {
+    text-align: center;
+}
+
+#logoutA {
+    text-align: center;
+}

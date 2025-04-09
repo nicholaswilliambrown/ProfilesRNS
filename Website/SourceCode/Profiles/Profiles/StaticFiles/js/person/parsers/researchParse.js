@@ -19,7 +19,7 @@ function emitLargeOrSmallResearchItem(elt, start, end, liDiv, i, lgVsSm) {
 
     let colSpecs = [
         newColumnSpec(`${col0Class}` , spanify(elt.FundingID)),
-        newColumnSpec(`${col1Class}`, spanify(elt.PrincipalInvestigatorName)),
+        newColumnSpec(`${col1Class}`, spanify('(' + elt.PrincipalInvestigatorName + ')')),
         newColumnSpec(`${col2Class}`, spanify(`${start} - ${end}`))
     ];
     makeRowWithColumns(displayDiv, `research-${idLgOrSm}-${i}`, colSpecs);

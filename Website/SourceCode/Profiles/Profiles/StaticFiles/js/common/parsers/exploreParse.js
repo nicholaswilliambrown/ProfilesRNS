@@ -78,7 +78,7 @@ function emitNameHeaderForExplores(name) {
     let theirNetworkDiv = $(`<div id="theirNetworkDiv" class="theirNetworkDiv ">                                                            
                              </div>`);
 
-    let theirNetworkTitle = $(`<div class="boldCrimson">${name}'s Networks</div>`);
+    let theirNetworkTitle = $(`<div class="boldNetworks">${name}'s Networks</div>`);
     let theirNetworkBlurb = $('<div class="theirNetworkBlurb">Click the <span class="green bold">Explore</span> buttons for ' +
         'more information and interactive visualizations!</div>');
 

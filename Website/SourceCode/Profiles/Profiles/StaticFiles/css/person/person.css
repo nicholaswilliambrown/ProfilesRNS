@@ -1,36 +1,50 @@
 
+
+
+.moreInfoButton {
+    padding-left: unset !important;
+}
 .headshot {
     border: 1px solid black;
 }
-.moreInfoButton{padding-left:unset !important;}
-#headshot .link-ish{background-color:#ffffff !important;}
+#headshot {
+    text-align: center;
+}
+
+    #headshot .link-ish {
+        background-color: #ffffff !important;
+    }
+
 .giOthersHeading {
     font-weight: bold;
     text-decoration: underline;
     margin-left: 7%;
 }
 
-
+#researchRecent{color:#333;}
 /***** general info *************************************************************************/
 .gi_fullName {
     color: #AC1B30;
-    font-size:28px;
+    font-size: 28px;
 }
+
 .gi_otherPositions {
     padding-left: 8%; /** class ps-[1-5] did not seem to work **/
     text-decoration: underline;
     font-weight: bold;
 }
-.orcidLabel {
 
+.orcidLabel {
 }
 /************* authorship ***********************************************************************/
 .auth_topDiv1 {
     font-weight: 700 !important;
     margin-top: 5px;
+    margin-bottom: 5px;
     color: #888;
     line-height: 19px;
 }
+
 .research-length {
     font-weight: bolder;
     text-decoration: none;
@@ -38,15 +52,18 @@
     pointer-events: none;
     outline: none !important;
     border: none !important;
-    background-color:#ffffff !important;
+    background-color: #ffffff !important;
 }
-.research-length:focus {
-    outline: 5px auto -webkit-focus-ring-color !important;
-    outline-offset: -2px !important;
-}
+
+    .research-length:focus {
+        outline: 5px auto -webkit-focus-ring-color !important;
+        outline-offset: -2px !important;
+    }
+
 .black {
     color: black !important;
 }
+
 .auth_topDiv2 {
     font-size: 12px;
     margin-top: 0px;
@@ -58,9 +75,11 @@
     width: 50%;
     margin-left: 0%;
 }
+
 .noBorder {
     border: none;
 }
+
 .toggleGraphLink {
     color: #3366CC;
     text-decoration: none;
@@ -69,6 +88,7 @@
 #divLimit {
     font-weight: bold;
     color: #666;
+    margin-left:20px;
 }
 /****************** several parsers ***************************/
 
@@ -76,26 +96,32 @@
     color: #666;
     font-weight: 700;
 }
+
 #showPlainDivContent {
     border: 1px solid #767676;
     padding: 2px;
     width: 90%;
 }
+
 #clinicaltrials-inner {
     padding-right: 0px !important;
 }
-#clinicaltrials-inner .row.mb2i{
-    margin-bottom: 8px !important;
-}
+
+    #clinicaltrials-inner .row.mb2i {
+        margin-bottom: 8px !important;
+    }
+
 .f10 {
     color: black;
     font-size: 10px;
 }
+
 .thick2 {
     height: 2px !important;
     margin-top: 8px !important;
     margin-bottom: 8px !important;
 }
+
 .faviconSpan {
     margin-right: 8px;
 }
@@ -108,23 +134,43 @@
 .bs-pop:focus {
     outline: none !important;
 }
+
 .popContent {
     border: none !important
 }
+
 .popClose {
     font-size: xx-small !important;
     text-align: center;
 }
+
 .popTitle {
     border: none !important;
     text-align: center;
 }
+
 .generalInfoLabels {
-   
     color: #777;
     font-weight: bold;
-   
 }
-#giOuterRow{color:#000000;}
-.showAllPubs{font-weight:bold !important;}
 
+#giOuterRow {
+    color: #000000;
+}
+
+.showAllPubs {
+    font-weight: bold !important;
+}
+
+div[id^="research-Lg-"] {
+    padding-left: 0px !important;
+}
+
+div[id^="research-Sm-"] {
+    padding-left: 0px !important;
+}
+
+.giOthersHeading {
+    text-align: right;
+}
+.pubBadgeField{font-weight:700;color:#666;}

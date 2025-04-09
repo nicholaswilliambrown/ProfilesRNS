@@ -240,7 +240,7 @@ function makeModuleTitleDiv(moduleTitle) {
 }
 
 function setupTopOfPageItems() {
-    setUrlByAnchorId("loginA", gCommon.loginUrl + sessionInfo.sessionID);
+    setUrlByAnchorId("loginA", gCommon.loginUrl + document.URL);
 
     setupTopNav();
 }
@@ -558,6 +558,18 @@ function emitAndHistoricizeTitle(title, targetId, mainDiv) {
     addItemToNavHistory(title, window.location.href);
 }
 
+function createNavItemSpan(id, text, clickFn, aClass) {
+    if (!aClass) {
+        aClass = "";
+    }
+    let span = $(`<span class="link-ish nav-link d-inline ${id} ${aClass}">
+                                ${text}</span>`);
+
+    if (clickFn) {
+        span.on("click", clickFn);
+    }
+    return span;
+}
 function createNavItemDiv(id, text, clickFn, aClass) {
     if (!aClass) {
         aClass = "";

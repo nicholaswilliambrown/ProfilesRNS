@@ -49,7 +49,9 @@ async function personReady() {
 
                 // could not populate these anchors in skeleton, need url info
                 populateRhsAnchors(true);
-    });
+
+                $('.authNavButtonNewest').click();
+            });
     }
     catch (complaint) {
         let stack = Error().stack;

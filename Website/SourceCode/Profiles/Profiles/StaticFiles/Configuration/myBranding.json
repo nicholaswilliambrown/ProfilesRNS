@@ -1,47 +1,37 @@
 {
-  "NB1": "((no comments in json)) Depending on your 'myBrand.js' implementation, you may not need (m)any of the below!",
-
-  "homeUrl":"https://catalyst.harvard.edu",
-
-  "headerFooterCssUrl":"https://catalyst.harvard.edu/wp-content/themes/_curryint/assets/shared_assets/header_footer.css",
-  "headerFooterJsUrl":"https://catalyst.harvard.edu/wp-content/themes/_curryint/assets/shared_assets/sharedAssetsJS.js",
-  "headerUrl":"https://catalyst.harvard.edu/shared-asset/profiles-header/",
-  "footerUrl":"https://catalyst.harvard.edu/shared-asset/tool-page-footer",
-
-  "iconUrlBase":"https://dev-hcat.pantheonsite.io",
-  "logoUrl": "https://catalyst.harvard.edu/wp-content/themes/_curryint/assets/img/tool-page-logo.png",
-  "logoTitle": "View Harvard Catalyst Homepage",
-  "logoAlt": "Harvard Catalyst Logo",
-
-  "faviconUrl": "https://catalyst.harvard.edu/favicon.ico",
-  "tabTitleSuffix": " | Harvard Catalyst Profiles | Harvard Catalyst",
-  "profilesTitle": "Harvard Catalyst Profiles",
+  "faviconUrl": "https://openSourceProfilesLlc.com/favicon.ico",
+  "tabTitleSuffix": " | Profiles RNS",
+  "profilesTitle": "Profiles",
 
   "NB2": "mapProvider can be either 'google' or 'leaflet' -- leaflet does not require an account",
   "mapProvider": "google",
 
-  "help-howToContact": "Email us at <a href='mailto:contact@catalyst.harvard.edu'>contact@catalyst.harvard.edu</a>.",
-  "help-whoIsListed": "Harvard Catalyst Profiles includes all faculty from Harvard Medical School, Harvard School of Dental Medicine, and Harvard School of Public Health. Listings in Harvard Catalyst Profiles are automatic and based on maintaining an active faculty appointment; removal occurs only upon termination or retirement from the faculty appointment.",
+  "help-howToContact": "Email us at <a href='mailto:contact@openSourceProfilesLlc.com'>contact@openSourceProfilesLlc.com</a>.",
+  "help-whoIsListed": "",
   "help-whoCanView": "This website is open to the general public. However, people with an HMS eCommons account or relevant HUID privileges can login for additional features, such as active networking, which is described above.",
-  "help-howToEdit1": "To edit your profile, click the Edit My Profile link on the sidebar. You might be prompted to login with your HMS eCommons or Harvard PIN account. The Edit Menu page lists all the types of content that can be included on your profile. They are grouped into categories and listed in the same order as they appear when viewing your profile. Click any content type to view/edit the items or change the privacy settings. Some types of content are imported automatically from other systems, and you cannot edit them through Profiles. They appear with a \"locked\" icon and contain more information when you click them.",
-  "help-howToEdit15": "Your affiliation, title, mailing address, email address come from your Human Resources record.",
-  "help-howToEdit2": "If you have questions about your Human Resources record, please contact:",
-  "help-howToEdit3": "<ul><li>HMS/HSDM faculty - <a title=\"human_resources@hms.harvard.edu\" href='mailto:human_resources@hms.harvard.edu'>HMS Office of Human Resources (human_resources@hms.harvard.edu)</a></li><li>HSPH faculty - <a title=\"facultyaffairs@hsph.harvard.edu\" href='mailto:facultyaffairs@hsph.harvard.edu'>HSPH Faculty Affairs (facultyaffairs@hsph.harvard.edu)</a></li></ul>",
+
+  "help-howToEdit1": "To edit your profile, click the Edit My Profile link on the sidebar. You might be prompted to login. The Edit Menu page lists all the types of content that can be included on your profile. They are grouped into categories and listed in the same order as they appear when viewing your profile. Click any content type to view/edit the items or change the privacy settings. Some types of content are imported automatically from other systems, and you cannot edit them through Profiles. They appear with a \"locked\" icon and contain more information when you click them. An example of this is data that comes from your Human Resources record, such as affiliation, title, mailing address, and email address.",
+  "help-howToEdit15": "",
+
+  "help-howToEdit2": "",
+  "help-howToEdit3": "",
   "help-howToEdit4": "To view your profile as others see it, click the View My Profile link on the sidebar.",
-  "help-sources": "All data shown by default on this website are currently available on other public websites. Directory information was obtained from the University's PeopleSoft system, which feeds the HMS Whitepages and central Harvard Directory, and publications and keywords were copied from PubMed. If faculty had previously entered publications into FIRST, then a one-time copy of those publications were also added to this website. If faculty had previously entered awards and narratives into FIRST, then one-time copies of that information were also added to this website's database. However, this information is only displayed on the website if those faculty members have approved its inclusion. Default photos are from Harvard IDs, but faculty must also approve the use of those before they are shown on this website. Lists of co-authors and similar people are derived automatically from publications, and the department and neighbor lists are determined automatically from directory information.",
-  "help-missingOrIncorrect": "Publications are added both automatically from PubMed and manually by faculty themselves. Unfortunately, there is no easy way to match articles in PubMed to the profiles on this website. The algorithm used to find articles from PubMed attempts to minimize the number of publications incorrectly added to a profile; however, this method results in some missing publications. Faculty with common names or whose articles were written at other institutions are most likely to have incomplete publication lists. We encourage all faculty to login to the website and add any missing publications or remove incorrect ones. <a href=\"mailto:contact@catalyst.harvard.edu\">Contact us</a> with additional questions regarding publications.",
-  "help-frequentlyUpdated": "Directory information, such as names, titles, affiliations, and contact information is automatically updated nightly from changes made in the University's PeopleSoft system. Passive networks, such as keywords and similar people, are automatically updated nightly. Publication data that is automatically derived from PubMed is updated approximately every two weeks. Faculty can edit portions of their profiles at any time.",
-  "help-canIEdit": "These are derived automatically from the PubMed articles listed with your profile. You cannot edit these directly, but you can improve these lists by keeping your publications up to date. Please note that it takes up to 24 hours for the system to update your concepts, co-authors, and similar people after you have modified your publications. Concept rankings and similar people lists are based on algorithms that weigh multiple factors, such as how many publications you have in a subject area compared to the total number of faculty who have published in that area. Your feedback is essential to helping us refine these algorithms. Faculty can also login and add custom concepts to their profiles, but these are listed on the main part of the profile page, separate from the automatically derived terms.",
-  "help-whoCreated": "Harvard Catalyst Profiles was invented by <a href=\"https://connects.catalyst.harvard.edu/Profiles/display/Person/32213\">Griffin M Weber, MD, PhD</a>. The current and past members of the development team include Nick Benik, Nick Brown, Paul Gomez, Ken Huling, Shashank Jain, Melissa Kenny, Kevin Laitinen, Kellie Lucy, Krishna Nellutla, James B. Norman, Rob Piscitello, George Rakauskas, Jeff Rosen, Franco Valentino, Marlon Violette, Griffin Weber, and Steve Wimberg. This website would not have been possible without the amazing work done over many years by Susan Vomacka (HMS Whitepages) and Mortimer Litt, MD, (FIRST). We thank Joon Lee from the Center for Biomedical Informatics (CBMI) at Harvard Medical School for his expertise and advice on working with the Harvard bibliome.",
+  "help-sources": "",
+  "help-missingOrIncorrect": "Publications are added both automatically from PubMed and manually by faculty themselves. Unfortunately, there is no easy way to match articles in PubMed to the profiles on this website. The algorithm used to find articles from PubMed attempts to minimize the number of publications incorrectly added to a profile; however, this method results in some missing publications. Faculty with common names or whose articles were written at other institutions are most likely to have incomplete publication lists. We encourage all faculty to login to the website and add any missing publications or remove incorrect ones.",
+  "help-frequentlyUpdated": "",
+  "help-canIEdit": "            These are derived automatically from the PubMed articles listed with your profile. You cannot edit these directly, but you can improve these lists by keeping your publications up to date. Please note that it takes up to 24 hours for the system to update your concepts, co-authors, and similar people after you have modified your publications. Concept rankings and similar people lists are based on algorithms that weigh multiple factors, such as how many publications you have in a subject area compared to the total number of faculty who have published in that area. Your feedback is essential to helping us refine these algorithms. A future version of this website will allow users to add custom concepts to their profiles, but these will be separate from the automatically derived terms.\n",
+  "help-whoCreated": "This service is made possible by the Profiles Research Networking Software developed under the supervision of Griffin M Weber, MD, PhD, with support from Grant Number 1 UL1 RR025758-01 to Harvard Catalyst: The Harvard Clinical and Translational Science Center from the National Center for Research Resources and support from Harvard University and its affiliated academic healthcare centers.",
 
-  "aboutProfiles-whatIsIt": "Harvard Catalyst \"Profiles\" creates searchable and interactive online profiles of all faculty at Harvard Medical School, Harvard School of Dental Medicine, and Harvard T.H. Chan School of Public Health. Harvard Catalyst is home to more than 24,000 faculty whose expertise covers nearly the entire breadth and depth of biomedicine. But in such a large community, how can you find collaborators to work with on your research? This is where Profiles can help. Part directory and part social networking tool, Profilesn ot only lets you search for faculty by name or keyword, but it also helps you explore and understand the different ways that faculty work together. This is done through interactive visualizations that reveal groups of faculty who research similar topics, coauthor scientific articles, work in the same organizations, or have offices that are physically close. Browse these visualizations to discover how you might already be connected to your next research collaborator!",
-  "aboutProfiles-profilesTitle": "Harvard Catalyst Profiles",
-  "aboutProfiles-profilesInstitution": "Harvard",
+  "aboutProfiles-whatIsIt": "Profiles Research Networking Software is a research networking and expertise mining software tool. It not only shows traditional directory information, but also illustrates how each person is connected to others in the broad research community.",
+  "aboutProfiles-profilesTitle": "Profiles RNS",
+  "aboutProfiles-profilesInstitution": "your institution",
 
-  "useOurData-sparqlContactUrl": "/Profiles/display/Person/32213",
-  "useOurData-sparqlContactName": "Griffin Weber",
-  "useOurData-xmlSearchUrl": "https://connects.catalyst.harvard.edu/API/Profiles/Public/Search",
-  "useOurData-oldXmlSearchUrl": "https://connects.catalyst.harvard.edu/ProfilesAPI",
-  "useOurData-documentationUrl": "http://profiles.catalyst.harvard.edu/docs/ProfilesRNS_1.0.2_APIGuide.pdf",
-  "useOurData-examplesUrl": "http://profiles.catalyst.harvard.edu/docs/ProfilesRNS_1.0.2_API_Examples.zip"
+  "useOurData-sparqlContactUrl": "/display/1234",
+  "useOurData-sparqlContactName": "OpenSource Contact",
+  "useOurData-xmlSearchUrl": "https://openSourceProfilesLlc.com/API/Profiles/Public/Search",
+  "useOurData-oldXmlSearchUrl": "https://openSourceProfilesLlc.com/ProfilesAPI",
+  "useOurData-documentationUrl": "https://openSourceProfilesLlc.com/docs/ProfilesRNS_1.0.2_APIGuide.pdf",
+  "useOurData-examplesUrl": "https://openSourceProfilesLlc.com/docs/ProfilesRNS_1.0.2_API_Examples.zip"
+
+
 }

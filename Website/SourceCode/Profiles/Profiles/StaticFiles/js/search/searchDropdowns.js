@@ -193,13 +193,15 @@ function setupDropdowns() {
     hideLiItems();
     dropdownVisibilityAdjustToOverlaps();
 }
-function showSearchFilterSelections(dropdownPrefix) {
+function showSearchFilterSelections(dropdownPrefix, target) {
     let displayProperty = gSearch[dropdownPrefix].displayProperty;
     let selectedIndices = gSearch[dropdownPrefix].rawSelections;
     let items = gSearch[dropdownPrefix].items;
 
-    let itemDiv = $(`#${dropdownPrefix}UlDiv`);
-    let itemSelections = itemDiv.find('.theChosen');
+    if (! target) {
+        let itemDiv = $(`#${dropdownPrefix}UlDiv`);
+        target = itemDiv.find('.theChosen');
+    }
 
     let list = selectedIndices.map(i => items[i][displayProperty]);
     let howMuch = list.length;
@@ -215,7 +217,7 @@ function showSearchFilterSelections(dropdownPrefix) {
         result = list.join(', ');
     }
 
-    itemSelections.html(result);
+    target.html(result);
 }
 function indicesToItems(items, indices) {
     let result = indices.map(i => items[i]);

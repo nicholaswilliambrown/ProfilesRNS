@@ -65,20 +65,20 @@ function harvestCheckedOptions(prefix) {
     return result;
 }
 function fromResultsOrInit(results, pathKeys, init) {
-    let candidate;
+    let candidateAtEoPath;
 
     if (typeof results !== 'undefined') {
-        candidate = results;
+        candidateAtEoPath = results;
         for (let i=0; i<pathKeys.length; i++) {
             let key = pathKeys[i];
-            if ( typeof candidate[key] === 'undefined') {
-                candidate = init;
+            if ( typeof candidateAtEoPath[key] === 'undefined') {
+                candidateAtEoPath = init;
                 break;
             }
-            candidate = candidate[key];
+            candidateAtEoPath = candidateAtEoPath[key];
         }
     }
-    return candidate;
+    return candidateAtEoPath;
 }
 function addUpdateSearchQueryKey(results, key, value) {
     addUpdateSearchQuery(results.SearchQuery, key, value);
@@ -250,7 +250,7 @@ function emitSearchResultCountAndRelatedLinks(
                                     backText,
                                     count,
                                     insertBeforeId) {
-    let target = $('#midDivInner');
+    let target = $('#midDiv');
 
     let countDetail = (typeof count !== gCommon.undefined) ? ` (${count})` : "";
     let titleContent = `Search Results Details${countDetail}`;

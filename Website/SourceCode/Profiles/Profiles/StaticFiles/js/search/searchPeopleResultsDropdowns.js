@@ -1,19 +1,78 @@
-function adjustChosenSort(results) {
-    let currentFlavor = results.SearchQuery.Sort;
-    let flavoredLi = $(`li[value="${currentFlavor}"]`);
-    if ( ! flavoredLi.is(':visible')) {
-        addUpdateSearchQueryKey(results, 'Sort', gSearch.defaultPeopleSort);
+function setupDropdownsDisplay() {
+    $('body').on('click', function() {
+        hideBothDropdowns();
+    });
+}
+function setupDropdownsAndInitialSelections(results) {
+    setupShowDropdown(results);
+    setupSortDropdown(results);
+
+    $(`.li-sort`).on('click', function(e) {
+        clickLiSort(e, results);
+    });
+}
+function setupDropdownControllers() {
+    // customize position of controlled dropdowns
+    $('.ulDiv ul').css('top', '32px');
+
+    let allUlProxies = $('.proxyDd');
+
+    allUlProxies.on('click', function(e) {
+        e.stopPropagation();
+        let thisOne = $(this);
+
+        let thisUlId = thisOne.attr('dd');
+        let thisUl = $(`#${thisUlId}`);
+        let otherUlId = thisOne.attr('other');
+        let otherUl = $(`#${otherUlId}`);
+
+        if (otherUl.is(':visible')) {
+            resultsDdHide(otherUl);
+        }
+        resultsDdToggle(thisUl);
+    });
+}
+function getDdId(dd) {
+    let id = dd.attr('id');
+    return id;
+}
+function resultsDdToggle(dd) {
+    if (dd.is(':visible')) {
+        resultsDdHide(dd);
+    }
+    else {
+        resultsDdShow(dd);
     }
 }
-
+function hideBothDropdowns() {
+    $('.ulDropdown').each( function() { resultsDdHide($(this)); } );
+}
+function resultsDdShow(dd) {
+    dd.removeClass('d-none');
+    dd.show();
+}
+function resultsDdHide(dd) {
+    if (dd.is(':visible')) {
+        dd.hide();
+        if (getDdId(dd) == 'showDropdown') {
+            applyShowsFromDropdown(); // this may redo search
+        }
+    }
+}
+function updateSearchWithShows(results) {
+    let selected = harvestCheckedOptions('showCheck').sort();
+    addUpdateSearchQueryKey(results, gSearch.selectedOptionalPeopleShowsKey, selected);
+    return selected;
+}
 function setupShowDropdown(results) {
     $(`.li-show`).on('click', clickLiShow);
-    $(`.li-show input`).on('click', function(e) { clickInnerCheckbox(e, results); });
 
     let selected = fromResultsOrInit(
         results,
         ['SearchQuery', gSearch.selectedOptionalPeopleShowsKey],
-        gSearch.initialOptionalPeopleShows);
+        gSearch.defaultOptionalPeopleShows);
+
+    gSearch.initialShowSelected = selected.sort();
 
     if (selected.length == 0) {
         adjustShowChoicesHeader(results);
@@ -24,73 +83,27 @@ function setupShowDropdown(results) {
             elt.click();
         });
     }
-
-    $(`#showDropdown`).on('click', function(e) {
-        e.stopPropagation();
-
-        $('.li-sort').hide();
-        $('.li-show').toggle();
-
-        if ($('.li-show:visible').length == 0) {
-            adjustChosenSort(results);
-            installSelectedShows(results);
-
-            redoPeopleSearch(results);
-        }
-    });
 }
-function installSelectedShows(results) {
-    let selected = harvestCheckedOptions('showCheck');
-    addUpdateSearchQueryKey(results, gSearch.selectedOptionalPeopleShowsKey, selected);
-}
-function setupDropdownsAndInitialSelections(results) {
-    setupShowDropdown(results);
-
+function setupSortDropdown(results) {
     let searchQuery = results.SearchQuery;
     let sortFlavor = searchQuery.Sort;
+
+    gSearch.initialSortFlavor = sortFlavor;
+
     let flavoredSortItem = $(`.li-sort[value="${sortFlavor}"]`);
 
     flavoredSortItem.addClass('selected');
     let selectedText = flavoredSortItem.html();
-
-    let chosenSort = $('#sortDropdown').find('.theChosen');
-    chosenSort.html(selectedText);
+    $('#sortButton').html(selectedText);
 
     syncSortOptionsToShownHeaders(results);
-
-    $('body').on('click', function() {
-        if ($('.li-show:visible').length > 0) { // need to harvest the show selections and redo
-            applyShowsFromDropdown(results);
-        }
-    })
-    $(`#sortDropdown`).on('click', function(e) {
-        $('.li-sort').toggle();
-        $(`.li-sort[${gSearch.omitOptionalColumnSt}="${gSearch.omitOptionalColumnSt}"]`).hide();
-    });
-
-   $(`.li-sort`).on('click', function(e) { liSortClick(e, results); });
 }
-function applyShowsFromDropdown(results) {
-    adjustChosenSort(results);
-    installSelectedShows(results);
-    redoPeopleSearch(results);
-}
-function liSortClick(e, results) {
-    let target = $(e.target);
+function applyShowsFromDropdown() {
+    let selected = updateSearchWithShows(gSearch.results);
 
-    let correspondingHeaderId = target.attr('name');
-    let flavor = target.attr('value');
-    addUpdateSearchQueryKey(results, 'Sort', flavor);
-
-    let direction= gSearch.ascendingSt;
-    if (flavor.match(gSearch.descendingValReSt)) {
-        direction = gSearch.descendingSt;
+    if (JSON.stringify(selected) != JSON.stringify(gSearch.initialShowSelected)) {
+        redoPeopleSearch(gSearch.results);
     }
-
-    let sortDisplayInfo = { headerId: correspondingHeaderId, direction: direction};
-    addUpdateSearchQueryKey(results, gSearch.sortPeopleIconInfoKey, sortDisplayInfo);
-
-    redoPeopleSearch(results);
 }
 function redoPeopleSearch(searchResults) {
     searchPost(
@@ -119,7 +132,7 @@ function adjustShowChoicesHeader(results) {
     let comparison = $('#showDropdown').find('.initial');
     selectedSt = ellipsizeToFit(selectedSt, comparison, $('#dropDownMarker').width());
 
-    let target = $('#showDropdown').find('.theChosen');
+    let target = $('#showButton');
     target.html(selectedSt);
 }
 function syncSortOptionsToShownHeaders(results) {
@@ -127,23 +140,41 @@ function syncSortOptionsToShownHeaders(results) {
     let optionalShows = fromResultsOrInit(
         results,
         ['SearchQuery', gSearch.selectedOptionalPeopleShowsKey],
-        gSearch.initialOptionalPeopleShows);
+        gSearch.defaultOptionalPeopleShows);
+
     optionalShows.forEach(s => {
         $(`li[name="${s}"]`).removeAttr(gSearch.omitOptionalColumnSt);
     });
+    $(`li[${gSearch.omitOptionalColumnSt}]`).addClass('d-none');
+}
+function clickLiSort(e, results) {
+    let target = $(e.target);
+
+    let correspondingHeaderId = target.attr('name');
+    let flavor = target.attr('value');
+    addUpdateSearchQueryKey(results, 'Sort', flavor);
+
+    let direction = gSearch.ascendingSt;
+    if (flavor.match(gSearch.descendingValReSt)) {
+        direction = gSearch.descendingSt;
+    }
+
+    let sortDisplayInfo = { headerId: correspondingHeaderId, direction: direction};
+    addUpdateSearchQueryKey(results, gSearch.sortPeopleIconInfoKey, sortDisplayInfo);
+
+    if (flavor != gSearch.initialSortFlavor) {
+        redoPeopleSearch(results);
+    }
 }
 function clickLiShow(e) {
+    e.stopPropagation(); // body click aggressively reload
+
     let target = $(e.target);
-    e.stopPropagation();
+    target.toggleClass('selected');
 
     let checkbox = target.find('input');
     checkbox.click();
-}
-function clickInnerCheckbox(e, results) {
-    let target = $(e.target);
-    e.stopPropagation();
 
-    target.parent().toggleClass('selected');
-    adjustShowChoicesHeader(results);
+    adjustShowChoicesHeader(gSearch.results);
 }
 

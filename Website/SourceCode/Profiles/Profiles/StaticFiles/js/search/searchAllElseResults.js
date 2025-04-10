@@ -68,10 +68,10 @@ function emitResults(results) {
 }
 function emitAllElseRhs(results, pagination) {
     let target = gSearch.rhsDiv;
-    let titleDiv = $('<div class="mb-1"></div>');
+    let titleDiv = $('<div class="mb-1 panelPassiveSearchCriteria"></div>');
     target.empty();
     target.append(titleDiv);
-    titleDiv.append(spanify('Search Criteria', 'bold mb-4'));
+    titleDiv.append(spanify('Search Criteria', 'bold mb-4 '));
 
     addIfPresent({
         text: results.SearchQuery.Keyword,
@@ -90,7 +90,7 @@ function emitAllElseRhs(results, pagination) {
 }
 function showAllElseFilters(target, results) {
     let filters = results.Filters;
-    divSpanifyTo('Filter By Type', target, 'bold');
+    divSpanifyTo('Filter by Type', target, 'bold');
 
     let allFilter = filters.filter(f => f.label == gSearch.allFilterLabel);
     let otherFilters = filters.filter(f => f.label !== gSearch.allFilterLabel);
@@ -160,10 +160,10 @@ function emitAllElseDataRows(results, colspecs, target) {
             let row = makeRowWithColumns(target, rowId, colspecs, "borderOneSolid bordE " + backgroundColor);
 
             let whyAnchor = createWhyLink(item, results);
-            let labelAnchor = createAnchorElement(item.Label, item.URL, backgroundColor);
+            let labelAnchor = createAnchorElement(item.ClassLabel, item.URL, backgroundColor);
 
-            row.find(`#${rowId}Col0`).append(labelAnchor);
-            row.find(`#${rowId}Col1`).html(item.ClassLabel);
+            row.find(`#${rowId}Col0`).append(item.Label);
+            row.find(`#${rowId}Col1`).html(labelAnchor);
             row.find(`#${rowId}Col2`).append(whyAnchor);
 
             hoverLight(row);

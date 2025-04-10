@@ -110,7 +110,7 @@ function emitWhyResultsHeader(target, title1, title2) {
     let row = makeRowWithColumns(target, rowId, colspecsBold, "borderOneSolid bordTop mt-3");
 
     row.find(`#${rowId}Col0`).html(title1);
-    row.find(`#${rowId}Col1`).html(title2);
+    row.find(`#${rowId}Col1`).html("<span class='whyResultsHeaderCol1'>" + title2 + "</span>");
 }
 
 function emitWhyDirectMatches(matches, target) {

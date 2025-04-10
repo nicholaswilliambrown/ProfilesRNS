@@ -2,17 +2,18 @@
 async function setupSearchPeopleResults() {
     await setupPageStub(searchResultsBodyStructure);
 
+    let resultsAsString = fromSession(makeSearchResultsKey(gSearch.people));
+    let results = JSON.parse(resultsAsString);
+    gSearch.results = results;
+
     let specificContent = $('#searchPageMarkup');
-    innerCurtainsDown(specificContent);
+    //innerCurtainsDown(specificContent);
 
     let pagination = new Paging(
         redoPeopleSearch,
         gSearch.findPeopleUrl,
         getPeopleResultsCount,
         gPage.sizes);
-
-    let resultsAsString = fromSession(makeSearchResultsKey(gSearch.people));
-    let results = JSON.parse(resultsAsString);
 
     if (!results || !results.SearchQuery) { // sanity check
         alert(`Error with search results: ${resultsAsString}`);
@@ -29,13 +30,15 @@ async function setupSearchPeopleResults() {
         `${gSearch.searchForm}/${gSearch.people}`,
         'Modify Search',
         results.Count,
-        'sortDropdownDiv');
+        'dropdownsDiv');
+
+    setupDropdownControllers();
+    setupDropdownsDisplay();
+
 
     $('#sortDropdownDiv').addClass(`${gCommon.cols3or12} ulDiv`);
     $('#showDropdownDiv').addClass(`${gCommon.cols3or12} ulDiv`);
     dropdownVisibilityAdjustToOverlaps();
-
-    hideLiItems();
 
     if (results.Count) {
         setupDropdownsAndInitialSelections(results);
@@ -81,7 +84,7 @@ function emitPeopleResults(results) {
     let optionalShows = fromResultsOrInit(
         results,
         ['SearchQuery', gSearch.selectedOptionalPeopleShowsKey],
-        gSearch.initialOptionalPeopleShows);
+        gSearch.defaultOptionalPeopleShows);
 
     let keyword = results.SearchQuery.Keyword;
     let colspecs = makePpleSearchResultsColspecs(optionalShows, keyword);
@@ -148,8 +151,8 @@ function emitPeopleResultsHeader(results, optionalShows, colspecs, target, keywo
     }
 }
 function emitPeopleDataRows(results, optionalShows, colspecs, target, keyword) {
-    if (results.People && results.People.length > 0) {
-        let items = sortArrayViaSortLabel(results.People, "SortOrder");
+    let items = results.People;
+    if (items && items.length > 0) {
         let backgroundColor = "tableOddRowColor";
         for (let i = 0; i < items.length; i++) {
             let item = items[i];

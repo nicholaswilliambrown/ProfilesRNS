@@ -43,5 +43,7 @@
   "useOurData-xmlSearchUrl": "https://connects.catalyst.harvard.edu/API/Profiles/Public/Search",
   "useOurData-oldXmlSearchUrl": "https://connects.catalyst.harvard.edu/ProfilesAPI",
   "useOurData-documentationUrl": "http://profiles.catalyst.harvard.edu/docs/ProfilesRNS_1.0.2_APIGuide.pdf",
-  "useOurData-examplesUrl": "http://profiles.catalyst.harvard.edu/docs/ProfilesRNS_1.0.2_API_Examples.zip"
+  "useOurData-examplesUrl": "http://profiles.catalyst.harvard.edu/docs/ProfilesRNS_1.0.2_API_Examples.zip",
+
+  "disableCaptcha": false
 }

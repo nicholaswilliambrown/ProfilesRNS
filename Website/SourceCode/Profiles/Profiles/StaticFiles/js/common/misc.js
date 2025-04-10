@@ -228,7 +228,9 @@ function clearCaptchad() {
     toSession(captchaKey, null);
 }
 async function captchavate(captchaSuccessFn) {
-    if (fromSession(captchaKey)) {
+    let disableCaptcha = gBrandingConstants.disableCaptcha;
+
+    if (disableCaptcha || fromSession(captchaKey)) {
         if (captchaSuccessFn) return captchaSuccessFn();
     }
     else {

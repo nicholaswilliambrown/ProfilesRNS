@@ -31,7 +31,7 @@
   "useOurData-xmlSearchUrl": "https://openSourceProfilesLlc.com/API/Profiles/Public/Search",
   "useOurData-oldXmlSearchUrl": "https://openSourceProfilesLlc.com/ProfilesAPI",
   "useOurData-documentationUrl": "https://openSourceProfilesLlc.com/docs/ProfilesRNS_1.0.2_APIGuide.pdf",
-  "useOurData-examplesUrl": "https://openSourceProfilesLlc.com/docs/ProfilesRNS_1.0.2_API_Examples.zip"
+  "useOurData-examplesUrl": "https://openSourceProfilesLlc.com/docs/ProfilesRNS_1.0.2_API_Examples.zip",
 
-
+  "disableCaptcha": true
 }

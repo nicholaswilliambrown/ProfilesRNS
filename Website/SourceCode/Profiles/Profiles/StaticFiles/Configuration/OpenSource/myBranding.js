@@ -9,8 +9,13 @@ async function emitBrandingHeader(targetId) {
     let header = $(`<div id="brandingBanner" class="mb-3"></div>`);
     $(`#${targetId}`).prepend(header);
 
-    let bannerDiv = $('<div class="d-flex justify-content-center headerBanner w-100"></div>');
+    let bannerDiv = $(`
+        <div class="d-flex justify-content-center headerBanner w-100">
+            <img src="/StaticFiles/img/branding/_OpenSourceBanner.png"/>
+        </div>`);
     await header.append(bannerDiv);
+
+
 }
 async function emitBrandingFooter(targetId) {
     let brandingFooter = $(`<div id="brandingFooter"></div>`);

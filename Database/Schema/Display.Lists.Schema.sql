@@ -1,0 +1,2 @@
+CREATE SCHEMA [Display.Lists] AUTHORIZATION [dbo]
+GO

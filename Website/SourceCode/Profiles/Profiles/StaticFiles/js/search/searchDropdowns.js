@@ -1,7 +1,10 @@
 function prepareDropdownData(data) {
     let result = [];
     let sortedOptionsData = prepareOtherOptionsData(data.OtherOptions);
-
+    if ( ! sortedOptionsData.length) {
+        $('#otherOptionsUlDiv').hide(); // hide does not work here
+        $('#otherOptionsUlDiv').addClass('d-none');
+    }
     result.push ({
         label: 'Institution',
         prefix: 'institutions',
@@ -78,6 +81,12 @@ function setupDropdowns() {
         let data = selectDataLists[j];
 
         let items = data.list;
+
+        // no dropdown if no items to list!
+        if ( ! items.length) {
+            continue;
+        }
+
         let displayProperty = data.displayProperty;
 
         let dropdownPrefix = data.prefix;

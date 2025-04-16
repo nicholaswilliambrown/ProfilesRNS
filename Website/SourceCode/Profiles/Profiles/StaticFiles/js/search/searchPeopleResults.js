@@ -151,7 +151,7 @@ function emitPeopleResultsHeader(results, optionalShows, colspecs, target, keywo
     }
 }
 function emitPeopleDataRows(results, optionalShows, colspecs, target, keyword) {
-    let items = results.People;
+    let items = sortArrayViaSortLabel(results.People, "SortOrder");
     if (items && items.length > 0) {
         let backgroundColor = "tableOddRowColor";
         for (let i = 0; i < items.length; i++) {

@@ -27,8 +27,8 @@ function setupTopNav() {
     }
     setUrlByAnchorId("editMyProfileA", gCommon.editMyProfileUrl + sessionInfo.personNodeID);
     setUrlByAnchorId("manageProxiesA", gCommon.manageProxiesUrl);
-    setUrlByAnchorId("dashboardA", gCommon.dashboardUrl + sessionInfo.personNodeID)
-    setUrlByAnchorId("opportunitySearchA", gCommon.opportunitySearch);
+    //setUrlByAnchorId("dashboardA", gCommon.dashboardUrl + sessionInfo.personNodeID)
+    //setUrlByAnchorId("opportunitySearchA", gCommon.opportunitySearch);
     setUrlByAnchorId("viewMyListA", gCommon.viewMyListUrl)
     populateHistoryDropdown();
 

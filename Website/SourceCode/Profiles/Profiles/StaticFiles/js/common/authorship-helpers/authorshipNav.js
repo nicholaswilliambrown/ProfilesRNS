@@ -46,8 +46,12 @@ function addPublicationsFirstTwoHeaderItems(target, ignore3) {
         gPerson.authNavButtonMostDiscussed];
 
     if (! ignore3) {
-        shortcuts.push(gPerson.authNavButtonTimeline);
-        shortcuts.push(gPerson.authNavButtonFieldSummary);
+        if (gPerson.authNavButtonTimeline) {
+            shortcuts.push(gPerson.authNavButtonTimeline);
+        }
+        if (gPerson.authNavButtonFieldSummary) {
+            shortcuts.push(gPerson.authNavButtonFieldSummary);
+        }
         shortcuts.push(gPerson.authNavButtonPlainText);
     }
 

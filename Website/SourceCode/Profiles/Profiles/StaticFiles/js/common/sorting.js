@@ -13,21 +13,19 @@ function uniqueArray(array) {
     return result;
 }
 function sortArrayViaSortLabel(array, sortLabel, reverse) {
-    let theSortedArray = copyArray(array).sort((a,b) => {
+    let sortedArray = copyArray(orEmptyList(array)).sort((a, b) => {
         let aVal = a[sortLabel];
         let bVal = b[sortLabel];
 
         let result;
         if (typeof aVal !== 'string') {
             result = reverse ? bVal - aVal : aVal - bVal;
-        }
-        else {
+        } else {
             result = reverse ? compareStringsForSort(aVal, bVal) : compareStringsForSort(bVal, aVal)
         }
-
         return result;
     });
-    return theSortedArray
+    return sortedArray;
 }
 function reverseSortArrayByWeight(array) {
     return sortArrayViaSortLabel(array, "Weight", true);

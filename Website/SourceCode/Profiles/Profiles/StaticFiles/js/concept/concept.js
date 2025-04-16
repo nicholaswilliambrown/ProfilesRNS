@@ -4,9 +4,10 @@ async function setupConceptPage() {
     await commonSetup(true);
     $('#modules-right-div').addClass("passiveNetwork");
     let moduleContentTarget = getMainModuleRow();
-    innerCurtainsDown(moduleContentTarget);
-
     await emitSkeletons();
+
+    innerCurtainsDown(moduleContentTarget);
+    $('#modules-left-div').prepend($('<h2 id="titleForHistory" class="titleForHistory boldCrimson"></h2>'));
 
     let json = await myGetPageJson();
 

@@ -260,6 +260,7 @@ type Display..GetJsonLog.Table.sql
 type Display..GetProfileDataLog.Table.sql
 type Display..ModuleMapping.Table.sql
 type Display..SearchEverything.Filters.Table.sql
+type Profile.Cache.Concept.Mesh.URL.Table.sql
 
 
 type RDF..fnTripleHash.UserDefinedFunction.sql
@@ -298,6 +299,20 @@ type Utility.NLP.fnQuoteNormalizeSplitStem.UserDefinedFunction.sql
 type RDF..fnNodeID2TypeID.UserDefinedFunction.sql
 type Profile.Data.fnPublication.Pubmed.ShortenAuthorLengthString.UserDefinedFunction.sql
 type Profile.Data.fnPublication.MyPub.HighlightAuthors.UserDefinedFunction.sql
+type Display..FnConvertSearchJSON2XML.UserDefinedFunction.sql
+type Display.Module.FnCustomViewAssociatedInformationResource.GetList.UserDefinedFunction.sql
+type Display.Module.FnCustomViewAuthorInAuthorship.GetJournalHeadings.UserDefinedFunction.sql
+type Display.Module.FnCustomViewAuthorInAuthorship.GetList.UserDefinedFunction.sql
+type Display.Module.FnCustomViewConceptPublications.GetList.UserDefinedFunction.sql
+type Display.Module.FnNetworkAuthorshipTimeline.Concept.GetData.UserDefinedFunction.sql
+type Display.Module.FnNetworkAuthorshipTimeline.Person.GetData.UserDefinedFunction.sql
+type Display.Module.FnNetworkRadial.GetData.UserDefinedFunction.sql
+type RDF..fnNodeID2PersonID.UserDefinedFunction.sql
+type RDF.Security.fnGetSessionSecurityGroupNodes.UserDefinedFunction.sql
+
+
+
+
 
 type Framework..vwBufferObjects.View.sql
 type Framework..vwBufferDatabases.View.sql
@@ -721,7 +736,6 @@ type Display.Lists.UpdateLists.StoredProcedure.sql
 type Display.Module.AwardReceipt.GeneralInfo.StoredProcedure.sql
 type Display.Module.Coauthor.Cluster.StoredProcedure.sql
 type Display.Module.Coauthor.Connection.StoredProcedure.sql
-type Display.Module.Coauthor.Map.StoredProcedure.sql
 type Display.Module.Coauthor.Timeline.StoredProcedure.sql
 type Display.Module.CoauthorSimilar.Map.StoredProcedure.sql
 type Display.Module.Concept.GeneralInfo.StoredProcedure.sql
@@ -786,3 +800,6 @@ type Display.Module.Publication.Concepts.StoredProcedure.sql
 type Display.Module.Publication.GeneralInfo.StoredProcedure.sql
 type Display.Module.SimilarPeople.Connection.StoredProcedure.sql
 type Display.Module.UnmatchedType.StoredProcedure.sql
+type Profile.Cache.Person.UpdatePreferredPath.StoredProcedure.sql
+type Profile.Cache.Concept.UpdatePreferredPath.StoredProcedure.sql
+type Profile.Data.Group.GetPhotos.StoredProcedure.sql

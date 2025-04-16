@@ -15,6 +15,10 @@ CREATE TABLE [Display.].[DataPath](
 	[pageSecurityType] [varchar](32) NULL,
 	[cacheLength] [varchar](32) NULL,
 	[BotIndex] [bit] NULL,
+	[PresentationType] [char](1) NULL,
+	[PresentationSubject] [nvarchar](400) NULL,
+	[PresentationPredicate] [nvarchar](400) NULL,
+	[PresentationObject] [nvarchar](400) NULL,
  CONSTRAINT [PK_Display__DataPath] PRIMARY KEY CLUSTERED 
 (
 	[PresentationID] ASC,
@@ -23,3 +27,4 @@ CREATE TABLE [Display.].[DataPath](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
+

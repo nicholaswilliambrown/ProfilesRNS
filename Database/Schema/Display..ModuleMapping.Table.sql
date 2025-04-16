@@ -17,7 +17,11 @@ CREATE TABLE [Display.].[ModuleMapping](
 	[ToolTip] [varchar](max) NULL,
 	[Panel] [varchar](10) NULL,
 	[SortOrder] [int] NULL,
-	[LayoutDataModule] [bit] NOT NULL
+	[LayoutDataModule] [bit] NOT NULL,
+	[PresentationType] [char](1) NULL,
+	[PresentationSubject] [nvarchar](400) NULL,
+	[PresentationPredicate] [nvarchar](400) NULL,
+	[PresentationObject] [nvarchar](400) NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
@@ -26,4 +30,5 @@ GO
 
 ALTER TABLE [Display.].[ModuleMapping] ADD  DEFAULT ((0)) FOR [LayoutDataModule]
 GO
+
 

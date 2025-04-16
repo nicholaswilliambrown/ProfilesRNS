@@ -14,6 +14,7 @@ CREATE TABLE [Profile.Data].[Publication.Pubmed.Bibliometrics] (
     [TranslationCells]         INT           NULL,
     [TranslationPublicHealth]  INT           NULL,
     [TranslationClinicalTrial] INT           NULL,
+	[RelativeCitationRatio]    FLOAT (53)    NULL,
     PRIMARY KEY CLUSTERED ([PMID] ASC)
 );
 GO

@@ -2,7 +2,7 @@
 // So using JS string instead of html file
 // Perhaps try again with crossOriginAjax()
 
-gCommon.mainDataContainer = $(`<div class="d-none container-fluid parentWidth p-0 mb-4" id="main-data-container">
+gCommon.mainDataContainer = $(`<div class="d-none container-fluid parentWidth p-0" id="main-data-container">
   <div class="row parentWidth">
     <div id="mainDiv" class="common">
       <div class="topOfPageItems">

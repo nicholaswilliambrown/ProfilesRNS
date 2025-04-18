@@ -3,7 +3,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE procedure  [Profile.Data].[Publication.Pubmed.AddPubMedXML] ( 					 @pmid INT,
-																			   @pubmedxml XML)
+																			   @pubmedxml nvarchar(max))
 AS
 BEGIN
 	SET NOCOUNT ON;	

@@ -79,7 +79,7 @@ rem call C:\Windows\Microsoft.NET\Framework64\v3.5\MSBuild.exe ProfilesRNS_Autom
 rem call C:\Windows\Microsoft.NET\Framework64\v3.5\MSBuild.exe ProfilesRNSSearchAPI_AutomatedBuildConfiguration.xml /target:publish
 rem call C:\Windows\Microsoft.NET\Framework64\v3.5\MSBuild.exe ProfilesRNSSPARQLAPI_AutomatedBuildConfiguration.xml /target:publish
 rem call C:\Windows\Microsoft.NET\Framework64\v3.5\MSBuild.exe ProfilesRNSBetaAPI_AutomatedBuildConfiguration.xml /target:publish
-
+mv ..\Website\SourceCode\Profiles\Profiles\web.config.template ..\Website\SourceCode\Profiles\Profiles\web.config
 call "C:\Program Files (x86)\MSBuild\14.0\Bin\msbuild" "..\Website\SourceCode\Profiles\Profiles\Profiles.csproj" "/p:Platform=AnyCPU;Configuration=Release;PublishDestination=..\..\..\..\Release\ProfilesRNS\Website\Binary\Profiles" /t:PublishToFileSystem /p:VisualStudioVersion=14.0
 call "C:\Program Files (x86)\MSBuild\14.0\Bin\msbuild" "..\Website\SourceCode\ProfilesBetaAPI\Connects.Profiles.Service\Connects.Profiles.Service.csproj" "/p:Platform=AnyCPU;Configuration=Release;PublishDestination=..\..\..\..\Release\ProfilesRNS\Website\Binary\ProfilesBetaAPI" /t:PublishToFileSystem /p:VisualStudioVersion=14.0
 call "C:\Program Files (x86)\MSBuild\14.0\Bin\msbuild" "..\Website\SourceCode\ProfilesSearchAPI\ProfilesSearchAPI.csproj" "/p:Platform=AnyCPU;Configuration=Release;PublishDestination=..\..\..\Release\ProfilesRNS\Website\Binary\ProfilesSearchAPI" /t:PublishToFileSystem /p:VisualStudioVersion=14.0

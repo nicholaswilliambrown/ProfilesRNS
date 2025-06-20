@@ -2,6 +2,28 @@
     .researchTopics {
         padding-left: 43px;
     }
+
+    .search-results-show {
+        margin-top: 5px;
+    }
+}
+
+@media(max-width:1387px) {
+    .search-form {
+        width: 600px;
+    }
+}
+
+@media (max-width: 1123px) {
+    .search-form-passive {
+        display: none;
+    }
+}
+
+@media(max-width:924px) {
+    .statsUpdates {
+        display: none;
+    }
 }
 
 @media (max-width: 770px) {
@@ -9,6 +31,9 @@
         display: none;
     }
 
+    .search-passive {
+        display: none;
+    }
 
     #peopleBox {
         text-align: right !important;
@@ -124,6 +149,11 @@
     }
 }
 
+.search-form-passive {
+    background-color: #f7f7f7 !important;
+    border: 1px solid #ccc !important;
+}
+
 #peopleBox {
     color: #666;
 }
@@ -167,6 +197,7 @@
     padding: 5px;
     cursor: pointer;
 }
+
 .proxyDd {
     border: 1px solid #ccc;
 }
@@ -175,29 +206,34 @@
     position: relative; /* for superimposing dropdowns */
 }
 
-.ulDiv ul {
-    position: absolute; /* for superimposing */
-    xleft: 20px;
-    top: 0px !important;
-    padding-inline-start: 0 !important;
-    height: 180px;
-    overflow-y: auto;
-    z-index: 100;
-}
+    .ulDiv ul {
+        position: absolute; /* for superimposing */
+        xleft: 20px;
+        top: 0px !important;
+        padding-inline-start: 0 !important;
+        height: 180px;
+        overflow-y: auto;
+        z-index: 100;
+    }
 
-.ulDiv ul li {
-    z-index: 100;
-    background-color: white;
-    
-}
+        .ulDiv ul li {
+            z-index: 100;
+            background-color: white;
+        }
+
 #sortDropdown {
     width: 150px;
     padding-left: 0px !important;
 }
-#sortButton{padding:5px !important;}
+
+#sortButton {
+    padding: 5px !important;
+}
+
 #showButton {
     padding: 5px !important;
 }
+
 .gradient {
     background-image: linear-gradient(rgb(255, 255, 255) 0%,rgb(224, 224, 224) 100%) !important;
 }
@@ -321,4 +357,13 @@ div[id^="peopleResults"] {
 
 .panelPassiveSearchCriteria {
     margin-top: 5px;
+}
+
+.search-results-sort {
+    display: contents;
+    width: 200px;
+}
+
+.search-results-sort-button {
+    margin-right: 15px;
 }

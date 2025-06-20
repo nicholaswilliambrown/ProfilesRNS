@@ -12,13 +12,17 @@ function RadialGraph_Visualization(svg_reference, config) {
 	var that = this;
 	var nid = 0;
 	this.config = (typeof config === "undefined" ? {} : config);
-	var svgDims = svg_reference.parentNode.getBoundingClientRect();
+
+	// get dimensions from 'radialDiv'
+	let parent = svg_reference.closest('#radialDiv');
+	let width = parent.width();
+	let height = parent.height();
 	this.svg = {
-		ref: svg_reference,
-		width: Math.round(svgDims.width),
-		height: Math.round(svgDims.height),
-		center_x: Math.round(svgDims.width / 2),
-		center_y: Math.round(svgDims.height / 2)
+		ref: svg_reference[0],
+		width: Math.round(width),
+		height: Math.round(height),
+		center_x: Math.round(width / 2),
+		center_y: Math.round(height / 2)
 	};
 	this.svg.offset_x = Math.floor(this.svg.width/2);
 	this.svg.offset_y = Math.floor(this.svg.height/2);

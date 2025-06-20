@@ -1,20 +1,9 @@
 .headerBanner {
+    content: url("/StaticFiles/img/branding/_OpenSourceBanner.png");
     background-color: black;
     border-bottom: #b23f45 8px solid;
     padding: 25px 50px;
 }
-.headerBanner img {
-    height: 80%;
-    width: 80%;
-    max-width: 900px;
-}
-
 #brandingBanner {
     height: 99px !important;
-    max-height: 110px !important;
-}
-#brandingFooter {
-    background-color: black;
-    color: white;
-    padding: 25px 50px;
 }

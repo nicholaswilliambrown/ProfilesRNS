@@ -109,6 +109,13 @@ function emitTimelineGraph(target, moduleJson, fields) {
 }
 function emitTimelineGraphTickbar(target, moduleJson) {
 
+    try {
+        moduleJson.ModuleData.People = moduleJson.ModuleData.People.sort((a, b) => a.AvgX - b.AvgX);
+    }
+    catch (error) {
+        moduleJson.ModuleData.Concepts = moduleJson.ModuleData.Concepts.sort((a, b) => a.AvgX - b.AvgX);
+    }
+
     let [firstYear, lastYear] = getMinAndMaxYears(moduleJson);
 
     let everyYear = Object.keys(everyXthYearLabelsMap(firstYear, lastYear, 1));
@@ -213,7 +220,7 @@ function populateRowSvgs(rowSvgsDiv, ticksWidth, moduleJson, fields) {
         let wideNameDiv = $(`<div class="${gCommon.hideXsSmMdShowOthers}"></div>`);
         let narrowNameDiv = $(`<div class="${gCommon.showXsSmMdHideOthers}"></div>`);
         let wideName = $(`<div class="d-flex justify-content-start">${name}</div>`);
-        let narrowName = $(`<div class="d-flex justify-content-end">${name}</div>`);
+        let narrowName = $(`<div class="d-flex justify-content-start">${name}</div>`);
 
         wideNameDiv.append(wideName);
         narrowNameDiv.append(narrowName);

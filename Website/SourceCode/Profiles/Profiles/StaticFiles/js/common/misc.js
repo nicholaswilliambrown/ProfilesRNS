@@ -102,6 +102,9 @@ function orEmptyList(input) {
     }
     return result;
 }
+function orBlank(input) {
+    return orNA(input, "");
+}
 function orNA(input, na) {
     let result = na;
     if (input) {
@@ -228,9 +231,7 @@ function clearCaptchad() {
     toSession(captchaKey, null);
 }
 async function captchavate(captchaSuccessFn) {
-    let disableCaptcha = gBrandingConstants.disableCaptcha;
-
-    if (disableCaptcha || fromSession(captchaKey)) {
+    if (fromSession(captchaKey)) {
         if (captchaSuccessFn) return captchaSuccessFn();
     }
     else {

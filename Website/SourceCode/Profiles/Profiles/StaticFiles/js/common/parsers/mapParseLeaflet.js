@@ -10,10 +10,18 @@ function setupLeafletMap(centerLat, centerLong, zoom) {
     $('.leaflet-control-attribution').find('svg').remove();
 }
 function leafletMapLoadData() {
+    pruneZeroCoords();
+
     leafletMapLoadPins();
     leafletMapLoadLines();
 
     $('.redMarker').removeClass('boldRed').addClass('leafletRed');
+}
+function pruneZeroCoords() {
+    // filter people from (0,0)
+    let atlantiseans = gMapTab.people.filter(p => p.latitude == 0 && p.longitude == 0).map(p => p.PersonID);
+    gMapTab.people = gMapTab.people.filter(p => p.latitude != 0 || p.longitude != 0);
+    gMapTab.connections = gMapTab.connections.filter(c => ! (atlantiseans.includes(c.a) || atlantiseans.includes(c.b)));
 }
 function leafletMapLoadPins() {
     // create pins/markers for people
@@ -34,7 +42,8 @@ function leafletMapLoadPins() {
         }
     }
     let pinGroup = new L.featureGroup(markers);
-    gMapTab.lMap.fitBounds(pinGroup.getBounds());
+    let bounds = pinGroup.getBounds();
+    gMapTab.lMap.fitBounds(bounds);
 }
 function leafletMapLoadLines() {
     // create network lines

@@ -12,7 +12,7 @@ function awardParser(json, moduleTitle, miscInfo, explicitTarget) {
         let row = makeRowWithColumns(innerPayloadDiv, `award-${i}`, colSpecs, "my-mb2");
 
         // word wrap pattern
-        let wrapDiv = $(`<div class="wrap ${gCommon.bsMarginVarying}">${elt.StartYear} ${elt.Name}</div>`);
+        let wrapDiv = $(`<div class="wrap ${gCommon.bsMarginVarying}">${orBlank(elt.StartYear)} ${orBlank(elt.Name)}</div>`);
         row.find(`#award-${i}Col0`).append(wrapDiv);
     }
 }

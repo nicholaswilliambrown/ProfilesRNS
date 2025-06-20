@@ -67,9 +67,10 @@
 }
 
 #radial_view {
-    /* width: 100%;
-    height: 100%;
-    visibility: hidden;*/
+    /* no inordinate greediness
+        (lest it disable the subsequent 'text' link) */
+    max-height: 100%;
+    max-width: 100%;
 }
 
 /*** from radial/cluster inline styles ***/

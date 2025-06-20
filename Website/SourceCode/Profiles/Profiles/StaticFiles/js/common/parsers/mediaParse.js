@@ -13,7 +13,8 @@ function mediaParse(json, moduleTitle, miscInfo, explicitTarget) {
 
         // word wrap pattern
         let item = $(`<p class="wrap2 ms-0">
-                        <span class="faviconSpan"><img src="${faviconUrl}" aria-hidden="true" width="16'" height="16"></span>
+                        <span class="faviconSpan"><img src="${faviconUrl}" 
+                            alt="favicon" aria-hidden="true" width="16'" height="16"></span>
                         <a class="link-ish" href="${url}">${elt.WebPageTitle}</a> 
                          (${elt.PublicationDate})</p>`);
         let colSpecs = [

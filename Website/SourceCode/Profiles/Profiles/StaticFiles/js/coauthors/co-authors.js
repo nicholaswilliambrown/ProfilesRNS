@@ -10,8 +10,7 @@ const CoauthorTab = Object.freeze({
 
 
 async function setupCoauthors() {
-    let [jsonArray, lhsModules, rhsModules] =
-        await commonSetupWithJson();
+    let [jsonArray, lhsModules, rhsModules] = await commonSetupWithJson();
 
     setupExploreNetworks(rhsModules);
     await mainParse(jsonArray, lhsModules, rhsModules);

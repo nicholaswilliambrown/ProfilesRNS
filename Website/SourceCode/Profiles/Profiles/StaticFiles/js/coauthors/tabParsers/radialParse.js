@@ -22,7 +22,7 @@ function emitRadialGraph(jsonData) {
     try {
         let personId = getPersonId(jsonData);
         
-        let radial_viz = new RadialGraph_Visualization(jQuery('#radial_view')[0], {radius: 85});
+        let radial_viz = new RadialGraph_Visualization($('#radial_view'), {radius: 85});
         radial_viz.data.center_id = personId;
         radial_viz.loadedNetwork.bind(radial_viz);
         radial_viz.loadedNetwork({}, jsonData);

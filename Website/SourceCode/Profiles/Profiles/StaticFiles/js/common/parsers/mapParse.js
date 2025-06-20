@@ -143,13 +143,13 @@ async function initPage(moduleJson) {
         gMapTab.ginfowindow = new google.maps.InfoWindow;
 
         // load the points in a second (allow map render)
-        setTimeout(googleMapLoadData, 500);
+        setTimeout(googleMapLoadData, g.mapProviderOptions.googleLoadingDelay);
     }
     else { // leaflet
         setupLeafletMap(centerLatLong.lat, centerLatLong.long, gMapTab.initialZoom);
 
         // load the points in a second (allow map render)
-        setTimeout(leafletMapLoadData, 500);
+        setTimeout(leafletMapLoadData, g.mapProviderOptions.leafletLoadingDelay);
     }
 }
 function googleMapLoadData(callback) {

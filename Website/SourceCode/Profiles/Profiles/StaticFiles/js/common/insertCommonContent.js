@@ -8,7 +8,7 @@ gCommon.mainDataContainer = $(`<div class="d-none container-fluid parentWidth p-
       <div class="topOfPageItems">
         <nav id="topNavbar" class="top navbar navbar-expand-lg navbar-dark bg-dark">
           <div id="navbar1outerRow" class="row myNavbar-nav top mb-2 mb-lg-0 w-100">
-            <div id="fourItems" class="row">
+            <div id="fourOrSoItems" class="row w-100">
               <div id="topNavHome" class="nav-item">
                 <a id="topHome" class="nav-link top active" aria-current="page" href="#">
                   Home
@@ -39,9 +39,9 @@ gCommon.mainDataContainer = $(`<div class="d-none container-fluid parentWidth p-
                   <li><a id="seeAllPagesA" class="dropdown-item" href="#">See All Pages</a></li>
                 </ul>
               </div>
-            </div>
-            <div id="longerItem" class="row d-flex flex-fill">
-              <div id="topNavSearch" class="nav-item ms-1"></div>
+              <div id="longerItem" class="nav-item d-flex flex-fill justify-content-end ">
+                <div id="topNavSearch" class="nav-item ms-1 "></div>
+              </div>
             </div>
           </div>
         </nav>
@@ -68,10 +68,10 @@ gCommon.mainDataContainer = $(`<div class="d-none container-fluid parentWidth p-
               </a>
             </div>
             <div id="topNav2Persons" class="nav-item r2 nav-link2 no-a-color dropdown">
-              <a id="nav2Persons" class="top dropdown-toggle no-a-color" href="#" role="button"
+              <a id="nav2Persons1" class="top dropdown-toggle no-a-color" href="#" role="button"
                  data-bs-toggle="dropdown" aria-expanded="false">
                 My Person List (0)
-                <ul id=topNav2PersonsDropdown class="dropdown-menu mt-2" aria-labelledby="nav2Persons">
+                <ul id=topNav2PersonsDropdown class="dropdown-menu mt-2" aria-labelledby="nav2Persons1">
                   <li id="viewMyList"><a id="viewMyListA" class="dropdown-item r2" href="#">Visit my list and generate reports</a></li>
                   <li id="addMatchingPeopleList"><a id="addMatchingPeopleA" class="dropdown-item r2" href="#">Add matching people to my list</a></li>
                   <li id="removeMatchingPeopleList"><a id="removeMatchingPeopleA" class="dropdown-item r2" href="#">Remove matching people to my list</a></li>

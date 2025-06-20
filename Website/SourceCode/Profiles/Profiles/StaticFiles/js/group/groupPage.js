@@ -196,7 +196,8 @@ async function setupGroupExploreRhs(module) {
     exploreDiv.append(blurbDiv);
     blurbDiv.hide();
 
-    let moreInfoButton = $(`<img src="${gBrandingConstants.jsCommonImageFiles}info.png" class="noBorder">`);
+    let moreInfoButton = $(`<img src="${gBrandingConstants.jsCommonImageFiles}info.png" 
+                                alt="moreInfo" class="noBorder">`);
     title.append(spanify(" "))
         .append(moreInfoButton);
 
@@ -223,7 +224,7 @@ async function setupGroupExploreRhs(module) {
 
 function grImageParser(moduleData) {
     let imageDiv = $(`<div id="groupImgDiv" class="w-100 d-flex justify-content-center mb-2">
-                        <img src="${moduleData.label}"/>
+                        <img src="${moduleData.label}" alt="moduleLabel" />
                     </div>`);
     return imageDiv;
 }

@@ -66,76 +66,84 @@
     </script>
 </head>
 <body>
-<!-- banner is inserted dynamically-->
-<!--maybe insert dynamically?-->
-<div id="searchPageMarkup" class="moveable d-none row mt-4 me-0 w-100" dest="mainDiv">
-    <div id="lhsDiv"></div> <!-- lhsDiv -->
-    <div id="midDiv">
-        <ul class="nav nav-tabs tabChoices mb-2" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active tabTopHat" id="people-tab" data-bs-toggle="tab" data-bs-target="#people"
-                        type="button"
-                        role="tab"
-                        aria-controls="people" aria-selected="false">
-                            Find People
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link tabTopHat" id="all-tab" data-bs-toggle="tab" data-bs-target="#all"
-                        type="button" role="tab" aria-controls="all" aria-selected="true">
-                            Find Everything Else
-                </button>
-            </li>
-        </ul>
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active mt-3" id="people" role="tabpanel" aria-labelledby="people-tab">
-                <div id="peopleBox" class="tab-pane-box mt-3 pt-3 pb-3">
-                    <div id="dropdownsAndNames">
-                        <div id="institutionsUlDiv" position="1" class="ulDiv w-100">
-                            <ul class="w-100 ps-0">
-                                <li class="dropdown-no-bullet gradient" selected="selected">
-                                    <span class="theChosen"></span>
-                                    <span class="float-end">&#x25BE;</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div id="departmentsUlDiv" position="2" class="ulDiv w-100">
-                            <ul class="w-100 ps-0">
-                                <li class="dropdown-no-bullet gradient" selected="selected">
-                                    <span class="theChosen"></span>
-                                    <span class="float-end">&#x25BE;</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div id="facultyTypesUlDiv" position="3" class="ulDiv w-100">
-                            <ul class="w-100 ps-0">
-                                <li class="dropdown-no-bullet gradient" selected="selected">
-                                    <span class="theChosen"></span>
-                                    <span class="float-end">&#x25BE;</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div id="otherOptionsUlDiv" position="4" class="ulDiv w-100">
-                            <ul class="w-100 ps-0">
-                                <li class="dropdown-no-bullet gradient" selected="selected">
-                                    <span class="theChosen"></span>
-                                    <span class="float-end">&#x25BE;</span>
-                                </li>
-                            </ul>
+    
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PXSD37"
+                height="0" width="0" style="display: none; visibility: hidden"></iframe>
+    
+    <script type="text/javascript"
+            async src="https://www.googletagmanager.com/gtag/js?id=G-Y1ZL3JYDGL">
+    </script>
+
+    <script src="{profilesPath}/StaticFiles/js/GA4/GoogleAnalytics.js" type="text/javascript"></script>
+    <!-- banner is inserted dynamically-->
+    <!--maybe insert dynamically?-->
+    <div id="searchPageMarkup" class="moveable d-none row mt-4 me-0 w-100" dest="mainDiv">
+        <div id="lhsDiv"></div> <!-- lhsDiv -->
+        <div id="midDiv" class="search-form">
+            <ul class="nav nav-tabs tabChoices mb-2" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active tabTopHat" id="people-tab" data-bs-toggle="tab" data-bs-target="#people"
+                            type="button"
+                            role="tab"
+                            aria-controls="people" aria-selected="false">
+                        Find People
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link tabTopHat" id="all-tab" data-bs-toggle="tab" data-bs-target="#all"
+                            type="button" role="tab" aria-controls="all" aria-selected="true">
+                        Find Everything Else
+                    </button>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active mt-3" id="people" role="tabpanel" aria-labelledby="people-tab">
+                    <div id="peopleBox" class="tab-pane-box mt-3 pt-3 pb-3">
+                        <div id="dropdownsAndNames">
+                            <div id="institutionsUlDiv" position="1" class="ulDiv w-100">
+                                <ul class="w-100 ps-0">
+                                    <li class="dropdown-no-bullet gradient" selected="selected">
+                                        <span class="theChosen"></span>
+                                        <span class="float-end">&#x25BE;</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="departmentsUlDiv" position="2" class="ulDiv w-100">
+                                <ul class="w-100 ps-0">
+                                    <li class="dropdown-no-bullet gradient" selected="selected">
+                                        <span class="theChosen"></span>
+                                        <span class="float-end">&#x25BE;</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="facultyTypesUlDiv" position="3" class="ulDiv w-100">
+                                <ul class="w-100 ps-0">
+                                    <li class="dropdown-no-bullet gradient" selected="selected">
+                                        <span class="theChosen"></span>
+                                        <span class="float-end">&#x25BE;</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="otherOptionsUlDiv" position="4" class="ulDiv w-100">
+                                <ul class="w-100 ps-0">
+                                    <li class="dropdown-no-bullet gradient" selected="selected">
+                                        <span class="theChosen"></span>
+                                        <span class="float-end">&#x25BE;</span>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="tab-pane fade mt-3" id="all" role="tabpanel" aria-labelledby="all-tab">
-                <div id="allBox" class="tab-pane-box mt-3 pt-3 pb-3">
+                <div class="tab-pane fade mt-3" id="all" role="tabpanel" aria-labelledby="all-tab">
+                    <div id="allBox" class="tab-pane-box mt-3 pt-3 pb-3">
+                    </div>
                 </div>
-            </div>
-        </div> <!-- myTabContent -->
-    </div> <!-- midDiv -->
-    <div id="rhsDiv" class="search-passive"></div>  <!-- rhsDiv -->
+            </div> <!-- myTabContent -->
+        </div> <!-- midDiv -->
+        <div id="rhsDiv" class="search-form-passive"></div>  <!-- rhsDiv -->
 
-</div> <!-- searchPageMarkup -->
-
-<!-- footer is inserted dynamically-->
+    </div> <!-- searchPageMarkup -->
+    <!-- footer is inserted dynamically-->
 </body>
 </html>

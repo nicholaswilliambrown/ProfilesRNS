@@ -73,7 +73,8 @@ async function emitMainPosition(target, mainAffiliation, jsonElt, name, idSuffix
     if (orcid) {
         let orcDiv = $('<div></div>');
         let orcLabel = spanify('ORCID', 'me-1 boldBlue');
-        let orcImage = $(`<img class="pb-1" src="${gBrandingConstants.jsPersonImageFiles}orcid_16x16.gif"/>`);
+        let orcImage = $(`<img class="pb-1" src="${gBrandingConstants.jsPersonImageFiles}orcid_16x16.gif"
+                                 alt="orcId" />`);
         orcDiv.append(orcLabel)
         orcDiv.append(orcImage);
 
@@ -219,6 +220,7 @@ function escapeComma(input) {
 }
 async function getEmailImage(emailEcrypted) {
     emailEcrypted = encodeURIComponent(emailEcrypted);
-    let result = await $(`<img src="${gCommon.personEmailToImageUrlPrefix}${emailEcrypted}"/>`);
+    let result = await $(`<img src="${gCommon.personEmailToImageUrlPrefix}${emailEcrypted}"
+                                alt="emailImage" />`);
     return result;
 }

@@ -20,8 +20,8 @@
 }
 
 .outOrange {
-    outline: 3px solid orange !important;
-    border: 3px solid orange !important;
+    outline: 1px solid orange !important;
+    border: 1px solid orange !important;
 }
 /**https://stackoverflow.com/questions/31458477/find-element-that-is-causing-the-showing-of-horizontal-scrollbar-in-google-chrom **/
 /***********************************
@@ -295,7 +295,7 @@ header._ci_shared_asset.tool-page.mayHelpResponsivenessSm {
 #rtnBtnLg {
     display: none; /* Hidden by default */
     position: fixed; /* Fixed/sticky position */
-    bottom: 130px; /* Place the button at the bottom of the page */
+    bottom: 20px; /* Place the button at the bottom of the page */
     right: 30px; /* Place the button 30px from the right */
     z-index: 99; /* Make sure it does not overlap */
     border: none; /* Remove borders */
@@ -440,12 +440,6 @@ header._ci_shared_asset.tool-page.mayHelpResponsivenessSm {
         border-bottom: none !important;
     }
 
-button.nav-link.active {
-    color: #333 !important;
-    font-size: 14px;
-    pointer-events: none;
-    outline: none !important;
-}
 span.nav-link.active {
     color: #333 !important;
     font-size: 14px;

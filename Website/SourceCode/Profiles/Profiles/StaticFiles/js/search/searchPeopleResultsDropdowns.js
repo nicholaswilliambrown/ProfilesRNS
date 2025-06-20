@@ -95,6 +95,7 @@ function setupSortDropdown(results) {
     flavoredSortItem.addClass('selected');
     let selectedText = flavoredSortItem.html();
     $('#sortButton').html(selectedText);
+    $('#sortButton').append(gCommon.spanTriangleDown);
 
     syncSortOptionsToShownHeaders(results);
 }
@@ -134,6 +135,8 @@ function adjustShowChoicesHeader(results) {
 
     let target = $('#showButton');
     target.html(selectedSt);
+    target.append(gCommon.spanTriangleDown);
+
 }
 function syncSortOptionsToShownHeaders(results) {
     $(`li.optional`).attr(gSearch.omitOptionalColumnSt, gSearch.omitOptionalColumnSt);

@@ -44,7 +44,7 @@ async function setupSearchPeopleResults() {
         setupDropdownsAndInitialSelections(results);
     }
     else {
-        $('.peopleResultDropdown').hide();
+        $('#dropdownsDiv').hide();
     }
 
     let keyword = results.SearchQuery.Keyword;
@@ -63,6 +63,8 @@ async function setupSearchPeopleResults() {
 
     }
     else {
+        // leave enough room that few results can display hover without changing table height
+        $('#resultsDiv').css('min-height', '250px');
         await emitPeopleResults(results);
 
         pagination.emitPagingRow($('#resultsDiv'),
@@ -100,7 +102,8 @@ function assembleSearchOtherLink(results) {
         !results.SearchQuery.LastName) {
 
         let directUrl = `${g.directLink}?keyword=${keyword}&searchtype=people`;
-        let searchArrow = $(`<img src="${gBrandingConstants.jsSearchImageFiles}arrowRight.png" class="me-1"/>`);
+        let searchArrow = $(`<img src="${gBrandingConstants.jsSearchImageFiles}arrowRight.png" 
+                                 alt="arrowRight" class="me-1"/>`);
         let searchOtherA = createAnchorElement('Search Other Institutions', directUrl);
         let searchOtherSpan = $('<span class="mt-2 d-flex justify-content-end"></span>');
 

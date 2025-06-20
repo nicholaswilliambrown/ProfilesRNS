@@ -81,6 +81,9 @@ function setupDropdowns() {
         let data = selectDataLists[j];
 
         let items = data.list;
+        if (data.label == 'Department') {
+            items = sortArrayViaSortLabel(items, "DepartmentName");
+        }
 
         // no dropdown if no items to list!
         if ( ! items.length) {
@@ -158,15 +161,21 @@ function setupDropdowns() {
             if (categoryProperty) {
                 let itemCategory = item[categoryProperty];
                 if (itemCategory != currentCategory) {
-                currentCategory = itemCategory;
-                let catLi = $(`<li class="dropdown-no-bullet categoryDivider ${dropdownPrefix} li-item ps-3">${itemCategory}</li>`);
-                ul.append(catLi);
+                    currentCategory = itemCategory;
+                    let catLi = $(`<li class="dropdown-no-bullet categoryDivider ${dropdownPrefix} li-item ps-3">${itemCategory}</li>`);
+                    ul.append(catLi);
                 }
             }
 
             let itemDisplay = item[displayProperty];
             let li = $(`<li id="${nodeId}" value="${i}" class="dropdown-no-bullet ${dropdownPrefix} li-item">${itemDisplay}</li>`);
             ul.append(li);
+            if (data.singular) {
+                li.on('click', function() {
+                    adjustedSelections(dropdownPrefix, []);
+                    ul.find('.theChosen').click();
+                })
+            }
 
             if (useMultiCheckbox) {
                 let check = $(`<input id="${nodeId}" class="${dropdownPrefix} me-1" 

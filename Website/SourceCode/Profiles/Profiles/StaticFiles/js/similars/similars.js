@@ -22,7 +22,9 @@ function mainParse(moduleJson, lhsModules, rhsModules) {
         target:         createOrGetTopLhsDiv()  });
 
     let topLhsDiv = $('#topLhsDiv');
-    innerCurtainsDown(topLhsDiv);
+    // innerCurtainsDown(topLhsDiv);
+    // curtain would need to not include the
+    //   map display, which needs to be visible at load time
 
     rememberArraySizeOfJsonModule(moduleJson, "SimilarPeople.Connection", gSimilars.similarsKey); // if in Json remember how many
 

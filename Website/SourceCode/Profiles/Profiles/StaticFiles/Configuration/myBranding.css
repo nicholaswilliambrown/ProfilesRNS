@@ -1,20 +1,6 @@
-.headerBanner {
-    background-color: black;
-    border-bottom: #b23f45 8px solid;
-    padding: 25px 50px;
+h2 {
+    font-size:28px !important;
 }
-.headerBanner img {
-    height: 80%;
-    width: 80%;
-    max-width: 900px;
-}
-
 #brandingBanner {
-    height: 99px !important;
-    max-height: 110px !important;
-}
-#brandingFooter {
-    background-color: black;
-    color: white;
-    padding: 25px 50px;
+    height: 190px !important;
 }

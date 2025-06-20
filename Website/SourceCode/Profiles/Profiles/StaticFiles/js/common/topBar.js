@@ -5,7 +5,7 @@ function setupTopNav() {
 
     setUrlByAnchorId("overviewA", gCommon.overviewAUrl);
     setUrlByAnchorId("openSourceSoftwareA", gCommon.openSourceSoftwareAUrl);
-    setUrlByAnchorId("useOurDataA", gCommon.useOurDataAUrl);
+   // setUrlByAnchorId("useOurDataA", gCommon.useOurDataAUrl);  //Open source only
     setUrlByAnchorId("seeAllPagesA", gCommon.seeAllPagesAUrl);
     setUrlByAnchorId("topHome", gSearch.searchFormPeopleUrl);
     setUrlByAnchorId("topNavHelpDropdown", gCommon.helpUrl);
@@ -27,8 +27,8 @@ function setupTopNav() {
     }
     setUrlByAnchorId("editMyProfileA", gCommon.editMyProfileUrl + sessionInfo.personNodeID);
     setUrlByAnchorId("manageProxiesA", gCommon.manageProxiesUrl);
-    //setUrlByAnchorId("dashboardA", gCommon.dashboardUrl + sessionInfo.personNodeID)
-    //setUrlByAnchorId("opportunitySearchA", gCommon.opportunitySearch);
+    setUrlByAnchorId("dashboardA", gCommon.dashboardUrl + sessionInfo.personNodeID)
+    setUrlByAnchorId("opportunitySearchA", gCommon.opportunitySearch);
     setUrlByAnchorId("viewMyListA", gCommon.viewMyListUrl)
     populateHistoryDropdown();
 
@@ -36,21 +36,13 @@ function setupTopNav() {
 
     $('#navbar1outerRow').addClass(`${gCommon.cols12}`);
 
-    $('#fourItems').addClass(`${gCommon.cols5or12Lg}`);
-   // $('#longerItem').addClass(`${gCommon.cols7or12Lg}`);
+    $('#fourOrSoItems').addClass(`${gCommon.cols5or12Lg}`);
 
-    $(`#topNavHome`).addClass(`${gCommon.cols3or12}`);
-    $(`#topNavAbout`).addClass(`${gCommon.cols3or12}`);
-    $(`#topNavHelp`).addClass(`${gCommon.cols3or12}`);
+    $(`#topNavHome`).addClass(`${gCommon.cols2or12}`);
+    $(`#topNavAbout`).addClass(`${gCommon.cols2or12}`);
+    $(`#topNavHelp`).addClass(`${gCommon.cols2or12}`);
     $(`#topNavHistory`).addClass(`${gCommon.cols3or12} ps-0`);
-
-    $(`#topNavSearch`).addClass(`${gCommon.cols12} pe-2`);
-
-   // $(`#topNav2Edit`).addClass(`${gCommon.cols2or12}`);
-   // $(`#topNav2Proxies`).addClass(`${gCommon.cols2or12}`);
-   // $(`#topNav2Persons`).addClass(`${gCommon.cols2or12}`);
-   // $(`#topNav2Opportunity`).addClass(`${gCommon.cols2or12}`);
-   // $(`#topNav2Logout`).addClass(`${gCommon.cols1or12} pe-2`);
+    $(`#longerItem`).addClass(`${gCommon.cols3or12}`);
 
     $(`#topNav2White`).addClass(`${gCommon.cols3or12}`);
 
@@ -99,7 +91,7 @@ function addSearchForm(target, formClass, searchGlassClass, displayClass, sizeFl
 
     let form = $(`<form id="topBarSearchForm" class="top ${formClass} d-flex justify-content-${justifyPos}">
         <input class="form-control navSearchTerm ps-1" id="navSearchTerm${sizeFlavor}" type="search" aria-label="Search"
-               placeholder=" Search Profiles (people, publications, concepts, etc.)">
+               placeholder=" Search Profiles">
         <div id="searchGlassDiv${sizeFlavor}" class="searchGlassDiv">                              
             <img id="navSearchGlass${sizeFlavor}" 
                 class="navSearchGlass searchMagGlass 
@@ -352,15 +344,11 @@ $(window).resize(function () {
       
     }
     if ($(window).width() <= 1115) {        
-        $('#topBarSearchForm').removeClass('justify-content-end');
-        $('#topBarSearchForm').addClass('justify-content-start');
         $('#topNavbarUser').addClass('topNavUserBarMin');
         $('#topNavbarUser').removeClass('topNavUserBarMax');
 
     }
     if ($(window).width() >= 1115) {
-        $('#topBarSearchForm').removeClass('justify-content-start');
-        $('#topBarSearchForm').addClass('justify-content-end');
         $('#topNavbarUser').addClass('topNavUserBarMax');
         $('#topNavbarUser').removeClass('topNavUserBarMin');
     }

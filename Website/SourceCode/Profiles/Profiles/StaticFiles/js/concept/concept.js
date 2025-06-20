@@ -1,4 +1,6 @@
 let fleshyTarget = new Map();
+gConcepts.meshShortcuts = [];
+gConcepts.pubsShortcuts = [];
 
 async function setupConceptPage() {
     await commonSetup(true);
@@ -11,20 +13,28 @@ async function setupConceptPage() {
 
     let json = await myGetPageJson();
 
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.load('current', {'packages':['bar']});
-    google.charts.setOnLoadCallback(async function(){
+    google.charts.load('current', {'packages': ['corechart']});
+    google.charts.load('current', {'packages': ['bar']});
+    google.charts.setOnLoadCallback(async function () {
         await emitDataLhs(json);
         await emitDataRhs(json);
         await $(`.${gCommon.tentative}`).remove(); // failed to materialize
 
-        innerCurtainsUp(moduleContentTarget);
+        await innerCurtainsUp(moduleContentTarget);
+
+        let meshInfoSpan = $('.meshDefinitionButton');
+        meshInfoSpan.click();
+
+        let timelineSpan = $('.pubTimelineButton');
+        timelineSpan.click();
     });
 }
+
 function emitSkeletons() {
     emitSkeletonRhs();
     emitSkeletonLhs();
 }
+
 function emitSkeletonRhs() {
     let target = $('#modules-right-div');
 
@@ -34,6 +44,7 @@ function emitSkeletonRhs() {
     emitRhsSkeleton(target, 'Similar Concepts', 'Similar concepts derived from published works.', 'concepts');
     emitRhsSkeleton(target, 'Top Journals', 'Top journals in which articles about this concept have been published.', 'journals');
 }
+
 function emitDataRhs(json) {
 
     let topPeople = findModuleDataByName(json, 'Concept.TopPeople');
@@ -42,11 +53,11 @@ function emitDataRhs(json) {
 
     let peopleKey = 'people';
     emitRhsSection({
-        data      : topPeople,
-        nameField : 'Name',
-        sortField : 'Weight',
-        reverse   : true,
-        innerKey  : peopleKey
+        data: topPeople,
+        nameField: 'Name',
+        sortField: 'Weight',
+        reverse: true,
+        innerKey: peopleKey
     });
 
     let generalInfo = findModuleDataByName(json, 'Concept.GeneralInfo');
@@ -57,27 +68,29 @@ function emitDataRhs(json) {
     emitExploreButton(target, clickFn);
 
     emitRhsSection({
-        data      : similarConcepts,
-        nameField : 'DescriptorName',
-        sortField : 'SortOrder',
-        reverse   : false,
-        innerKey  : 'concepts'
+        data: similarConcepts,
+        nameField: 'DescriptorName',
+        sortField: 'SortOrder',
+        reverse: false,
+        innerKey: 'concepts'
     });
 
     emitRhsSection({
-        data      : topJournals,
-        nameField : 'Journal',
-        sortField : 'Weight',
-        reverse   : true,
-        innerKey  : 'journals'
+        data: topJournals,
+        nameField: 'Journal',
+        sortField: 'Weight',
+        reverse: true,
+        innerKey: 'journals'
     });
 }
+
 function emitRhsSkeleton(target, title, blurb, innerKey) {
     let tentativeContainer = tentativizeAndInnerize(target, innerKey, "");
 
     let headerDiv = $(`<div class="explore_title">${title}</div>`);
 
-    let info = $(`<img src="${gBrandingConstants.jsCommonImageFiles}info.png" class="noBorder">`);
+    let info = $(`<img src="${gBrandingConstants.jsCommonImageFiles}info.png" 
+                        alt="moreInfo" class="noBorder">`);
     headerDiv.append(info);
 
     let blurbDiv = $(`<div class="exploreBlurbDiv">${blurb}</div>`);
@@ -86,23 +99,24 @@ function emitRhsSkeleton(target, title, blurb, innerKey) {
     tentativeContainer.prepend($('<hr class="tightHr"/>'));
 
     blurbDiv.hide();
-    info.on('click', function() {
+    info.on('click', function () {
         toggleVisibility(blurbDiv);
     });
 }
+
 function emitRhsSection(options) {
-    let data       = orEmptyList(options.data)      ;
-    let nameField  = options.nameField ;
-    let sortField  = options.sortField ;
-    let reverse    = options.reverse   ;
-    let innerKey    = options.innerKey   ;
+    let data = orEmptyList(options.data);
+    let nameField = options.nameField;
+    let sortField = options.sortField;
+    let reverse = options.reverse;
+    let innerKey = options.innerKey;
 
     let target = fleshyTarget.get(innerKey);
     untentavize(target);
 
     data = sortArrayViaSortLabel(data, sortField, reverse);
 
-    for (let i=0; i<data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
         let item = data[i];
         let div = $('<div></div>');
         target.append(div);
@@ -111,13 +125,13 @@ function emitRhsSection(options) {
         let name = item[nameField];
         if (item.URL) {
             itemDisplay = createAnchorElement(name, item.URL);
-        }
-        else {
+        } else {
             itemDisplay = spanify(name);
         }
         div.append(itemDisplay);
     }
 }
+
 function emitSkeletonLhs() {
     let target = $('#modules-left-div');
 
@@ -125,10 +139,12 @@ function emitSkeletonLhs() {
     emitMeshInfoSkeleton(target, "mesh", "MeSH Information");
     emitPublicationsSkeleton(target, "pubs", "Publications");
 }
+
 function untentavize(elt) {
     elt.closest(`.${gCommon.tentative}`).removeClass(gCommon.tentative);
     elt.parent().find(`.loadInProgress`).remove();
 }
+
 function tentativizeAndInnerize(target, innerKey, tempTitle) {
     let tentativeContainer = $(`<div class="${gCommon.tentative}"></div>`);
     let loadingDiv = $(`<div class="loadInProgress">${tempTitle} Loading</div>`);
@@ -142,24 +158,29 @@ function tentativizeAndInnerize(target, innerKey, tempTitle) {
 
     return tentativeContainer;
 }
+
 function emitTopItemsSkeleton(target, innerKey, tempTitle) {
     tentativizeAndInnerize(target, innerKey, tempTitle);
 }
+
 function emitMeshInfoSkeleton(target, innerKey, tempTitle) {
     tentativizeAndInnerize(target, innerKey, tempTitle);
 }
+
 function emitPublicationsSkeleton(target, innerKey, tempTitle) {
     tentativizeAndInnerize(target, innerKey, tempTitle);
 }
-function emitDataLhs(json) {
+
+async function emitDataLhs(json) {
     let generalInfo = findModuleDataByName(json, 'Concept.GeneralInfo');
     let publicationsData = findModuleDataByName(json, 'Concept.Publications');
     let conceptName = orNaProperty(generalInfo, 'DescriptorName');
 
     emitTopItems(generalInfo, "top");
     emitMeshInfo(generalInfo, "mesh");
-    emitPublications(publicationsData, conceptName, "pubs");
+    await emitPublications(publicationsData, conceptName, "pubs");
 }
+
 function emitTopItems(data, innerKey) {
     let target = fleshyTarget.get(innerKey);
     untentavize(target);
@@ -170,6 +191,7 @@ function emitTopItems(data, innerKey) {
 
     emitTopBlurb(title, target);
 }
+
 function emitMeshInfo(data, innerKey) {
     let target = fleshyTarget.get(innerKey);
     untentavize(target);
@@ -179,26 +201,27 @@ function emitMeshInfo(data, innerKey) {
     let boxDiv = emitBoxedInfoHelper(data, target, 'MeSH information');
     let boxDiv2 = $('<div id="meshBox2" class="mt-1 mb-2"></div>');
 
-    let meshDefinition = createNavItemDivWithContent(
-        "meshDefinition", "Definition", "meshInfo", boxDiv2);
-    let meshDetails = createNavItemDivWithContent(
-        "meshDetails", "Details", "meshInfo", boxDiv2);
-    let meshMoreGeneral = createNavItemDivWithContent(
-        "meshMoreGeneral", "More General Concepts", "meshInfo", boxDiv2);
-    let meshRelated = createNavItemDivWithContent(
-        "meshRelated", "Related Concepts", "meshInfo", boxDiv2);
-    let meshMoreSpecific = createNavItemDivWithContent(
-        "meshMoreSpecific", "More Specific Concepts", "meshInfo", boxDiv2, true);
+    gConcepts.meshShortcuts.push(
+        createNavItemDivWithContent(
+            "meshDefinition", "Definition", "meshInfo", boxDiv2));
+    gConcepts.meshShortcuts.push(
+        createNavItemDivWithContent(
+            "meshDetails", "Details", "meshInfo", boxDiv2));
+    gConcepts.meshShortcuts.push(
+        createNavItemDivWithContent(
+            "meshMoreGeneral", "More General Concepts", "meshInfo", boxDiv2));
+    gConcepts.meshShortcuts.push(
+        createNavItemDivWithContent(
+            "meshRelated", "Related Concepts", "meshInfo", boxDiv2));
+    gConcepts.meshShortcuts.push(
+        createNavItemDivWithContent(
+            "meshMoreSpecific", "More Specific Concepts", "meshInfo", boxDiv2, true));
 
-    let colSpecs = [
-        newColumnSpec(`${gCommon.cols2or12} `, meshDefinition),
-        newColumnSpec(`${gCommon.cols2or12} `, meshDetails),
-        newColumnSpec(`${gCommon.cols3or12} `, meshMoreGeneral),
-        newColumnSpec(`${gCommon.cols2or12} `, meshRelated),
-        newColumnSpec(`${gCommon.cols3or12} `, meshMoreSpecific)
-    ];
-    makeRowWithColumns(boxDiv, "meshTabs", colSpecs, "ms-1 mb-2 test");
-    boxDiv.append(boxDiv2);
+    let tabsRow = $('<div id="meshTabsRow" class="ms-2"></div>');
+    boxDiv.append(tabsRow).append(boxDiv2);
+
+    emitNarrowShortcutsDiv(tabsRow, gConcepts.meshShortcuts);
+    emitWideShortcutsDiv(tabsRow, gConcepts.meshShortcuts);
 
     // emit content for under the buttons
     let definition = orNaProperty(data, 'DescriptorDefinition', "No Definition Found");
@@ -214,10 +237,8 @@ function emitMeshInfo(data, innerKey) {
         orNaPropertyList(data, 'ChildDescriptors'), title, "more specific than");
     emitConceptsTree(boxDiv2.find('.meshRelatedContent'),
         orNaPropertyList(data, 'SiblingDescriptors'), title, "related to");
-
-    meshDefinition.find('button').addClass("ps-0");
-    meshDefinition.find('button').click();
 }
+
 async function emitPublications(data, conceptName, innerKey) {
     data = orEmptyList(data);
 
@@ -228,45 +249,40 @@ async function emitPublications(data, conceptName, innerKey) {
 
     let boxDiv2 = $('<div id="pubBoxDiv2" class="mt-1 mb-2"></div>');
 
-    let timelineBlurb = `This graph shows the total number of publications written about "${conceptName}" 
+    let timelineBlurb = $(`<div class="p-2">This graph shows the total number of publications written about "${conceptName}" 
                             by people in Profiles by year, 
-                            and whether "${conceptName}" was a major or minor topic of these publications.`
-    let timelineBlurbDiv = $(`<div class="mb-2" id="timelineBlurb">${timelineBlurb}</div>`);
-    let timelineButtonDiv = createNavItemDivWithContent(
-        'pubTimeline', "Timeline", "pubInfo", boxDiv2, false, timelineBlurbDiv);
-    timelineButtonDiv.addClass('bordE');
+                            and whether "${conceptName}" was a major or minor topic of these publications.</div>`);
 
-    let timelineButton = timelineButtonDiv.find('button');
-    timelineButton.addClass("ps-2");
+    gConcepts.pubsShortcuts.push(
+        createNavItemDivWithContent(
+        'pubTimeline', "Timeline", "pubInfo", boxDiv2));
+    gConcepts.pubsShortcuts.push(
+        createNavItemDivWithContent(
+            'pubRecent', "Most Recent", "pubInfo", boxDiv2));
 
-    let mostRecent = createNavItemDivWithContent(
-        "pubRecent", "Most Recent", "pubInfo", boxDiv2, true);
-    let mostRecentButton = mostRecent.find('button');
+    let tabsRow = $('<div id="pubsTabsRow" class="ms-2"></div>');
+    boxDiv.append(tabsRow).append(boxDiv2);
 
-    let headerDiv = $('<div class="ms-1 d-flex align-items-center"></div>');
-    boxDiv.append(headerDiv);
-    headerDiv.append(timelineButtonDiv);
-    headerDiv.append(mostRecent);
-
-    boxDiv.append(boxDiv2);
+    emitNarrowShortcutsDiv(tabsRow, gConcepts.pubsShortcuts);
+    emitWideShortcutsDiv(tabsRow, gConcepts.pubsShortcuts);
 
     let timelineTargetDiv = boxDiv2.find('.pubTimelineContent');
+    timelineTargetDiv.append(timelineBlurb);
     await emitTimeline(data, timelineTargetDiv, true);
     await emitTimeline(data, timelineTargetDiv);
     timelineTargetDiv.hide();
 
     emitMostRecent(data, boxDiv2.find('.pubRecentContent'), conceptName);
 
-    $('button.pubInfo').on('click', function(e){
+    $('button.pubInfo').on('click', function (e) {
         $('.pubInfoContent').hide();
         let target = $(e.target);
         let flavor = target.parent().attr('flavor');
         let contentId = flavor + 'Content';
         $(`#${contentId}`).show();
     });
-
-    timelineButton.click();
 }
+
 function emitTopBlurb(title, target) {
     let blurb1 = `"${title}" is a descriptor in the National Library of Medicine's 
         controlled vocabulary thesaurus, `;
@@ -281,38 +297,35 @@ function emitTopBlurb(title, target) {
 
     target.append(topBlurbDiv);
 }
+
 function createNavItemDivWithContent(idBase, title, generalClass, boxDiv, noBordE, preamble) {
 
     let buttonClass = `${generalClass}NavButton`;
-    let generalButtonClass = `p-0 w-100 ${generalClass} ${generalClass}NavButton`;
 
     let clickFn = (e) => {
         let target = $(e.target);
-        if (! target.hasClass('active')) {
+        if (!target.hasClass('active')) {
             $(`.${generalClass}Content`).hide();
             $(`.${buttonClass}`).removeClass('active').attr('aria-current', false);
-            $(`.${buttonClass}`).find('button').removeClass('active').attr('aria-current', false);
 
             $(`.${idBase}Content`).show();
             target.addClass("active").attr("aria-current", true);
         }
     };
 
-    let buttonDiv = createNavItemDiv(`${idBase}Button`, title, clickFn, generalButtonClass);
-    buttonDiv.attr('flavor', idBase);
-    let contentDiv = $(`<div id="${idBase}Content" class="ps-1 ${generalClass}Content ${idBase}Content"></div>`);
+    let spanVersionClasses = `nav-link ${generalClass} ${generalClass}NavButton`;
+    let navItemSpan = createNavItemSpan(`${idBase}Button`, title, clickFn, spanVersionClasses);
+
+    let contentDiv = $(`<div id="${idBase}Content" class="${generalClass}Content ${idBase}Content"></div>`);
     if (preamble) {
         contentDiv.append(preamble);
-    }
-    buttonDiv.addClass("p-2");
-    if (! noBordE) {
-        buttonDiv.addClass("bordE");
     }
 
     boxDiv.append(contentDiv);
 
-    return buttonDiv;
+    return navItemSpan;
 }
+
 function emitDetails(target, data, wideVsNarrow) {
     let col0ExtraClasses;
     let col1ExtraClasses;
@@ -323,8 +336,7 @@ function emitDetails(target, data, wideVsNarrow) {
         col0ExtraClasses = 'text-end';
         col1ExtraClasses = 'text-start';
         hideShowDiv = $(`<div class="${gCommon.hideXsSmallShowOthers}"></div>`);
-    }
-    else {
+    } else {
         col0ExtraClasses = 'text-start';
         col1ExtraClasses = 'ps-4';
         hideShowDiv = $(`<div class="${gCommon.showXsSmallHideOthers}"></div>`);
@@ -335,12 +347,12 @@ function emitDetails(target, data, wideVsNarrow) {
         newColumnSpec(`${gCommon.cols2or12} ${col0ExtraClasses}`),
         newColumnSpec(`${gCommon.cols2or12} ${col1ExtraClasses}`),
         newColumnSpec(`${gCommon.cols8or12}`)
-        ];
+    ];
 
     let rowId = `descriptorID${wideNarrowSuffix}`;
     let row = makeRowWithColumns(hideShowDiv, rowId, colSpecs);
     row.find(`#${rowId}Col0`).html('<span class="meshLabel">Descriptor ID</span>');
-    row.find(`#${rowId}Col1`).html(orNaProperty(data,'DescriptorID'));
+    row.find(`#${rowId}Col1`).html(orNaProperty(data, 'DescriptorID'));
 
     rowId = `meshNums${wideNarrowSuffix}`;
     row = makeRowWithColumns(hideShowDiv, rowId, colSpecs);
@@ -348,7 +360,7 @@ function emitDetails(target, data, wideVsNarrow) {
     row.find(`#${rowId}Col0`).html('<span class="meshLabel">MeSH Number(s)</span>');
     row.find(`#${rowId}Col1`).append(numListDiv);
     let meshNums = orNaPropertyList(data, 'TreeNumberList');
-    for (let i=0; i<meshNums.length; i++) {
+    for (let i = 0; i < meshNums.length; i++) {
         divSpanifyTo(meshNums[i].TreeNumber, numListDiv);
     }
 
@@ -358,14 +370,16 @@ function emitDetails(target, data, wideVsNarrow) {
     row.find(`#${rowId}Col0`).html('<span class="meshLabel">Concept/Term(s)</span>');
     row.find(`#${rowId}Col1`).append(termListDiv);
     let meshTerms = orNaPropertyList(data, 'TermList');
-    for (let i=0; i<meshTerms.length; i++) {
+    for (let i = 0; i < meshTerms.length; i++) {
         divSpanifyTo(meshTerms[i].Term, termListDiv);
     }
 }
+
 function countDots(input) {
     // https://stackoverflow.com/questions/2903542/javascript-how-many-times-a-character-occurs-in-a-string
     return input.replace(/[^\.]/g, "").length;
 }
+
 function emitConceptsTree(target, data, title, blurbEndish) {
     let initialPreSpace = "";
     let preSpace;
@@ -377,16 +391,15 @@ function emitConceptsTree(target, data, title, blurbEndish) {
     divSpanifyTo(blurb, target, null, "mb-2");
 
     data = orEmptyList(data);
-    for (let i=0; i<data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
         let item = data[i];
 
         let treeNum = item.TreeNumber;
-        if ( ! treeNum.match(`^${prefix}.*`)) {
+        if (!treeNum.match(`^${prefix}.*`)) {
             preSpace = initialPreSpace;
             prefix = treeNum;
             numPrefixDots = countDots(prefix);
-        }
-        else { // indent via num dots, or if it's like E0 after E
+        } else { // indent via num dots, or if it's like E0 after E
             let indent = countDots(treeNum) - numPrefixDots;
             if (treeNum.match(/^\w\d.*/)) { // initial letter followed by num acts like a dot
                 indent++;
@@ -405,19 +418,19 @@ function emitConceptsTree(target, data, title, blurbEndish) {
         }
         let text = `${preSpace} ${name} `;
 
-        if (item.NodeURI && ! titleIsName) { // link if possible, but not current
+        if (item.NodeURI && !titleIsName) { // link if possible, but not current
             let a = createAnchorElement(text, item.NodeURI);
             itemDiv.append(a);
-        }
-        else {
+        } else {
             let span = spanify(text);
             itemDiv.append(span);
         }
         // bracketed code
-        let codeSpan = spanify( ` [${treeNum}]`);
+        let codeSpan = spanify(` [${treeNum}]`);
         itemDiv.append(codeSpan);
     }
 }
+
 function emitMostRecent(data, target, conceptName) {
     data = orNaPropertyList(data[0], 'Publications');
 
@@ -429,7 +442,7 @@ function emitMostRecent(data, target, conceptName) {
     target.append(ol);
 
     let numPubs = data.length;
-    for (let i=0; i<numPubs; i++) {
+    for (let i = 0; i < numPubs; i++) {
         let item = data[i];
         let li = $(`<li>${item.prns_informationResourceReference}</li>`);
         ol.append(li);
@@ -440,18 +453,19 @@ function emitMostRecent(data, target, conceptName) {
         div.append(a);
         ol.append(div);
 
-        if (i != numPubs-1) {
+        if (i != numPubs - 1) {
             let hr = $('<hr class="tightHr"/>');
             ol.append(hr);
         }
     }
     target.hide();
 }
+
 async function emitTimeline(data, target, wideVsNarrow) {
     let yearArray = orNaPropertyList(data[0], 'Timeline');
 
     let classes = wideVsNarrow ? gCommon.hideXsSmallShowOthers :
-                            gCommon.showXsSmallHideOthers;
+        gCommon.showXsSmallHideOthers;
     let responsiveTarget = $(`<div class="${classes}"></div>`);
     target.append(responsiveTarget);
 

@@ -18,7 +18,7 @@
   "profilesTitle": "Harvard Catalyst Profiles",
 
   "NB2": "mapProvider can be either 'google' or 'leaflet' -- leaflet does not require an account",
-  "mapProvider": "google",
+  "mapProvider": "leaflet",
 
   "help-howToContact": "Email us at <a href='mailto:contact@catalyst.harvard.edu'>contact@catalyst.harvard.edu</a>.",
   "help-whoIsListed": "Harvard Catalyst Profiles includes all faculty from Harvard Medical School, Harvard School of Dental Medicine, and Harvard School of Public Health. Listings in Harvard Catalyst Profiles are automatic and based on maintaining an active faculty appointment; removal occurs only upon termination or retirement from the faculty appointment.",
@@ -43,7 +43,5 @@
   "useOurData-xmlSearchUrl": "https://connects.catalyst.harvard.edu/API/Profiles/Public/Search",
   "useOurData-oldXmlSearchUrl": "https://connects.catalyst.harvard.edu/ProfilesAPI",
   "useOurData-documentationUrl": "http://profiles.catalyst.harvard.edu/docs/ProfilesRNS_1.0.2_APIGuide.pdf",
-  "useOurData-examplesUrl": "http://profiles.catalyst.harvard.edu/docs/ProfilesRNS_1.0.2_API_Examples.zip",
-
-  "disableCaptcha": false
+  "useOurData-examplesUrl": "http://profiles.catalyst.harvard.edu/docs/ProfilesRNS_1.0.2_API_Examples.zip"
 }

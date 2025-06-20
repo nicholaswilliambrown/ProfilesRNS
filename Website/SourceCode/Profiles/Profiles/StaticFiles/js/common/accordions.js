@@ -18,6 +18,7 @@ function displayClipboardForNestedAccordion(bannerText, accordionIdLabel, accord
                                             data-bs-custom-class="clipboardButtonTitle" 
                                             data-bs-placement="top"
                                             title="${informativeText}"
+                                            aria-label="${informativeText}"
                                     class="clipboardMainButton clipboardItem">
                                 </button>`);
     clipboardButton.append(clipboard);

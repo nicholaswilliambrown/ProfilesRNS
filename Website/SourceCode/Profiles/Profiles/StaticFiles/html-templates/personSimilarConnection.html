@@ -49,8 +49,6 @@
 	<script src="{profilesPath}/StaticFiles/js/common/sorting.js" type="text/javascript"></script>
 	<script src="{profilesPath}/StaticFiles/js/common/topBar.js" type="text/javascript"></script>
 
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBcesMSMh6piT1lg1A0vzaS7LvPa5VpDo&callback=trivialCallback"></script>
-
 	<script src="{profilesPath}/StaticFiles/js/connections/connections.js" type="text/javascript"></script>
 	<script src="{profilesPath}/StaticFiles/js/connections/personSimilarConnection.js" type="text/javascript"></script>
 
@@ -60,14 +58,25 @@
 	<script src="{profilesPath}/StaticFiles/profile.js" type="text/javascript"></script>
 </head>
 <body>
+	
+		<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PXSD37"
+				height="0" width="0" style="display: none; visibility: hidden"></iframe>
+	
+	<script type="text/javascript"
+			async src="https://www.googletagmanager.com/gtag/js?id=G-Y1ZL3JYDGL">
+	</script>
+
+	<script src="{profilesPath}/StaticFiles/js/GA4/GoogleAnalytics.js" type="text/javascript"></script>
 	<div id="moveableContentDiv" class='d-none moveable' dest="modules-right-div">
 		<div class="mb-1">
 			<strong>Connection Strength</strong>
 		</div>
-		<div class="mb-1">The connection strength for similar people
+		<div class="mb-1">
+			The connection strength for similar people
 			is the sum of the scores for each shared concept.
 		</div>
-		<div>A shared concept score is the product of
+		<div>
+			A shared concept score is the product of
 			the concept scores for each person.
 			Click any person's concept score value to show details.
 		</div>

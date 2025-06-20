@@ -72,7 +72,7 @@ function activityThumbnailAndDate(activity) {
 
     let thumbnailUrl = gCommon.personThumbnailSchema
         .replace(gCommon.schemaPlaceholder, activity.nodeid);
-    let thumbnail = $(`<img src="${thumbnailUrl}"/>`);
+    let thumbnail = $(`<img src="${thumbnailUrl}" alt="thumbnail" />`);
 
     let nameDateDiv = $('<div></div>');
     nameDateDiv.append(nameEntry);

@@ -4,13 +4,17 @@ function addBadgeSpans(linkItems, pub) {
         let badgeSpan = $(`<span class="ms-4 me-4"><a class="__dimensions_badge_embed__" 
                                                         data-hide-zero-citations="true" 
                                                         data-style="small_rectangle" 
-                                                        data-pmid="${bibo}"></a></span>`);
+                                                        data-pmid="${bibo}"
+                                                        href="#"
+                                                        aria-label="dimensions for ${bibo}"></a></span>`);
 
         let embedSpan = $(`<a class='altmetric-embed me-2' data-link-target='_blank' 
                                                             data-badge-popover='bottom' 
                                                             data-badge-type='4'     
                                                             data-hide-no-mentions='true' 
-                                                            data-pmid="${bibo}"></a>`);
+                                                            data-pmid="${bibo}"
+                                                            href="#"
+                                                            aria-label="altmetric for ${bibo}"></a>`);
 
         linkItems.push(badgeSpan);
         linkItems.push(embedSpan);

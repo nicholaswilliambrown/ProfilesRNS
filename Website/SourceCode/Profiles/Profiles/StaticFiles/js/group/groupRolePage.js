@@ -12,7 +12,7 @@ async function setupGroupByRole() {
     await groupRoleCommonSetup();
 }
 async function setupGroupMap() {
-    await groupRoleCommonSetup();
+    await groupRoleCommonSetup(true);
 }
 async function setupGroupCoauthors() {
     await groupRoleCommonSetup(true);
@@ -46,7 +46,7 @@ async function groupRoleCommonSetup(customVsRegularInnerCurtain) {
 
 function adjustTabs() {
     let myUrl = window.location.href;
-    let urlPrefix = myUrl.replace(/.*(\/display\/\d+\/\d+).*/, "$1/");
+    let urlPrefix = myUrl.replace(/(.*\/display\/\d+\/\d+).*/, "$1/");
 
 
     let coauthors = "coauthors";

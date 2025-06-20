@@ -4,10 +4,17 @@ function appendEltFromBigString(elt, target) {
     // Perhaps try again with crossOriginAjax()
 
     target.append(elt);
+
+
 }
 
+function weirdRemoveExtraNav2Ids() {
+    $('#topNav2PersonsDropdown').find('a[id="nav2Persons1"]').remove();
+}
 async function setupPageStub(mainBodyStructure) {
     await appendEltFromBigString(gCommon.mainDataContainer, $('body'));
+
+    weirdRemoveExtraNav2Ids();
 
     let mainDataContainerId = 'main-data-container';
     initialCurtainsDown();
@@ -240,7 +247,7 @@ function makeModuleTitleDiv(moduleTitle) {
 }
 
 function setupTopOfPageItems() {
-    setUrlByAnchorId("loginA", gCommon.loginUrl + document.URL);
+    setUrlByAnchorId("loginA", gCommon.loginUrl + sessionInfo.sessionID);
 
     setupTopNav();
 }
@@ -391,7 +398,7 @@ function rememberArraySizeOfJsonModule(pageJson, moduleName, sessionKey) {
 }
 
 function getEltBackTo(backUrl, backLabel) {
-    let backArrow = "<img src='" + g.profilesRootURL + "/StaticFiles/img/common/arrowLeft.png' class='me-1' alt=''>";
+    let backArrow = "<img src='" + g.profilesRootURL + "/StaticFiles/img/common/arrowLeft.png' class='me-1' alt='backArrow'>";
     let returnA = createAnchorElement(`Back to ${backLabel}`, backUrl);
     returnA.prepend(backArrow);
 
@@ -570,21 +577,6 @@ function createNavItemSpan(id, text, clickFn, aClass) {
     }
     return span;
 }
-function createNavItemDiv(id, text, clickFn, aClass) {
-    if (!aClass) {
-        aClass = "";
-    }
-    let button = $(`<button class="link-ish nav-link ${aClass}" 
-                    id="${id}">${text}</button>`);
-    let div = $('<div class="hiZ nav-item"></div>');
-    div.append(button);
-
-    if (clickFn) {
-        button.on("click", clickFn);
-    }
-    return div;
-}
-
 function emitExploreButton(target, hrefOrFn) {
     // large/small variants
     let largeDiv = $(`<div class="mt-2 explore-parent"></div>`);

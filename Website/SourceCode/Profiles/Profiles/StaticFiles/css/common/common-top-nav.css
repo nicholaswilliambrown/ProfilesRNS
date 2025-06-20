@@ -329,7 +329,7 @@ a.r2 {
         top: 25px;
     }
 
-#fourItems {
+#fourOrSoItems {
     width: 450px;
     margin-left: 0px !important;
     padding-left: 0px !important;
@@ -391,14 +391,6 @@ a.r2 {
         left: -13px;
     }
 
-#longerItem {
-    margin-left: 0px !important;
-    padding-left: 0px !important;
-    margin-right: 0px !important;
-    padding-right: 0px !important;
-    width: 500px;
-}
-
 .myNavbar-nav {
     margin-left: 0px !important;
     padding-left: 0px !important;
@@ -414,7 +406,7 @@ myNavbar-nav2 {
 }
 
 .navSearchTerm {
-    width: 320px;
+    width: 150px;
     padding-right: 0px !important;
     padding-top: 15px;
     vertical-align: middle !important;

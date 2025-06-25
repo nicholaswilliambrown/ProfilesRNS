@@ -10,7 +10,8 @@ for i in `cat diffs-name.txt`
    echo "@========== $shortName =========================================" >> $out
    echo  " '-' == master. '+' = fromCatalyst"                              >> $out
    echo                                                                    >> $out
-   git diff master..fromCatalyst -- $shortName \
+   # https://git-scm.com/docs/diff-options
+   git diff master..fromCatalyst -- $shortName --w --ignore-blank-lines \
      | sed '/^index/d' | sed '/^[+][+][+]/d' | sed '/^---/d' | \
      sed '/diff --git a/d'                                                 >> $out
    echo                                                                    >> $out

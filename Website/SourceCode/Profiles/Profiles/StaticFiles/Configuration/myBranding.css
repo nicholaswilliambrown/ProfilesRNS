@@ -1,6 +1,9 @@
-h2 {
-    font-size:28px !important;
+.headerBanner {
+    content: url("/StaticFiles/img/branding/_OpenSourceBanner.png");
+    background-color: black;
+    border-bottom: #b23f45 8px solid;
+    padding: 25px 50px;
 }
 #brandingBanner {
-    height: 190px !important;
+    height: 99px !important;
 }

@@ -9,8 +9,8 @@ strings for properties and blurbs, by editing / replacing these files:
 For the blurbs in myBranding.json, you might use an editor with text-wrapping,
 as each entry must occur on one (possibly long) line.
 
-Compared to the supplied, default Catalyst JSON, your myBranding.json may not
-need (m)any of the items supplied there. You need any items referenced in the
+Compared to the Catalyst JSON, your myBranding.json may need more or fewer of
+the items supplied there. You need any items referenced in the
 code that you use in your version of myBranding.js. Also, any items referenced
 in the code (brandingUtil.js, aboutAndHelp.js, etc.) that customizes webpages.
 

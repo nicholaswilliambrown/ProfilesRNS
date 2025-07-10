@@ -4,13 +4,13 @@ let gBrandingConstants = {};
 gBrandingConstants.staticRoot = "/StaticFiles/";
 
 async function setupHeadIncludesAndTabTitle() {
-    setTabTitleAndFavicon();
+    setTabTitleAndOrFavicon();
 }
 async function emitBrandingHeader() {
 
     $('body').prepend(`<div id="brandingBanner" class="d-flex justify-content-center headerFooter p-2"></div>`);
 
-    let getHeaderContent = () => { return $(`<div>Foo College<br/>We lower the bar</div>`); }
+    let getHeaderContent = () => { return $(`<div>Foo University<br/>We lower the bar</div>`); }
 
     // versions for small and large
     let largeBannerDiv = $(`<div class="w-75 ${gCommon.hideXsSmallShowOthers}"></div>`);
@@ -26,7 +26,7 @@ async function emitBrandingFooter() {
         class="d-flex justify-content-center headerFooter p-2"></div>`);
     $('body').append(brandingFooter);
 
-    let getFooterContent = () => { return $(`<div class="small">Foo College<br/>Try not to trip on the bar</div>`); }
+    let getFooterContent = () => { return $(`<div class="small">Foo University<br/>Try not to trip on the bar</div>`); }
 
     // versions for small and large
     let largeFooterDiv = $(`<div class="w-75 ${gCommon.hideXsSmallShowOthers}"></div>`);

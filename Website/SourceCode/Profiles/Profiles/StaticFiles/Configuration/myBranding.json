@@ -2,7 +2,7 @@
   "homeUrl":"https://fooCollege.edu",
   "faviconUrl": "https://fooCollege.edu/favicon.ico",
   "tabTitleSuffix": " | Foo Profiles",
-  "profilesTitle": "Profiles",
+  "profilesTitle": "Foo Profiles",
 
   "help-howToContact": "Email us at <a href='mailto:contact@fooCollege.edu'>fooCollege.edu</a>.",
   "help-whoIsListed": "Foo Profiles includes all faculty from Foo Medical School, Foo School of Dental Medicine, and Foo School of Public Health. Listings in Foo Profiles are automatic and based on maintaining an active faculty appointment; removal occurs only upon termination or retirement from the faculty appointment.",
@@ -17,8 +17,8 @@
   "help-whoCreated": "Foo Profiles was invented by a bunch of Foo(l)s, plagiarizing from other institutions.",
 
   "aboutProfiles-profilesTitle": "Foo Profiles",
-  "aboutProfiles-profilesInstitution": "Foo College",
-  "aboutProfiles-whatIsIt": "Foo \"Profiles\" creates searchable and interactive online profiles of all faculty at Foo College, Foo School of Dental Medicine, and Foo School of Public Health. Foo Profiles is home to several faculty whose expertise covers nearly the entire breadth and depth of biomedicine. But in such a large community, how can you find collaborators to work with on your research? This is where Profiles can help.",
+  "aboutProfiles-profilesInstitution": "Foo University",
+  "aboutProfiles-whatIsIt": "Foo \"Profiles\" creates searchable and interactive online profiles of all faculty at Foo University, Foo School of Dental Medicine, and Foo School of Public Health. Foo Profiles is home to several faculty whose expertise covers nearly the entire breadth and depth of biomedicine. But in such a large community, how can you find collaborators to work with on your research? This is where Profiles can help.",
 
   "useOurData-sparqlContactUrl": "/display/1234",
   "useOurData-sparqlContactName": "Feebee Foofoo",

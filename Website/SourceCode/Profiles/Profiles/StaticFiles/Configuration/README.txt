@@ -1,26 +1,31 @@
 
-You can use your own headers and footers, AKA 'branding', and your own
-strings for properties and blurbs, by editing / replacing these files:
+The branding apparatus aims to make it relatively straight-forward to use
+configurations in order to switch between different variations for displaying
+the Profiles pages.
+
+In addition to Catalyst and OpenSource configurations, we supply a Foo configuration,
+representing a fictional (satirical) institution. Foo may be good for experimenting
+with the features of the branding setup.
+
+For your institution's branding, you can use your own headers and footers, and
+your own particular values for properties and text-snippets, by modifying these files:
 
     myBranding.json
     myBranding.js
     myBranding.css
 
-For the blurbs in myBranding.json, you might use an editor with text-wrapping,
+For the text-snippets in myBranding.json, you might use an editor with text-wrapping,
 as each entry must occur on one (possibly long) line.
 
-Compared to the Catalyst JSON, your myBranding.json may need more or fewer of
-the items supplied there. You need any items referenced in the
-code that you use in your version of myBranding.js. Also, any items referenced
-in the code (brandingUtil.js, aboutAndHelp.js, etc.) that customizes webpages.
+In myBranding.js, you may supply your own implementation of
 
-In your version of myBranding.js, you may supply your own implementation of
     setupHeadIncludesAndTabTitle()
-    emitBrandingHeader(targetId)
+    emitBrandingHeader()
     emitBrandingFooter()
 
-and perhaps
-    emitPreFooter()
+You might also supply other resources, e.g., images that your own *.js or *.html
+can reference.
 
-You might also supply other files (e.g., images) that your *.js can reference.
-
+EG... track profilesTitle to help page.
+... track a url
+... look at emitFooter

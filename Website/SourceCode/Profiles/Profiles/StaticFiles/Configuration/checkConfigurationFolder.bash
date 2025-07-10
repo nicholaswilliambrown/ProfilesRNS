@@ -1,5 +1,13 @@
 
-folder=$1
+
+
+if [ "$#" -ne 1 ]; then
+  echo "Error: Name of folder is required."
+  echo "Usage: $0 <folder>"
+  exit 1 # Exit with a non-zero status to indicate an error
+fi
+
+export folder=$1
 
 if [[ -z "folder" ]]; then
     echo "Usage: checkFolder <folder-to-compare-against>" 1>&2

@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////
-//   Customize to your brand by editing (to provide your own constants, blurbs
-//        functions and css-properties, respectively) the following files:
+//   Customize to your brand by editing the following files (to provide
+//        your own constants, blurbs, js-functions and css-properties):
 //
 //   - myBranding.json
 //   - myBranding.js

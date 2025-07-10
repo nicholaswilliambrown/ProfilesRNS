@@ -33,7 +33,7 @@ async function emitBrandingFooter() {
     brandingFooter.append(largeFooterDiv);
     largeFooterDiv.append(getFooterContent());
 
-    let smallFooterDiv = $(`<div class="w- 75 ${gCommon.showXsSmallHideOthers}"></div>`);
+    let smallFooterDiv = $(`<div class="w-75 ${gCommon.showXsSmallHideOthers}"></div>`);
     brandingFooter.append(smallFooterDiv);
     smallFooterDiv.append(getFooterContent());
 }

@@ -32,4 +32,35 @@ async function loadBrandingAssets(targetId) {
 function unHideFooter() {
     $('#brandingFooter').show();
 }
+function applySystematicBlurbs() {
+    let topicClass = 'topic';
+    let blurbClass = 'blurbForTopic';
+
+    $(`.${topicClass}`).each((index, element) => {
+        let elt = $(element);
+        let sharedAttr = elt.attr('sharedAttr');
+        let blurbAttrs = [];
+        $(`.${blurbClass}[sharedAttr="${sharedAttr}"]`)
+            .get() // to array
+            .forEach(i => {
+                blurbAttrs.push($(i).attr('blurb'));
+            });
+
+        hideEmptyTopics(sharedAttr, blurbAttrs);
+
+        blurbAttrs.forEach(attr => {
+            let elt = $(`div[blurb="${attr}"]`);
+            let blurbText = gBrandingConstants[attr];
+            $(elt).html(blurbText);
+        });
+    });
+}
+function hideEmptyTopics(sharedAttr, blurbAttrList) {
+    let nonEmptyBlurbs = blurbAttrList.filter(ba =>
+        gBrandingConstants[ba]);
+
+    if ( ! nonEmptyBlurbs.length) {
+        $(`div[sharedAttr="${sharedAttr}"]`).hide()
+    }
+}
 

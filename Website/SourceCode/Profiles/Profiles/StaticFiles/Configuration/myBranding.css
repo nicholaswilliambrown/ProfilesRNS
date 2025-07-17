@@ -1,8 +1,9 @@
-.headerFooter {
-    background-color: cyan;
-    border: blue 1px solid;
-    text-align: center;
-    font-weight: bold;
-    margin: 25px;
-    width: 95%;
+.headerBanner {
+    content: url("/StaticFiles/img/branding/_OpenSourceBanner.png");
+    background-color: black;
+    border-bottom: #b23f45 8px solid;
+    padding: 25px 50px;
+}
+#brandingBanner {
+    height: 99px !important;
 }

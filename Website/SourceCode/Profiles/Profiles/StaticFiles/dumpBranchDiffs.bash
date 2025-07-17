@@ -18,13 +18,13 @@ cat t02.txt | sed "s/^--- a\//'-' == $referenceBranch: /; s/^[+][+][+] b\//'+' =
 cat t03.txt | sed "/^---/d; s/new file mode.*/(file does not exist in $referenceBranch)/" >               t04.txt
 cat t04.txt | sed "/^---/d; s/deleted file mode.*/(file does not exist in $candidateBranch)/" >           t05.txt
 cat t05.txt | sed "s/^[+][+][+]/'+' == /" >                                                               t06.txt
-cat t06.txt | sed "/^Binary/s/and b\//and $candidateBranch/" >                                            t07.txt
+cat t06.txt | sed "/^Binary/s/and b\//and $candidateBranch:/" >                                            t07.txt
 cat t07.txt | sed "/^Binary/s/ files a\//files $referenceBranch/" >                                       t08.txt
 cat t08.txt | sed "s/^diff ..git a\//${nl}Diffing /; s/ b\/.*//" >                                        t09.txt
 cat t09.txt | sed "/.*No newline at end of file/d" >                                                      t10.txt
 cat t10.txt  >                                                                                            $out
 
-egrep "Diffing|does not exist" $out | grep -v "^+" | sed "s/\(.*does not exist.*\)/\1${nl}/"
+egrep "Diffing|does not exist" $out | grep -v "^+" | sed "s/\(.*does not exist.*\)/\1${nl}/" > summary.$out
 if [ "$#" -lt 3 ]; then
   rm -rf t??.txt
 fi

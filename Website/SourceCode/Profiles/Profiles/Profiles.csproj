@@ -296,13 +296,6 @@
     <Content Include="RobotsTxt.aspx" />
     <Content Include="Search\SearchSVC.aspx" />
     <Content Include="SiteMap.aspx" />
-    <Content Include="StaticFiles\Configuration\Catalyst\myBranding.css" />
-    <Content Include="StaticFiles\Configuration\Catalyst\myBranding.js" />
-    <Content Include="StaticFiles\Configuration\myBranding.css" />
-    <Content Include="StaticFiles\Configuration\myBranding.js" />
-    <Content Include="StaticFiles\Configuration\OpenSource\myBranding.css" />
-    <Content Include="StaticFiles\Configuration\OpenSource\myBranding.js" />
-    <Content Include="StaticFiles\Configuration\README.txt" />
     <Content Include="StaticFiles\css\coauthors\coauthors.css" />
     <Content Include="StaticFiles\css\coauthors\NetworkBrowser.css" />
     <Content Include="StaticFiles\css\coauthors\viz.css" />
@@ -1825,9 +1818,6 @@
     <Content Include="StaticFiles\js\coauthors\radial\scriptaculous-js-1.9.0\CHANGELOG" />
     <Content Include="StaticFiles\js\coauthors\radial\scriptaculous-js-1.9.0\MIT-LICENSE" />
     <Content Include="StaticFiles\js\coauthors\radial\scriptaculous-js-1.9.0\README.rdoc" />
-    <Content Include="StaticFiles\Configuration\Catalyst\myBranding.json" />
-    <Content Include="StaticFiles\Configuration\myBranding.json" />
-    <Content Include="StaticFiles\Configuration\OpenSource\myBranding.json" />
   </ItemGroup>
   <ItemGroup>
     <WebReferences Include="Web References\" />

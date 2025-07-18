@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////////////////////
 
 async function loadBrandingConstants() {
-    await $.getJSON(`/Configuration/myBranding.json`, function (data) {
+    await $.getJSON(`/Branding/myBranding.json`, function (data) {
         gBrandingConstants = {...gBrandingConstants, ...data};
 
         gBrandingConstants.jsBrandingImageFiles =   `${gBrandingConstants.staticRoot}img/branding/`;

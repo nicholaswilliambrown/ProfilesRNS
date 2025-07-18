@@ -9,7 +9,7 @@ fi
 
 export folder=$1
 
-if [[ -z "folder" ]]; then
+if [[ -z "$folder" ]]; then
     echo "Usage: checkFolder <folder-to-compare-against>" 1>&2
     echo "E.g.: checkFolder OpenSource" 1>&2
     exit 1

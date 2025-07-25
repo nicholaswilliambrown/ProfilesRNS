@@ -98,8 +98,8 @@ function emitTextMembers(target, members, coauthorsConnections) {
 }
 
 function setupClusterGraphTextFlips() {
-    $('.goToGraphCgA').on("click", showClusterAsGraph);
-    $('.goToTextCgA').on("click", showClusterAsText);
+    $('.goToGraphCgB').on("click", showClusterAsGraph);
+    $('.goToTextCgB').on("click", showClusterAsText);
 }
 function showClusterAsText() {
     showAndHideClasses('cgText', 'cgGraph');

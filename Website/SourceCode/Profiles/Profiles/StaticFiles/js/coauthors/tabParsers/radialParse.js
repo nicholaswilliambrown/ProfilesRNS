@@ -116,8 +116,8 @@ function radialSliderColsSubGrid(lblRowId, colSpecs) {
     return containerDiv;
 }
 function setupRadialGraphTextFlips() {
-    $('.goToGraphRgA').on("click", showRadialAsGraph);
-    $('.goToTextRgA').on("click", showRadialAsText);
+    $('.goToGraphRgB').on("click", showRadialAsGraph);
+    $('.goToTextRgB').on("click", showRadialAsText);
 }
 function showRadialAsGraph() {
     showAndHideClasses('rgGraph', 'rgText');

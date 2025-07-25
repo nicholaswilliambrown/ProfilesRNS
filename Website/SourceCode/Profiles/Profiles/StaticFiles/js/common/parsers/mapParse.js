@@ -26,12 +26,12 @@ gMapTab.commonHtml = `
             </div>
             <br/>
             <div class="alignLeft">To see the data from this visualization as text,
-                <a class="link-ish" id="toDivMapDataText">click here.</a></div>
+                <button class="link-ish" id="toDivMapDataText">click here.</button></div>
         </div>
         <div id="divMapDataText">
-            To return to the map, <a class="toDivMap link-ish">click here.</a>
+            To return to the map, <button class="toDivMap link-ish">click here.</button>
             <div id="mapTextInner" class="mt-2 mb-2"></div>
-            To return to the map, <a class="toDivMap link-ish">click here.</a>
+            To return to the map, <button class="toDivMap link-ish">click here.</button>
         </div>
     </div>
 </div>

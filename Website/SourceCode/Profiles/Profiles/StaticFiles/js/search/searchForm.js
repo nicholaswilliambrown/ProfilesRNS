@@ -108,7 +108,7 @@ function restoreCheck(targetId, checked) {
     }
 }
 function emitMoreUpdatesLink(target) {
-    let anchor = createAnchorElement(`<img src="${gBrandingConstants.jsSearchImageFiles}icon_squareArrow.gif alt='squareArrow'"/> See more updates`,
+    let anchor = createAnchorElement(`<img src="${gBrandingConstants.jsSearchImageFiles}icon_squareArrow.gif" alt='squareArrow'/> See more updates`,
         gSearch.moreUpdatesUrl);
 
     let colspecs = [newColumnSpec(`${gCommon.cols12} ps-0 d-flex justify-content-start`,

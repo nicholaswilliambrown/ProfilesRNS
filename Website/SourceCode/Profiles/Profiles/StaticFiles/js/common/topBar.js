@@ -93,14 +93,14 @@ function addSearchForm(target, formClass, searchGlassClass, displayClass, sizeFl
         <input class="form-control navSearchTerm ps-1" id="navSearchTerm${sizeFlavor}" type="search" aria-label="Search"
                placeholder=" Search Profiles">
         <div id="searchGlassDiv${sizeFlavor}" class="searchGlassDiv">                              
-            <img id="navSearchGlass${sizeFlavor}" 
+            <img id="navSearchGlass${sizeFlavor}" alt="searchGlass"
                 class="navSearchGlass searchMagGlass 
                 ${searchGlassClass} pt-2 pe-2"/>
         </div>
         <div class="dropdown">
             <a class="search dropdown-toggle" href="#" id="navbarDropdown3${sizeFlavor}" role="button"
                data-bs-toggle="dropdown" aria-expanded="false">
-                <img class="downArrow downArrow${sizeFlavor}">
+                <img alt="downArrow" class="downArrow downArrow${sizeFlavor}">
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown3">
                 <li><a id="findPeopleA${sizeFlavor}" class="dropdown-item find-people-menu" href="#">Find People</a></li>

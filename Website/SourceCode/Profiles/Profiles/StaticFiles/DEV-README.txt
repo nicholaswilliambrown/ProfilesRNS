@@ -3,6 +3,6 @@
 To show a somewhat pretty diff between master and 'receiveFromCatalyst' branches:
 
 In this directory:
-% bash dumpPrettyDiffs.bash
+% bash dumpBranchDiffs.bash
 
 Output in pretty-diffs.txt

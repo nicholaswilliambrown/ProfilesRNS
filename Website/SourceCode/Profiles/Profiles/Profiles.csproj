@@ -485,7 +485,6 @@
     <Content Include="StaticFiles\js\common\authorship-helpers\etlPubFields.js" />
     <Content Include="StaticFiles\js\common\authorship-helpers\filters\authorshipFilters.js" />
     <Content Include="StaticFiles\js\common\brandingUtil.js" />
-    <Content Include="StaticFiles\js\common\catalystUtil.js" />
     <Content Include="StaticFiles\js\common\cluster\clusterAndRadial.js" />
     <Content Include="StaticFiles\js\common\cluster\clusterParse.js" />
     <Content Include="StaticFiles\js\common\cluster\networkBrowserClass.js" />

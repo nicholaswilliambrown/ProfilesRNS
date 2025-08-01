@@ -385,7 +385,6 @@
     <Content Include="StaticFiles\js\awards\awards.js" />
     <Content Include="StaticFiles\js\coauthors\co-authors.js" />
     <Content Include="StaticFiles\js\coauthors\radial\layout_balanced.js" />
-    <Content Include="StaticFiles\js\coauthors\radial\scriptaculous-js-1.9.0\lib\line-1060-prototype-js-updated-for-gmaps.txt" />
     <Content Include="StaticFiles\js\coauthors\radial\scriptaculous-js-1.9.0\lib\prototype.js" />
     <Content Include="StaticFiles\js\coauthors\radial\scriptaculous-js-1.9.0\src\builder.js" />
     <Content Include="StaticFiles\js\coauthors\radial\scriptaculous-js-1.9.0\src\controls.js" />

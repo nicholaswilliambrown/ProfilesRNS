@@ -491,7 +491,6 @@
     <Content Include="StaticFiles\js\common\cluster\networkClusterLayoutEngine.js" />
     <Content Include="StaticFiles\js\common\cluster\watchdog.js" />
     <Content Include="StaticFiles\js\common\common.js" />
-    <Content Include="StaticFiles\js\common\exploreParse.js" />
     <Content Include="StaticFiles\js\common\globals.js" />
     <Content Include="StaticFiles\js\common\insertCommonContent.js" />
     <Content Include="StaticFiles\js\common\misc.js" />

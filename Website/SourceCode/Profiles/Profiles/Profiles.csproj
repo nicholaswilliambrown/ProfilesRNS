@@ -292,7 +292,6 @@
     <Content Include="Profile\Modules\NetworkMap\config.xml" />
     <Content Include="Profile\Modules\NetworkMap\NetworkMap.ascx" />
     <Content Include="Profile\ProfileJsonSVC.aspx" />
-    <Content Include="README-Branding.txt" />
     <Content Include="RobotsTxt.aspx" />
     <Content Include="Search\SearchSVC.aspx" />
     <Content Include="SiteMap.aspx" />

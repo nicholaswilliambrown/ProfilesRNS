@@ -524,7 +524,6 @@
     <Content Include="StaticFiles\js\person\authorship-helpers\graphs-and-text\fieldSummary.js" />
     <Content Include="StaticFiles\js\person\authorship-helpers\graphs-and-text\timeline.js" />
     <Content Include="StaticFiles\js\person\authorship-helpers\graphs-and-text\timelineAndFieldSummary.js" />
-    <Content Include="StaticFiles\js\person\embedded-media-parsing\embeddedMediaParse.js" />
     <Content Include="StaticFiles\js\person\general\coordinatePersonParse.js" />
     <Content Include="StaticFiles\js\person\general\personPage.js" />
     <Content Include="StaticFiles\js\person\general\personPageSkeleton.js" />

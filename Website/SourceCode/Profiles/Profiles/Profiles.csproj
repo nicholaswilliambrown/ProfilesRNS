@@ -295,6 +295,9 @@
     <Content Include="RobotsTxt.aspx" />
     <Content Include="Search\SearchSVC.aspx" />
     <Content Include="SiteMap.aspx" />
+    <Content Include="Branding\myBranding.css" />
+    <Content Include="Branding\myBranding.js" />
+    <Content Include="Branding\myBranding.json" />
     <Content Include="StaticFiles\css\coauthors\coauthors.css" />
     <Content Include="StaticFiles\css\coauthors\NetworkBrowser.css" />
     <Content Include="StaticFiles\css\coauthors\viz.css" />
@@ -515,6 +518,7 @@
     <Content Include="StaticFiles\js\connections\personConceptConnection.js" />
     <Content Include="StaticFiles\js\connections\personSimilarConnection.js" />
     <Content Include="StaticFiles\js\group\groupPage.js" />
+    <Content Include="StaticFiles\js\GA4\GoogleAnalytics.js" />
     <Content Include="StaticFiles\js\group\groupRolePage.js" />
     <Content Include="StaticFiles\js\helpAbout\aboutAndHelp.js" />
     <Content Include="StaticFiles\js\history\history.js" />

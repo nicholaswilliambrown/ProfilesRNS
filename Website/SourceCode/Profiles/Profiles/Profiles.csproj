@@ -384,6 +384,7 @@
     <Content Include="StaticFiles\img\search\icon_squareArrow.gif" />
     <Content Include="StaticFiles\img\search\search.jpg" />
     <Content Include="StaticFiles\img\search\sort_asc.gif" />
+    <Content Include="StaticFiles\img\branding\_OpenSourceBanner.png" />
     <Content Include="StaticFiles\img\search\sort_desc.gif" />
     <Content Include="StaticFiles\js\awards\awards.js" />
     <Content Include="StaticFiles\js\coauthors\co-authors.js" />

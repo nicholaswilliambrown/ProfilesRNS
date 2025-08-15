@@ -30,6 +30,10 @@ function setupImgBigSmallAndLabel(target, rowId) {
     let lhSide = completeRow.find(`#${rowId}Col0`);
     let rhSide = completeRow.find(`#${rowId}Col1`);
 
+    // 'axe tool': accessibility
+    lhSide.attr('tabindex', '0');
+    rhSide.attr('tabindex', '0');
+
     return [lhSide, rhSide];
 }
 function fillInBigSmallLabel(iframe, thumbImg, label, i, lhs, rhs, mediaClass) {

@@ -154,7 +154,7 @@ function emitMosts(whichMost) {
 function setupSearchSubmitAndNameSections() {
     setupOneSearchSubmitSection(
         gSearch.people,
-        "<span class='researchTopics'>Research Topics</span>",
+        `<label for="peopleSearchInput" class="researchTopics">Research Topics</label>`,
         'Find People by Research Topic or Name',
         searchPeopleFn);
 
@@ -234,14 +234,14 @@ function emitTwoNamesInput(target) {
     let row = makeRowWithColumns(target, rowId, gSearch.midSectionColspecs,  "pb-1 mt-0 mb-2");
 
     let lnameInput = $(`<input id="${gSearch.lnameInputSt}" class="w-100 inputSearch">`);
-    row.find(`#${rowId}Col0`).html('Last Name');
+    row.find(`#${rowId}Col0`).html('<label for="lnameInput">Last Name</label>');
     row.find(`#${rowId}Col1`).append(lnameInput);
 
     rowId = `${gSearch.fnameInputSt}`;
     row = makeRowWithColumns(target, rowId, gSearch.midSectionColspecs,  "pb-1 mt-0 mb-2");
 
     let fnameInput = $(`<input id="${gSearch.fnameInputSt}" class="w-100 inputSearch">`);
-    row.find(`#${rowId}Col0`).html('First Name');
+    row.find(`#${rowId}Col0`).html('<label for="fnameInput">First Name</label>');
     row.find(`#${rowId}Col1`).append(fnameInput);
 
     return [lnameInput, fnameInput];

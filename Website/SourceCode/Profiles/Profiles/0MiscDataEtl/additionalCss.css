@@ -1,0 +1,62 @@
+.altmetric-embed {
+    margin-left: 0px !important;
+}
+.RCR-citations {
+    height: 15px;
+    background-image: url("../../img/person/RCR_Icon_Wide.png");
+    display: inline-block;
+    text-decoration: none;
+    line-height: 13px;
+    width: 80px !important;
+}
+.RCR-count {
+    margin-left: 70px;
+    width: 29px;
+    text-align: right  !important;
+    font-size: 10px;
+    font-weight: normal;
+    color: #333;
+    display: inline-flex;
+    justify-content: space-evenly;
+}
+
+/** fixed number in DB schema: 5 translation types */
+.Translation {
+    border-color: #999999;
+    font-family: 'Times';
+}
+/*.TranslationHumans {        color: #3333cc;}*/
+/*.TranslationAnimals {       color: #33aa33;}*/
+/*.TranslationCells {         color: #bb3333;}*/
+/*.TranslationPublicHealth {  color: #609;}*/
+/*.TranslationClinicalTrial { color: #00C;}*/
+
+.Translation {
+    border-color: black;
+}
+.TranslationHumans        {  border-color: #3333cc !important;}
+.TranslationAnimals       {  border-color: #33aa33 !important;}
+.TranslationCells         {  border-color: #bb3333 !important;}
+.TranslationPublicHealth  {
+    border-color: #999 !important;
+    color: #609 !important;
+}
+.TranslationClinicalTrial {
+    border-color: #999 !important;
+    color: #00C !important;
+}
+/** see https://medium.com/mkdir-awesome/how-to-change-the-bootstrap-5-tooltip-background-and-arrow-color-67e6c5aea510**/
+.TranslationHumans[checked="checked"]       , .TranslationHumansTt .tooltip-inner  {
+    background-color: #3333cc;}
+.TranslationAnimals[checked="checked"]      , .TranslationAnimalsTt .tooltip-inner {
+    background-color: #33aa33;}
+.TranslationCells[checked="checked"]        , .TranslationCellsTt .tooltip-inner   {
+    background-color: #bb3333;}
+.TranslationPublicHealth[checked="checked"] , .TranslationPublicHealthTt .tooltip-inner      {
+    background-color: #609   ;}
+.TranslationClinicalTrial[checked="checked"], .TranslationClinicalTrialTt .tooltip-inner      {
+    background-color: #00C   ;}
+
+/* bullet-proofing: all field classes should be accounted for in etlPubFields.css */
+.defaultFieldClass[checked="checked"]  { background-color: grey; }
+.defaultFieldClass  { border-color: grey; }

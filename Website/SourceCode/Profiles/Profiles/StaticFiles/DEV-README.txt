@@ -5,4 +5,4 @@ To show a somewhat pretty diff between main and 'fromOpenSource' branches:
 In this directory:
 % bash dumpBranchDiffs.bash
 
-Output in pretty-diffs.txt
+Output in prettyDiff.txt and summary.prettyDiff.txt

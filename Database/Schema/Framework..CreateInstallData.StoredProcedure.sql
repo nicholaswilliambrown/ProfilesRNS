@@ -422,7 +422,7 @@ BEGIN
  				    ---------------------------------------------------------------
 					-- [Profile.Import].[PRNSWebservice.*]
 					---------------------------------------------------------------
-					(					(
+					(
 						select '[Profile.Import].[PRNSWebservice.Options]' 'Table/@Name',
 						(
 							SELECT	job 'job',
@@ -436,8 +436,86 @@ BEGIN
 									for xml path('Row'), type
 						) 'Table'  
 						for xml path(''), type
+					),
+ 				    ---------------------------------------------------------------
+					-- [Display.].[Activity.Log.MethodDetails]
+					---------------------------------------------------------------
+					(
+						select	'[Display.].[Activity.Log.MethodDetails]' 'Table/@Name',
+						(
+									select	methodName 'methodName',
+											Property 'Property',
+											label 'label'
+									from [Display.].[Activity.Log.MethodDetails]
+									for xml path('Row'), type
+						) 'Table'
+						for xml path(''), type
+					),
+ 				    ---------------------------------------------------------------
+					-- [Display.].[ModuleMapping]
+					---------------------------------------------------------------
+					(
+						select	'[Display.].[ModuleMapping]' 'Table/@Name',
+						(
+							select	ClassProperty 'ClassProperty',
+									DisplayModule 'DisplayModule',
+									DataStoredProc 'DataStoredProc',
+									Tab 'Tab',
+									LayoutModule 'LayoutModule',
+									GroupLabel 'GroupLabel',
+									PropertyLabel 'PropertyLabel',
+									ToolTip 'ToolTip',
+									Panel 'Panel',
+									SortOrder 'SortOrder',
+									LayoutDataModule 'LayoutDataModule',
+									PresentationType 'PresentationType',
+									PresentationSubject 'PresentationSubject',
+									PresentationPredicate 'PresentationPredicate',
+									PresentationObject 'PresentationObject'
+							from [Display.].[ModuleMapping]
+							for xml path('Row'), type
+						) 'Table'
+						for xml path(''), type
+					),
+ 				    ---------------------------------------------------------------
+					-- [Display.].[DataPath]
+					---------------------------------------------------------------
+					(
+
+						select	'[Display.].[DataPath]' 'Table/@Name',
+						(
+							select	Tab 'Tab',
+									Sort 'Sort',
+									subject 'subject',
+									predicate 'predicate',
+									object 'object',
+									dataTab 'dataTab',
+									pageSecurityType 'pageSecurityType',
+									cacheLength 'cacheLength',
+									BotIndex 'BotIndex',
+									PresentationType 'PresentationType',
+									PresentationSubject 'PresentationSubject',
+									PresentationPredicate 'PresentationPredicate',
+									PresentationObject 'PresentationObject'
+							from [Display.].[DataPath]
+							for xml path('Row'), type
+						) 'Table'
+						for xml path(''), type
+					),
+ 				    ---------------------------------------------------------------
+					-- [Display.].[SearchEverything.Filters]
+					---------------------------------------------------------------
+					(
+						select	'[Display.].[SearchEverything.Filters]' 'Table/@Name',
+							(
+								select	Class 'Class',
+										Label 'Label',
+										pluralLabel 'pluralLabel'
+								from [Display.].[SearchEverything.Filters]
+								for xml path('Row'), type
+							) 'Table'
+						for xml path(''), type
 					)
-				)
 				for xml path(''), type
 			) 'Import'
 		for xml path(''), type
@@ -452,6 +530,7 @@ BEGIN
    --SELECT    c.name +  ' ''' + name + ''','
    --FROM sys.columns c  
    --WHERE object_id IN (SELECT object_id FROM sys.tables WHERE name = 'Publication.MyPub.Category')  
+
 
 END
 GO

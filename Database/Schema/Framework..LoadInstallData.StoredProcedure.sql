@@ -730,6 +730,138 @@ SELECT  Row_Number() OVER (ORDER BY (SELECT 1)),
           ) t
   CROSS APPLY x.nodes('//Row') AS R ( x )
 
+
+---------------------------------------------------------------
+-- [Display.].[DataPath]
+---------------------------------------------------------------
+  	INSERT INTO [Display.].[DataPath]
+		(
+			PresentationID,
+			Tab,
+			Sort,
+			subject,
+			predicate,
+			object,
+			dataTab,
+			pageSecurityType,
+			cacheLength,
+			BotIndex,
+			PresentationType,
+			PresentationSubject,
+			PresentationPredicate,
+			PresentationObject
+		)
+   SELECT	-1 * ABS(CHECKSUM(R.x.value('PresentationType[1]','varchar(max)') + isnull(R.x.value('PresentationSubject[1]','varchar(max)'), '') + isnull(R.x.value('PresentationPredicate[1]','varchar(max)'), '') + isnull(R.x.value('PresentationObject[1]','varchar(max)'), ''))),
+			R.x.value('Tab[1]','varchar(max)'),
+			R.x.value('Sort[1]','varchar(max)'),
+			R.x.value('subject[1]','varchar(max)'),
+			R.x.value('predicate[1]','varchar(max)'),
+			R.x.value('object[1]','varchar(max)'),
+			R.x.value('dataTab[1]','varchar(max)'),
+			R.x.value('pageSecurityType[1]','varchar(max)'),
+			R.x.value('cacheLength[1]','varchar(max)'),
+			R.x.value('BotIndex[1]','varchar(max)'),
+			R.x.value('PresentationType[1]','varchar(max)'),
+			R.x.value('PresentationSubject[1]','varchar(max)'),
+			R.x.value('PresentationPredicate[1]','varchar(max)'),
+			R.x.value('PresentationObject[1]','varchar(max)')
+	 FROM    (SELECT
+                      @x.query
+                      ('Import[1]/Table[@Name=''[Display.].[DataPath]'']')
+                      x
+          ) t
+  CROSS APPLY x.nodes('//Row') AS R ( x )
+
+
+---------------------------------------------------------------
+-- [Display.].[ModuleMapping]
+---------------------------------------------------------------
+  	INSERT INTO [Display.].[ModuleMapping]
+		(
+			PresentationID,
+			ClassProperty,
+			DisplayModule,
+			DataStoredProc,
+			Tab,
+			LayoutModule,
+			GroupLabel,
+			PropertyLabel,
+			ToolTip,
+			Panel,
+			SortOrder,
+			LayoutDataModule,
+			PresentationType,
+			PresentationSubject,
+			PresentationPredicate,
+			PresentationObject
+		)
+   SELECT	-1 * ABS(CHECKSUM(R.x.value('PresentationType[1]','varchar(max)') + isnull(R.x.value('PresentationSubject[1]','varchar(max)'), '') + isnull(R.x.value('PresentationPredicate[1]','varchar(max)'), '') + isnull(R.x.value('PresentationObject[1]','varchar(max)'), ''))),
+			R.x.value('ClassProperty[1]','varchar(max)'),
+			R.x.value('DisplayModule[1]','varchar(max)'),
+			R.x.value('DataStoredProc[1]','varchar(max)'),
+			R.x.value('Tab[1]','varchar(max)'),
+			R.x.value('LayoutModule[1]','varchar(max)'),
+			R.x.value('GroupLabel[1]','varchar(max)'),
+			R.x.value('PropertyLabel[1]','varchar(max)'),
+			R.x.value('ToolTip[1]','varchar(max)'),
+			R.x.value('Panel[1]','varchar(max)'),
+			R.x.value('SortOrder[1]','varchar(max)'),
+			R.x.value('LayoutDataModule[1]','varchar(max)'),
+			R.x.value('PresentationType[1]','varchar(max)'),
+			R.x.value('PresentationSubject[1]','varchar(max)'),
+			R.x.value('PresentationPredicate[1]','varchar(max)'),
+			R.x.value('PresentationObject[1]','varchar(max)')
+	 FROM    (SELECT
+                      @x.query
+                      ('Import[1]/Table[@Name=''[Display.].[ModuleMapping]'']')
+                      x
+          ) t
+  CROSS APPLY x.nodes('//Row') AS R ( x )
+
+
+
+---------------------------------------------------------------
+-- [Display.].[Activity.Log.MethodDetails]
+---------------------------------------------------------------
+  	INSERT INTO [Display.].[Activity.Log.MethodDetails]
+		(
+			methodName,
+			Property,
+			label
+		)
+   SELECT	R.x.value('methodName[1]','varchar(max)'),
+			R.x.value('Property[1]','varchar(max)'),
+			R.x.value('label[1]','varchar(max)')
+	 FROM    (SELECT
+                      @x.query
+                      ('Import[1]/Table[@Name=''[Display.].[Activity.Log.MethodDetails]'']')
+                      x
+          ) t
+  CROSS APPLY x.nodes('//Row') AS R ( x )
+
+
+
+---------------------------------------------------------------
+-- [Display.].[SearchEverything.Filters]
+---------------------------------------------------------------
+  	INSERT INTO [Display.].[SearchEverything.Filters]
+		(
+			Class,
+			Label,
+			pluralLabel
+		)
+   SELECT	R.x.value('Class[1]','varchar(max)'),
+			R.x.value('Label[1]','varchar(max)'),
+			R.x.value('pluralLabel[1]','varchar(max)')
+	 FROM    (SELECT
+                      @x.query
+                      ('Import[1]/Table[@Name=''[Display.].[SearchEverything.Filters]'']')
+                      x
+          ) t
+  CROSS APPLY x.nodes('//Row') AS R ( x )
+  
+  
+  
   -- Use to generate select lists for new tables
   -- SELECT   'R.x.value(''' + c.name +  '[1]'',' + '''varchar(max)'')'+ ',' ,* 
   -- FROM sys.columns c 

@@ -173,7 +173,7 @@ WITH cte
 										m.publicationdt,
 										pubid,
 										m.hmspubcategory,
-										'http://dx.doi.org/' + doi url,
+										'http://dx.doi.org/' + isnull(m.doi,g.doi) url,
 										'DOI' sourcename
 									FROM [Profile.Data].[Publication.MyPub.General] m,[Profile.Data].[Publication.Person.Include] p, [Profile.Data].[Publication.ISI.MPID] d, [Profile.Data].[Publication.ISI.PubGeneral] g
 									where p.personid = @UserID

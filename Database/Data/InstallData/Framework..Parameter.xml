@@ -11,4 +11,8 @@
     <ParameterID>RC4EncryptionKey</ParameterID>
     <Value>Change Me</Value>
   </Row>
+  <Row>
+    <ParameterID>relativeBasePath</ParameterID>
+    <Value></Value>
+  </Row>
 </Table>

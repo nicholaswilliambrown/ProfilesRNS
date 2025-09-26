@@ -257,7 +257,6 @@ type Profile.Import.PRNSWebservice.Log.Summary.Table.sql
 type Display..Activity.Log.MethodDetails.Table.sql
 type Display..DataPath.Table.sql
 type Display..GetJsonLog.Table.sql
-type Display..GetProfileDataLog.Table.sql
 type Display..ModuleMapping.Table.sql
 type Display..SearchEverything.Filters.Table.sql
 type Profile.Cache.Concept.Mesh.URL.Table.sql
@@ -460,8 +459,6 @@ type Profile.Data.Publication.DeleteAllPublications.StoredProcedure.sql
 type Profile.Data.Publication.Entity.UpdateEntityOnePerson.StoredProcedure.sql
 type Profile.Data.Publication.Entity.UpdateEntity.StoredProcedure.sql
 type Profile.Cache.Person.UpdatePerson.StoredProcedure.sql
-type Profile.Data.Publication.GetPersonPublications3.StoredProcedure.sql
-type Profile.Data.Publication.GetPersonPublications2.StoredProcedure.sql
 type Profile.Data.Publication.MyPub.UpdatePublication.StoredProcedure.sql
 type Profile.Data.Publication.MyPub.AddPublication.StoredProcedure.sql
 type Profile.Data.Publication.Pubmed.AddPubMedXML.StoredProcedure.sql
@@ -727,7 +724,6 @@ type Display..GetDataRDF.StoredProcedure.sql
 type Display..GetDataURLs.StoredProcedure.sql
 type Display..GetJson.StoredProcedure.sql
 type Display..GetLatestActivityIDs.StoredProcedure.sql
-type Display..GetPageParams.StoredProcedure.sql
 type Display..Search.Params.StoredProcedure.sql
 type Display..SearchEverything.StoredProcedure.sql
 type Display..SearchPeople.StoredProcedure.sql

@@ -17,6 +17,9 @@ CREATE TABLE [Profile.Data].[Publication.PubMed.Author](
 	[CollectiveName] [nvarchar](1000) NULL,
     [ORCID] [varchar](50) NULL,
     [ValueHash] [varbinary](32) NULL,
+	[EqualContrib]   VARCHAR (1)     NULL,
+	[FirstAuthor]    BIT             NULL,
+	[LastAuthor]     BIT             NULL,
  CONSTRAINT [PK__pm_pubs_authors__17F790F9] PRIMARY KEY CLUSTERED 
 (
 	[PmPubsAuthorID] ASC

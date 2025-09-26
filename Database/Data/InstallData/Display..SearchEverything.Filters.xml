@@ -1,0 +1,32 @@
+<Table Name="[Display.].[SearchEverything.Filters]">
+	<Row>
+		<Class>http://profiles.catalyst.harvard.edu/ontology/catalyst#MentoringCompletedStudentProject</Class>
+		<Label>Mentoring - Completed Student Project</Label>
+		<pluralLabel>Mentoring</pluralLabel>
+	</Row>
+	<Row>
+		<Class>http://vivoweb.org/ontology/core#Grant</Class>
+		<Label>Grant</Label>
+		<pluralLabel>Grants</pluralLabel>
+	</Row>
+	<Row>
+		<Class>http://xmlns.com/foaf/0.1/Person</Class>
+		<Label>Person</Label>
+		<pluralLabel>People</pluralLabel>
+	</Row>
+	<Row>
+		<Class>http://purl.org/ontology/bibo/Document</Class>
+		<Label>Academic Article</Label>
+		<pluralLabel>Research</pluralLabel>
+	</Row>
+	<Row>
+		<Class>http://vivoweb.org/ontology/core#AwardReceipt</Class>
+		<Label>Award or Honor Receipt</Label>
+		<pluralLabel>Awards</pluralLabel>
+	</Row>
+	<Row>
+		<Class>http://www.w3.org/2004/02/skos/core#Concept</Class>
+		<Label>Concept</Label>
+		<pluralLabel>Concepts</pluralLabel>
+	</Row>
+</Table>

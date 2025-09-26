@@ -12,6 +12,8 @@ CREATE TABLE [Profile.Module].[GenericRDF.Plugins](
 	[CustomEditModule] [varchar](max) NULL,
 	[CustomDisplayModuleXML] [xml] NULL,
 	[CustomEditModuleXML] [xml] NULL,
+	[_PropertyNode] [bigint] NULL,
+	[dataType] [bit] NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[Name] ASC

@@ -1,0 +1,142 @@
+<Table Name="[Display.].[Activity.Log.MethodDetails]">
+	<Row>
+		<methodName>Profiles.Edit.Utilities.DataIO.AddPublication</methodName>
+		<label>added a publication from $JournalTitle</label>
+	</Row>
+	<Row>
+		<methodName>Profiles.Edit.Modules.CustomEditAuthorInAuthorship.DataIO.AddVerifyPublications</methodName>
+		<label>added a publication from $JournalTitle</label>
+	</Row>
+	<Row>
+		<methodName>Profiles.Edit.Modules.CustomEditAuthorInAuthorship.DataIO.AddPubmedBookArticle</methodName>
+		<label>added a publication from $JournalTitle</label>
+	</Row>
+	<Row>
+		<methodName>Profiles.Edit.Utilities.DataIO.AddUpdateFunding</methodName>
+		<label>added a research activity or funding: $AgreementLabel</label>
+	</Row>
+	<Row>
+		<methodName>Profiles.Edit.Utilities.DataIO.AddCustomPublication</methodName>
+		<label>added a custom publication</label>
+	</Row>
+	<Row>
+		<methodName>[Profile.Data].[Funding.LoadDisambiguationResults]</methodName>
+		<label>has a research activity or funding: $AgreementLabel</label>
+	</Row>
+	<Row>
+		<methodName>[resnav_people_profileslabs].[dbo].[UpdatePubMedDisambiguation]</methodName>
+		<label>has a new publication from $JournalTitle</label>
+	</Row>
+	<Row>
+		<methodName>Profiles.Edit.Utilities.DataIO.SaveImage</methodName>
+		<label>added a profile image</label>
+	</Row>
+	<Row>
+		<methodName>Profiles.Edit.Utilities.DataIO.AddAward</methodName>
+		<label>added an award</label>
+	</Row>
+	<Row>
+		<methodName>Profiles.Edit.Utilities.DataIO.UpdateLiteral</methodName>
+		<Property>http://vivoweb.org/ontology/core#overview</Property>
+		<label>updated their overview</label>
+	</Row>
+	<Row>
+		<methodName>Profiles.Edit.Utilities.DataIO.AddLiteral</methodName>
+		<Property>http://vivoweb.org/ontology/core#freetextKeyword</Property>
+		<label>added a keyword</label>
+	</Row>
+	<Row>
+		<methodName>Profiles.Edit.Utilities.DataIO.AddLiteral</methodName>
+		<Property>http://vivoweb.org/ontology/core#overview</Property>
+		<label>added an overview</label>
+	</Row>
+	<Row>
+		<methodName>Profiles.Edit.Utilities.DataIO.AddEducationalTraining</methodName>
+		<label>added $param1 into education and training</label>
+	</Row>
+	<Row>
+		<methodName>Profiles.Edit.Utilities.DataIO.UpdateSecuritySetting</methodName>
+		<Property>http://profiles.catalyst.harvard.edu/ontology/plugins#FeaturedPresentations</Property>
+		<label>made featured presentations public</label>
+	</Row>
+	<Row>
+		<methodName>Profiles.Edit.Utilities.DataIO.UpdateSecuritySetting</methodName>
+		<Property>http://profiles.catalyst.harvard.edu/ontology/plugins#FeaturedVideos</Property>
+		<label>made featured videos public</label>
+	</Row>
+	<Row>
+		<methodName>Profiles.Edit.Utilities.DataIO.UpdateSecuritySetting</methodName>
+		<Property>http://profiles.catalyst.harvard.edu/ontology/plugins#Twitter</Property>
+		<label>made twitter public</label>
+	</Row>
+	<Row>
+		<methodName>Profiles.Edit.Utilities.DataIO.UpdateSecuritySetting</methodName>
+		<Property>http://profiles.catalyst.harvard.edu/ontology/prns#hasClinicalTrialRole</Property>
+		<label>made clinical trials public</label>
+	</Row>
+	<Row>
+		<methodName>Profiles.Edit.Utilities.DataIO.UpdateSecuritySetting</methodName>
+		<Property>http://profiles.catalyst.harvard.edu/ontology/prns#mainImage</Property>
+		<label>made their profile image public</label>
+	</Row>
+	<Row>
+		<methodName>Profiles.Edit.Utilities.DataIO.UpdateSecuritySetting</methodName>
+		<Property>http://profiles.catalyst.harvard.edu/ontology/prns#mediaLinks</Property>
+		<label>made media links public</label>
+	</Row>
+	<Row>
+		<methodName>Profiles.Edit.Utilities.DataIO.UpdateSecuritySetting</methodName>
+		<Property>http://vivoweb.org/ontology/core#authorInAuthorship</Property>
+		<label>made publications public</label>
+	</Row>
+	<Row>
+		<methodName>Profiles.Edit.Utilities.DataIO.UpdateSecuritySetting</methodName>
+		<Property>http://vivoweb.org/ontology/core#awardOrHonor</Property>
+		<label>made awards and honors public</label>
+	</Row>
+	<Row>
+		<methodName>Profiles.Edit.Utilities.DataIO.UpdateSecuritySetting</methodName>
+		<Property>http://vivoweb.org/ontology/core#educationalTraining</Property>
+		<label>made education and training public</label>
+	</Row>
+	<Row>
+		<methodName>Profiles.Edit.Utilities.DataIO.UpdateSecuritySetting</methodName>
+		<Property>http://vivoweb.org/ontology/core#freetextKeyword</Property>
+		<label>made keywords public</label>
+	</Row>
+	<Row>
+		<methodName>Profiles.Edit.Utilities.DataIO.UpdateSecuritySetting</methodName>
+		<Property>http://vivoweb.org/ontology/core#hasMemberRole</Property>
+		<label>made group membership public</label>
+	</Row>
+	<Row>
+		<methodName>Profiles.Edit.Utilities.DataIO.UpdateSecuritySetting</methodName>
+		<Property>http://vivoweb.org/ontology/core#hasResearcherRole</Property>
+		<label>made research activity or funding public</label>
+	</Row>
+	<Row>
+		<methodName>Profiles.Edit.Utilities.DataIO.UpdateSecuritySetting</methodName>
+		<Property>http://vivoweb.org/ontology/core#orcidId</Property>
+		<label>made their ORCID public</label>
+	</Row>
+	<Row>
+		<methodName>Profiles.Edit.Utilities.DataIO.UpdateSecuritySetting</methodName>
+		<Property>http://vivoweb.org/ontology/core#overview</Property>
+		<label>made their overview public</label>
+	</Row>
+	<Row>
+		<methodName>Profiles.Edit.Utilities.DataIO.UpdateSecuritySetting</methodName>
+		<Property>http://vivoweb.org/ontology/core#webpage</Property>
+		<label>made websites public</label>
+	</Row>
+	<Row>
+		<methodName>Profiles.Edit.Utilities.DataIO.UpdateSecuritySetting</methodName>
+		<Property>http://vivoweb.org/ontology/core#freetextKeyword</Property>
+		<label>made keywords public</label>
+	</Row>
+	<Row>
+		<methodName>Profiles.Edit.Utilities.DataIO.UpdateSecuritySetting</methodName>
+		<Property>http://orng.info/ontology/orng#hasYouTube</Property>
+		<label>made featured videos public</label>
+	</Row>
+</Table>

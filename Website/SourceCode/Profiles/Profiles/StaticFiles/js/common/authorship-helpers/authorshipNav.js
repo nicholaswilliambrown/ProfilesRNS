@@ -10,17 +10,17 @@ function addPublicationsFirstTwoHeaderItems(target, ignore3) {
     target.append(gPerson.topDiv1);
 
     gPerson.authNavButtonNewest = createNavItemSpan("authNavButtonNewest"              ,
-                                    "Newest",
-                                    authNavNewest);
+        "Newest",
+        authNavNewest);
     gPerson.authNavButtonOldest = createNavItemSpan("authNavButtonOldest"              ,
-                                    "Oldest",
-                                    authNavOldest);
+        "Oldest",
+        authNavOldest);
     gPerson.authNavButtonMostCited = createNavItemSpan("authNavButtonMostCited"        ,
-                                    "Most&nbsp;Cited",
-                                    authNavMostCited);
+        "Most&nbsp;Cited",
+        authNavMostCited);
     gPerson.authNavButtonMostDiscussed = createNavItemSpan("authNavButtonMostDiscussed",
-                                    "Most&nbsp;Discussed",
-                                    authNavMostDiscussed);
+        "Most&nbsp;Discussed",
+        authNavMostDiscussed);
 
     if (! ignore3) {
         if (gPerson.timeline) {
@@ -117,10 +117,9 @@ async function authNavOldest(e) {
     await applySortsFiltersLimits(true);
 }
 async function authNavMostCited(e) {
-    if (! gPerson.mostCitedPubs) {
-        gPerson.mostCitedPubs = await getSortedLimitedPubs(PubsLimitedSortParam.MostCited);
+    if (! gPerson.clickedShowAll) {
+        gPerson.currentUnfilteredPubs = await getSortedLimitedPubs(PubsLimitedSortParam.MostCited);
     }
-    gPerson.currentUnfilteredPubs = gPerson.mostCitedPubs;
 
     authNavAdjustStyle(e);
     gPerson.sort = PubsSortOption.MostCited;

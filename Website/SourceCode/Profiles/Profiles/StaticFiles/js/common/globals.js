@@ -167,7 +167,7 @@ gPerson.translationFilters = [];
 
 gPerson.pmcUrlStart = "https://www.ncbi.nlm.nih.gov/pmc/articles/";
 gPerson.pucbtPlaceholder = "%%%%";
-gPerson.pmcUrlCitedByTemplate = `${gPerson.pmcUrlStart}pmid/${gPerson.pucbtPlaceholder}/citedby/`;
+gPerson.pmcUrlCitedByTemplate = `https://pubmed.ncbi.nlm.nih.gov/?linkname=pubmed_pubmed_citedin&from_uid=`;
 gPerson.pmUrlStart = "https://www.ncbi.nlm.nih.gov/pubmed/";
 
 gPerson.slideshareUrlStart = "https://weberdemo.hms.harvard.edu/nick/Profiles40Webservice/getSlideShare/";

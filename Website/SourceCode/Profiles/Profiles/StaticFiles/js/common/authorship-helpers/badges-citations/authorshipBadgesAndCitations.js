@@ -114,10 +114,10 @@ function addPmcAndRcrCitations(linkItems, pub) {
     let pmcCitations = pub.PMCCitations;
     let rcrValue = pub.RelativeCitationRatio;
     let pmid = pub.bibo_pmid;
-    let url = gPerson.pmcUrlCitedByTemplate.replace(gPerson.pucbtPlaceholder, pmid);
+    let url = gPerson.pmcUrlCitedByTemplate + pmid;
 
     if (pmcCitations) {
-        let graphic = $(`<a href="${url}" class="link-ishB pmc_citation ms-0 me-2 pe-2">${pmcCitations}</a>`);
+        let graphic = $(`<a target="_blank" href="${url}" class="link-ishB pmc_citation ms-0 me-2 pe-2">${pmcCitations}</a>`);
         graphic.css("background-image",
             `url("${gBrandingConstants.jsPersonImageFiles}PMC-citations.jpg")`);
 

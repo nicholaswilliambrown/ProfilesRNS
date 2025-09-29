@@ -1,28 +1,32 @@
 /*
-
 Run this script on:
 
-	Profiles RNS Version 3.2.0
+        Profiles 3.1.0   -  This database will be modified
 
-to update its data to:
+to synchronize it with:
 
-	Profiles RNS Version 4.0.0
+        Profiles 4.0.0
 
-*** You are recommended to back up your database before running this script!
+You are recommended to back up your database before running this script
 
-*** You should review each step of this script to ensure that it will not overwrite any customizations you have made to ProfilesRNS.
+Details of which objects have changed can be found in the release notes.
+If you have made changes to existing tables or stored procedures in profiles, you may need to merge changes individually. 
 
-*** Make sure you run the ProfilesRNS_Upgrade_Schema.sql file before running this file.
+This upgrade consists of 9 Scripts. They must be run in the following order:
 
-Data is added / modified in the following tables:
+ProfilesRNS_Upgrade_Schema_CREATE_SCHEMA.sql
+ProfilesRNS_Upgrade_Schema_ALTER_Tables.sql
+ProfilesRNS_Upgrade_Schema_CREATE_Tables.sql
+ProfilesRNS_Upgrade_Schema_ALTER_Functions.sql
+ProfilesRNS_Upgrade_Schema_CREATE_Functions.sql
+ProfilesRNS_Upgrade_Schema_ALTER_Procedures.sql
+ProfilesRNS_Upgrade_Schema_CREATE_Procedures.sql
+ProfilesRNS_Upgrade_Data.sql
+ProfilesRNS_Upgrade_Account.sql
 
-[Display.].[Activity.Log.MethodDetails]
-[Display.].[ModuleMapping]
-[Display.].[DataPath]
-[Profile.Cache].[Concept.Mesh.URL]
-[Profile.Cache].[Person]
-   
+This script is number 8 of 9
 */
+
 
 INSERT [Display.].[Activity.Log.MethodDetails] ([methodName], [Property], [label]) VALUES (N'Profiles.Edit.Utilities.DataIO.AddPublication', NULL, N'added a publication from $JournalTitle')
 GO

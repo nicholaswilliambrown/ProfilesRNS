@@ -3,9 +3,7 @@
     background-color: black;
     border-bottom: #b23f45 8px solid;
     padding: 25px 50px;
-}
-#brandingBanner {
-    height: 99px !important;
+    max-height: 99px !important;
 }
 .footerBanner {
     background-color: black;

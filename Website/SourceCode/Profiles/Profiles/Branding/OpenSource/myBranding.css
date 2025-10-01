@@ -7,3 +7,9 @@
 #brandingBanner {
     height: 99px !important;
 }
+.footerBanner {
+    background-color: black;
+    color: white;
+    border-bottom: none;
+    padding: 50px 75px 20px;
+}

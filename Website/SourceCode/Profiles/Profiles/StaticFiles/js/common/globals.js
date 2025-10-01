@@ -159,6 +159,9 @@ gPerson.etlFieldFilterClasses = {};
 gPerson.waitForDimensions = 500;
 gPerson.waitForAltmetric = 2000;
 
+gPerson.altmetricScores = {};
+gPerson.gotAltmetrics = false;
+
 gPerson.limitOption = PubsLimitOption.Limit;
 gPerson.sort = PubsSortOption.Newest;
 

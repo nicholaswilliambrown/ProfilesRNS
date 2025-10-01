@@ -7,7 +7,7 @@ function authorshipParser(json, moduleTitle, miscInfo, explicitTarget) {
 
     gPerson.authorshipJson = json[0];
 
-    gPerson.clickedShowAll = false;
+    gPerson.allPubsLoaded = false;
     gPerson.initialPubs = gPerson.authorshipJson.Publications;
     gPerson.limitSize = gPerson.initialPubs.length;
     gPerson.currentUnfilteredPubs = gPerson.initialPubs;
@@ -63,13 +63,15 @@ function emitBlurbAndLimitDiv() {
         divLimit.append(showAll);
 
         showAll.on("click", async function() {
-            gPerson.clickedShowAll = true;
-            gPerson.limitOption = PubsLimitOption.All;
-            gPerson.currentUnfilteredPubs = await getSortedLimitedPubs(PubsLimitedSortParam.All);
-
+            await loadAllPubs();
             await applySortsFiltersLimits();
         })
     }
+}
+async function loadAllPubs() {
+        gPerson.allPubsLoaded = true;
+        gPerson.limitOption = PubsLimitOption.All;
+        gPerson.currentUnfilteredPubs = await getSortedLimitedPubs(PubsLimitedSortParam.All);
 }
 async function authorshipInnerParser() {
     if ( ! gPerson.authorshipInnerDiv) {
@@ -79,11 +81,12 @@ async function authorshipInnerParser() {
     gPerson.authorshipInnerDiv.empty();
     emitBlurbAndLimitDiv();
 
+    let pubs = getSortedFilteredLimitedPubs(gPerson.sort, gPerson.fieldFilters, gPerson.translationFilters, gPerson.limitOption);
+    gPerson.currentDisplayedPubs = pubs;
+
     let orderedList = $("<ol></ol>");
     gPerson.authorshipInnerDiv.append(orderedList);
 
-    let pubs = getSortedFilteredLimitedPubs(gPerson.sort, gPerson.fieldFilters, gPerson.translationFilters, gPerson.limitOption);
-    gPerson.currentDisplayedPubs = pubs;
     for (let i=0; i<pubs.length; i++) {
         let pub = pubs[i];
 
@@ -123,11 +126,8 @@ function updateLimitSpan(numDisplayed) {
     }
 }
 
-async function applySortsFiltersLimits(resetTries) {
+async function applySortsFiltersLimits() {
 
-    if (resetTries) {
-        gPerson.numAltMetricTries = 1;
-    }
     await authorshipInnerParser();
 
     showTransOrFieldUnchecked('fieldOrTrans');

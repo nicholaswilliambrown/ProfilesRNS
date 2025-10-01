@@ -9,9 +9,7 @@ function consoleAltmetricStats(label) {
         gPerson.altmetricScores);
 }
 
-gPerson.altmetricScores = {}; // on initial load
-
-function maybeComputeAltmetricScores() {
+function computeAltmetricScores() {
     let didRecompute = false;
 
     let numAltPmids = $(gPerson.altPmidSelector).length;
@@ -37,6 +35,7 @@ function maybeComputeAltmetricScores() {
         numAltScores = Object.keys(gPerson.altmetricScores).length;
         if (numAltScores == numAltPmids) {
             progressSpan.remove();
+            gPerson.gotAltmetrics = true;
         }
         didRecompute = true;
     }
@@ -70,7 +69,7 @@ function transOrFieldClick(elementClass, fieldFilters) {
 
         fieldFilters.push(elementClass);
     }
-    applySortsFiltersLimits(true);
+    applySortsFiltersLimits();
 }
 function addFields(linkItems, pub) {
     let pubFields = pub.Fields;

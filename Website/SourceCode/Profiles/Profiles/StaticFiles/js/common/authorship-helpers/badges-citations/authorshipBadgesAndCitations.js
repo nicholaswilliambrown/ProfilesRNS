@@ -80,17 +80,15 @@ async function digestInjectedBadges() {
                 $(this).remove();
             });
 
-            addDimensionsBadgesAndCheckLabel();
+            await addDimensionsBadgesAndCheckLabel();
 
             consoleAltmetricStats("About to maybeComputeAltmetricScores");
 
             // now that the embed.js had a chance to emit them...
             if (   mostDiscussedTabIsActive()
-                && gPerson.numAltMetricTries < gPerson.maxAltMetricScoreTries
-                && maybeComputeAltmetricScores()) {
-
-                gPerson.numAltMetricTries++;
-                applySortsFiltersLimits(); // this time more altmetric val's will help the sort
+                && !gPerson.gotAltmetrics) {
+                computeAltmetricScores();
+                await applySortsFiltersLimits(); // this time more altmetric val's will help the sort
             }
         });
     }

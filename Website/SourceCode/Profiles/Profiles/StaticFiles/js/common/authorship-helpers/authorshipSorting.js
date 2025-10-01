@@ -23,6 +23,7 @@ function sortByCitationThenNewest(pubs) {
 }
 function sortByAltmetricThenReverseChron(pubs) {
     let pubsCopy = copyArray(pubs);
+    let altmetricScores = gPerson.altmetricScores; // convenient in debugger
 
     $('.altmetric-embed a').remove();
     $('.altmetric-embed.altmetric-popover').remove();
@@ -32,8 +33,8 @@ function sortByAltmetricThenReverseChron(pubs) {
         let pa = a.bibo_pmid;
         let pb = b.bibo_pmid;
 
-        let aScore = gPerson.altmetricScores[pa] ? gPerson.altmetricScores[pa] : -1;
-        let bScore = gPerson.altmetricScores[pb] ? gPerson.altmetricScores[pb] : -1;
+        let aScore = altmetricScores[pa] ? altmetricScores[pa] : -1;
+        let bScore = altmetricScores[pb] ? altmetricScores[pb] : -1;
 
         let result = (bScore - aScore);
         if (result == 0) {

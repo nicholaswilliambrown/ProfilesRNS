@@ -99,35 +99,35 @@ function authNavAdjustStyle(e) {
     $(e.target).addClass("active").attr("aria-current", true);
 }
 async function authNavNewest(e) {
-    if (! gPerson.clickedShowAll) {
+    if (! gPerson.allPubsLoaded) {
         gPerson.currentUnfilteredPubs = gPerson.initialPubs;
     }
 
     authNavAdjustStyle(e);
     gPerson.sort = PubsSortOption.Newest;
-    await applySortsFiltersLimits(true);
+    await applySortsFiltersLimits();
 }
 async function authNavOldest(e) {
-    if (! gPerson.clickedShowAll) {
+    if (! gPerson.allPubsLoaded) {
         gPerson.currentUnfilteredPubs = await getSortedLimitedPubs(PubsLimitedSortParam.Oldest);
     }
 
     authNavAdjustStyle(e);
     gPerson.sort = PubsSortOption.Oldest;
-    await applySortsFiltersLimits(true);
+    await applySortsFiltersLimits();
 }
 async function authNavMostCited(e) {
-    if (! gPerson.clickedShowAll) {
+    if (! gPerson.allPubsLoaded) {
         gPerson.currentUnfilteredPubs = await getSortedLimitedPubs(PubsLimitedSortParam.MostCited);
     }
 
     authNavAdjustStyle(e);
     gPerson.sort = PubsSortOption.MostCited;
-    await applySortsFiltersLimits(true);
+    await applySortsFiltersLimits();
 }
 async function authNavMostDiscussed(e) {
-    if (! gPerson.clickedShowAll) {
-        gPerson.currentUnfilteredPubs = await getSortedLimitedPubs(PubsLimitedSortParam.MostDiscussed);
+    if (! gPerson.allPubsLoaded) {
+        await loadAllPubs();
     }
 
     authNavAdjustStyle(e);
@@ -151,6 +151,6 @@ function authNavPlainText(e) {
     authShowPlainText();
 }
 function mostDiscussedTabIsActive() {
-    return ($(`#authNavButtonMostDiscussed`).hasClass('active'));
+    return ($(`.authNavButtonMostDiscussed`).hasClass('active'));
 }
 

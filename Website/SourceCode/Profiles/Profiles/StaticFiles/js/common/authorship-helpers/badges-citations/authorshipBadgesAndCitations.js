@@ -59,13 +59,17 @@ function possiblyShowCitationsCategory() {
 
     categoryLabels.each(function() {
         let parent = $(this).parent();
-        if (    (parent.find('.altmetric-embed').length > 0)
-            ||  (parent.find('.__dimensions_badge_embed__').length > 0)
-            ||  (parent.find('.pmc_citation').length > 0)) {
-            parent.find('.citations-category').show();
+        let myCitationsLabel = parent.find('.citations-category');
+
+        // two bangs turns undef into false, leaves T/F as they were
+        if (    !!(parent.find('.altmetric-embed').html())
+            ||  !!(parent.find('.__dimensions_badge_embed__').html())
+            ||  !!(parent.find('.pmc_citation').html())) {
+            myCitationsLabel.show();
         }
         else {
-            console.log("both altmetric and dimensions are missing");
+            myCitationsLabel.parent().hide();
+            console.log("citations, altmetric and dimensions are missing");
         }
     });
 }
@@ -75,7 +79,7 @@ async function digestInjectedBadges() {
         await $.getScript("https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js", async function () {
             await waitableTimeout(gPerson.waitForAltmetric);
 
-            console.log('Reloaded embedded altmetric');
+            //console.log('Reloaded embedded altmetric');
             $('.altmetric-embed.altmetric-hidden').each(function() {
                 $(this).remove();
             });

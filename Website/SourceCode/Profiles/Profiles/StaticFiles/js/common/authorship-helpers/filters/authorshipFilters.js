@@ -1,12 +1,12 @@
 
 function consoleAltmetricStats(label) {
     let numPmids = $(gPerson.altPmidSelector).length;
-    console.log(`=====> Invoked: ${label}. 
-        numPmids: ${numPmids}. 
-        numCollectedAltMetScores: ${Object.keys(gPerson.altmetricScores).length}.
-        altMets followed by <a>: ${$('.altmetric-embed>a').length}
-        `,
-        gPerson.altmetricScores);
+    // console.log(`=====> Invoked: ${label}.
+    //     numPmids: ${numPmids}.
+    //     numCollectedAltMetScores: ${Object.keys(gPerson.altmetricScores).length}.
+    //     altMets followed by <a>: ${$('.altmetric-embed>a').length}
+    //     `,
+    //     gPerson.altmetricScores);
 }
 
 function computeAltmetricScores() {

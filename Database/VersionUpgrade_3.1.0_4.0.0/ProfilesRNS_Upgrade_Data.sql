@@ -28,6 +28,55 @@ This script is number 8 of 9
 */
 
 
+
+/** 
+*
+* update Fields column in Bibliometrics table 
+*
+* If you are updating the database, but keeping a version 3.1.0 application you should skip the next two queries. 
+*
+**/
+;with a as (
+select pmid, outerOrdinal, value, ordinal from (select pmid, value v, ordinal as outerOrdinal from [Profile.Data].[Publication.Pubmed.Bibliometrics] cross apply string_Split(Fields, '|',1)) t cross apply string_Split(v, ',',1))
+, b as (select a.pmid, a.outerOrdinal, a.value Abbreviation, b.value Color, c.value BroadJournalHeading from a a join a b on a.pmid = b.pmid and a.outerordinal = b.outerordinal and a.ordinal = 1 and b.ordinal = 2 join a c on a.pmid = c.pmid and a.outerOrdinal = c.outerOrdinal and c.ordinal = 3)
+update x  set Fields = (select BroadJournalHeading, Color, Abbreviation from b y where x.pmid = y.pmid for json path, root ('Fields')) from  [Profile.Data].[Publication.Pubmed.Bibliometrics] x
+GO
+
+update [Profile.Import].[PRNSWebservice.Options] set ImportDataProc = '[Profile.Import].[PRNSWebservice.Pubmed.ParseBibliometricResults]' where job = 'bibliometrics'
+
+
+/*****
+*
+* If you have added any Plugins you will need to write additional queries for them
+*
+* The value should be 1 when data is stored as JSON and should be 0 when data should be returned to the UI as a test string.
+*
+*****/
+update [Profile.Module].[GenericRDF.Plugins]  set dataType = 0 where name in ('FeaturedPresentations', 'Twitter')
+update [Profile.Module].[GenericRDF.Plugins]  set dataType = 1 where name in ('FeaturedVideos')
+GO
+UPDATE a SET a._PropertyNode = b.NodeID 
+	FROM [Profile.Module].[GenericRDF.Plugins] a 
+	JOIN [RDF.].Node b ON [RDF.].fnValueHash(null, null, 'http://profiles.catalyst.harvard.edu/ontology/plugins#' + name) = ValueHash
+GO
+
+/**
+*
+* Add Relative Base Path parameter to the [Framework.].Parameter table
+*
+**/
+
+INSERT INTO [Framework.].[Parameter] (ParameterID, Value) 
+select 'relativeBasePath', case when CHARINDEX('/', Value, 9) = 0 then '' else substring(Value, CHARINDEX('/', Value, 9) + 1, len(Value) - CHARINDEX('/', Value, 9)) end FROM [Framework.].[Parameter] WHERE ParameterID = 'basePath'
+GO
+
+
+/**
+*
+* [Display.] Tables
+*
+**/
+
 INSERT [Display.].[Activity.Log.MethodDetails] ([methodName], [Property], [label]) VALUES (N'Profiles.Edit.Utilities.DataIO.AddPublication', NULL, N'added a publication from $JournalTitle')
 GO
 INSERT [Display.].[Activity.Log.MethodDetails] ([methodName], [Property], [label]) VALUES (N'Profiles.Edit.Modules.CustomEditAuthorInAuthorship.DataIO.AddVerifyPublications', NULL, N'added a publication from $JournalTitle')
@@ -516,6 +565,12 @@ GO
 update a set a._ClassPropertyID = b.NodeID from [Display.].[ModuleMapping] a join [RDF.].Node b on [RDF.].fnValueHash(null, null, ClassProperty) = ValueHash and a.ClassProperty is not null
 GO
 
+
+/**
+*
+* Update Preferred Paths for both People and Concepts
+*
+**/
 exec [Profile.Cache].[Concept.UpdatePreferredPath]
 GO
 
@@ -523,30 +578,3 @@ exec [Profile.Cache].[Person.UpdatePreferredPath]
 GO
 
 
-/*****
-*
-* If you have added any Plugins you will need to add them to this list
-*
-* The value should be 1 when data is stored as JSON and should be 0 when data should be returned to the UI as a test string.
-*
-*****/
-update [Profile.Module].[GenericRDF.Plugins]  set dataType = 0 where name in ('FeaturedPresentations', 'Twitter')
-update [Profile.Module].[GenericRDF.Plugins]  set dataType = 1 where name in ('FeaturedVideos')
-GO
-update a set a._PropertyNode = b.NodeID from [Profile.Module].[GenericRDF.Plugins] a join [RDF.].Node b on [RDF.].fnValueHash(null, null, 'http://profiles.catalyst.harvard.edu/ontology/plugins#' + name) = ValueHash
-GO
-
-
-/** update Fields column in Bibliometrics table 
-*
-* This needs to be run any time the bibliometrics job is run until that job is updated for version 4.0.0
-*
-**/
-;with a as (
-select pmid, outerOrdinal, value, ordinal from (select pmid, value v, ordinal as outerOrdinal from [Profile.Data].[Publication.Pubmed.Bibliometrics] cross apply string_Split(Fields, '|',1)) t cross apply string_Split(v, ',',1))
-, b as (select a.pmid, a.outerOrdinal, a.value Abbreviation, b.value Color, c.value BroadJournalHeading from a a join a b on a.pmid = b.pmid and a.outerordinal = b.outerordinal and a.ordinal = 1 and b.ordinal = 2 join a c on a.pmid = c.pmid and a.outerOrdinal = c.outerOrdinal and c.ordinal = 3)
-update x  set Fields = (select BroadJournalHeading, Color, Abbreviation from b y where x.pmid = y.pmid for json path, root ('Fields')) from  [Profile.Data].[Publication.Pubmed.Bibliometrics] x
-GO
-
-insert into [Framework.].Parameter (ParameterID, Value) values ('relativeBasePath', '')
-GO

@@ -216,7 +216,10 @@ BEGIN
 		SET _PropertyLabel = 'selected publications' --'research activities'
 		WHERE Class='http://xmlns.com/foaf/0.1/Group' AND Property='http://profiles.catalyst.harvard.edu/ontology/prns#associatedInformationResource' AND NetworkProperty IS NULL
 
-
+	UPDATE a SET a._PropertyNode = b.NodeID 
+		FROM [Profile.Module].[GenericRDF.Plugins] a 
+		JOIN [RDF.].Node b ON [RDF.].fnValueHash(null, null, 'http://profiles.catalyst.harvard.edu/ontology/plugins#' + name) = ValueHash
+	
 	-- select * from [Ontology.Import].[Triple]
 	-- select * from [Ontology.].ClassProperty
 	-- select * from [Ontology.].ClassGroup

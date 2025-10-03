@@ -799,3 +799,4 @@ type Display.Module.UnmatchedType.StoredProcedure.sql
 type Profile.Cache.Person.UpdatePreferredPath.StoredProcedure.sql
 type Profile.Cache.Concept.UpdatePreferredPath.StoredProcedure.sql
 type Profile.Data.Group.GetPhotos.StoredProcedure.sql
+type Profile.Import.PRNSWebservice.Pubmed.ParseBibliometricResults.StoredProcedure.sql

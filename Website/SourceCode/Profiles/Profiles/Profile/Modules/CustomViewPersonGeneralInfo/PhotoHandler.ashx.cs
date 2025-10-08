@@ -26,7 +26,7 @@ namespace Profiles.Profile.Modules.ProfileImage
         static PhotoHandler()
         {
             // this method is limited to 2^32 byte files (4.2 GB)
-            using (FileStream fs = File.OpenRead(AppDomain.CurrentDomain.BaseDirectory + "/Profile/Images/default_img.png"))
+            using (FileStream fs = File.OpenRead(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/img/person/default_img.png"))
             {
                 silhouetteImage = new byte[fs.Length];
                 fs.Read(silhouetteImage, 0, Convert.ToInt32(fs.Length));

@@ -169,6 +169,7 @@
     <Content Include="GroupAdmin\PresentationXML\GroupAdminPresentation.xml" />
     <Content Include="Lists\CSS\lists.css" />
     <Content Include="Lists\Default.aspx" />
+    <Content Include="Lists\ListsSVC.aspx" />
     <Content Include="Lists\Modules\Lists\ManageLists.ascx" />
     <Content Include="Lists\Modules\Lists\SearchResultsList.ascx" />
     <Content Include="Lists\Modules\ModuleCatalogue.xml" />
@@ -804,6 +805,13 @@
     </Compile>
     <Compile Include="Lists\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Lists\ListsSVC.aspx.cs">
+      <DependentUpon>ListsSVC.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Lists\ListsSVC.aspx.designer.cs">
+      <DependentUpon>ListsSVC.aspx</DependentUpon>
     </Compile>
     <Compile Include="Lists\Modules\Lists\ManageLists.ascx.cs">
       <DependentUpon>ManageLists.ascx</DependentUpon>

@@ -63,4 +63,30 @@ function hideEmptyTopics(sharedAttr, blurbAttrList) {
         $(`div[sharedAttr="${sharedAttr}"]`).hide()
     }
 }
+function continuallySizeFooter(footerId) {
+
+    placeFooter(footerId);
+
+    setInterval(function () {
+        placeFooter(footerId);
+    }, 200);
+}
+
+function placeFooter(footerId) {
+    let footerPushDownId = 'footer-push-down';
+    let footerPushDownDiv = $('#' + footerPushDownId);
+
+    if (footerPushDownDiv.length == 0) {
+        $(footerId).before('<div id="' + footerPushDownId + '"></div>');
+    }
+
+    let winHeight = $(window).height();
+    let bodyHeight = $('body').height() - footerPushDownDiv.height();
+
+    if (bodyHeight < winHeight) {
+        footerPushDownDiv.height(winHeight - bodyHeight);
+    }
+
+    $(footerId).css("clear: both");
+}
 

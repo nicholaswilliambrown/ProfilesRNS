@@ -20,10 +20,11 @@ async function emitBrandingFooter(targetId) {
         'The Harvard Clinical and Translational Science Center from the ' +
         'National Center for Advancing Translational Sciences and support from ' +
         'Harvard University and its affiliated academic healthcare centers.</div>');
+    brandingFooter.append($('<img source="../StaticFiles/img/branding/_OpenSourceBanner.png" id="bannerImage"></img>'))
     brandingFooter.hide(); // show once rest of page is loaded!
     await $(`#${targetId}`).append(brandingFooter);
 
-    continuallySizeFooter('brandingFooter');
+    continuallySizeFooter('#brandingFooter');
 }
 async function setupHeadIncludesAndTabTitle() {
     setTabTitleAndOrFavicon();

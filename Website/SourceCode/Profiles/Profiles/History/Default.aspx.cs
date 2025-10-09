@@ -10,6 +10,7 @@
     For details, see: LICENSE.txt 
   
 */
+using Profiles.Framework.Utilities;
 using System;
 using System.Web.Configuration;
 using System.Xml;
@@ -18,20 +19,27 @@ namespace Profiles.History
 {
     public partial class Default : System.Web.UI.Page
     {
-         private Profiles.Framework.Template masterpage;
+        private Profiles.Framework.Template masterpage;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            string pageText = "";
+            try
+            {
+                SessionManagement sessionManagement = new SessionManagement();
+                Framework.Utilities.Session session = sessionManagement.Session();
+                string sessionInfo = ConfigurationHelper.GetSessionInfoJavascriptObject(session);
 
-                    pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/history.html");
+                string pageText = "";
 
+                pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/history.html")
+                    .Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)
+                    .Replace("{globalVariables}", ConfigurationHelper.GlobalJavascriptVariables)
+                    .Replace("{SessionInfo}", sessionInfo);
 
-
-            string path = WebConfigurationManager.AppSettings["ProfilesRootPath"];
-            if (path != null && !"".Equals(path)) { pageText = pageText.Replace("/StaticFiles/", "/" + path + "/StaticFiles/"); }
-            litText.Text = pageText;
+                litText.Text = pageText;
+            }
+            catch (Exception ex) { Framework.Utilities.DebugLogging.Log($"History/Default.aspx.cs : {ex.Message}"); }
         }
     }
-    
+
 }

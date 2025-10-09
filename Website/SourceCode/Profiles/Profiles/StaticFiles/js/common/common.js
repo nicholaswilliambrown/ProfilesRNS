@@ -11,7 +11,7 @@ function appendEltFromBigString(elt, target) {
 function weirdRemoveExtraNav2Ids() {
     $('#topNav2PersonsDropdown').find('a[id="nav2Persons1"]').remove();
 }
-async function setupPageStub(mainBodyStructure) {
+async function setupPageStub(mainBodyStructure, title) {
     await appendEltFromBigString(gCommon.mainDataContainer, $('body'));
 
     weirdRemoveExtraNav2Ids();
@@ -19,7 +19,7 @@ async function setupPageStub(mainBodyStructure) {
     let mainDataContainerId = 'main-data-container';
     initialCurtainsDown();
 
-    await loadBrandingAssets(mainDataContainerId);
+    await loadBrandingAssets(mainDataContainerId, title);
 
     setupSkipToContent();
 
@@ -48,9 +48,9 @@ function resolveMoveables() {
         moveContentTo(that, $(destination));
     })
 }
-async function commonSetup() {
+async function commonSetup(title) {
     let mainBodyStructure = setupMainStructure;
-    await setupPageStub(mainBodyStructure);
+    await setupPageStub(mainBodyStructure, title);
 
     console.log("g values upon 'ready': ", g);
     console.log("sessionInfo values upon 'ready': ", sessionInfo);

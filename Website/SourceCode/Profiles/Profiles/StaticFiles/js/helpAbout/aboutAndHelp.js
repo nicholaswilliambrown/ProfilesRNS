@@ -1,5 +1,5 @@
-async function setupHelpAndAbout(doSystematicBlurbs, andThen) {
-    await commonSetup();
+async function setupHelpAndAbout(doSystematicBlurbs, andThen, title) {
+    await commonSetup(title);
 
     moveContentByIdTo('aboutOrHelp', $('#mainDiv'));
     setupScrolling();

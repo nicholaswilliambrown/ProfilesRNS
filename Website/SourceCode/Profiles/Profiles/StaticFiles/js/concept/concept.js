@@ -3,7 +3,7 @@ gConcepts.meshShortcuts = [];
 gConcepts.pubsShortcuts = [];
 
 async function setupConceptPage() {
-    await commonSetup(true);
+    await commonSetup();
     $('#modules-right-div').addClass("passiveNetwork");
     let moduleContentTarget = getMainModuleRow();
     await emitSkeletons();

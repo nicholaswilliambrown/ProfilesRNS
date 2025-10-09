@@ -29,7 +29,4 @@ async function emitBrandingFooter(targetId) {
 
     continuallySizeFooter('#brandingFooter');
 }
-async function setupHeadIncludesAndTabTitle() {
-    setTabTitleAndOrFavicon();
-}
 

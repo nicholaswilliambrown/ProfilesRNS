@@ -118,16 +118,20 @@ g.mapProvider = g.mapProviderOptions.google;
 g.mapProviderOptions.leafletLoadingDelay = 500;
 g.mapProviderOptions.googleLoadingDelay = 500;
 
-gCommon.loginUrl = '/../profiles/login/index?sessionid=';
-gCommon.seeAllPagesAUrl = `${g.profilesPath}/history`;
-gCommon.logoutUrl = '/../profiles/logout.aspx';
-gCommon.editMyProfileUrl = '/../profiles/edit/default.aspx?subject=';
-gCommon.viewMyListUrl = '/../profiles/lists/default.aspx';
-gCommon.dashboardUrl = '/../profiles/dashboard/default.aspx?subject='
-gCommon.manageProxiesUrl = '/../profiles/proxy/default.aspx';
-gCommon.opportunitySearch = '/../profiles/studentopportunities/index';
 gCommon.schemaPlaceholder = "%%FOO%%";
 gCommon.schemaPlaceholder2 = "%%FOO2%%";
+
+// catalyst logout is probably closer to the following:
+// gCommon.logoutUrl = `${g.profilesPath}/profiles/logout.aspx`;
+
+gCommon.loginUrlSchema = `${g.profilesPath}/Login/default.aspx?method=login&redirectto=${gCommon.schemaPlaceholder}&sessionid=`;
+gCommon.seeAllPagesAUrl = `${g.profilesPath}/history`;
+gCommon.logoutUrl = `${g.profilesPath}/login/default.aspx?method=logout&redirectto=${g.profilesRootURL}`;
+gCommon.editMyProfileUrl = `${g.profilesPath}/edit/default.aspx?subject=`;
+gCommon.viewMyListUrl = `${g.profilesPath}/lists/default.aspx`;
+gCommon.dashboardUrl = `${g.profilesPath}/dashboard/default.aspx?subject=`
+gCommon.manageProxiesUrl = `${g.profilesPath}/proxy/default.aspx`;
+gCommon.opportunitySearch = `${g.profilesPath}/studentopportunities/index`;
 
 gCommon.mainDivClasses = ` col-12 ms-3 ms-sm-3 ms-md-4 ms-lg-5 ms-xl-5 ms-xxl-5 
                                pe-0 pe-sm-1 pe-md-4 pe-lg-5 pe-xl-5 pe-xxl-5   `;

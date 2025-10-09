@@ -19,6 +19,7 @@ async function setupPageStub(mainBodyStructure, title) {
     let mainDataContainerId = 'main-data-container';
     initialCurtainsDown();
 
+    adjustThisPageGlobals();
     await loadBrandingAssets(mainDataContainerId, title);
 
     setupSkipToContent();
@@ -37,7 +38,10 @@ async function setupPageStub(mainBodyStructure, title) {
 
     initialCurtainsUp(); // main-data-container always shows up hidden at first
 }
-
+function adjustThisPageGlobals() {
+    let href = window.location.href;
+    gCommon.loginUrl = gCommon.loginUrlSchema.replace(gCommon.schemaPlaceholder, href);
+}
 function resolveMoveables() {
     $('.moveable').each(function () {
         let that = $(this);

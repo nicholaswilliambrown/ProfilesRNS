@@ -1,5 +1,5 @@
 .headerBanner {
-    background-color: black;
+    background-color: #263139;
     border-bottom: #b23f45 8px solid;
     padding-top: 25px;
     padding-bottom: 8px;
@@ -14,7 +14,7 @@
     height: 40px;
 }
 .footerBanner {
-    background-color: black;
+    background-color: #263139;
     color: white;
     border-bottom: none;
     padding: 50px 50px 20px;

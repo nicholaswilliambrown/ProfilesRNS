@@ -9,7 +9,7 @@
 
 /*potential for wide / narrow image alternatives*/
 #imageDivWide {
-    content: url("../StaticFiles/img/branding/openSourceBannerImage.png");
+    content: url("../StaticFiles/img/branding/_OpenSourceBanner.png");
     width: 440px;
     height: 40px;
 }

@@ -9,11 +9,11 @@ async function emitBrandingHeader(targetId) {
     let header = $(`<div id="brandingBanner" class="mb-3"></div>`);
     $(`#${targetId}`).prepend(header);
 
-    let bannerDiv = $('<div class="headerBanner w-100"></div>');
+    let bannerDiv = $('<div class="headerBanner w-100 d-flex justify-content-center"></div>');
     await header.append(bannerDiv);
 
     // potential for wide / narrow responsive alternates
-    let imageDivWide = $('<div id="imageDivWide" class="d-flex justify-content-center"></div>');
+    let imageDivWide = $('<div id="imageDivWide"></div>');
     bannerDiv.append(imageDivWide);
 }
 async function emitBrandingFooter(targetId) {

@@ -1,16 +1,17 @@
 .headerBanner {
     background-color: black;
     border-bottom: #b23f45 8px solid;
-    padding: 25px 50px;
+    padding-top: 25px;
+    padding-bottom: 8px;
     max-height: 99px !important;
-    min-width: 600px;
+    min-width: 500px;
 }
 
 /*potential for wide / narrow image alternatives*/
 #imageDivWide {
     content: url("../StaticFiles/img/branding/openSourceBannerImage.png");
-    width: 546px;
-    height: 50px;
+    width: 440px;
+    height: 40px;
 }
 .footerBanner {
     background-color: black;

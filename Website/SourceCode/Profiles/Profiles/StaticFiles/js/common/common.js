@@ -1,5 +1,5 @@
 function weirdRemoveExtraNav2Ids() {
-    $('#topNav2PersonsDropdown').find('a[id="nav2Persons1"]').remove();
+    //$('#topNav2PersonsDropdown').find('a[id="nav2Persons1"]').remove();
 }
 async function setupPageStub(mainBodyStructure, title) {
     await loadBrandingAssets();

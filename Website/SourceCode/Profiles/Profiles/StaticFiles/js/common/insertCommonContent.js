@@ -18,6 +18,7 @@ function loadMainDataContainer() {
     if (gBrandingConstants.omitDashAndOpportunity) {
         dashAndOpportunity = '';
     }
+    let listSize = sessionInfo.listSize;
     let container = $(`<div class="d-none container-fluid parentWidth p-0" id="main-data-container">
       <div class="row parentWidth">
         <div id="mainDiv" class="common">
@@ -86,7 +87,7 @@ function loadMainDataContainer() {
                 <div id="topNav2Persons" class="nav-item r2 nav-link2 no-a-color dropdown">
                   <a id="nav2Persons1" class="top dropdown-toggle no-a-color" href="#" role="button"
                      data-bs-toggle="dropdown" aria-expanded="false">
-                    My Person List (0)
+                    My Person List <span id="currentListSize">(${listSize})</span>
                     <ul id=topNav2PersonsDropdown class="dropdown-menu mt-2" aria-labelledby="nav2Persons1">
                       <li id="viewMyList"><a id="viewMyListA" class="dropdown-item r2" href="#">Visit my list and generate reports</a></li>
                       <li id="addMatchingPeopleList"><a id="addMatchingPeopleA" class="dropdown-item r2" href="#">Add matching people to my list</a></li>

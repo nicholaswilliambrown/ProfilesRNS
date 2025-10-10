@@ -12,7 +12,7 @@ function setupTopNav() {
     setUrlByAnchorId("logoutA", gCommon.logoutUrl);
     setUrlByAnchorId("viewMyProfileA", g.profilesRootURL + '/display/' + sessionInfo.personNodeID);
 
-   
+    $('#logoutA').on('click', emptyHistory);
 
     if (sessionInfo.canEditPage) {
         var firstPass = JSON.parse(g.dataURLs)[0].dataURL.split('=');
@@ -55,11 +55,6 @@ function setupTopNav() {
         $("#topNav2View").remove();
         $("#topNav2Dashboard").remove();
     }
-    
-    
-
-
-
 
     adjustMyPersonList();
 
@@ -69,15 +64,6 @@ function setupTopNav() {
     topNavbar.find('div.dropdown').on("mouseleave", function (e) {
         showVsHideNavDropdown(e, false);
     });
-
-
-
-
-
-
-
-
-
 }
 
 function addSearchForm(target, formClass, searchGlassClass, displayClass, sizeFlavor, justifyPos) {
@@ -124,10 +110,8 @@ function setupNavSearch(topNavbar) {
 
     let searchGlass = $('.navSearchGlass'); 
     let searchTerm = $('.navSearchTerm');  
- 
 
     searchGlass.on("click", doNavSearch);
-   
 
     searchTerm.on("keypress", function (e) {
         let keycode = e.keyCode || e.which;
@@ -152,8 +136,6 @@ function doNavSearch(e) {
     console.log(`searching: [${searchTerm}]`);
 
     minimalPeopleSearchByTerm(searchTerm);
-
-
 }
 function showVsHideNavDropdown(e, showVsHide) {
     let jqItem = $(e.target);
@@ -182,11 +164,14 @@ function setUrlByAnchorId(aid, url) {
 ///////// history tab /////////
 function getOrInitHistory() {
     let history = fromSession(gCommon.historyKey, true);
-    if (!history) {
+    if (!history || !Array.isArray(history)) {
         history = [];
         toSession(gCommon.historyKey, history, true);
     }
     return history;
+}
+function emptyHistory() {
+    toSession(gCommon.historyKey, [], true);
 }
 function addItemToNavHistory(display, url) {
     let history = getOrInitHistory();

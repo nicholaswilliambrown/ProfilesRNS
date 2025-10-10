@@ -4,19 +4,19 @@ let gBrandingConstants = {};
 // gBrandingConstants.staticFiles helps locate all the other site-specific resources
 gBrandingConstants.staticRoot = g.staticRoot;
 
-async function emitBrandingHeader(targetId) {
+async function emitBrandingHeader(target) {
 
     let header = $(`<div id="brandingBanner" class="mb-3"></div>`);
-    $(`#${targetId}`).prepend(header);
-
     let bannerDiv = $('<div class="headerBanner w-100 d-flex justify-content-center"></div>');
-    await header.append(bannerDiv);
 
     // potential for wide / narrow responsive alternates
     let imageDivWide = $('<div id="imageDivWide"></div>');
     bannerDiv.append(imageDivWide);
+
+    header.append(bannerDiv);
+    target.prepend(header);
 }
-async function emitBrandingFooter(targetId) {
+async function emitBrandingFooter(target) {
     let brandingFooter = $('<div id="brandingFooter"' +
         ' class="d-flex justify-content-center footerBanner w-100">' +
         'Profiles Research Networking Software was developed under the supervision of Griffin M Weber, MD, PhD, ' +
@@ -25,7 +25,7 @@ async function emitBrandingFooter(targetId) {
         'National Center for Advancing Translational Sciences and support from ' +
         'Harvard University and its affiliated academic healthcare centers.</div>');
     brandingFooter.hide(); // show once rest of page is loaded!
-    await $(`#${targetId}`).append(brandingFooter);
+    await target.append(brandingFooter);
 
     continuallySizeFooter('#brandingFooter');
 }

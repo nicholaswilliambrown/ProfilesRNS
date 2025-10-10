@@ -22,12 +22,8 @@ async function loadBrandingConstants() {
         setupBrandingDependentVals();
     });
 }
-async function loadBrandingAssets(targetId, title) {
+async function loadBrandingAssets() {
     await loadBrandingConstants();
-
-    await setupHeadIncludesAndTabTitle(title);
-    await emitBrandingHeader(targetId);
-    await emitBrandingFooter(targetId);
 }
 async function setupHeadIncludesAndTabTitle(title) {
     setTabTitleAndOrFavicon(title);

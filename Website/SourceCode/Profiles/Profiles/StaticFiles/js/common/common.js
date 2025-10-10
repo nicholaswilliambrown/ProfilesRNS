@@ -1,26 +1,19 @@
-function appendEltFromBigString(elt, target) {
-    // load via $.get(url) fails on some servers, status 301
-    // So using JS string instead of html file
-    // Perhaps try again with crossOriginAjax()
-
-    target.append(elt);
-
-
-}
-
 function weirdRemoveExtraNav2Ids() {
     $('#topNav2PersonsDropdown').find('a[id="nav2Persons1"]').remove();
 }
 async function setupPageStub(mainBodyStructure, title) {
-    await appendEltFromBigString(gCommon.mainDataContainer, $('body'));
+    await loadBrandingAssets();
+    let container = loadMainDataContainer();
+
+    await setupHeadIncludesAndTabTitle(title);
+    await emitBrandingHeader(container);
+    await emitBrandingFooter(container);
 
     weirdRemoveExtraNav2Ids();
 
-    let mainDataContainerId = 'main-data-container';
     initialCurtainsDown();
 
     adjustThisPageGlobals();
-    await loadBrandingAssets(mainDataContainerId, title);
 
     setupSkipToContent();
 

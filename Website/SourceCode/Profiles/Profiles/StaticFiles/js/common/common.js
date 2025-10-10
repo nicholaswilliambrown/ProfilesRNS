@@ -32,7 +32,7 @@ async function setupPageStub(mainBodyStructure, title) {
     initialCurtainsUp(); // main-data-container always shows up hidden at first
 }
 function adjustThisPageGlobals() {
-    let href = window.location.href;
+    let href = encodeURIComponent(window.location.href);
     gCommon.loginUrl = gCommon.loginUrlSchema.replace(gCommon.schemaPlaceholder, href);
 }
 function resolveMoveables() {

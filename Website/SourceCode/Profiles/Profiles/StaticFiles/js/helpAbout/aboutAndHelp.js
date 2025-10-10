@@ -6,6 +6,7 @@ async function setupHelpAndAbout(doSystematicBlurbs, andThen, title) {
 
     $('.profilesTitleH').html(gBrandingConstants.profilesTitle);
 
+    applySingleSnippets();
     if (doSystematicBlurbs) {
         applySystematicBlurbs();
     }

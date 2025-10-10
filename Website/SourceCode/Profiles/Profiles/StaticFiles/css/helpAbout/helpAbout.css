@@ -14,13 +14,13 @@
     font-weight: bold;
     color: #666;
 }
-.topic {
+.topic, .question {
     color: #933;
     font-size: 15px;
     font-weight: bold;
     margin-bottom: 10px;
 }
-.blurbForTopic {
+.blurbForTopic, .answer {
     margin-bottom: 10px;
     color:#000000;
 }

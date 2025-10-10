@@ -31,6 +31,17 @@ async function setupHeadIncludesAndTabTitle(title) {
 function unHideFooter() {
     $('#brandingFooter').show();
 }
+function applySingleSnippets() {
+    $('._snippet').each((index, element) => {
+            let elt = $(element);
+            let snippetKey = elt.attr('_key');
+            let snippetText = gBrandingConstants[snippetKey];
+            if (snippetText) {
+                elt.html(snippetText);
+            }
+        }
+    );
+}
 function applySystematicBlurbs() {
     let topicClass = 'topic';
     let blurbClass = 'blurbForTopic';

@@ -91,7 +91,7 @@ function emitTopOfGroupRole(title, numMembers, backUrl) {
     emitCommonTopOfLhs(topLhsDiv, 'Group Members', numMembers,
         backUrl, 'Group Profile', title);
 
-    appendEltFromBigString(gGroup.GroupTabs, topLhsDiv);
+    topLhsDiv.append(gGroup.GroupTabs);
 
     $('#topLhsRow').addClass('mb-3'); // tweak css in common element
 

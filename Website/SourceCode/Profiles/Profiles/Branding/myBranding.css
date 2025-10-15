@@ -10,8 +10,13 @@
 /*potential for wide / narrow image alternatives*/
 #imageDivWide {
     content: url("../StaticFiles/img/branding/_OpenSourceBanner.png");
-    width: 440px;
-    height: 40px;
+    width: 579 px;
+    height: 32px;
+}
+#imageDivNarrow {
+    content: url("../StaticFiles/img/branding/_OpenSourceBannerNarrow.png");
+    width: 300px;
+    height: 48px;
 }
 .footerBanner {
     background-color: #263139;

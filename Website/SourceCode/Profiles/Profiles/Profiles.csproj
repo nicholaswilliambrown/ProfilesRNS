@@ -359,6 +359,7 @@
     <Content Include="StaticFiles\html-templates\searchWhyResults.html" />
     <Content Include="StaticFiles\img\aboutAndHelp\about_visualizations.jpg" />
     <Content Include="StaticFiles\img\branding\_OpenSourceBanner.png" />
+    <Content Include="StaticFiles\img\branding\_OpenSourceBannerNarrow.png" />
     <Content Include="StaticFiles\img\common\arrowDown.png" />
     <Content Include="StaticFiles\img\common\arrowLeft.png" />
     <Content Include="StaticFiles\img\common\blackMagnifyGlass.png" />
@@ -386,6 +387,7 @@
     <Content Include="StaticFiles\img\search\search.jpg" />
     <Content Include="StaticFiles\img\search\sort_asc.gif" />
     <Content Include="StaticFiles\img\branding\_OpenSourceBanner.png" />
+    <Content Include="StaticFiles\img\branding\_OpenSourceBannerNarrow.png" />
     <Content Include="StaticFiles\img\search\sort_desc.gif" />
     <Content Include="StaticFiles\js\awards\awards.js" />
     <Content Include="StaticFiles\js\coauthors\co-authors.js" />

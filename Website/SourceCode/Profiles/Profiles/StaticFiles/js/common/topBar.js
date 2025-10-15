@@ -204,7 +204,7 @@ function populateHistoryDropdown() {
 }
 // for logged-in topBars
 function adjustMyPersonList() {
-    $('#nav2Persons').html(`My Person List (${gCommon.numPersons})`);
+    $('#nav2Persons1').html(`My Person List (${gCommon.numPersons})`);
 
     // todo: we might have more granular semantics based on 'this person'
     //   vis-a-vis elements of the list
@@ -294,10 +294,6 @@ function listsPost(url, data) {
     console.log(data);
 
     let listsActionData = JSON.stringify(data);
-    //let listsActionData = data;
-
-
-
     $.post(url, listsActionData, function (results) {
         if (isArray(results)
             && results.length == 1
@@ -310,7 +306,6 @@ function listsPost(url, data) {
         else {
             gCommon.numPersons = results.Size;
             adjustMyPersonList();
-           // $('#nav2Persons').html(`My Person List (${results.Size})`);
         }
     });
 

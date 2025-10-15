@@ -78,9 +78,10 @@
         text-align: left !important;
     }
 
-    #nav2Persons {
-        text-align: left !important;
-    }
+    /*id does not denote*/
+    /*#nav2Persons {*/
+    /*    text-align: left !important;*/
+    /*}*/
 
     #dashboardA {
         text-align: left !important;
@@ -188,7 +189,8 @@ div.top {
     color: #333333 !important;
 }
 
-div.nav-item.r2:hover, #nav2Persons:hover {
+/*id nav2Persons does not denote*/
+div.nav-item.r2:hover /**, #nav2Persons:hover **/ {
     background-color: #7c7b7b !important;
     color: white !important;
 }
@@ -503,9 +505,10 @@ myNavbar-nav2 {
     text-align: center;
 }
 
-#nav2Persons {
-    text-align: center;
-}
+/*id does not denote*/
+/*#nav2Persons {*/
+/*    text-align: center;*/
+/*}*/
 
 #dashboardA {
     text-align: center;

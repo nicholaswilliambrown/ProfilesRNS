@@ -505,8 +505,7 @@ function emitTopAndTabs(params) {
 
     let preTop = createOrGetPreTop(topLhsDiv);
     preTop.append(whatAreConceptsDiv);
-
-    appendEltFromBigString(params.thingTabs, preTop);
+    preTop.append(params.thingTabs);
 }
 
 function createAnchorElement(text, url, klass) {

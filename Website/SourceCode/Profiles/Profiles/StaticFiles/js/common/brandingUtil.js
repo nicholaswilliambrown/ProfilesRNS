@@ -26,7 +26,12 @@ async function loadBrandingAssets() {
     await loadBrandingConstants();
 }
 async function setupHeadIncludesAndTabTitle(title) {
-    setTabTitleAndOrFavicon(title);
+    if (typeof myBrandSetupHeadIncludesAndTabTitle === 'function') {
+        myBrandSetupHeadIncludesAndTabTitle();
+    }
+    else {
+        setTabTitleAndOrFavicon(title);
+    }
 }
 function unHideFooter() {
     $('#brandingFooter').show();

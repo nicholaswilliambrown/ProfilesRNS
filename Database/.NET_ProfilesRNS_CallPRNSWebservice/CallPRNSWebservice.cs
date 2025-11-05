@@ -17,6 +17,9 @@ namespace ProfilesRNS_CallPRNSWebservice
         private string Password;
         private string Job;
         private string BatchID;
+        private int fails;
+        private long success;
+        private double failLimit;
         public CallPRNSWebservice(string dataSource, string database, string username, string password, string job)
         {
             this.DataSource = dataSource;
@@ -28,11 +31,47 @@ namespace ProfilesRNS_CallPRNSWebservice
 
         public void Run()
         {
+            this.fails = 0;
+            this.success = 0;
+
             List<Row> rows = GetRows();
-            if (rows.Count > 0)  BatchID = rows[0].BatchID;
-            foreach(Row row in rows)
+            Console.WriteLine("=========> We have " + rows.Count + " row(s) to process");
+            if (rows.Count > 0)
             {
-                CallWebservice(row);
+                this.failLimit = .02 * rows.Count;
+                this.BatchID = rows[0].BatchID;
+
+                foreach(Row row in rows)
+                {
+                    try
+                    {
+                        CallWebservice(row);
+                        this.success++;
+                        if (this.success % 2 == 0)
+                        {
+                            Console.Write(".");
+                            if (this.success % 500 == 0)
+                            {
+                                Console.Write(this.success + " good rows");
+                            }
+                        }
+                    }
+                    catch (Exception e) {
+                        Console.WriteLine(e.ToString());
+                        Console.WriteLine("\n=========> Row: \n      " + row.ToString());
+                        this.fails++;
+                        if (this.fails < this.failLimit)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            Console.WriteLine("\n=========> Quitting due to " + this.fails + " row failures on the way to " + rows.Count + " rows total");
+                            break;
+                        }
+                    }
+                }
+                Console.WriteLine("\n=========> Out of the set of " + rows.Count + " rows, " + this.success + " were processed successfully");
             }
         }
 
@@ -138,6 +177,7 @@ namespace ProfilesRNS_CallPRNSWebservice
             }
             catch (SqlException e)
             {
+                Console.WriteLine("\n=========> Failed to AddLog !!");
                 Console.WriteLine(e.ToString());
             }
         }

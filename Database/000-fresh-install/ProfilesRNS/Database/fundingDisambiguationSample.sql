@@ -1,0 +1,3 @@
+insert into [Profile.Data].[Funding.DisambiguationOrganizationMapping] (InstitutionID, Organization) values (NULL, 'HARVARD UNIVERSITY')
+insert into [Profile.Data].[Funding.DisambiguationOrganizationMapping] select InstitutionID, 'HARVARD Pilgrim Healthcare' from [Profile.Data].[Organization.Institution] where InstitutionName = 'HARVARD Pilgrim Healthcare'
+insert into [Profile.Data].[Funding.DisambiguationOrganizationMapping] select InstitutionID, 'Boston CHILDREN''S HOSPITAL' from [Profile.Data].[Organization.Institution] where InstitutionName = 'Boston CHILDREN''S HOSPITAL'

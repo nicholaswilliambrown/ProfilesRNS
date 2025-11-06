@@ -27,6 +27,7 @@ namespace ProfilesRNS_CallPRNSWebservice
             this.Username = username;
             this.Password = password;
             this.Job = job;
+            Console.WriteLine("=========> Attempting job: " + job);
         }
 
         public void Run()

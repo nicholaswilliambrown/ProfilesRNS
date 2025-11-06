@@ -1,9 +1,9 @@
 @echo off
 echo.
 echo Usage: %0 ^(for this usage message^) ^|
-echo Usage: %0 In this order, any or all of:
+echo        %0 ^(In this order, any or all of:^)
 echo             initial pubMedDisambiguation pubMedXML bibliometrics funding rdf jobGroups
-echo                   sanity ^(for DB sanity check^) can occur anywhere ^(and multiple times^) in the sequence
+echo         NB: sanity ^(for DB sanity check^) can occur anywhere ^(and multiple times^) in the above sequence
 echo.
 
 set INSTALL_DRIVE=z:
@@ -23,38 +23,44 @@ echo should not get here
 echo.
 set step=%~1
 echo --------- arg is %step%
-if /I "%step%" == "initial" (
-    echo --------- Initial DB setup
-    call :initial
-    exit /b 0
-)
-if /I "%step%" == "sanity" (
-   call :sanity
-   exit /b 0
-)
-if /I "%step%" == "rdf" (
-   call :rdf
-   exit /b 0
-)
-if /I "%step%" == "jobGroups" (
-   call :jobGroups
-   exit /b 0
-)
-if /I "%step%" == "pubMedDisambiguation" (
+if /I %step% == pubMedDisambiguation (
    set step=PubMedDisambiguation_GetPubs
+   call :doJob %step%
+   goto :bye
 )
-if /I "%step%" == "pubMedXML" (
+if /I %step% == pubMedXML (
    set step=GetPubMedXML
+   call :doJob %step%
+   goto :bye
 )
+if /I %step% == funding (
+   call :doJob %step%
+   goto :bye
+)
+if /I %step% == rdf (
+   call :doJob %step%
+   goto :bye
+)
+
+call :%step%
+    goto :bye
+
+:bye
+cd %INSTALL_PATH%
+exit /b
+
+:doJob
 cd %DOT_NET_PERSON_DATA_BIN_PATH%
+echo --------- Prerequisite: ProfilesRNS_CallPRNSWebservice.exe has been built
 echo --------- ProfilesRNS_CallPRNSWebservice.exe -server %SERVER% -database %DB_NAME% -username sa -password %SA_PW% -job %step%
 ProfilesRNS_CallPRNSWebservice.exe -server %SERVER% -database %DB_NAME% -username sa -password %SA_PW% -job %step%
-cd %INSTALL_PATH%
-exit /b 0
+   goto :bye
 
 :sanity
 echo.
 echo ----------------------------------Sanity check
+echo --------------------SELECT job from [Profile.Import].[PRNSWebservice.Options]
+sqlcmd -S %SERVER% -U sa -P %SA_PW% -d %DB_NAME% -Q "SELECT job from [Profile.Import].[PRNSWebservice.Options]"                                             | findstr /V /R /C:"[0-9]"
 echo --------------------Select count(*) from [Profile.Import].[Person]
 sqlcmd -S %SERVER% -U sa -P %SA_PW% -d %DB_NAME% -Q "SET NOCOUNT ON; Select count(*) from [profile.import].[Person]"                                        | findstr /R /C:"[0-9]"
 echo --------------------Select count(*) from [Profile.Import].[PersonAffiliation]
@@ -70,8 +76,7 @@ sqlcmd -S %SERVER% -U sa -P %SA_PW% -d %DB_NAME% -Q "SET NOCOUNT ON; Select coun
 echo --------------------Select count(*) from [Profile.Data].[Publication.Pubmed.Allxml]
 sqlcmd -S %SERVER% -U sa -P %SA_PW% -d %DB_NAME% -Q "SET NOCOUNT ON; Select count(*) from [profile.data].[publication.pubmed.allxml]"                       | findstr /R /C:"[0-9]"
 echo.
-cd %INSTALL_PATH%
-exit /b 0
+   goto :bye
 
 :initial
 %INSTALL_DRIVE%
@@ -80,6 +85,7 @@ echo.
 echo ----------------------------------Creating new %DB_NAME% database
 sqlcmd -S %SERVER% -U sa -P %SA_PW% -d master -i ProfilesRNS_CreateDatabase.sql
 echo.
+echo --------------------------------- Prerequisite: Data for job creation has been copied to the server
 echo ----------------------------------Creating %DB_NAME% schema
 sqlcmd -S %SERVER% -U sa -P %SA_PW% -d %DB_NAME% -i ProfilesRNS_CreateSchema.sql
 echo.
@@ -104,24 +110,21 @@ echo.
 echo ----------------------------------Load funding disambiguation strings
 sqlcmd -S %SERVER% -U sa -P %SA_PW% -d %DB_NAME% -i fundingDisambiguationSample.sql
 echo.
-cd %INSTALL_PATH%
-exit /b 0
+   goto :bye
 
 :rdf
 echo ----------------------------------RDF conversion
 sqlcmd -S %SERVER% -U sa -P %SA_PW% -d %DB_NAME% -i ProfilesRNS_DataLoad_Part3.sql
-cd %INSTALL_PATH%
-exit /b 0
+   goto :bye
 
 :jobGroups
 echo ----------------------------------Run JobGroups
-sqlcmd -S %SERVER% -U App_Profiles10 -P Password1234 -d %DB_NAME% -Q "EXEC [Framework.].[RunJobGroup] @JobGroup = 4"
-sqlcmd -S %SERVER% -U App_Profiles10 -P Password1234 -d %DB_NAME% -Q "EXEC [Framework.].[RunJobGroup] @JobGroup = 5"
-sqlcmd -S %SERVER% -U App_Profiles10 -P Password1234 -d %DB_NAME% -Q "EXEC [Framework.].[RunJobGroup] @JobGroup = 6"
+sqlcmd -S %SERVER% -U sa -P %SA_PW% -d %DB_NAME% -Q "EXEC [Framework.].[RunJobGroup] @JobGroup = 4"
+sqlcmd -S %SERVER% -U sa -P %SA_PW% -d %DB_NAME% -Q "EXEC [Framework.].[RunJobGroup] @JobGroup = 5"
+sqlcmd -S %SERVER% -U sa -P %SA_PW% -d %DB_NAME% -Q "EXEC [Framework.].[RunJobGroup] @JobGroup = 6"
 echo EXEC [Framework.].[RunJobGroup] @JobGroup = 3
 echo.
-cd %INSTALL_PATH%
-exit /b 0
+   goto :bye
 
 
 

@@ -1,0 +1,5 @@
+insert into [Profile.Data].[Publication.PubMed.DisambiguationAffiliation] (affiliation) values ('%Harvard Medical School%')
+insert into [Profile.Data].[Publication.PubMed.DisambiguationAffiliation] (affiliation) values ('%Beth Israel Deaconess Medical Center%')
+insert into [Profile.Data].[Publication.PubMed.DisambiguationAffiliation] (affiliation) values ('%BIDMC%')
+insert into [Profile.Data].[Publication.PubMed.DisambiguationAffiliation] (affiliation) values ('%@hms.harvard.edu%')
+insert into [Profile.Data].[Publication.PubMed.DisambiguationAffiliation] (affiliation) values ('%Children''s Hospital%02115%')

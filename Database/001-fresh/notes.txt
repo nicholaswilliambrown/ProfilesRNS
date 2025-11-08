@@ -3,6 +3,7 @@ fundingDisambiguationSample.sql
 harvardAffiliationStringSample.sql
 profileImportPersonData.sql
 
-modify ProfilesRNS_DataLoad_Part1.sql, or else set in bat and fold in
-$(ProfilesRNSRootPath)
-$(ProfilesRNSBasePath)
+modify ProfilesRNS_DataLoad_Part1.sql, or else set in bat
+    $(ProfilesRNSRootPath)
+    $(ProfilesRNSBasePath)
+ and fold into the bat

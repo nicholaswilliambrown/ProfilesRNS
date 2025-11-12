@@ -130,7 +130,7 @@ gCommon.logoutUrl = `${g.profilesPath}/login/default.aspx?method=logout&redirect
 gCommon.editMyProfileUrl = `${g.profilesPath}/edit/default.aspx?subject=`;
 gCommon.viewMyListUrl = `${g.profilesPath}/lists/default.aspx`;
 gCommon.dashboardUrl = `${g.profilesPath}/dashboard/default.aspx?subject=`
-gCommon.manageProxiesUrl = `${g.profilesPath}/proxy/default.aspx`;
+gCommon.manageProxiesUrl = `${g.profilesPath}/proxy/default.aspx?subject=`;
 gCommon.opportunitySearch = `${g.profilesPath}/studentopportunities/index`;
 
 gCommon.mainDivClasses = ` col-12 ms-3 ms-sm-3 ms-md-4 ms-lg-5 ms-xl-5 ms-xxl-5 

@@ -12,7 +12,7 @@ set DOT_NET_PERSON_DATA_BIN_PATH=\work\ProfilesRNS-OpenSource\Database\.NET_Prof
 set SERVER=10.211.55.2
 set DB_NAME=ProfilesRNS
 set SA_PW=DB_Password
-set APP_BASE_PATH=localhost:55956
+set APP_BASE_PATH=http://localhost:55956
 set SERVER_DATA_PATH=z:\tmp
 
 for %%x in (%*) do (
@@ -154,4 +154,8 @@ goto :bye
     echo --------------------Select count(*) from [Profile.Data].[Publication.Person.Include]
     sqlcmd -S %SERVER% -U sa -P %SA_PW% -d %DB_NAME% -Q "SET NOCOUNT ON; Select count(*) from [Profile.Data].[Publication.Person.Include]"
     echo .
+goto :bye
+
+:adhoc
+    sqlcmd -S %SERVER% -U sa -P %SA_PW% -d %DB_NAME% -Q "UPDATE [Framework.].[Parameter] SET Value = N'%APP_BASE_PATH%' WHERE ParameterID = 'basePath'"
 goto :bye

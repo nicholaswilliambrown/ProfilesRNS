@@ -5,7 +5,7 @@
       <logLevel>0</logLevel>
       <batchSize>10000</batchSize>
       <GetPostDataProc>[Profile.Data].[Publication.Pubmed.GetPMIDsforBibliometrics]</GetPostDataProc>
-      <ImportDataProc>[Profile.Data].[Publication.Pubmed.ParseBibliometricResults]</ImportDataProc>
+      <ImportDataProc>[Profile.Import].[PRNSWebservice.Pubmed.ParseBibliometricResults]</ImportDataProc>
     </Row>
     <Row>
       <job>Funding</job>

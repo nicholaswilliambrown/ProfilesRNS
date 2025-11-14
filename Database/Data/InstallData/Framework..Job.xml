@@ -9,7 +9,7 @@
     <JobGroup>1</JobGroup>
     <Step>2</Step>
     <IsActive>1</IsActive>
-    <Script>UPDATE [Framework.].[Parameter] SET Value = (select case when CHARINDEX('/', Value, 9) = 0 then '' else substring(Value, CHARINDEX('/', Value, 9) + 1, len(Value) - CHARINDEX('/', Value, 9)) end FROM [Framework.].[Parameter] WHERE ParameterID = 'basePath') WHERE ParameterID = 'relativeBasePath'</Script>
+    <Script>UPDATE [Framework.].[Parameter] SET Value = (select case when CHARINDEX('/', Value, 9) = 0 then '' else substring(Value, CHARINDEX('/', Value, 9), len(Value) - CHARINDEX('/', Value, 9) + 1) end FROM [Framework.].[Parameter] WHERE ParameterID = 'basePath') WHERE ParameterID = 'relativeBasePath'</Script>
   </Row>
   <Row>
     <JobGroup>1</JobGroup>

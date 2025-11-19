@@ -10,18 +10,19 @@ function setupLeafletMap(centerLat, centerLong, zoom) {
     $('.leaflet-control-attribution').find('svg').remove();
 }
 function leafletMapLoadData() {
-    pruneZeroCoords();
+    pruneMissingLatLongs();
 
     leafletMapLoadPins();
     leafletMapLoadLines();
 
     $('.redMarker').removeClass('boldRed').addClass('leafletRed');
+    zoomToCoords(gMapTab.bostonCoords);
 }
-function pruneZeroCoords() {
-    // filter people from (0,0)
-    let atlantiseans = gMapTab.people.filter(p => p.latitude == 0 && p.longitude == 0).map(p => p.PersonID);
-    gMapTab.people = gMapTab.people.filter(p => p.latitude != 0 || p.longitude != 0);
-    gMapTab.connections = gMapTab.connections.filter(c => ! (atlantiseans.includes(c.a) || atlantiseans.includes(c.b)));
+function pruneMissingLatLongs() {
+    // filter people from (0,0), (null,null) and such
+    let uncoordinatedIds = gMapTab.people.filter(p => !(p.latitude && p.longitude)).map(p => p.PersonID);
+    gMapTab.people = gMapTab.people.filter(p => p.latitude && p.longitude);
+    gMapTab.connections = gMapTab.connections.filter(c => ! (uncoordinatedIds.includes(c.a) || uncoordinatedIds.includes(c.b)));
 }
 function leafletMapLoadPins() {
     // create pins/markers for people

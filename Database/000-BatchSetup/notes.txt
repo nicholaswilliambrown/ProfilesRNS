@@ -1,0 +1,9 @@
+Set values at the top of the batch file: setup.bat
+
+Compose (see larger set of directions), and then copy these files to the mssql server:
+- fundingDisambiguationSample.sql
+- harvardAffiliationStringSample.sql
+- profileImportPersonData.sql
+
+Then run the setup
+

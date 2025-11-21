@@ -6,8 +6,9 @@ echo             initial PubMedDisambiguation_GetPubs GetPubMedXML bibliometrics
 echo         NB: sanity ^(for DB sanity check^) can occur anywhere ^(and multiple times^) in the above sequence
 echo.
 
-set INSTALL_DRIVE=z:
-set INSTALL_DATA_PATH=\work\ProfilesRNS-OpenSource\Database\001-fresh\ProfilesRNS\Database
+set INSTALL_DRIVE=y:
+set INSTALL_DATA_PATH=\work\ProfilesRNS-OpenSource\Database\002-20nov\ProfilesRNS\Database
+set INSTALL_BATCH_PATH=\work\ProfilesRNS-OpenSource\Database\000-BatchSetup
 set DOT_NET_PERSON_DATA_BIN_PATH=\work\ProfilesRNS-OpenSource\Database\.NET_ProfilesRNS_CallPRNSWebservice\bin\Debug\Net8.0
 set SERVER=10.211.55.2
 set DB_NAME=ProfilesRNS
@@ -118,7 +119,7 @@ goto :bye
 goto :bye
 
 :bye
-    cd %INSTALL_DATA_PATH%
+    cd %INSTALL_BATCH_PATH%
     exit /b 0 :: 0 may let it try subsequent task even if one fails
 
 
@@ -154,8 +155,4 @@ goto :bye
     echo --------------------Select count(*) from [Profile.Data].[Publication.Person.Include]
     sqlcmd -S %SERVER% -U sa -P %SA_PW% -d %DB_NAME% -Q "SET NOCOUNT ON; Select count(*) from [Profile.Data].[Publication.Person.Include]"
     echo .
-goto :bye
-
-:adhoc
-    sqlcmd -S %SERVER% -U sa -P %SA_PW% -d %DB_NAME% -Q "UPDATE [Framework.].[Parameter] SET Value = N'%APP_BASE_PATH%' WHERE ParameterID = 'basePath'"
 goto :bye

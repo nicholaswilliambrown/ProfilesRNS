@@ -9,9 +9,11 @@ async function emitBrandingHeader(target) {
     let header = $(`<div id="brandingBanner" class="mb-3"></div>`);
     let bannerDiv = $('<div class="headerBanner w-100 d-flex justify-content-center"></div>');
 
-    // potential for wide / narrow responsive alternates
-    let imageDivWide = $('<div id="imageDivWide"></div>');
+    // wide / narrow responsive alternates
+    let imageDivWide = $(`<div id="imageDivWide" class="${gCommon.hideXsSmallShowOthers}"></div>`);
+    let imageDivNarrow = $(`<div id="imageDivNarrow" class="${gCommon.showXsSmallHideOthers}"></div>`);
     bannerDiv.append(imageDivWide);
+    bannerDiv.append(imageDivNarrow);
 
     header.append(bannerDiv);
     target.prepend(header);

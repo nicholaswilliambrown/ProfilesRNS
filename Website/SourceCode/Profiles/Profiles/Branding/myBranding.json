@@ -6,20 +6,16 @@
   "NB2": "mapProvider can be either 'google' or 'leaflet' -- leaflet does not require an account",
   "mapProvider": "leaflet",
 
-  "help-with": "Help with Profiles RNS",
+  "help-howToContact": "Email us at <a href='mailto:contact@openSourceProfilesLlc.com'>contact@openSourceProfilesLlc.com</a>.",
+  "help-whoIsListed": "",
+  "help-whoCanView": "This website is open to the general public. However, people with an HMS eCommons account or relevant HUID privileges can login for additional features, such as active networking, which is described above.",
 
-  "help-howToContactQ": "How do I contact you?",
-  "help-howToContactA": "Email us at <a href='mailto:contact@openSourceProfilesLlc.com'>contact@openSourceProfilesLlc.com</a>.",
-
-  "help-whoCanViewQ": "Who can view Profiles RNS?",
-  "help-whoCanViewA": "This website is open to the general public. However, people with institutional accounts can log in for additional features.",
-
-  "help-howToEdit1": "To edit your profile, log in and then click the Edit My Profile link on the new ('logged in') menu. The Edit Menu page lists all the types of content that can be included on your profile. They are grouped into categories and listed in the same order as they appear when viewing your profile. Click any content type to view/edit the items or change the privacy settings. Some types of content are imported automatically from other systems, and you cannot edit them through Profiles. They appear with a \"locked\" icon and contain more information when you click them. An example of this is data that comes from your Human Resources record, such as affiliation, title, mailing address, and email address.",
+  "help-howToEdit1": "To edit your profile, click the Edit My Profile link on the sidebar. You might be prompted to login. The Edit Menu page lists all the types of content that can be included on your profile. They are grouped into categories and listed in the same order as they appear when viewing your profile. Click any content type to view/edit the items or change the privacy settings. Some types of content are imported automatically from other systems, and you cannot edit them through Profiles. They appear with a \"locked\" icon and contain more information when you click them. An example of this is data that comes from your Human Resources record, such as affiliation, title, mailing address, and email address.",
   "help-howToEdit15": "",
 
   "help-howToEdit2": "",
   "help-howToEdit3": "",
-  "help-howToEdit4": "To view your profile as others see it, click the View My Profile link on the logged-in menu.",
+  "help-howToEdit4": "To view your profile as others see it, click the View My Profile link on the sidebar.",
   "help-sources": "",
   "help-missingOrIncorrect": "Publications are added both automatically from PubMed and manually by faculty themselves. Unfortunately, there is no easy way to match articles in PubMed to the profiles on this website. The algorithm used to find articles from PubMed attempts to minimize the number of publications incorrectly added to a profile; however, this method results in some missing publications. Faculty with common names or whose articles were written at other institutions are most likely to have incomplete publication lists. We encourage all faculty to login to the website and add any missing publications or remove incorrect ones.",
   "help-frequentlyUpdated": "",
@@ -36,6 +32,5 @@
   "useOurData-oldXmlSearchUrl": "https://openSourceProfilesLlc.com/ProfilesAPI",
   "useOurData-documentationUrl": "https://openSourceProfilesLlc.com/docs/ProfilesRNS_1.0.2_APIGuide.pdf",
   "useOurData-examplesUrl": "https://openSourceProfilesLlc.com/docs/ProfilesRNS_1.0.2_API_Examples.zip",
-
   "omitDashAndOpportunity": true
 }

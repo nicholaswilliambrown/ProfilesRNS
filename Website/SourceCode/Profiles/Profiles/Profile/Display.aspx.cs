@@ -104,7 +104,8 @@ namespace Profiles.Profile
                 dp.HTML = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/noindex.html");
                 dp.HTML = dp.HTML.Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)
                     .Replace("{globalVariables}", ConfigurationHelper.GlobalJavascriptVariablesProfilePage)
-                    .Replace("{SessionInfo}", sessionInfo);
+                    .Replace("{SessionInfo}", sessionInfo)
+                    .Replace("{TrackingCode}", ConfigurationHelper.GlobalGoogleTrackingCode);
                 Response.AddHeader("X-Robots-Tag", "noindex");
                 return dp;
             }
@@ -210,7 +211,8 @@ namespace Profiles.Profile
                 dp.HTML = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/" + htmlfilename);
                 dp.HTML = dp.HTML.Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)
                     .Replace("{globalVariables}", g)
-                    .Replace("{SessionInfo}", sessionInfo);
+                    .Replace("{SessionInfo}", sessionInfo)
+                    .Replace("{TrackingCode}", ConfigurationHelper.GlobalGoogleTrackingCode);
             }
             catch (Exception ex) { Framework.Utilities.DebugLogging.Log($"Profile/Display.aspx.cs : {ex.Message}"); }
 

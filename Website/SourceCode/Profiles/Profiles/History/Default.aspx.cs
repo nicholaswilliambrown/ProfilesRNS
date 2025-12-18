@@ -34,7 +34,8 @@ namespace Profiles.History
                 pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/history.html")
                     .Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)
                     .Replace("{globalVariables}", ConfigurationHelper.GlobalJavascriptVariables)
-                    .Replace("{SessionInfo}", sessionInfo);
+                    .Replace("{SessionInfo}", sessionInfo)
+                    .Replace("{TrackingCode}", ConfigurationHelper.GlobalGoogleTrackingCode);
 
                 litText.Text = pageText;
             }

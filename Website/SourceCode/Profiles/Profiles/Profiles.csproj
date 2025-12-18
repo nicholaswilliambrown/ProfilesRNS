@@ -121,6 +121,7 @@
     <Content Include="Activity\Modules\ModuleCatalogue.xml" />
     <Content Include="Activity\Modules\Statistics\Statistics.ascx" />
     <Content Include="Activity\PresentationXML\ActivityDetails.xml" />
+    <Content Include="Branding\GoogleAnalytics.js" />
     <Content Include="DirectService.aspx" />
     <Content Include="Edit\CSS\Edit.css" />
     <Content Include="Edit\Images\cal.png" />
@@ -522,7 +523,6 @@
     <Content Include="StaticFiles\js\connections\personConceptConnection.js" />
     <Content Include="StaticFiles\js\connections\personSimilarConnection.js" />
     <Content Include="StaticFiles\js\group\groupPage.js" />
-    <Content Include="StaticFiles\js\GA4\GoogleAnalytics.js" />
     <Content Include="StaticFiles\js\group\groupRolePage.js" />
     <Content Include="StaticFiles\js\helpAbout\aboutAndHelp.js" />
     <Content Include="StaticFiles\js\history\history.js" />

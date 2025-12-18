@@ -47,28 +47,32 @@ namespace Profiles.Search
                         pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/searchPeopleResults.html")
                             .Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)
                             .Replace("{globalVariables}", ConfigurationHelper.GlobalJavascriptVariables)
-                            .Replace("{SessionInfo}", sessionInfo);
+                            .Replace("{SessionInfo}", sessionInfo)
+                            .Replace("{TrackingCode}", ConfigurationHelper.GlobalGoogleTrackingCode);
                     }
                     else if ("EverythingResults".Equals(Request.QueryString[0]))
                     {
                         pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/searchAllElseResults.html")
                             .Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)
                             .Replace("{globalVariables}", ConfigurationHelper.GlobalJavascriptVariables)
-                            .Replace("{SessionInfo}", sessionInfo);
+                            .Replace("{SessionInfo}", sessionInfo)
+                            .Replace("{TrackingCode}", ConfigurationHelper.GlobalGoogleTrackingCode);
                     }
                     else if ("WhyResults".Equals(Request.QueryString[0]))
                     {
                         pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/searchWhyResults.html")
                             .Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)
                             .Replace("{globalVariables}", ConfigurationHelper.GlobalJavascriptVariables)
-                            .Replace("{SessionInfo}", sessionInfo);
+                            .Replace("{SessionInfo}", sessionInfo)
+                            .Replace("{TrackingCode}", ConfigurationHelper.GlobalGoogleTrackingCode);
                     }
                     else
                     {
                         pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/searchForm.html")
                             .Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)
                             .Replace("{globalVariables}", ConfigurationHelper.GlobalJavascriptVariables)
-                            .Replace("{SessionInfo}", sessionInfo);
+                            .Replace("{SessionInfo}", sessionInfo)
+                            .Replace("{TrackingCode}", ConfigurationHelper.GlobalGoogleTrackingCode);
                     }
                 }
                 else
@@ -76,7 +80,8 @@ namespace Profiles.Search
                     pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/searchForm.html")
                         .Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)
                         .Replace("{globalVariables}", ConfigurationHelper.GlobalJavascriptVariables)
-                        .Replace("{SessionInfo}", sessionInfo);
+                        .Replace("{SessionInfo}", sessionInfo)
+                        .Replace("{TrackingCode}", ConfigurationHelper.GlobalGoogleTrackingCode);
                 }
                 //activityApiPath searchApiPath
                 litText.Text = pageText;

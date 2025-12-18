@@ -35,7 +35,8 @@ namespace Profiles.About
                         .Replace("{globalVariables}", ConfigurationHelper.GlobalJavascriptVariables)
                         .Replace("{SessionInfo}", sessionInfo)
                         .Replace("{ProfilesSiteName}", ConfigurationHelper.ProfilesSiteName)
-                        .Replace("{ProfilesInstitution}", ConfigurationHelper.ProfilesInstitution);
+                        .Replace("{ProfilesInstitution}", ConfigurationHelper.ProfilesInstitution)
+                        .Replace("{TrackingCode}", ConfigurationHelper.GlobalGoogleTrackingCode);
                 }
                 else if ("useourdata".Equals(type))
                 {
@@ -44,7 +45,8 @@ namespace Profiles.About
                         .Replace("{globalVariables}", ConfigurationHelper.GlobalJavascriptVariables)
                         .Replace("{SessionInfo}", sessionInfo)
                         .Replace("{ProfilesSiteName}", ConfigurationHelper.ProfilesSiteName)
-                        .Replace("{ProfilesInstitution}", ConfigurationHelper.ProfilesInstitution);
+                        .Replace("{ProfilesInstitution}", ConfigurationHelper.ProfilesInstitution)
+                        .Replace("{TrackingCode}", ConfigurationHelper.GlobalGoogleTrackingCode);
                 }
                 else if ("help".Equals(type))
                 {
@@ -53,7 +55,8 @@ namespace Profiles.About
                         .Replace("{globalVariables}", ConfigurationHelper.GlobalJavascriptVariables)
                         .Replace("{SessionInfo}", sessionInfo)
                         .Replace("{ProfilesSiteName}", ConfigurationHelper.ProfilesSiteName)
-                        .Replace("{ProfilesInstitution}", ConfigurationHelper.ProfilesInstitution);
+                        .Replace("{ProfilesInstitution}", ConfigurationHelper.ProfilesInstitution)
+                        .Replace("{TrackingCode}", ConfigurationHelper.GlobalGoogleTrackingCode);
                 }
                 else  //if ("about".Equals(type)) Default to About page.
                 {
@@ -62,7 +65,8 @@ namespace Profiles.About
                         .Replace("{globalVariables}", ConfigurationHelper.GlobalJavascriptVariables)
                         .Replace("{SessionInfo}", sessionInfo)
                         .Replace("{ProfilesSiteName}", ConfigurationHelper.ProfilesSiteName)
-                        .Replace("{ProfilesInstitution}", ConfigurationHelper.ProfilesInstitution);
+                        .Replace("{ProfilesInstitution}", ConfigurationHelper.ProfilesInstitution)
+                        .Replace("{TrackingCode}", ConfigurationHelper.GlobalGoogleTrackingCode);
                 }
                 litText.Text = pageText;
             }

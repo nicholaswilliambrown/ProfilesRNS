@@ -22,6 +22,7 @@ namespace Profiles.Framework.Utilities
         public static string ProfilesInstitution = "";
         public static string GlobalJavascriptVariables = "";
         public static string GlobalJavascriptVariablesProfilePage = "";
+        public static string GlobalGoogleTrackingCode = "";
         public static bool SendConnectionPagesToBotDatabase = false;
 
         public enum PageTypes { profile, concept, person, personCoAuthors, personSimilarPeople, personConcepts, personCoAuthorConnection, 
@@ -147,6 +148,18 @@ namespace Profiles.Framework.Utilities
                             g1 +
                             g2 +
                             "</script>";
+
+
+            if (WebConfigurationManager.AppSettings["GoogleTrackingID1"] != null && WebConfigurationManager.AppSettings["GoogleTrackingID2"] != null)
+            {
+                GlobalGoogleTrackingCode = "< iframe src = \"https://www.googletagmanager.com/ns.html?id=" + WebConfigurationManager.AppSettings["GoogleTrackingID1"] + "\"" +
+                                           "height = \"0\" width = \"0\" style = \"display: none; visibility: hidden\" ></ iframe >\"" +
+                                           "< script type = \"text/javascript\"" +
+                                           "async src = \"https://www.googletagmanager.com/gtag/js?id=" + WebConfigurationManager.AppSettings["GoogleTrackingID2"] + "\" >" +
+                                           "</ script >" +
+                                           "<script src=\"{profilesPath}/Branding/GoogleAnalytics.js\" type=\"text/javascript\"></script>";
+            }
+            
         }
 
 

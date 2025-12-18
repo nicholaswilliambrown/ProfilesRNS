@@ -8,6 +8,10 @@ GO
 CREATE TABLE [Profile.Data].[Publication.Pubmed.DisambiguationSettings](
 	[PersonID] [int] NOT NULL,
 	[Enabled] [bit] NULL,
+	[PubMedSearchTerm]        VARCHAR (MAX) NULL,
+    [PubMedSearchTermEnabled] BIT           NULL,
+    [ORCID]                   VARCHAR (MAX) NULL,
+    [SyncFromORCID]           BIT           NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[PersonID] ASC

@@ -1,0 +1,49 @@
+.bordCcc {
+    border: 1px solid #ccc;
+}
+
+.divTitleSpanConcept {
+    color: #666;
+    font-size: 15px;
+    font-weight: 700;
+    background-color: #eee !important;
+    padding-left: 5px;
+    height: 31px;
+    padding-top: 5px;
+}
+.divTitleSpan {
+    color: #993333;
+    font-size: 15px;
+    font-weight: 700;
+    background-color: #EEE !important;
+    padding-left: 5px;
+    height: 31px;
+    padding-top: 5px;
+}
+
+.MeSHProfileBoxes {
+    padding: 0px !important;
+}
+
+    .MeSHProfileBoxes .link-ish {
+        background-color:#ffffff !important;
+    }
+
+#meshBox2 {
+    margin: 10px;
+}
+
+#meshTabsRow .link-ish {
+    background-color: #ffffff !important;
+    font-size:13px;
+}
+.meshLabel{
+    color:#777 !important;
+    font-size:12px !important;
+    font-weight:bold !important;
+}
+#meshTabsRow .hiZ{padding:0px !important;}
+.hiZ .active{font-weight:bold;color:#333 !important; font-size:13px !important;}
+#pubRecentContent a {
+    color: #3366CC;
+}

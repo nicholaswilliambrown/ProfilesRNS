@@ -1,0 +1,76 @@
+.graphContent {
+    margin-left: 10px;
+}
+.oneTick {
+    stroke: black;
+    stroke-width: 1;
+}
+.timelineTicksDiv {
+    margin-top: -9px;
+    margin-bottom: -7px;
+    margin-left: 10px;
+    width: 98%;
+}
+.timelineConceptsDiv {
+    height:20px;
+    width: 100%;
+}
+.timelineLabelSvgs {
+    height: 20px;
+}
+.timelineTickSvgs {
+    height: 4px;
+}
+.timelineTicklineDiv {
+    border-top: 1px solid black;
+    margin-left: 10px;
+    width: 98%;
+}
+.timelineSvgRowsDiv {
+    margin-left: 10px;
+    width: 98%;
+}
+    .timelineSvgRowsDiv a {
+        text-decoration: none !important;
+        color: #3366CC !important;
+        font-size: 11px !important;
+    }
+    .oneLabel {
+        font-size: 10px;
+    }
+.timelineConnRow {
+    border-left: 1px solid black;
+}
+.timelineConnSvg {
+    height: 12px;
+    stroke: black;
+    stroke-width: 1;
+    width: 100%;
+}
+.timelineSvgRow {
+    padding-left: 0px !important;
+}
+.timelineConnBlip {
+    height: 12px;
+    stroke: blue;
+    stroke-width: 2px;
+}
+.timelineConnTestBlip {
+    height: 12px;
+    stroke: cyan;
+    stroke-width: 2px;
+}
+.timelineConnMidline {
+    height: 12px;
+    stroke: lightgrey;
+    stroke-width: 2px;
+}
+.midlineCircle {
+    stroke: #AC1B30;
+    stroke-width: 1px;
+    fill: #AC1B30;
+}
+.forGraph {
+    width: 580px;
+    margin-left: 10%;
+}

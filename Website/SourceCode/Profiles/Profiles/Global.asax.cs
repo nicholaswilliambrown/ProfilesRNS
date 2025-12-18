@@ -36,6 +36,7 @@ namespace Profiles
         /// <param name="e"> .Net Event Arguments</param>
         protected void Application_Start(object sender, EventArgs e)
         {
+            Framework.Utilities.ConfigurationHelper.initialize();
             RegisterRoutes(RouteTable.Routes);
             LoadModuleCatalogue();
         }

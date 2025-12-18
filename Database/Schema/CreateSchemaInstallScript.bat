@@ -38,6 +38,9 @@ type Direct.Framework.Schema.sql
 type Direct..Schema.sql
 type ORNG..Schema.sql
 type ORCID..Schema.sql
+type Display..Schema.sql
+type Display.Module.Schema.sql
+type Display.Lists.Schema.sql
 
 type ft.FullTextCatalog.sql
 
@@ -251,6 +254,13 @@ type Profile.Data.Publication.PubMed.DisambiguationSettings.Table.sql
 type Profile.Data.Publication.Funding.DisambiguationSettings.Table.sql
 type Profile.Import.PRNSWebservice.Options.Table.sql
 type Profile.Import.PRNSWebservice.Log.Summary.Table.sql
+type Display..Activity.Log.MethodDetails.Table.sql
+type Display..DataPath.Table.sql
+type Display..GetJsonLog.Table.sql
+type Display..ModuleMapping.Table.sql
+type Display..SearchEverything.Filters.Table.sql
+type Profile.Cache.Concept.Mesh.URL.Table.sql
+
 
 type RDF..fnTripleHash.UserDefinedFunction.sql
 type Utility.Application.fnText2Bool.UserDefinedFunction.sql
@@ -288,6 +298,20 @@ type Utility.NLP.fnQuoteNormalizeSplitStem.UserDefinedFunction.sql
 type RDF..fnNodeID2TypeID.UserDefinedFunction.sql
 type Profile.Data.fnPublication.Pubmed.ShortenAuthorLengthString.UserDefinedFunction.sql
 type Profile.Data.fnPublication.MyPub.HighlightAuthors.UserDefinedFunction.sql
+type Display..FnConvertSearchJSON2XML.UserDefinedFunction.sql
+type Display.Module.FnCustomViewAssociatedInformationResource.GetList.UserDefinedFunction.sql
+type Display.Module.FnCustomViewAuthorInAuthorship.GetJournalHeadings.UserDefinedFunction.sql
+type Display.Module.FnCustomViewAuthorInAuthorship.GetList.UserDefinedFunction.sql
+type Display.Module.FnCustomViewConceptPublications.GetList.UserDefinedFunction.sql
+type Display.Module.FnNetworkAuthorshipTimeline.Concept.GetData.UserDefinedFunction.sql
+type Display.Module.FnNetworkAuthorshipTimeline.Person.GetData.UserDefinedFunction.sql
+type Display.Module.FnNetworkRadial.GetData.UserDefinedFunction.sql
+type RDF..fnNodeID2PersonID.UserDefinedFunction.sql
+type RDF.Security.fnGetSessionSecurityGroupNodes.UserDefinedFunction.sql
+
+
+
+
 
 type Framework..vwBufferObjects.View.sql
 type Framework..vwBufferDatabases.View.sql
@@ -435,8 +459,6 @@ type Profile.Data.Publication.DeleteAllPublications.StoredProcedure.sql
 type Profile.Data.Publication.Entity.UpdateEntityOnePerson.StoredProcedure.sql
 type Profile.Data.Publication.Entity.UpdateEntity.StoredProcedure.sql
 type Profile.Cache.Person.UpdatePerson.StoredProcedure.sql
-type Profile.Data.Publication.GetPersonPublications3.StoredProcedure.sql
-type Profile.Data.Publication.GetPersonPublications2.StoredProcedure.sql
 type Profile.Data.Publication.MyPub.UpdatePublication.StoredProcedure.sql
 type Profile.Data.Publication.MyPub.AddPublication.StoredProcedure.sql
 type Profile.Data.Publication.Pubmed.AddPubMedXML.StoredProcedure.sql
@@ -697,3 +719,84 @@ type Profile.Import.PRNSWebservice.PubMed.AddPubMedXML.StoredProcedure.sql
 type Profile.Import.PRNSWebservice.Funding.ParseDisambiguationXML.StoredProcedure.sql
 type Profile.Import.PRNSWebservice.Funding.GetPersonInfoForDisambiguation.StoredProcedure.sql
 type RDF..GetPresentationXMLByType.StoredProcedure.sql
+type Display..GetActivity.StoredProcedure.sql
+type Display..GetDataRDF.StoredProcedure.sql
+type Display..GetDataURLs.StoredProcedure.sql
+type Display..GetJson.StoredProcedure.sql
+type Display..GetLatestActivityIDs.StoredProcedure.sql
+type Display..Search.Params.StoredProcedure.sql
+type Display..SearchEverything.StoredProcedure.sql
+type Display..SearchPeople.StoredProcedure.sql
+type Display..SearchWhy.StoredProcedure.sql
+type Display.Lists.UpdateLists.StoredProcedure.sql
+type Display.Module.AwardReceipt.GeneralInfo.StoredProcedure.sql
+type Display.Module.Coauthor.Cluster.StoredProcedure.sql
+type Display.Module.Coauthor.Connection.StoredProcedure.sql
+type Display.Module.Coauthor.Timeline.StoredProcedure.sql
+type Display.Module.CoauthorSimilar.Map.StoredProcedure.sql
+type Display.Module.Concept.GeneralInfo.StoredProcedure.sql
+type Display.Module.Concept.PreloadLabel.StoredProcedure.sql
+type Display.Module.Concept.Publications.StoredProcedure.sql
+type Display.Module.Concept.SimilarConcept.StoredProcedure.sql
+type Display.Module.Concept.TopJournals.StoredProcedure.sql
+type Display.Module.Concept.TopPeople.StoredProcedure.sql
+type Display.Module.Connection.StoredProcedure.sql
+type Display.Module.GenericPropertyList.StoredProcedure.sql
+type Display.Module.GenericRDF.FeaturedPresentations.StoredProcedure.sql
+type Display.Module.GenericRDF.FeaturedVideos.StoredProcedure.sql
+type Display.Module.GenericRDF.Plugin.StoredProcedure.sql
+type Display.Module.GenericRDF.Twitter.StoredProcedure.sql
+type Display.Module.Group.AboutUs.StoredProcedure.sql
+type Display.Module.Group.AssociatedInformationResource.StoredProcedure.sql
+type Display.Module.Group.AssociatedInformationResource.All.StoredProcedure.sql
+type Display.Module.Group.AssociatedInformationResource.Cited.StoredProcedure.sql
+type Display.Module.Group.AssociatedInformationResource.Discussed.StoredProcedure.sql
+type Display.Module.Group.AssociatedInformationResource.Oldest.StoredProcedure.sql
+type Display.Module.Group.Cluster.StoredProcedure.sql
+type Display.Module.Group.ContactInformation.StoredProcedure.sql
+type Display.Module.Group.ContributingRole.StoredProcedure.sql
+type Display.Module.Group.FeaturedPresentations.StoredProcedure.sql
+type Display.Module.Group.FeaturedVideos.StoredProcedure.sql
+type Display.Module.Group.Label.StoredProcedure.sql
+type Display.Module.Group.MainImage.StoredProcedure.sql
+type Display.Module.Group.MediaLinks.StoredProcedure.sql
+type Display.Module.Group.Overview.StoredProcedure.sql
+type Display.Module.Group.Twitter.StoredProcedure.sql
+type Display.Module.Group.Webpage.StoredProcedure.sql
+type Display.Module.Group.Welcome.StoredProcedure.sql
+type Display.Module.Literal.StoredProcedure.sql
+type Display.Module.NetworkList.StoredProcedure.sql
+type Display.Module.Person.AuthorInAuthorship.StoredProcedure.sql
+type Display.Module.Person.AuthorInAuthorship.All.StoredProcedure.sql
+type Display.Module.Person.AuthorInAuthorship.Cited.StoredProcedure.sql
+type Display.Module.Person.AuthorInAuthorship.Discussed.StoredProcedure.sql
+type Display.Module.Person.AuthorInAuthorship.Oldest.StoredProcedure.sql
+type Display.Module.Person.AwardOrHonor.StoredProcedure.sql
+type Display.Module.Person.ClinicalTrialRole.StoredProcedure.sql
+type Display.Module.Person.Coauthor.Top5.StoredProcedure.sql
+type Display.Module.Person.Concept.Top5.StoredProcedure.sql
+type Display.Module.Person.EducationAndTraining.StoredProcedure.sql
+type Display.Module.Person.FreetextKeyword.StoredProcedure.sql
+type Display.Module.Person.GeneralInfo.StoredProcedure.sql
+type Display.Module.Person.HasCoAuthor.Why.StoredProcedure.sql
+type Display.Module.Person.HasMemberRole.StoredProcedure.sql
+type Display.Module.Person.HasResearchArea.StoredProcedure.sql
+type Display.Module.Person.HasResearchArea.Timeline.StoredProcedure.sql
+type Display.Module.Person.HasResearchArea.Why.StoredProcedure.sql
+type Display.Module.Person.Label.StoredProcedure.sql
+type Display.Module.Person.MediaLinks.StoredProcedure.sql
+type Display.Module.Person.PhysicalNeighbour.Top5.StoredProcedure.sql
+type Display.Module.Person.ResearcherRole.StoredProcedure.sql
+type Display.Module.Person.SameDepartment.Top5.StoredProcedure.sql
+type Display.Module.Person.Similar.Top5.StoredProcedure.sql
+type Display.Module.Person.Similar.Why.StoredProcedure.sql
+type Display.Module.Person.Websites.StoredProcedure.sql
+type Display.Module.Publication.Authors.StoredProcedure.sql
+type Display.Module.Publication.Concepts.StoredProcedure.sql
+type Display.Module.Publication.GeneralInfo.StoredProcedure.sql
+type Display.Module.SimilarPeople.Connection.StoredProcedure.sql
+type Display.Module.UnmatchedType.StoredProcedure.sql
+type Profile.Cache.Person.UpdatePreferredPath.StoredProcedure.sql
+type Profile.Cache.Concept.UpdatePreferredPath.StoredProcedure.sql
+type Profile.Data.Group.GetPhotos.StoredProcedure.sql
+type Profile.Import.PRNSWebservice.Pubmed.ParseBibliometricResults.StoredProcedure.sql

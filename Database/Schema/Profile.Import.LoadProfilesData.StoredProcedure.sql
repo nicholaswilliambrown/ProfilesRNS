@@ -662,7 +662,10 @@ AS
 			   SET isactive  = p.isactive
 			  FROM [User.Account].[User] u 
 			  JOIN [Profile.Data].Person p ON p.PersonID = u.PersonID 
-			  
+			  and not exists 
+                (select internalusername from [Profile.Import].[User]
+                    where internalusername=p.InternalUsername)
+
             COMMIT
         END TRY
         BEGIN CATCH

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <!-- Required meta tags for bootstrap -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{metaDescription}">
+
+    <meta http-equiv="Cache-control" content="No-Store">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+
+    <link href="{profilesPath}/Branding/myBranding.css" rel="stylesheet" type="text/css">
+    <link href="{profilesPath}/StaticFiles/css/common/bigAndSmall.css" rel="stylesheet" type="text/css">
+    <link href="{profilesPath}/StaticFiles/css/common/common-top-nav.css" rel="stylesheet" type="text/css">
+    <link href="{profilesPath}/StaticFiles/css/common/common-access.css" rel="stylesheet" type="text/css">
+    <link href="{profilesPath}/StaticFiles/css/common/common.css" rel="stylesheet" type="text/css">
+
+    <link href="{profilesPath}/StaticFiles/css/helpAbout/helpAbout.css" rel="stylesheet" type="text/css">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <!-- todo: probably do not need charts on most pages -- remove and smoke all pages -->
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+
+
+    {globalVariables}
+
+    {SessionInfo}
+
+
+    <script src="{profilesPath}/StaticFiles/profile.js" type="text/javascript"></script>
+
+    <script src="{profilesPath}/StaticFiles/js/common/globals.js" type="text/javascript"></script>
+    <script src="{profilesPath}/Branding/myBranding.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/common/brandingUtil.js" type="text/javascript"></script>
+
+    <script src="{profilesPath}/StaticFiles/js/search/searchCommon.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/common/common.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/common/misc.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/common/insertCommonContent.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/common/topBar.js" type="text/javascript"></script>
+
+    <script src="{profilesPath}/StaticFiles/js/helpAbout/aboutAndHelp.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () { setupHelpAndAbout(true, "", 'Help') });
+    </script>
+</head>
+
+<body>
+
+    {TrackingCode}
+
+    <div id="aboutOrHelp" class="d-none me-5 moveable" dest="mainDiv">
+
+        <div class="_snippet helpAboutTitle mb-3 mt-2" _key="help-with"></div>
+        <div class="subtitle mb-3">Frequently Asked Questions</div>
+
+        <div class="_snippet question" _key="help-howToContactQ"></div>
+        <div class="_snippet answer" _key="help-howToContactA"></div>
+
+        <div class="_snippet question" _key="help-whoCanViewQ"></div>
+        <div class="_snippet answer" _key="help-whoCanViewA"></div>
+
+        <div class="topic" sharedAttr="howToEdit">How do I edit my profile?</div>
+        <div class="blurbForTopic" sharedAttr="howToEdit" blurb="help-howToEdit1"></div>
+        <div class="blurbForTopic" sharedAttr="howToEdit" blurb="help-howToEdit15"></div>
+        <div class="blurbForTopic" sharedAttr="howToEdit" blurb="help-howToEdit2"></div>
+        <div class="blurbForTopic" sharedAttr="howToEdit" blurb="help-howToEdit3"></div>
+        <div class="blurbForTopic" sharedAttr="howToEdit" blurb="help-howToEdit4"></div>
+
+        <div class="topic" sharedAttr="sources">What are the sources of data for this website?</div>
+        <div class="blurbForTopic" sharedAttr="sources" blurb="help-sources"></div>
+
+        <div class="topic" sharedAttr="missingOrIncorrect">Why are there missing or incorrect publications in my profile?</div>
+        <div class="blurbForTopic" sharedAttr="missingOrIncorrect" blurb="help-missingOrIncorrect"></div>
+
+        <div class="topic" sharedAttr="frequentlyUpdated">How frequently are the data on this website updated?</div>
+        <div class="blurbForTopic" sharedAttr="frequentlyUpdated" blurb="help-frequentlyUpdated"></div>
+
+        <div class="topic" sharedAttr="canIEdit">Can I edit my concepts, co-authors, or list of similar people?</div>
+        <div class="blurbForTopic" sharedAttr="canIEdit" blurb="help-canIEdit"></div>
+
+        <div class="topic" sharedAttr="whoCreated">Who created <span class="profilesTitleH"></span>?</div>
+        <div class="blurbForTopic" sharedAttr="whoCreated" blurb="help-whoCreated"></div>
+    </div>
+
+</body>
+</html>

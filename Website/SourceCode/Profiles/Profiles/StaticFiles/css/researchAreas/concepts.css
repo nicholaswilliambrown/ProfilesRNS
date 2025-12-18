@@ -1,0 +1,58 @@
+.cloudLight {
+       line-height: 18.6px;
+}
+
+    .cloudLight a {
+        color: #B7C3DB !important;
+        font-size: 13px !important;
+    }
+
+.cloudRegular {   
+    line-height: 18.6px;}
+
+    .cloudRegular
+    a {
+        color: #3366CC !important;
+        font-size: 13px !important;
+        
+    }
+
+.cloudBold {
+   
+    line-height: 20px;
+    font-weight: bold;
+}
+    .cloudBold a {
+        color: #3366CC !important;
+        font-size: 14px !important;
+    }
+
+    .blurbDiv {
+        width: 100%;
+        border-bottom: 1px solid #ccc !important;
+    }
+
+.categoryHeader {
+    font-family: arial, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top:6px;
+    margin-bottom:6px;
+}
+
+   
+.categoryItem {
+    font-family: arial, sans-serif;
+    font-size: 12px;
+}
+    .categoryItem a {
+        color: #36C !important;
+    }
+
+.passiveNetwork {
+    margin-top: 35px;
+}
+#pubRecentContent a {text-decoration:none;
+                  cursor:pointer;
+}
+#pubRecentButton{color:#333 !important;}

@@ -10,45 +10,37 @@
     For details, see: LICENSE.txt 
   
 */
+using Profiles.Framework.Utilities;
 using System;
+using System.Web.Configuration;
 using System.Xml;
 
 namespace Profiles.History
 {
     public partial class Default : System.Web.UI.Page
     {
-         private Profiles.Framework.Template masterpage;
+        private Profiles.Framework.Template masterpage;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            masterpage = (Framework.Template)base.Master;
+            try
+            {
+                SessionManagement sessionManagement = new SessionManagement();
+                Framework.Utilities.Session session = sessionManagement.Session();
+                string sessionInfo = ConfigurationHelper.GetSessionInfoJavascriptObject(session);
 
-            this.LoadAssets();
+                string pageText = "";
 
-            this.LoadPresentationXML();
+                pageText = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/history.html")
+                    .Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)
+                    .Replace("{globalVariables}", ConfigurationHelper.GlobalJavascriptVariables)
+                    .Replace("{SessionInfo}", sessionInfo)
+                    .Replace("{TrackingCode}", ConfigurationHelper.GlobalGoogleTrackingCode);
 
-            masterpage.Tab = Request.QueryString["tab"];
-            masterpage.PresentationXML = this.PresentationXML;
+                litText.Text = pageText;
+            }
+            catch (Exception ex) { Framework.Utilities.DebugLogging.Log($"History/Default.aspx.cs : {ex.Message}"); }
         }
-
-        private void LoadAssets()
-        {
-
-        }
-
-        public void LoadPresentationXML()
-        {
-            string presentationxml = string.Empty;
-
-            presentationxml = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/History/PresentationXML/History.xml");
-            
-            this.PresentationXML = new XmlDocument();
-            this.PresentationXML.LoadXml(presentationxml);
-            Framework.Utilities.DebugLogging.Log(presentationxml);
-
-        }
-        public XmlDocument PresentationXML { get; set; }
-        public Profiles.Framework.Template Master { get; set; }
     }
-    
+
 }

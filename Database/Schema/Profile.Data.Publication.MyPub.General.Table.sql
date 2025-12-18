@@ -39,6 +39,7 @@ CREATE TABLE [Profile.Data].[Publication.MyPub.General](
 	[CreatedBy] [varchar](50) NULL,
 	[UpdatedDT] [datetime] NULL,
 	[UpdatedBy] [varchar](50) NULL,
+	[DOI] [varchar](100) NULL,
  CONSTRAINT [PK__my_pubs_general__03BB8E22] PRIMARY KEY CLUSTERED 
 (
 	[MPID] ASC

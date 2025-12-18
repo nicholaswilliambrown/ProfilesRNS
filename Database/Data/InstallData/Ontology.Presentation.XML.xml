@@ -188,6 +188,9 @@
                   <Param Name="XSLTPath">~/profile/XSLT/OtherPositions.xslt</Param>
                 </ParamList>
               </Module>
+			  <Module ID="CustomViewPropertyGroupLinks">
+                <ParamList />
+			  </Module>
               <Module ID="PropertyList">
                 <ParamList />
               </Module>

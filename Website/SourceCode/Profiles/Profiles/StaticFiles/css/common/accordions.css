@@ -1,0 +1,169 @@
+.accordion-body {
+    margin-bottom: 2px !important;
+    padding-bottom: 2px !important;
+}
+
+    .accordion-body .link-ish {
+        background-color: #ffffff !important;
+    }
+
+    .accordion-body.unnested {
+        border: 1px solid #ccc;
+        border-image-width: 0;
+        padding-top: 0px;
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+        margin-left: 0px !important;
+    }
+
+    .accordion-body.nested {
+        border: 0px;
+        border-image-width: 0;
+        color: black !important;
+    }
+
+        .accordion-body.nested a {
+            text-decoration: none !important;
+           color: #36c !important;
+        }
+
+.accordion-item.nested .row, .accordion-item.nested .accordion-collapse {
+    margin: 0px !important;
+    padding-left: 8px ;
+    padding-right: 12px !important;
+}
+
+.accordion-button.nested {
+    box-shadow: none;
+}
+
+.accordion-item.nested .row div, .accordion-body.nested, .accordion-button.nested {
+    padding-left: 0px !important;
+}
+
+.accordion-item.nested {
+    border: 0px;
+    margin-bottom: 5px;
+}
+
+.accordion-item.unnested {
+    border: 0px;
+}
+
+.accordion-button {
+    background-color: white !important;
+    border-width: 0px;
+    padding-right: 3px !important;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    font-weight: bold;
+    padding-left: 0px !important;
+}
+
+    .accordion-button::before {
+        content: url("../../img/person/expand.gif");
+        margin-right: 5px;
+    }
+
+    .accordion-button:not(.collapsed)::before {
+        content: url("../../img/person/collapse.gif");
+    }
+
+    .accordion-button::after {
+        background-image: initial; /* nuke the default BS arrows on the right */
+        width: 0 !important;
+    }
+
+    .accordion-button:not(.collapsed)::after {
+        background-image: initial; /* nuke the default BS arrows on the right */
+    }
+
+.nested.accordion-item .accordionHeaderHolder {
+    background-color: #eee !important;
+    padding-right: 0px !important;
+}
+
+    .nested.accordion-item .accordionHeaderHolder .accordion-button.nested {
+        background-color: #eee !important;
+        font-size: 15px !important;
+    }
+
+.nested .accordion-header {
+    float: left;
+    /*width: 95%;*/
+}
+
+.bi-clipboard {
+    color: #993333;
+}
+
+.clipboardButtonTitle .tooltip-inner {
+    border: 2px solid #aaa;
+    background-color: white;
+    color: black;
+    text-align: start;
+    padding: 10px;
+    max-width: 60% !important;
+    ;
+}
+
+.clipboardMainButton {
+    border: none !important;
+}
+
+    .clipboardMainButton:focus {
+        outline: 5px auto -webkit-focus-ring-color !important;
+        outline-offset: -2px !important;
+    }
+
+    .clipboardMainButton:hover {
+        /*box-shadow: 0 2px gray !important;*/
+        background-color: lightgray;
+    }
+
+.clipboardButtonTitle {
+    background-color: white;
+    color: black;
+    text-align: start;
+    padding: 10px;
+    max-width: 60% !important;
+}
+
+.accordion-collapse {
+    border-top-color: #660099;
+    border-image-width: 0;
+}
+
+.accordion-header {
+    border-bottom-color: #33aa33 !important;
+    border-image-width: 0 !important;
+    color: #993333 !important;
+    font-size: 15px !important;
+    font-family: Arial !important;
+}
+
+.nested {
+    color: #666 !important;
+}
+
+.unnested {
+    color: #993333 !important;
+}
+
+.accordion-item.nested .my-mb2.row, .my-mb2 {
+    margin-bottom: 4px !important;
+}
+
+.accordion-button {
+    font-size: 15px !important;
+}
+
+.trials-dots {
+    cursor: pointer;
+}
+
+.accordion-bodyResearcherRole p {
+    color: #888;
+    font-weight: bold;
+}
+}

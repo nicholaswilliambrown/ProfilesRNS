@@ -48,6 +48,9 @@ CREATE TABLE [Profile.Cache].[Person](
 	[Reach2] [int] NULL,
 	[Closeness] [float] NULL,
 	[Betweenness] [float] NULL,
+	[NodeID] [bigint] NULL,
+    [PreferredPath] varchar(max) NULL,
+    [defaultApplication] varchar(max) NULL,
  CONSTRAINT [PK_cache_person] PRIMARY KEY CLUSTERED 
 (
 	[PersonID] ASC

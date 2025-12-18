@@ -1,0 +1,34 @@
+.mapPopLine1 {
+    font-weight: bold;
+}
+.mapPopLine2 {
+    font-weight: bold;
+}
+.mapPopLine3 {
+    color: #3366CC;
+}
+
+#divMapData {
+    text-align: center;
+    padding-top: 10px;
+}
+#divMapDataText {
+    display: none;
+    margin-top: 12px;
+    margin-bottom: 8px;
+    text-align:left;
+}
+.mapPopLine {
+    text-align: left;
+}
+
+.alignLeft {
+    text-align: left;
+}
+
+#map_canvas {
+    height: 500px;
+    border: 1px solid #999;
+    text-align: center;
+}
+

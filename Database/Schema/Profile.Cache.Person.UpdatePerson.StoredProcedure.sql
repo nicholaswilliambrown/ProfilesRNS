@@ -94,7 +94,7 @@ BEGIN
     FROM [Profile.Data].vwPerson p
 		WHERE p.personid = p2.personid
 		FOR XML  PATH(''),TYPE) AS XML)) person_xml,
-		0 HasPublications, 0 HasSNA, 0 Reach1, 0 Reach2, cast(0 as float) Closeness, cast(0 as float) Betweenness
+		0 HasPublications, 0 HasSNA, 0 Reach1, 0 Reach2, cast(0 as float) Closeness, cast(0 as float) Betweenness,  Cast(0 as bigint) [NodeID], cast('' as varchar(max)) [PreferredPath], cast('' as varchar(max)) [defaultApplication]
 	into #cache_person
 	FROM [Profile.Data].vwperson p2
  
@@ -126,6 +126,16 @@ BEGIN
 			p.Betweenness = s.Betweenness
 		from #cache_person p inner join #cache_sna s on p.personid = s.personid
  
+ 	Update p set p.NodeID = i.NodeID from #cache_person p
+		join [RDF.Stage].InternalNodeMap i
+		on HASHBYTES('sha1',N'"'+CAST(N'http://xmlns.com/foaf/0.1/Person^^Person'+N'^^'+cast(p.PersonID as varchar(50)) AS NVARCHAR(4000))+N'"') = InternalHash
+
+	update p set p.PreferredPath = case when AliasType is null then '/Profile/' + cast(p.NodeID as varchar(50)) when AliasType = '' then '/' + AliasID else '/' + AliasType + '/' + AliasID end ,
+		p.DefaultApplication = '/display' --isnull(case when a.DefaultApplication = '' then '' else '/' + a.DefaultApplication end, '/display')
+		from #cache_person p 
+			left join [RDF.].Alias a
+			on p.NodeID = a.NodeID and a.Preferred = 1
+
 	BEGIN TRY
 		BEGIN TRAN
 			TRUNCATE TABLE [Profile.Cache].Person

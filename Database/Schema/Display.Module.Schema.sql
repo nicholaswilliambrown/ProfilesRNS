@@ -1,0 +1,2 @@
+CREATE SCHEMA [Display.Module] AUTHORIZATION [dbo]
+GO

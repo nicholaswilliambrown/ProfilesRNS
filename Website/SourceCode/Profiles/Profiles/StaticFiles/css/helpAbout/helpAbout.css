@@ -1,0 +1,49 @@
+@media (max-width: 1118px) {
+    .network-viz-img {
+        display: none;
+    }
+    .helpAboutTitle{line-height:1;}
+}
+#whatIsIt{color:#000000;}
+.helpAboutTitle {
+    color: #AC1B30;
+    font-size: 28px;
+}
+.subtitle {
+    font-size: 15px;
+    font-weight: bold;
+    color: #666;
+}
+.topic, .question {
+    color: #933;
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.blurbForTopic, .answer {
+    margin-bottom: 10px;
+    color:#000000;
+}
+.inactiveExploreButton {
+    color: white !important;
+    background-color: #090 !important;
+}
+#calloutLhs {
+    background-color: #F7F7F7 !important;
+}
+#calloutRhs {
+    background-color: #F7F7F7 !important;
+}
+#rnsA {
+    text-decoration: none;
+    color: #3366CC !important;
+}
+#licenseA {
+    text-decoration: none;
+    color: #3366CC !important;
+}
+a {
+    color: #3366CC;
+    text-decoration:none;
+    cursor:pointer;
+}

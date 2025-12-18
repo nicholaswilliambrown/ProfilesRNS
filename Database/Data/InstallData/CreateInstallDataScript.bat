@@ -31,4 +31,8 @@ type ORCID..REF_WorkExternalType.xml
 type ORCID..RecordLevelAuditType.xml
 type ORCID..DefaultORCIDDecisionIDMapping.xml
 type Profile.Module.GenericRDF.Plugins.xml
+type Display..DataPath.xml
+type Display..ModuleMapping.xml
+type Display..Activity.Log.MethodDetails.xml
+type Display..SearchEverything.Filters.xml
 echo ^</Import^>

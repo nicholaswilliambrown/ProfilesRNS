@@ -17,3 +17,4 @@ EXEC [Framework.].[RunJobGroup] @JobGroup = 7
 EXEC [Framework.].[RunJobGroup] @JobGroup = 8
 EXEC [Framework.].[RunJobGroup] @JobGroup = 9
 EXEC [Framework.].[RunJobGroup] @JobGroup = 3
+EXEC [Profile.Cache].[Concept.UpdatePreferredPath]

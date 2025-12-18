@@ -1,7 +1,10 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true"
- MasterPageFile="~/Framework/Template.Master"
+
    CodeBehind="Display.aspx.cs" Inherits="Profiles.Profile.Display" EnableViewState="false"
     EnableEventValidation="false" EnableViewStateMac="false" ValidateRequest="false" %>
+<asp:literal runat="server" ID="litText" />
+
+
  <%--
     Copyright (c) 2008-2012 by the President and Fellows of Harvard College. All rights reserved.  
     Profiles Research Networking Software was developed under the supervision of Griffin M Weber, MD, PhD.,

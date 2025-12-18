@@ -1,0 +1,12 @@
+
+#mapLeaflet {
+    height: 600px;
+}
+/* https://stackoverflow.com/questions/23567203/leaflet-changing-marker-color */
+.leaflet-marker-icon {
+    filter: hue-rotate(125deg);
+}
+.leafletRed {
+    color: #E5517F;
+    font-weight: bolder;
+}

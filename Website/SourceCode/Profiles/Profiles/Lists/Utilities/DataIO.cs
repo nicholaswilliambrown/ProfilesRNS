@@ -25,6 +25,7 @@ namespace Profiles.Lists.Utilities
             public string ListID { get; set; }
             public string Size { get; set; }
             public string CreateDate { get; set; }
+            public string UpdatedDate { get; set; }
             public List<ProfilesListItem> ListItems { get; set; }
             public List<GenericListItem> Institutions { get; set; }
             public List<GenericListItem> FacultyRanks { get; set; }
@@ -57,6 +58,7 @@ namespace Profiles.Lists.Utilities
             public string color { get; set; }
 
         }
+
 
         public static List<SummaryItem> GetSummaryRaw(string listid, string type)
         {
@@ -283,7 +285,7 @@ namespace Profiles.Lists.Utilities
 
 
 
-        public static void DeleteFildered(string listid, string institution, string facultyrank)
+        public static void DeleteFiltered(string listid, string institution, string facultyrank)
         {
 
             Profiles.Framework.Utilities.DataIO dataio = new Framework.Utilities.DataIO();
@@ -409,7 +411,7 @@ namespace Profiles.Lists.Utilities
         public static ProfilesList GetPeople(string institution = "", string facultyrank = "")
         {
             ProfilesList pl = new ProfilesList();
-          
+
             SessionManagement sm = new SessionManagement();
             string listid = sm.Session().ListID;
 
@@ -442,6 +444,10 @@ namespace Profiles.Lists.Utilities
                 }
                 if (!string.IsNullOrEmpty(facultyrank))
                 {
+
+                    if (facultyrank == "--")
+                        facultyrank = null;
+
                     parm = new SqlParameter("@FacultyRank", SqlDbType.VarChar);
                     parm.Direction = ParameterDirection.Input;
                     parm.Value = facultyrank;
@@ -489,10 +495,6 @@ namespace Profiles.Lists.Utilities
 
 
             }
-
-
-
-
 
             return pl;
 
@@ -674,6 +676,7 @@ namespace Profiles.Lists.Utilities
             }
 
         }
+
         public static string GetNetworkRadialCoAuthors(string listid)
         {
             string str = string.Empty;
@@ -720,6 +723,221 @@ namespace Profiles.Lists.Utilities
 
             return str;
         }
+
+
+        public static string GetCoAuthorsForSavedLists(string listid)
+        {
+            string str = string.Empty;
+
+
+            if (Framework.Utilities.Cache.FetchObject(listid + "GetCoAuthorsForSavedLists") == null)
+            {
+                Framework.Utilities.DataIO dataio = new Framework.Utilities.DataIO();
+                try
+                {
+                    string connstr = dataio.GetConnectionString();
+                    SqlConnection dbconnection = new SqlConnection(connstr);
+                    SqlCommand dbcommand = new SqlCommand("[Profile.Module].[NetworkRadial.List.GetCoAuthorsForSavedLists]");
+
+                    SqlDataReader dbreader;
+                    dbconnection.Open();
+                    dbcommand.CommandType = CommandType.StoredProcedure;
+                    dbcommand.CommandTimeout = dataio.GetCommandTimeout();
+                    dbcommand.Parameters.Add(new SqlParameter("@OutputFormat", "JSON"));
+                    dbcommand.Parameters.Add(new SqlParameter("@ListIDs", listid));
+
+                    dbcommand.Connection = dbconnection;
+                    dbreader = dbcommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+                    while (dbreader.Read())
+                        str += dbreader[0].ToString();
+
+                    Framework.Utilities.DebugLogging.Log(str);
+
+                    if (!dbreader.IsClosed)
+                        dbreader.Close();
+
+                    Framework.Utilities.Cache.Set(listid + "GetCoAuthorsForSavedLists", str);
+                }
+                catch (Exception ex)
+                {
+                    Framework.Utilities.DebugLogging.Log(ex.Message + " ++ " + ex.StackTrace);
+                }
+            }
+            else
+            {
+                str = (string)Framework.Utilities.Cache.FetchObject(listid + "GetCoAuthorsForSavedLists");
+            }
+
+            return str;
+        }
+        #region "List 2.0"
+
+        public static List<ProfilesList> GetLists()
+        {
+            List<ProfilesList> savedlists = new List<ProfilesList>();
+
+            SessionManagement sm = new SessionManagement();
+            Framework.Utilities.DataIO dataio = new Framework.Utilities.DataIO();
+            try
+            {
+                using (SqlConnection sqlconnection = new SqlConnection(dataio.GetConnectionString()))
+                {
+
+                    SqlCommand cmd = new SqlCommand("[Profile.Data].[List.SavedLists.GetLists]", sqlconnection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlParameter parm = new SqlParameter("@UserID", SqlDbType.Int);
+                    parm.Direction = ParameterDirection.Input;
+                    parm.Value = sm.Session().UserID;
+                    cmd.Parameters.Add(parm);
+                    sqlconnection.Open();
+                    using (SqlDataReader dbreader = cmd.ExecuteReader())
+                    {
+
+                        while (dbreader.Read())
+                        {
+                            savedlists.Add(new ProfilesList
+                            {
+                                ListID = dbreader["ListID"].ToString(),
+                                ListName = dbreader["Name"].ToString(),
+                                Size = dbreader["size"].ToString(),
+                                CreateDate = dbreader["createdate"].ToString(),
+                                UpdatedDate = dbreader["updateddate"].ToString(),
+                            }
+                            );
+                        }
+
+
+                    }
+
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+
+            return savedlists;
+        }
+
+
+        public static void ModifyActiveList(string action,string listids )
+        {
+
+            SessionManagement sm = new SessionManagement();
+
+            string userid = sm.Session().UserID.ToString();
+
+            Framework.Utilities.DataIO dataio = new Framework.Utilities.DataIO();
+            using (SqlConnection sqlconnection = new SqlConnection(dataio.GetConnectionString()))
+            {
+
+                SqlCommand cmd = new SqlCommand("[Profile.Data].[List.SavedLists.ModifyActiveList]", sqlconnection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlParameter parm = new SqlParameter("@ListIDs", SqlDbType.VarChar);
+                parm.Value = listids;
+                parm.Direction = ParameterDirection.Input;
+                cmd.Parameters.Add(parm);
+                parm = new SqlParameter("@UserID", SqlDbType.Int);
+                parm.Direction = ParameterDirection.Input;
+                parm.Value = userid;
+                cmd.Parameters.Add(parm);
+                parm = new SqlParameter("@Action", SqlDbType.VarChar);
+                parm.Direction = ParameterDirection.Input;
+                parm.Value = action;
+                cmd.Parameters.Add(parm);
+                parm = new SqlParameter("@Size", SqlDbType.Int);
+                parm.Direction = ParameterDirection.Output;
+                cmd.Parameters.Add(parm);
+
+                sqlconnection.Open();
+                cmd.ExecuteNonQuery();
+                sqlconnection.Close();
+
+                sm.Session().ListSize = cmd.Parameters["@Size"].Value.ToString();
+            }
+
+        }
+
+
+        public static void AddUpdateList(string action, string listid, string name)
+        {       
+            if (action == "Save" && name.Trim() == "")
+                name = "New Person List (" + DateTime.Now.ToShortDateString() + ")";
+
+            SessionManagement sm = new SessionManagement();
+
+
+            Framework.Utilities.DataIO dataio = new Framework.Utilities.DataIO();
+            using (SqlConnection sqlconnection = new SqlConnection(dataio.GetConnectionString()))
+            {
+
+                SqlCommand cmd = new SqlCommand("[Profile.Data].[List.SavedLists.AddUpdateList]", sqlconnection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlParameter parm = new SqlParameter("@ListID", SqlDbType.VarChar);
+                parm.Direction = ParameterDirection.Input;
+                parm.Value = listid;
+                cmd.Parameters.Add(parm);
+                parm = new SqlParameter("@Action", SqlDbType.VarChar);
+                parm.Direction = ParameterDirection.Input;
+                parm.Value = action;
+                cmd.Parameters.Add(parm);
+                parm = new SqlParameter("@UserID", SqlDbType.Int);
+                parm.Direction = ParameterDirection.Input;
+                parm.Value = sm.Session().UserID;
+                cmd.Parameters.Add(parm);
+                parm = new SqlParameter("@Name", SqlDbType.VarChar);
+                parm.Direction = ParameterDirection.Input;
+                parm.Value = name;
+                cmd.Parameters.Add(parm);
+                sqlconnection.Open();
+                cmd.ExecuteNonQuery();
+                sqlconnection.Close();
+
+            }
+
+        }
+
+
+
+
+        public static void AddRemoveCoAuthors(string action)
+        {
+
+            SessionManagement sm = new SessionManagement();
+
+            string userid = sm.Session().UserID.ToString();
+
+            Framework.Utilities.DataIO dataio = new Framework.Utilities.DataIO();
+            using (SqlConnection sqlconnection = new SqlConnection(dataio.GetConnectionString()))
+            {
+
+                SqlCommand cmd = new SqlCommand("[Profile.Data].[List.AddRemove.CoAuthors]", sqlconnection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlParameter parm = new SqlParameter("@UserID", SqlDbType.Int);
+                parm.Direction = ParameterDirection.Input;
+                parm.Value = userid;
+                cmd.Parameters.Add(parm);
+                parm = new SqlParameter("@Action", SqlDbType.VarChar);
+                parm.Direction = ParameterDirection.Input;
+                parm.Value = action;
+                cmd.Parameters.Add(parm);
+                parm = new SqlParameter("@Size", SqlDbType.Int);
+                parm.Direction = ParameterDirection.Output;
+                cmd.Parameters.Add(parm);
+
+                sqlconnection.Open();
+                cmd.ExecuteNonQuery();
+                sqlconnection.Close();
+
+                sm.Session().ListSize = cmd.Parameters["@Size"].Value.ToString();
+            }
+
+        }
+
+
+        #endregion
 
 
         #region "GoogleMaps"
@@ -821,4 +1039,8 @@ namespace Profiles.Lists.Utilities
             }
         }
     }
+
+
+
+
 }

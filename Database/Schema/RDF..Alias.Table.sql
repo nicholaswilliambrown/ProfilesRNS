@@ -9,6 +9,7 @@ CREATE TABLE [RDF.].[Alias](
 	[AliasID] [varchar](400) NOT NULL,
 	[NodeID] [bigint] NOT NULL,
 	[Preferred] [bit] NULL,
+	[DefaultApplication] [varchar](50) DEFAULT ('display') NOT NULL,
  CONSTRAINT [PK__Alias__456951BF] PRIMARY KEY CLUSTERED 
 (
 	[AliasType] ASC,

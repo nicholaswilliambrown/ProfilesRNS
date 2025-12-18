@@ -1,0 +1,369 @@
+@media (max-width: 888px) {
+    .researchTopics {
+        padding-left: 43px;
+    }
+
+    .search-results-show {
+        margin-top: 5px;
+    }
+}
+
+@media(max-width:1387px) {
+    .search-form {
+        width: 600px;
+    }
+}
+
+@media (max-width: 1123px) {
+    .search-form-passive {
+        display: none;
+    }
+}
+
+@media(max-width:924px) {
+    .statsUpdates {
+        display: none;
+    }
+}
+
+@media (max-width: 770px) {
+    .whyResultsHeaderCol1 {
+        display: none;
+    }
+
+    .search-passive {
+        display: none;
+    }
+
+    #peopleBox {
+        text-align: right !important;
+    }
+
+    .colSmall {
+        width: 25% !important;
+    }
+
+    .colSmall0 {
+        width: 25% !important;
+    }
+
+    .colSmall1 {
+        width: 20% !important;
+    }
+
+    .colSmall2 {
+        width: 20% !important;
+    }
+
+    .colSmall3 {
+        width: 5% !important;
+    }
+
+    #lhsDiv {
+        display: none;
+    }
+
+    .searchLabel {
+        justify-content: start !important;
+        margin-left: 25px !important;
+    }
+
+    .inputSearch {
+        margin-left: 25px !important;
+        margin-right: 25px !important;
+    }
+
+    #allExactCheckbox {
+        margin-left: 25px;
+    }
+
+    #allSearchButton {
+        margin-left: 25px;
+        margin-top: 25px;
+    }
+
+    #peopleSearchButton {
+        margin-left: 25px;
+        margin-top: 25px;
+    }
+
+    #peopleExactCheckbox {
+        margin-left: 25px;
+    }
+
+    #institutionsUlDiv {
+        margin-left: 25px;
+        margin-right: 25px;
+    }
+
+    #departmentsUlDiv {
+        margin-left: 25px;
+        margin-right: 25px;
+    }
+
+    #facultyTypesUlDiv {
+        margin-left: 25px;
+        margin-right: 25px;
+    }
+
+    #otherOptionsUlDiv {
+        margin-left: 25px;
+        margin-right: 25px;
+    }
+
+    .allExceptCheck {
+        margin-top: 25px;
+        margin-left: 25px;
+    }
+
+    .allExceptCheckLabel {
+        margin-left: 25px !important;
+    }
+
+    #showDropdownDiv {
+        margin-top: 15px;
+        padding-left: 0px;
+    }
+
+    .dropdownCheckbox {
+        padding-top: 15px;
+    }
+
+        .dropdownCheckbox label {
+            padding-top: 27px;
+        }
+
+    #dropbox3Row {
+        padding-top: 25px !important;
+    }
+
+    #rhsDiv {
+        margin-left: 12px !important;
+        width: 410px;
+    }
+}
+
+@media (max-width: 767px) {
+    .researchTopics {
+        padding-left: 0px;
+    }
+}
+
+.search-form-passive {
+    background-color: #f7f7f7 !important;
+    border: 1px solid #ccc !important;
+}
+
+#peopleBox {
+    color: #666;
+}
+
+    #peopleBox input {
+        border: 1px solid #CCC;
+    }
+
+.inputSearch {
+    height: 30px;
+    background-color: #ffffff;
+    border: 1px solid #CCC;
+}
+
+.selected {
+    background-color: #3279b5 !important;
+    color: white;
+}
+
+.tab-pane-box {
+    border: 1px solid #ccc;
+    background-color: #EAF0F8;
+}
+/* from: https://stackoverflow.com/questions/2812770/add-centered-text-to-the-middle-of-a-horizontal-rule */
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+    .separator::before,
+    .separator::after {
+        content: '';
+        flex: 1;
+        border-bottom: 1px solid #ccc;
+    }
+
+.dropdown-no-bullet {
+    list-style-type: none;
+    border: 1px solid #ccc;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.proxyDd {
+    border: 1px solid #ccc;
+}
+/* https://stackoverflow.com/questions/29732488/how-to-get-a-drop-down-menu-to-overlay-other-elements */
+.ulDiv {
+    position: relative; /* for superimposing dropdowns */
+}
+
+    .ulDiv ul {
+        position: absolute; /* for superimposing */
+        xleft: 20px;
+        top: 0px !important;
+        padding-inline-start: 0 !important;
+        height: 180px;
+        overflow-y: auto;
+        z-index: 100;
+    }
+
+        .ulDiv ul li {
+            z-index: 100;
+            background-color: white;
+        }
+
+#sortDropdown {
+    width: 150px;
+    padding-left: 0px !important;
+}
+
+#sortButton {
+    padding: 5px !important;
+}
+
+#showButton {
+    padding: 5px !important;
+}
+
+.gradient {
+    background-image: linear-gradient(rgb(255, 255, 255) 0%,rgb(224, 224, 224) 100%) !important;
+}
+
+ul {
+    margin-bottom: 0px !important;
+}
+
+.allExceptCheck {
+    height: 20px;
+}
+
+.searchCriteriaDiv {
+    background-color: #f7f7f7 !important;
+}
+
+.t30s {
+    margin-top: 33px;
+}
+
+.fs12 {
+    font-size: 12px;
+}
+
+.unbold {
+    font-weight: normal;
+}
+
+.categoryDivider {
+    color: #666;
+    font-weight: bold;
+}
+
+.statsClass {
+    font-size: 12px;
+}
+
+.greyFilter {
+    color: #888888;
+}
+
+.recentUpdateDate {
+    font-size: 11px;
+    color: #4f6381;
+}
+
+.recentUpdateBlurb {
+    color: #333333;
+}
+
+#innerRhsDiv {
+    background-color: #f7f7f7 !important;
+    border: 1px solid #ccc !important;
+}
+
+.searchExactLabel {
+    font-size: 13px;
+    color: #666;
+}
+
+.searchLabel {
+    font-weight: 700;
+    font-size: 13px;
+    color: #666;
+}
+
+.searchPassivePanel {
+    overflow: hidden;
+    font-weight: bold;
+    margin-top: 8px;
+    text-align: left;
+    padding-bottom: 5px;
+    color: #333;
+}
+
+#allSearchButton {
+    cursor: pointer;
+}
+
+
+#showDropdown {
+    width: 188px;
+}
+
+    #sortDropdown li, #showDropdown li {
+        background-color: #ffffff;
+        cursor: pointer !important;
+    }
+
+#lhsDiv {
+    width: 200px !important;
+}
+
+.statsUpdates img {
+    max-width: 45px !important;
+}
+
+.search-passive {
+    background-color: #f7f7f7 !important;
+    border: 1px solid #ccc !important;
+}
+
+div[id^="allElseResultsHeaderCol"] {
+    padding-top: 5px;
+}
+
+div[id^="allElseResults"] {
+    color: #333;
+}
+
+div[id^="peopleResults"] {
+    color: #333;
+}
+
+.panelPassive {
+    background-color: #f7f7f7;
+    border: 1px solid #ccc !important;
+    height: 235px;
+    padding-right: 4px !important;
+}
+
+.panelPassiveSearchCriteria {
+    margin-top: 5px;
+}
+
+.search-results-sort {
+    display: contents;
+    width: 200px;
+}
+
+.search-results-sort-button {
+    margin-right: 15px;
+}

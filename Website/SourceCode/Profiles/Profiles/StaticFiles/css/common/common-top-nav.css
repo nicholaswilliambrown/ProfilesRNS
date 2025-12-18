@@ -1,0 +1,523 @@
+@media (max-width: 1046px) {
+    .rDivTitles {
+        width: 440px !important;
+    }
+}
+
+@media (max-width: 770px) {
+    .myNavbar-nav {
+        flex-direction: column !important;
+        z-index: 99999;
+        background-color: #383737 !important;
+    }
+
+    .myNavbar-nav2 {
+    }
+
+    .formHeightPhone {
+        height: 40px !important;
+    }
+
+    .downArrowSm {
+        margin-top: 0px !important;
+    }
+
+    #navSearchGlassSm {
+        margin-top: 0px !important;
+    }
+
+    #topNavHistory {
+        padding-left: 11px !important;
+    }
+
+    #topNav2Dashboard {
+        padding-top: 5px !important;
+    }
+
+    .nav-link.top {
+        border-right: 0px !important;
+    }
+
+    #topNav2View {
+        border-left: 1px solid #333333 !important;
+    }
+
+    #topNavbarUser {
+        padding-top: 0px;
+        margin-top: 0px;
+        flex-direction: column !important;
+    }
+
+    #topNav2PersonsDropdown {
+        padding-top: 0px !important;
+        margin-top: 0px !important;
+    }
+
+    .rDivTitles {
+        width: 440px !important;
+    }
+
+    footer._ci_shared_asset.tool-page .inner nav ul {
+        display: flex !important;
+    }
+
+    header._ci_shared_asset.tool-page.mayHelpResponsivenessSm {
+        height: 170px !important;
+    }
+    #viewMyProfileA {
+        text-align: left !important;
+    }
+    #editThisProfileA {
+        text-align: left !important;
+    }
+    #editMyProfileA {
+        text-align: left !important;
+    }
+
+    #manageProxiesA {
+        text-align: left !important;
+    }
+
+    /*id does not denote*/
+    /*#nav2Persons {*/
+    /*    text-align: left !important;*/
+    /*}*/
+
+    #dashboardA {
+        text-align: left !important;
+    }
+
+    #opportunitySearchA {
+        text-align: left !important;
+    }
+
+    #logoutA {
+        text-align: left !important;
+    }
+}
+
+@media (min-width: 770px) {
+    .formHeightPhone {
+        height: 79px !important;
+    }
+
+    .myNavbar-nav {
+        z-index: 99999;
+        background-color: #383737 !important;
+    }
+
+    header._ci_shared_asset.tool-page.mayHelpResponsivenessSm {
+        height: 167px !important;
+        min-width: 0 !important
+    }
+   
+
+
+}
+
+@media (max-width:360px) {
+    ._ci_clearfix {
+        margin-left: unset !important;
+    }
+}
+
+
+.navSearchGlass {
+    cursor: pointer;
+}
+
+.dropdown-menu a {
+    background-color: #383737 !important;
+    height: 39px;
+    padding-top: 10px;
+}
+
+    .dropdown-menu a:hover {
+        background-color: #EDEBEB !important;
+        font-size: 14px !important;
+    }
+
+
+
+.navbar-dark .myNavbar-nav .nav-link {
+    color: #fff;
+}
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+.nav-link2 {
+    color: #333333 !important;
+}
+
+.no-a-color {
+    text-decoration: none !important;
+    color: #333333 !important;
+}
+
+.nav-link.top {
+    padding: 10px 16px !important;
+    border-right: 1px solid #fff;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.nav-link2 {
+    padding: 0px 8px !important;
+    border-left: 1px solid #333333;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+div.top {
+    width: 100%;
+}
+
+.nav-link.top:hover {
+    background-color: #555 !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+}
+
+.navbar.top {
+    padding: 0px !important;
+}
+
+.navbar2.top {
+    background-color: #cccccc !important;
+    color: #333333 !important;
+}
+
+/*id nav2Persons does not denote*/
+div.nav-item.r2:hover /**, #nav2Persons:hover **/ {
+    background-color: #7c7b7b !important;
+    color: white !important;
+}
+
+form.top {
+    padding-right: 0px !important;
+}
+
+.nav-link.search {
+    padding: 0px 10px !important;
+}
+
+form.top {
+    padding: 5px;
+}
+
+.formHeightDesktop {
+    height: 39px !important;
+}
+
+
+
+.form-control {
+    border-radius: 0px;
+    border: 0px;
+    font-size: small;
+    width: 60%
+}
+
+.dropdown-item {
+    background-color: black !important;
+    color: #fff !important;
+    padding: 5px 10px;
+    text-align: left;
+    font-size: 14px !important;
+}
+
+    .dropdown-item:hover {
+        background-color: #fff !important;
+        color: black !important;
+        font-size: 14px !important;
+    }
+
+a.r2 {
+    color: #333333 !important;
+    background-color: #dcdada !important;
+}
+
+    a.r2:hover {
+        background-color: #7c7b7b !important;
+        color: white !important;
+    }
+
+.dropdown-divider {
+    height: 1px;
+    background-color: #fff !important;
+}
+
+.dropdown-menu {
+    background-color: black !important;
+    padding: 0;
+}
+
+.downArrow {
+    width: 25px;
+    padding: 5px 2px 7px 2px;
+}
+
+.downArrowSm {
+    margin-top: 60%;
+}
+
+.searchMagGlassWide {
+    background-color: white !important;
+}
+
+.searchMagGlassNarrow {
+    width: 26px;
+    height: 26px;
+    vertical-align: middle;
+    background-color: white !important;
+    margin-top: 60%;
+}
+
+.searchGlassDiv {
+    background-color: white;
+}
+/*https://stackoverflow.com/questions/39761030/placeholder-auto-wrap-inside-a-input-field*/
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    padding-left: 5px;
+    white-space: pre-line;
+    position: relative;
+    top: -5px;
+}
+
+::-moz-placeholder { /* Firefox 19+ */
+    padding-left: 5px;
+    white-space: pre-line;
+    position: relative;
+    top: -5px;
+}
+
+.higher {
+    height: 60px !important;
+}
+
+#topNav2White {
+    background-color: white;
+}
+
+#topNavbar {
+    background-color: #383737 !important;
+    height: 39px;
+}
+
+#topNavbar2 {
+    width: 100%;
+}
+
+    #topNavbar2 a {
+        color: #333 !important;
+    }
+
+    #topNavbar2 li:hover > a,
+    #topNavbar2 li ul.drop li:hover {
+        background: #7c7b7b !important;
+        color: #fff !important;
+    }
+
+#topNav2Persons {
+    padding-top: 8px !important;
+}
+
+    #topNav2Persons ul {
+        position: absolute !important;
+        border-radius: 0 !important;
+        left: -1px;
+        top: 25px;
+    }
+
+#fourOrSoItems {
+    width: 450px;
+    margin-left: 0px !important;
+    padding-left: 0px !important;
+    margin-right: 0px !important;
+    padding-right: 0px !important;
+}
+
+#topNavHome {
+    margin-left: 0px !important;
+    padding-left: 0px !important;
+    margin-right: 0px !important;
+    padding-right: 0px !important;
+    width: 100px;
+}
+
+#topNavAbout {
+    margin-left: 0px !important;
+    padding-left: 0px !important;
+    margin-right: 0px !important;
+    padding-right: 0px !important;
+    width: 100px;
+    width: 100px;
+}
+
+#topNavAbout {
+    margin-left: 0px !important;
+    padding-left: 0px !important;
+    margin-right: 0px !important;
+    padding-right: 0px !important;
+    width: 100px;
+    width: 100px;
+}
+
+    #topNavAbout ul {
+        top: 38px;
+        left: -13px;
+    }
+
+#topNavHelp {
+    margin-left: 0px !important;
+    padding-left: 0px !important;
+    margin-right: 0px !important;
+    padding-right: 0px !important;
+    width: 100px;
+    width: 100px;
+}
+
+#topNavHistory {
+    margin-left: 0px !important;
+    padding-left: 0px !important;
+    margin-right: 0px !important;
+    padding-right: 0px !important;
+    width: 100px;
+    width: 100px;
+}
+
+    #topNavHistory ul {
+        top: 38px;
+        left: -13px;
+    }
+
+.myNavbar-nav {
+    margin-left: 0px !important;
+    padding-left: 0px !important;
+    margin-right: 0px !important;
+    padding-right: 0px !important;
+}
+
+myNavbar-nav2 {
+    margin-left: 0px !important;
+    padding-left: 0px !important;
+    margin-right: 0px !important;
+    padding-right: 0px !important;
+}
+
+.navSearchTerm {
+    width: 150px;
+    padding-right: 0px !important;
+    padding-top: 15px;
+    vertical-align: middle !important;
+}
+
+::-webkit-input-placeholder {
+    margin-left: 0px !important;
+    padding-left: 0px !important;
+    margin-right: 0px !important;
+    padding-right: 0px !important;
+    font-size: 13px !important;
+    vertical-align: middle !important;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+    margin-left: 0px !important;
+    padding-left: 0px !important;
+    margin-right: 0px !important;
+    padding-right: 0px !important;
+    font-size: 13px !important;
+    vertical-align: middle !important;
+}
+
+::-moz-placeholder { /* Firefox 19+ */
+    margin-left: 0px !important;
+    padding-left: 0px !important;
+    margin-right: 0px !important;
+    padding-right: 0px !important;
+    font-size: 13px !important;
+    vertical-align: middle !important;
+}
+
+:-ms-input-placeholder {
+    margin-left: 0px !important;
+    padding-left: 0px !important;
+    margin-right: 0px !important;
+    padding-right: 0px !important;
+    font-size: 13px !important;
+    vertical-align: middle !important;
+}
+
+#loginA {
+    font-weight: 800 !important;
+    color: #3366cc !important;
+}
+
+#topAboutDropdown {
+    margin-left: 12px;
+}
+
+#topHistoryDropdown {
+    margin-left: 12px;
+}
+
+#topNav2View {
+    border: none;
+}
+
+.topNavUserBarMax {
+    padding-top: 0px;
+    padding-top: 0px;
+}
+
+.topNavUserBarMin {
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+#topHome {
+    text-align: center;
+}
+
+#topNavAboutDropdown {
+    text-align: center;
+}
+
+#topNavHelpDropdown {
+    text-align: center;
+}
+
+#topNavHistoryDropdown {
+    text-align: center;
+}
+
+#viewMyProfileA {
+    text-align: center;
+}
+#editThisProfileA{text-align:center;}
+#editMyProfileA {
+    text-align: center;
+}
+
+#manageProxiesA {
+    text-align: center;
+}
+
+/*id does not denote*/
+/*#nav2Persons {*/
+/*    text-align: center;*/
+/*}*/
+
+#dashboardA {
+    text-align: center;
+}
+
+#opportunitySearchA {
+    text-align: center;
+}
+
+#logoutA {
+    text-align: center;
+}

@@ -180,6 +180,20 @@ BEGIN
 		FROM [Ontology.Presentation].[XML] o
 
 
+	-- New (2025) UI Tables
+	UPDATE a SET a._NodeID = n.NodeID FROM [Display.].[SearchEverything.Filters] a JOIN [RDF.].Node n ON [RDF.].fnValueHash(null, null, a.class) = n.ValueHash
+
+
+	UPDATE a set a.PresentationID = x.PresentationID, a._ClassPropertyID = n.NodeID FROM [Display.].[ModuleMapping] a 
+		JOIN [RDF.].Node n ON [RDF.].fnValueHash(null, null, a.ClassProperty) = n.ValueHash
+		JOIN [Ontology.Presentation].XML x ON a.PresentationType = x.Type AND ISNULL(a.PresentationSubject, '') = ISNULL(x.Subject, '') AND ISNULL(a.PresentationPredicate, '') = ISNULL(x.Predicate, '') AND ISNULL(a.PresentationObject, '') = ISNULL(x.Object, '')
+
+
+	UPDATE a set a.PresentationID = x.PresentationID FROM [Display.].[DataPath] a 
+		JOIN [Ontology.Presentation].XML x ON a.PresentationType = x.Type AND ISNULL(a.PresentationSubject, '') = ISNULL(x.Subject, '') AND ISNULL(a.PresentationPredicate, '') = ISNULL(x.Predicate, '') AND ISNULL(a.PresentationObject, '') = ISNULL(x.Object, '')
+	
+	
+
 	-- Funding
 	UPDATE [Ontology.].[ClassProperty]
 		SET _PropertyLabel = 'research activities and funding' --'research activities'
@@ -202,7 +216,10 @@ BEGIN
 		SET _PropertyLabel = 'selected publications' --'research activities'
 		WHERE Class='http://xmlns.com/foaf/0.1/Group' AND Property='http://profiles.catalyst.harvard.edu/ontology/prns#associatedInformationResource' AND NetworkProperty IS NULL
 
-
+	UPDATE a SET a._PropertyNode = b.NodeID 
+		FROM [Profile.Module].[GenericRDF.Plugins] a 
+		JOIN [RDF.].Node b ON [RDF.].fnValueHash(null, null, 'http://profiles.catalyst.harvard.edu/ontology/plugins#' + name) = ValueHash
+	
 	-- select * from [Ontology.Import].[Triple]
 	-- select * from [Ontology.].ClassProperty
 	-- select * from [Ontology.].ClassGroup

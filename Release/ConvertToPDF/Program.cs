@@ -48,6 +48,10 @@ namespace ConvertToPDF
                     doc = app.Documents.Open(path + "..\\Documentation\\ProfilesRNS_v2.x.x_UpgradeGuide.docx");
                     doc.SaveAs2(path + "ProfilesRNS\\Documentation\\ProfilesRNS_v2.x.x_UpgradeGuide.pdf", word.WdSaveFormat.wdFormatPDF);
                     doc.Close();
+					
+					doc = app.Documents.Open(path + "..\\Documentation\\ProfilesRNS_BrandingAndCustomizationGuide.docx");
+                    doc.SaveAs2(path + "ProfilesRNS\\Documentation\\ProfilesRNS_BrandingAndCustomizationGuide.pdf", word.WdSaveFormat.wdFormatPDF);
+                    doc.Close();
                     /*
                                         doc = app.Documents.Open(path + "..\\Documentation\\ORNG\\ORNG_GadgetDevelopment.docx");
                                         doc.SaveAs2(path + "ProfilesRNS\\Documentation\\ORNG\\ORNG_GadgetDevelopment.pdf", word.WdSaveFormat.wdFormatPDF);

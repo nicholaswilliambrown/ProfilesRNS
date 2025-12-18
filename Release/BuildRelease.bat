@@ -73,6 +73,7 @@ if !errorlevel! equ 2 (
 
 echo d | xcopy /s ..\Documentation\API_Examples ProfilesRNS\Documentation\API_Examples
 echo d | xcopy /s ..\Documentation\SQL_Examples ProfilesRNS\Documentation\SQL_Examples
+echo d | xcopy /s ..\Documentation\Branding_Examples ProfilesRNS\Documentation\Branding_Examples
 copy ..\LICENSE.txt ProfilesRNS\LICENSE.txt
 
 

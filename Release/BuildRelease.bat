@@ -64,6 +64,7 @@ if !errorlevel! equ 2 (
 	copy ..\Documentation\ProfilesRNS_APIGuide.doc ProfilesRNS\Documentation\ProfilesRNS_APIGuide_%Version%.doc
 	copy ..\Documentation\ProfilesRNS_ArchitectureGuide.docx ProfilesRNS\Documentation\ProfilesRNS_ArchitectureGuide_%Version%.docx
 	copy ..\Documentation\ProfilesRNS_InstallGuide.docx ProfilesRNS\Documentation\ProfilesRNS_InstallGuide_%Version%.docx
+	copy ..\Documentation\ProfilesRNS_BrandingAndCustomizationGuide.docx ProfilesRNS\Documentation\ProfilesRNS_BrandingAndCustomizationGuide_%Version%.docx
 	copy ..\ProfilesRNS_ReadMeFirst.docx ProfilesRNS\ProfilesRNS_ReadMeFirst.docx
 	copy ..\Documentation\ProfilesRNS_ReleaseNotes.docx ProfilesRNS\Documentation\ProfilesRNS_ReleaseNotes_%Version%.docx
 	copy ..\Documentation\ProfilesRNS_v2.x.x_UpgradeGuide.docx ProfilesRNS\Documentation\ProfilesRNS_v2.x.x_UpgradeGuide.docx

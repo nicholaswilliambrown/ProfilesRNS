@@ -150,16 +150,13 @@ namespace Profiles.Framework.Utilities
                             "</script>";
 
 
-            if (WebConfigurationManager.AppSettings["GoogleTrackingID1"] != null && WebConfigurationManager.AppSettings["GoogleTrackingID2"] != null)
+            if (WebConfigurationManager.AppSettings["InsertAnalyticsTrackingCode"] != null)
             {
-                GlobalGoogleTrackingCode = "< iframe src = \"https://www.googletagmanager.com/ns.html?id=" + WebConfigurationManager.AppSettings["GoogleTrackingID1"] + "\"" +
-                                           "height = \"0\" width = \"0\" style = \"display: none; visibility: hidden\" ></ iframe >\"" +
-                                           "< script type = \"text/javascript\"" +
-                                           "async src = \"https://www.googletagmanager.com/gtag/js?id=" + WebConfigurationManager.AppSettings["GoogleTrackingID2"] + "\" >" +
-                                           "</ script >" +
-                                           "<script src=\"{profilesPath}/Branding/GoogleAnalytics.js\" type=\"text/javascript\"></script>";
+                if ("true".Equals(WebConfigurationManager.AppSettings["InsertAnalyticsTrackingCode"], StringComparison.CurrentCultureIgnoreCase))
+                {
+                    GlobalGoogleTrackingCode = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/Branding/AnalyticsTrackingInsert.html");
+                }
             }
-            
         }
 
 

@@ -121,7 +121,7 @@
     <Content Include="Activity\Modules\ModuleCatalogue.xml" />
     <Content Include="Activity\Modules\Statistics\Statistics.ascx" />
     <Content Include="Activity\PresentationXML\ActivityDetails.xml" />
-    <Content Include="Branding\GoogleAnalytics.js" />
+    <Content Include="Branding\AnalyticsTrackingInsert.html" />
     <Content Include="DirectService.aspx" />
     <Content Include="Edit\CSS\Edit.css" />
     <Content Include="Edit\Images\cal.png" />

@@ -123,6 +123,7 @@
     <Content Include="Activity\PresentationXML\ActivityDetails.xml" />
     <Content Include="Branding\AnalyticsTrackingInsert.html" />
     <Content Include="DirectService.aspx" />
+    <Content Include="DIRECT\DIRECTSVC.aspx" />
     <Content Include="Edit\CSS\Edit.css" />
     <Content Include="Edit\Images\cal.png" />
     <Content Include="Edit\Images\icon_alert.gif" />
@@ -640,6 +641,13 @@
     </Compile>
     <Compile Include="DirectService.aspx.designer.cs">
       <DependentUpon>DirectService.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DIRECT\DIRECTSVC.aspx.cs">
+      <DependentUpon>DIRECTSVC.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DIRECT\DIRECTSVC.aspx.designer.cs">
+      <DependentUpon>DIRECTSVC.aspx</DependentUpon>
     </Compile>
     <Compile Include="Edit\Modules\CustomEditAssociatedInformationResource\CustomEditAssociatedInformationResource.ascx.cs">
       <DependentUpon>CustomEditAssociatedInformationResource.ascx</DependentUpon>

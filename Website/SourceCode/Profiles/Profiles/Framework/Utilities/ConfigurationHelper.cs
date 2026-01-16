@@ -150,13 +150,7 @@ namespace Profiles.Framework.Utilities
                             "</script>";
 
 
-            if (WebConfigurationManager.AppSettings["InsertAnalyticsTrackingCode"] != null)
-            {
-                if ("true".Equals(WebConfigurationManager.AppSettings["InsertAnalyticsTrackingCode"], StringComparison.CurrentCultureIgnoreCase))
-                {
-                    GlobalGoogleTrackingCode = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/Branding/AnalyticsTrackingInsert.html");
-                }
-            }
+            GlobalGoogleTrackingCode = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/Branding/AnalyticsTrackingInsert.html");
         }
 
 

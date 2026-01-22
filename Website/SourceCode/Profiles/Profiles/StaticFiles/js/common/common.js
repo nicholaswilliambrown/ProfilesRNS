@@ -52,7 +52,10 @@ async function commonSetup(title) {
     console.log("g values upon 'ready': ", g);
     console.log("sessionInfo values upon 'ready': ", sessionInfo);
 
-    if (g.preLoad) {
+    if (title) {
+        h2Title(title);
+    }
+    else {
         addTitleFromPreLoad();
     }
 }
@@ -60,18 +63,22 @@ function addTitleFromPreLoad() {
     let preLoadTitle;
 
     try {
-        let preLoad = JSON.parse(g.preLoad).filter(m => m.DisplayModule.match(/Person.Label$/));
-        let moduleData = preLoad[0].ModuleData[0];
-        preLoadTitle = orNaProperty(moduleData, 'DisplayName',
-            `DisplayName in? ${JSON.stringify(moduleData)}`);
-        //preLoadTitle = ;
-        $('div.topOfPageItems').append($(`<h2 class="preloaded page-title">${preLoadTitle}</h2>`));
+        if (g.preLoad) {
+            let preLoad = JSON.parse(g.preLoad).filter(m => m.DisplayModule.match(/Person.Label$/));
+            let moduleData = preLoad[0].ModuleData[0];
+            preLoadTitle = orNaProperty(moduleData, 'DisplayName',
+                `DisplayName in? ${JSON.stringify(moduleData)}`);
+            //preLoadTitle = ;
+            h2Title(preLoadTitle);
+        }
     }
     catch (e) {
         console.log("=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* Error: " + e);
     }
 }
-
+function h2Title(title) {
+    $('div.topOfPageItems').append($(`<h2 class="preloaded page-title">${title}</h2>`));
+}
 async function setupJson(moduleCompareFn, doCurtainMainModuleRow) {
     if (doCurtainMainModuleRow) {
         let curtainTarget = getMainModuleRow();

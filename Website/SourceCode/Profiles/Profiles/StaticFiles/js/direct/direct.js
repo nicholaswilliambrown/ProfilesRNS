@@ -1,6 +1,7 @@
-let fleshyTarget = new Map();
-gConcepts.meshShortcuts = [];
-gConcepts.pubsShortcuts = [];
+gDirect.colSpecs = [
+    newColumnSpec(`${gCommon.cols9or12} ps-1`),
+    newColumnSpec(`${gCommon.cols3or12} ps-2 d-flex justify-content-center`)
+];
 
 async function setupDirectPage() {
     await commonSetup('Search Other Institutions');
@@ -9,24 +10,69 @@ async function setupDirectPage() {
     //await emitSkeletons();
 
     //innerCurtainsDown(moduleContentTarget);
-    $('#modules-left-div').prepend($('<h2 id="titleForHistory" class="titleForHistory boldCrimson"></h2>'));
 
     emitTopItems();
-    //emitSkeletonsAndInnerize();
+    emitSkeletons();
 }
 function emitTopItems() {
     let target = $('#modules-left-div');
 
-    let titleDiv = $('<div class="w-75"></div>');
+    let backToRow = makeRowWithColumns(target, 'backTo', gDirect.colSpecs, "ps-2 mb-2 mb-lg-0 w-100");
+    let backToElt = getEltBackTo('/search', 'Search');
+    backToRow.find('#backToCol1').html(backToElt);
+
+    let titleDiv = $('<div class="w-100"></div>');
     target.append(titleDiv);
-    titleDiv.append('<span class="me-4">find experts yada</span>');
-    titleDiv.append('<input type="text" class="ms-4"/></input>');
-    titleDiv.append('<button class="ms-4 me-4">search</button>');
-    titleDiv.append(getEltBackTo('/search', 'Search'));
+    titleDiv.append('<span class="me-4">Find experts across multiple institutions.</span>');
+
+    let keywordsDiv = $('<div id="keywordSearch" class="ps-3 bordCcc w-75 mt-2 mb-3"></div>');
+    keywordsDiv.append('<label class="bold" for="keywordInput">Keywords</label>');
+    keywordsDiv.append('<input id="keywordInput" type="text" class="ms-4"/></input>');
+
+    let searchSpan = $('<span class="ms-3" alt="Search"></span>');
+    let searchButton = $(`<img class="directSearchButton" src="${gBrandingConstants.jsSearchImageFiles}search.jpg"/>`);
+    keywordsDiv.append(searchSpan);
+    keywordsDiv.append(searchButton);
+
+    target.append(keywordsDiv);
+
+    target.append('<div class="me-4">Below are the number of matching people at each institution. Click an institution\'s name to view the list of people.</div>');
 }
 
 function emitSkeletons() {
-    emitSkeletonLhs();
+    let keyword = tryMatchUrlParam(/keyword=(.*?)(&|$)/i);
+    let baseDirectUrl = "http://localhost:55956/DIRECT/DIRECTSVC.aspx/getdata?";
+
+    let target = $('#modules-left-div');
+    let siteTable = $('<div class="mt-4"></div>');
+    target.append(siteTable);
+
+    let sites = JSON.parse(g.preLoad);
+    for (sites of sites) {
+        let siteID = sites.SiteID;
+        let SiteName = sites.SiteName;
+
+        let rowId = `row${siteID}`;
+        let row = makeRowWithColumns(siteTable, rowId, gDirect.colSpecs, "ps-2 w-100 bordCcc");
+        row.find(`#${rowId}Col0`).html(SiteName);
+        row.find(`#${rowId}Col0`).addClass('bendCcc');
+
+        let resultDiv = row.find(`#${rowId}Col1`);
+        resultDiv.html('<span class="loadInProgress">Loading</span>');
+
+        let queryString = `siteID=${siteID}&searchQuery=${keyword}`;
+        let url = baseDirectUrl + queryString;
+        $.ajax({
+            url: url,
+            success: (data) => {
+                resultDiv.html(data);
+                },
+            timeout: 4000, // ms
+            error: (jqXHR, textStatus, errorThrown) => {
+                resultDiv.html(errorThrown);
+                }
+        });
+    }
 }
 
 function emitSkeletonLhs() {

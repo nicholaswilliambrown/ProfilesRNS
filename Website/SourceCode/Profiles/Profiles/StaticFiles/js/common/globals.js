@@ -297,6 +297,8 @@ gPreloadable.main = "MAIN";
 gPreloadable.rhs = "RHS";
 gPreloadable.none = "NONE";
 
+gDirect = { timeout: 6000};
+
 
 
 

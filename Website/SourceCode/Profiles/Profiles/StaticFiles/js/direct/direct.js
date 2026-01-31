@@ -2,19 +2,21 @@ gDirect.colSpecs = [
     newColumnSpec(`${gCommon.cols9or12} ps-1`),
     newColumnSpec(`${gCommon.cols3or12} ps-2 d-flex justify-content-center`)
 ];
+gDirect.keyword = tryMatchUrlParam(/keyword=(.*?)(&|$)/i);
 
 async function setupDirectPage() {
     await commonSetup('Search Other Institutions');
     $('#modules-right-div').addClass("passiveNetwork");
-    let moduleContentTarget = getMainModuleRow();
-    //await emitSkeletons();
-
-    //innerCurtainsDown(moduleContentTarget);
 
     emitTopItems();
-    emitSkeletons();
+    setupSites();
+    setupForTable();
+    emitTable();
+
+    setupScrolling();
+    $('.rtnBtn').css('bottom', '100px');
 }
-function emitTopItems() {
+function emitTopLeft() {
     let target = $('#modules-left-div');
 
     let backToRow = makeRowWithColumns(target, 'backTo', gDirect.colSpecs, "ps-2 mb-2 mb-lg-0 w-100");
@@ -25,29 +27,62 @@ function emitTopItems() {
     target.append(titleDiv);
     titleDiv.append('<span class="me-4">Find experts across multiple institutions.</span>');
 
-    let keywordsDiv = $('<div id="keywordSearch" class="ps-3 bordCcc w-75 mt-2 mb-3"></div>');
+    let keywordsDiv = $('<div id="keywordSearch" class="p-2 bordCcc w-75 mt-2 mb-3"></div>');
     keywordsDiv.append('<label class="bold" for="keywordInput">Keywords</label>');
-    keywordsDiv.append('<input id="keywordInput" type="text" class="ms-4"/></input>');
+    let keywordInput = $('<input id="keywordInput" type="text" class="ms-4"/></input>');
+    keywordsDiv.append(keywordInput);
+    keywordInput.on('keydown', (e) => {
+        if (e.keyCode == 13) {
+            emitTable();
+        }
+    })
 
     let searchSpan = $('<span class="ms-3" alt="Search"></span>');
     let searchButton = $(`<img class="directSearchButton" src="${gBrandingConstants.jsSearchImageFiles}search.jpg"/>`);
     keywordsDiv.append(searchSpan);
     keywordsDiv.append(searchButton);
+    searchButton.on('click', emitTable);
 
     target.append(keywordsDiv);
+    let keyword = gDirect.keyword ? gDirect.keyword : "";
+    $('#keywordInput').val(decodeURI(keyword));
 
     target.append('<div class="me-4">Below are the number of matching people at each institution. Click an institution\'s name to view the list of people.</div>');
 }
+function emitTopRight() {
+    let target = $('#modules-right-div');
+    let aboutDiv = $('<div class="boldCcc p-1"></div>');
+    target.append(aboutDiv);
 
-function emitSkeletons() {
-    let keyword = tryMatchUrlParam(/keyword=(.*?)(&|$)/i);
-    let baseDirectUrl = "http://localhost:55956/DIRECT/DIRECTSVC.aspx/getdata?";
+    aboutDiv.append($('<div class="bold mb-1">About This Page</div>'));
 
+    aboutDiv.append($('<div>This page is powered by DIRECT2Experts, a multi-institution initiative to foster scientific collaboration.</div>'));
+
+    aboutDiv.append(createAnchorElement('Learn more.', gDirect.directWebsite));
+
+}
+function emitTopItems() {
+    emitTopRight();
+    emitTopLeft();
+}
+function setupForTable() {
     let target = $('#modules-left-div');
     let siteTable = $('<div class="mt-4"></div>');
     target.append(siteTable);
+    gDirect.table = siteTable;
+}
+function setupSites() {
+    gDirect.sites = JSON.parse(g.preLoad);
+}
+function emitTable() {
+    gDirect.table.empty(); // start fresh
 
-    let sites = JSON.parse(g.preLoad);
+    let keyword = encodeURI($('#keywordInput').val());
+    let baseDirectUrl = "http://localhost:55956/DIRECT/DIRECTSVC.aspx/getdata?";
+
+    let sites = gDirect.sites;
+    let siteTable = gDirect.table;
+
     for (sites of sites) {
         let siteID = sites.SiteID;
         let SiteName = sites.SiteName;
@@ -58,51 +93,24 @@ function emitSkeletons() {
         row.find(`#${rowId}Col0`).addClass('bendCcc');
 
         let resultDiv = row.find(`#${rowId}Col1`);
-        resultDiv.html('<span class="loadInProgress">Loading</span>');
+        resultDiv.html($(`<img class="directSearchButton" src="${gBrandingConstants.jsSearchImageFiles}directSearch-loading.gif"/>`));
 
         let queryString = `siteID=${siteID}&searchQuery=${keyword}`;
         let url = baseDirectUrl + queryString;
         $.ajax({
             url: url,
             success: (data) => {
-                resultDiv.html(data);
+                console.log("Success: ", url, data);
+                resultDiv.html(data.count);
                 },
-            timeout: 4000, // ms
+            timeout: gDirect.timeout,
             error: (jqXHR, textStatus, errorThrown) => {
-                resultDiv.html(errorThrown);
+                resultDiv.html(`0 (${errorThrown})`);
                 }
         });
     }
 }
 
-function emitSkeletonLhs() {
-    let target = $('#modules-left-div');
-
-    emitSkeletonsAndInnerize(target, "top", "Title etc.");
-}
-
-function untentavize(elt) {
-    elt.closest(`.${gCommon.tentative}`).removeClass(gCommon.tentative);
-    elt.parent().find(`.loadInProgress`).remove();
-}
-
-function tentativizeAndInnerize(target, innerKey, tempTitle) {
-    let tentativeContainer = $(`<div class="${gCommon.tentative}"></div>`);
-    let loadingDiv = $(`<div class="loadInProgress">${tempTitle} Loading</div>`);
-    let innerDiv = $(`<div class="innerTarget"></div>`);
-
-    target.append(tentativeContainer);
-    tentativeContainer.append(loadingDiv);
-    tentativeContainer.append(innerDiv);
-
-    fleshyTarget.set(innerKey, innerDiv);
-
-    return tentativeContainer;
-}
-
-function emitSkeletonsAndInnerize(target, innerKey, tempTitle) {
-    tentativizeAndInnerize(target, innerKey, tempTitle);
-}
 
 
 

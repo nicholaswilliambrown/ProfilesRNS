@@ -297,7 +297,10 @@ gPreloadable.main = "MAIN";
 gPreloadable.rhs = "RHS";
 gPreloadable.none = "NONE";
 
-gDirect = { timeout: 6000};
+gDirect = {
+    timeout: 10000, // ms
+    directWebsite: 'http://direct2experts.org/'
+};
 
 
 

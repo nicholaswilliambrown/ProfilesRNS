@@ -301,6 +301,8 @@ gDirect = {
     timeout: 10000, // ms
     directWebsite: 'http://direct2experts.org/'
 };
+gDirect.exactPhrase = 'exactPhrase';
+gDirect.searchFor = 'searchFor';
 
 
 

@@ -3,6 +3,7 @@ gDirect.colSpecs = [
     newColumnSpec(`${gCommon.cols3or12} ps-2 d-flex justify-content-center`)
 ];
 gDirect.keyword = tryMatchUrlParam(/keyword=(.*?)(&|$)/i);
+gDirect.resultUrl = 'search-results-URL';
 
 async function setupDirectPage() {
     await commonSetup('Search Other Institutions');
@@ -101,7 +102,8 @@ function emitTable() {
             url: url,
             success: (data) => {
                 console.log("Success: ", url, data);
-                resultDiv.html(data.count);
+                let resultLink = createAnchorElement(data.count, data[gDirect.resultUrl]);
+                resultDiv.empty().append(resultLink);
                 },
             timeout: gDirect.timeout,
             error: (jqXHR, textStatus, errorThrown) => {

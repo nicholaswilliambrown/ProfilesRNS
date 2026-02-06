@@ -651,7 +651,9 @@ function getTargetUntentavizeIfSo(title, fallbackDiv) {
 }
 function getModuleEltTitle(moduleJson) {
     let displayModule = moduleJson.DisplayModule;
-    let moduleTitle = displayModule.replace(/^\w+\./, "");
+    let moduleTitle = displayModule
+        .replace(/^\w+\./, "")
+        .replace(/\./g, "_");
     return moduleTitle;
 }
 function setupAnchorDivs(target) {

@@ -542,6 +542,7 @@
     <Content Include="StaticFiles\js\person\parsers\keyword.js" />
     <Content Include="StaticFiles\js\person\parsers\memberRoleParse.js" />
     <Content Include="StaticFiles\js\person\parsers\opportunityParse.js" />
+    <Content Include="StaticFiles\js\person\parsers\mentorJobAndOverview.js" />
     <Content Include="StaticFiles\js\person\parsers\overviewParse.js" />
     <Content Include="StaticFiles\js\person\parsers\researchParse.js" />
     <Content Include="StaticFiles\js\person\parsers\trialsParse.js" />

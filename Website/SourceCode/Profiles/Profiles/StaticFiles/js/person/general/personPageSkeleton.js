@@ -66,6 +66,8 @@ function getParser(moduleTitle) {
         gPerson.parserMap = new Map();
         
         let map = gPerson.parserMap;
+        map.set("Mentoring_JobOpportunities", mentorJobOpportunityParser);
+        map.set("Mentoring_Overview", mentorOverviewParser);
         map.set("GeneralInfo", generalInfoParser);
         map.set("CurrentStudentOpportunities", opportunityParser);
         map.set("CompletedStudentProjects", completedProjectParser);

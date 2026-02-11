@@ -747,3 +747,8 @@ function initialCurtainsUp() {
 
     $('#main-data-container').removeClass("d-none");
 }
+function initialCap(string) {
+    // https://stackoverflow.com/questions/18379254/regex-to-split-camel-case
+    let result = string.replace(/^./, function(str){ return str.toUpperCase(); });
+    return result;
+}

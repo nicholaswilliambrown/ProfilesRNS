@@ -29,8 +29,7 @@ function parsePerson(jsonArray, lhsModules, rhsModules, andThen) {
     });
 }
 
-// todo
-// todo We might nuke this fn, IFF (modules are mapped
+// todo We might nuke this fn, IFF (modules are mapped by
 //    getParser() in personPageSkeleton.js, and all modules
 //    come with a sortOrder in the Json)
 function whichParserInfo(moduleTitle, defaultTarget) {

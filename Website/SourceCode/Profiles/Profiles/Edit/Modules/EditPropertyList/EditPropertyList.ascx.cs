@@ -153,10 +153,10 @@ namespace Profiles.Edit.Modules.EditPropertyList
 
                 //ddl.Attributes.Add("onchange", "JavaScript:showstatus()");
                 hf.Value = si.ItemURI;
-                if (si.ItemURI.StartsWith(Profiles.ORNG.Utilities.OpenSocialManager.ORNG_ONTOLOGY_PREFIX))
-                {
-                    ((Control)e.Row.FindControl("imgOrng")).Visible = true ;
-                }
+//                if (si.ItemURI.StartsWith(Profiles.ORNG.Utilities.OpenSocialManager.ORNG_ONTOLOGY_PREFIX))
+//                {
+//                    ((Control)e.Row.FindControl("imgOrng")).Visible = true ;
+//                }
 
 
                 switch (si.ObjectType)

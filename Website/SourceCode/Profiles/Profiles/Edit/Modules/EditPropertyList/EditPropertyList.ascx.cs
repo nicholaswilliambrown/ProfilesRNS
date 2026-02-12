@@ -170,7 +170,8 @@ namespace Profiles.Edit.Modules.EditPropertyList
                 }
 
                 string editlink = "javascript:GoTo('" + Root.Domain + "/edit/default.aspx?subject=" + this.Subject.ToString() + "&predicateuri=" + hf.Value.Replace("#", "!") + "&module=DisplayItemToEdit&ObjectType=" + objecttype + "')";
-
+                if ("http://profiles.catalyst.harvard.edu/ontology/prns#mentoringOverview".Equals(hf.Value) || "http://profiles.catalyst.harvard.edu/ontology/prns#hasMentoringJobOpportunity".Equals(hf.Value))
+                    editlink = "javascript:GoTo('" + Root.Domain + "/edit/ui/default.aspx?subject=" + this.Subject.ToString() + "&predicateuri=" + hf.Value.Replace("#", "!") + "&module=DisplayItemToEdit&ObjectType=" + objecttype + "')";
                 if (e.Row.RowState == DataControlRowState.Alternate)
                 {
                     e.Row.Attributes.Add("onmouseover", "doListTableRowOver(this);");

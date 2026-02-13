@@ -1,5 +1,37 @@
 ﻿let gMentoriesOpportunities = [];
 
+function mentorReady() {
+    setupOverview();
+    setupJobOpps();
+}
+function setupOverview() {
+    var label = "Mentoring Overview";
+    loadEditTopNav(label);
+    setCurrentVisibility(label);
+    //$(".pageTitle").html(`<h2>${propertyList.Label}</h2>`);
+    var searchParams = window.location.search;
+    const urlParams = new URLSearchParams(searchParams);
+    var subject = urlParams.get('subject');
+    var url = g.editApiPath + "?function=GetData&s=" + subject + "&p=http://profiles.catalyst.harvard.edu/ontology/prns!mentoringOverview"
+
+    let mentoringOverview = getData(url, loadOverviewPage);
+
+}
+function setupJobOpps() {
+    var label = "Mentoring Job Opportunities";
+    loadEditTopNav(label);
+    clearJobOpportunityPage();
+    setCurrentVisibility(label);
+    //$(".pageTitle").html(`<h2>${propertyList.Label}</h2>`);
+    var searchParams = window.location.search;
+    const urlParams = new URLSearchParams(searchParams);
+    var subject = urlParams.get('subject');
+    var url = g.editApiPath + "?function=GetData&s=" + subject + "&p=http://profiles.catalyst.harvard.edu/ontology/prns!hasMentoringJobOpportunity"
+
+    let jobOpportunities = getData(url, loadJobOpportunities);
+
+}
+
 function clearPage() {
     $("#mentoringOverviewText").val("");
     $("#studentsOnResearchProjects").prop("checked", false);
@@ -94,35 +126,8 @@ function saveMentoringJobOpportunities(opportunityId) {
 
 
     editPost(url, gMentoriesOpportunities, "");
-    jobOpportunitiesPageReady();
+    setupJobOpps();
     return false;
-
-}
-function mentorOverviewPageReady() {
-    var label = "Mentoring Overview";
-    loadEditTopNav(label);
-    setCurrentVisibility(label);
-    $(".pageTitle").html(`<h2>${propertyList.Label}</h2>`);
-    var searchParams = window.location.search;
-    const urlParams = new URLSearchParams(searchParams);
-    var subject = urlParams.get('subject');
-    var url = g.editApiPath + "?function=GetData&s=" + subject + "&p=http://profiles.catalyst.harvard.edu/ontology/prns!mentoringOverview"
-
-    let mentoringOverview = getData(url, loadOverviewPage);
-
-}
-function jobOpportunitiesPageReady() {
-    var label = "Mentoring Job Opportunities";
-    loadEditTopNav(label);
-    clearJobOpportunityPage();
-    setCurrentVisibility(label);  
-    $(".pageTitle").html(`<h2>${propertyList.Label}</h2>`);
-    var searchParams = window.location.search;
-    const urlParams = new URLSearchParams(searchParams);
-    var subject = urlParams.get('subject');
-    var url = g.editApiPath + "?function=GetData&s=" + subject + "&p=http://profiles.catalyst.harvard.edu/ontology/prns!hasMentoringJobOpportunity"
-
-    let jobOpportunities = getData(url, loadJobOpportunities);
 
 }
 function loadOverviewPage(mentoringOverview) {
@@ -205,7 +210,7 @@ function deleteJobOpportunity(opportunityId) {
     var url = g.editApiPath + "?function=AddUpdateProperty&s=" + subject + "&p=http://profiles.catalyst.harvard.edu/ontology/prns!MentoringJobOpportunities"
 
     editPost(url, gMentoriesOpportunities, "");
-    jobOpportunitiesPageReady();
+    setupJobOpps();
     return false;
 }
 
@@ -215,6 +220,6 @@ $('input[type="radio"][name="visibility"]').change(function () {
 
 function setCurrentVisibility(catagory) {
     
-    $("#currentVisibility").text(propertyList.Categories[0].Properties.find(obj => obj.Label == catagory).ViewSecurityGroupLabel)
+    //$("#currentVisibility").text(propertyList.Categories[0].Properties.find(obj => obj.Label == catagory).ViewSecurityGroupLabel)
 }
 

@@ -29,7 +29,7 @@
     $.post(url,function (results) {
        
             let stringResults = JSON.stringify(results);
-            console.log(results);
+            //console.log(results);
             callback(results);
         
     });
@@ -75,7 +75,7 @@ $(document).ready(function () {
         if (status === "error") {
             console.error("Error loading SecuritySettings.html: " + xhr.status + " " + xhr.statusText);
         }
-        $('input:radio[value="' + propertyList.Categories[0].Properties.find(obj => obj.Label == g.pageContext).ViewSecurityGroup + '"]').prop('checked', true);
+        //$('input:radio[value="' + propertyList.Categories[0].Properties.find(obj => obj.Label == g.pageContext).ViewSecurityGroup + '"]').prop('checked', true);
                 
     });
 

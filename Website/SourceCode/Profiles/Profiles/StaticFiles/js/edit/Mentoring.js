@@ -1,6 +1,6 @@
 ﻿let gMentoriesOpportunities = [];
 
-function ClearPage() {
+function clearPage() {
     $("#mentoringOverviewText").val("");
     $("#studentsOnResearchProjects").prop("checked", false);
     $("#studentsOnCareerDevelopment").prop("checked", false);
@@ -16,7 +16,7 @@ function ClearPage() {
 
     return true;
 }
-function ClearJobOpportunityPage() {
+function clearJobOpportunityPage() {
      $("#jobTitle").val('');
     $("#jobDescription").val('');
     $("#jobURL").val('');
@@ -24,13 +24,13 @@ function ClearJobOpportunityPage() {
     $("#faculty").prop("checked",false);
     $("#residentsAndFellows").prop("checked", false);
     $("#addEditJobOpportunity").hide();
-    $("#editJobOpportunity").attr("onclick", `javascript:SaveMentoringJobOpportunities(''); return true;`)
+    $("#editJobOpportunity").attr("onclick", `javascript:saveMentoringJobOpportunities(''); return true;`)
 
 }
-function CreateNewJobOpportunity() {
+function createNewJobOpportunity() {
     $("#addEditJobOpportunity").show();
 }
-function SaveMentoringOverview() {
+function saveMentoringOverview() {
     var searchParams = window.location.search;
     const urlParams = new URLSearchParams(searchParams);
     var subject = urlParams.get('subject');
@@ -57,7 +57,7 @@ function SaveMentoringOverview() {
 
 }
 
-function SaveMentoringJobOpportunities(opportunityId) {
+function saveMentoringJobOpportunities(opportunityId) {
     var searchParams = window.location.search;
     const urlParams = new URLSearchParams(searchParams);
     var subject = urlParams.get('subject');
@@ -94,11 +94,11 @@ function SaveMentoringJobOpportunities(opportunityId) {
 
 
     editPost(url, gMentoriesOpportunities, "");
-    JobOpportunitiesPageReady();
+    jobOpportunitiesPageReady();
     return false;
 
 }
-function MentorOverviewPageReady() {
+function mentorOverviewPageReady() {
     var label = "Mentoring Overview";
     loadEditTopNav(label);
     setCurrentVisibility(label);
@@ -108,13 +108,13 @@ function MentorOverviewPageReady() {
     var subject = urlParams.get('subject');
     var url = g.editApiPath + "?function=GetData&s=" + subject + "&p=http://profiles.catalyst.harvard.edu/ontology/prns!mentoringOverview"
 
-    let mentoringOverview = getData(url, LoadOverviewPage);
+    let mentoringOverview = getData(url, loadOverviewPage);
 
 }
-function JobOpportunitiesPageReady() {
+function jobOpportunitiesPageReady() {
     var label = "Mentoring Job Opportunities";
     loadEditTopNav(label);
-    ClearJobOpportunityPage();
+    clearJobOpportunityPage();
     setCurrentVisibility(label);  
     $(".pageTitle").html(`<h2>${propertyList.Label}</h2>`);
     var searchParams = window.location.search;
@@ -122,10 +122,10 @@ function JobOpportunitiesPageReady() {
     var subject = urlParams.get('subject');
     var url = g.editApiPath + "?function=GetData&s=" + subject + "&p=http://profiles.catalyst.harvard.edu/ontology/prns!hasMentoringJobOpportunity"
 
-    let jobOpportunities = getData(url, LoadJobOpportunities);
+    let jobOpportunities = getData(url, loadJobOpportunities);
 
 }
-function LoadOverviewPage(mentoringOverview) {
+function loadOverviewPage(mentoringOverview) {
 
     $("#mentoringOverviewText").val(mentoringOverview.text);
     $("#studentsOnResearchProjects").prop("checked", mentoringOverview.studentsOnResearchProjects);
@@ -141,7 +141,7 @@ function LoadOverviewPage(mentoringOverview) {
     $("#residentsAndFellowsOnWorkLifeBalance").prop("checked", mentoringOverview.residentsAndFellowsOnWorkLifeBalance);
     return true;
 }
-function LoadJobOpportunity(jobOpportunity) {
+function loadJobOpportunity(jobOpportunity) {
 
 
     $("#jobTitle").val(jobOpportunity.title);
@@ -152,7 +152,8 @@ function LoadJobOpportunity(jobOpportunity) {
     $("#residentsAndFellows").prop("checked", jobOpportunity.categoryResidentsAndFellows);
     return true;
 
-} function LoadJobOpportunities(jobOpportunities) {
+}
+function loadJobOpportunities(jobOpportunities) {
 
 
     if (Array.isArray(jobOpportunities)) {
@@ -188,8 +189,8 @@ function LoadJobOpportunity(jobOpportunity) {
 function editJobOpportunity(opportunityId) {
     $("#addEditJobOpportunity").show();
     let jobOpportunity = gMentoriesOpportunities.find(x => x.opportunityId == opportunityId);
-    $("#editJobOpportunity").attr("onclick", `javascript:SaveMentoringJobOpportunities('${opportunityId}'); return true;`)
-    LoadJobOpportunity(jobOpportunity);
+    $("#editJobOpportunity").attr("onclick", `javascript:saveMentoringJobOpportunities('${opportunityId}'); return true;`)
+    loadJobOpportunity(jobOpportunity);
 }
 function deleteJobOpportunity(opportunityId) {
 
@@ -204,7 +205,7 @@ function deleteJobOpportunity(opportunityId) {
     var url = g.editApiPath + "?function=AddUpdateProperty&s=" + subject + "&p=http://profiles.catalyst.harvard.edu/ontology/prns!MentoringJobOpportunities"
 
     editPost(url, gMentoriesOpportunities, "");
-    JobOpportunitiesPageReady();
+    jobOpportunitiesPageReady();
     return false;
 }
 

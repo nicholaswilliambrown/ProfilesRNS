@@ -42,8 +42,8 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            JobOpportunitiesPageReady();
-            MentorOverviewPageReady();
+            jobOpportunitiesPageReady();
+            mentorOverviewPageReady();
         });
     </script>
 
@@ -78,12 +78,12 @@
                             <div><input type="checkbox" id="residentsAndFellows" /><span>Residents and Fellows</span></div>
                         </div>
                     </div>
-                    <div><a id="editJobOpportunity" href="#" onclick="javascript:SaveMentoringJobOpportunities(''); return true;">Save</a><span class="pipe">|</span><span><a href="#" onclick='javascript:ClearJobOpportunityPage(); return false;'>Cancel</a></span></div>
+                    <div><a id="editJobOpportunity" href="#" onclick="javascript:saveMentoringJobOpportunities(''); return true;">Save</a><span class="pipe">|</span><span><a href="#" onclick='javascript:clearJobOpportunityPage(); return false;'>Cancel</a></span></div>
                 </div>
                 <div id="moduleBody" class="container">
                     <div class="row d-felx">
                         <div class="col-6">
-                            <a href="#" onclick="javascript:CreateNewJobOpportunity()">Create New Job Opportunity</a>
+                            <a href="#" onclick="javascript:createNewJobOpportunity()">Create New Job Opportunity</a>
                         </div>
                     </div>
                     <div class="row d-felx">
@@ -106,7 +106,7 @@
                         <tr id="moduleHeadRow" class="topRow">
                             <td colspan="3">Mentoring Overview</td>
                         </tr>
-                        <tr><td colspan="2" class="moduleOptions">Enter an overview:</td><td><span class="clearPage"><a href="#" onclick="javascript: ClearPage();">Clear</a></span><span class="save"><a href="#" onclick="javascript: SaveMentoringOverview();">Save</a></span></td></tr>
+                        <tr><td colspan="2" class="moduleOptions">Enter an overview:</td><td><span class="clearPage"><a href="#" onclick="javascript: clearPage();">Clear</a></span><span class="save"><a href="#" onclick="javascript: saveMentoringOverview();">Save</a></span></td></tr>
                         <tr><td colspan="3"><textarea rows="25" cols="100" id="mentoringOverviewText"></textarea>"</td></tr>
                         <tr><td><div class="moduleInstruction">I'm available to mentor:</div></td><td><div><input type="checkbox" id="studentsOnResearchProjects" /> Students on Research Projects</div></td></tr>
                         <tr><td></td><td colspan="2"><div><input type="checkbox" id="studentsOnCareerDevelopment" /> Students on Career Development</div></td></tr>

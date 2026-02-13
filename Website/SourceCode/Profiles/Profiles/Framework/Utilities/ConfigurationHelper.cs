@@ -135,6 +135,7 @@ namespace Profiles.Framework.Utilities
                         "g.listsApiPath = '" + ProfilesRootURL + "/Lists/ListsSvc.aspx';" +
                         "g.activityApiPath = '" + ProfilesRootURL + "/Activity/ActivitySvc.aspx';" +
                         "g.DIRECTApiPath = '" + ProfilesRootURL + "/DIRECT/DIRECTSVC.aspx';" +
+                        "g.editApiPath = '" + ProfilesRootURL + "/Edit/EditSvc.aspx';" +
                         "g.bannerMessage = '" + bannerMessage + "';" +
                         "g.directLink = '" + ProfilesRootRelativePath + "/Direct/default.aspx';" +
                         "console.log(\"Global values after DisplayRepository replace\", g);";

@@ -1,17 +1,22 @@
-﻿let gMentoriesOpportunities = [];
+﻿let gMentorOpportunities = [];
 
 async function mentorReady() {
-    await commonSetup('Mentoring');
-    $('#modules-left-div').append(getPageBody());
-    setupScrolling();
+    let title = 'Mentoring';
+    await commonSetup(title);
+    $('#mainDiv').prepend(getPageBody());
 
+    loadEditTopNav(title);
+
+    setupVisibilityTable();
+    await setupJobOpps();
     setupOverview();
-    setupJobOpps();
+
+    setupScrolling();
 }
 function setupOverview() {
-    var label = "Mentoring Overview";
-    loadEditTopNav(label);
-    setCurrentVisibility(label);
+    // var label = "Mentoring Overview";
+    // loadEditTopNav(label);
+    // setCurrentVisibility(label);
     //$(".pageTitle").html(`<h2>${propertyList.Label}</h2>`);
     var searchParams = window.location.search;
     const urlParams = new URLSearchParams(searchParams);
@@ -21,19 +26,22 @@ function setupOverview() {
     let mentoringOverview = getData(url, loadOverviewPage);
 
 }
-function setupJobOpps() {
-    var label = "Mentoring Job Opportunities";
-    loadEditTopNav(label);
-    clearJobOpportunityPage();
-    setCurrentVisibility(label);
-    //$(".pageTitle").html(`<h2>${propertyList.Label}</h2>`);
-    var searchParams = window.location.search;
-    const urlParams = new URLSearchParams(searchParams);
-    var subject = urlParams.get('subject');
-    var url = g.editApiPath + "?function=GetData&s=" + subject + "&p=http://profiles.catalyst.harvard.edu/ontology/prns!hasMentoringJobOpportunity"
+async function setupJobOpps() {
+    clearJobOpportunityForm();
 
-    let jobOpportunities = getData(url, loadJobOpportunities);
+    let searchParams = window.location.search;
+    let urlParams = new URLSearchParams(searchParams);
+    let subject = urlParams.get('subject');
+    let url = g.editApiPath + "?function=GetData&s=" + subject
+        + "&p=http://profiles.catalyst.harvard.edu/ontology/prns!hasMentoringJobOpportunity";
 
+    await getData(url, loadJobOpportunities);
+
+    $('#addEditJobOpportunity').hide(); // initially
+    $('#createJobOppDiv').on('click', function(e) {
+        toggleVisibility($('#addEditJobOpportunity'));
+        toggleSrcIcon($('#createJobOppArrow'), gEdit.downArrow, gEdit.rightArrow);
+    });
 }
 
 function clearPage() {
@@ -52,14 +60,14 @@ function clearPage() {
 
     return true;
 }
-function clearJobOpportunityPage() {
+function clearJobOpportunityForm() {
      $("#jobTitle").val('');
     $("#jobDescription").val('');
     $("#jobURL").val('');
     $("#students").prop("checked",false);
     $("#faculty").prop("checked",false);
     $("#residentsAndFellows").prop("checked", false);
-    $("#addEditJobOpportunity").hide();
+    //$("#addEditJobOpportunity").hide();
     $("#editJobOpportunity").attr("onclick", `javascript:saveMentoringJobOpportunities(''); return true;`)
 
 }
@@ -98,16 +106,16 @@ function saveMentoringJobOpportunities(opportunityId) {
     const urlParams = new URLSearchParams(searchParams);
     var subject = urlParams.get('subject');
   
-    if (gMentoriesOpportunities.length != 0 && gMentoriesOpportunities.find(x => x.opportunityId == opportunityId) != undefined) {
+    if (gMentorOpportunities.length != 0 && gMentorOpportunities.find(x => x.opportunityId == opportunityId) != undefined) {
         //edit existing 
 
-        const indexToEdit = gMentoriesOpportunities.findIndex(x => x.opportunityId == opportunityId);
-        gMentoriesOpportunities[indexToEdit].title = $("#jobTitle").val();
-        gMentoriesOpportunities[indexToEdit].jobDescription = $("#jobDescription").val();
-        gMentoriesOpportunities[indexToEdit].jobURL = $("#jobURL").val();
-        gMentoriesOpportunities[indexToEdit].categoryStudents = $("#students").prop("checked");
-        gMentoriesOpportunities[indexToEdit].categoryFaculty = $("#faculty").prop("checked");
-        gMentoriesOpportunities[indexToEdit].categoryResidentsAndFellows = $("#residentsAndFellows").prop("checked");
+        const indexToEdit = gMentorOpportunities.findIndex(x => x.opportunityId == opportunityId);
+        gMentorOpportunities[indexToEdit].title = $("#jobTitle").val();
+        gMentorOpportunities[indexToEdit].jobDescription = $("#jobDescription").val();
+        gMentorOpportunities[indexToEdit].jobURL = $("#jobURL").val();
+        gMentorOpportunities[indexToEdit].categoryStudents = $("#students").prop("checked");
+        gMentorOpportunities[indexToEdit].categoryFaculty = $("#faculty").prop("checked");
+        gMentorOpportunities[indexToEdit].categoryResidentsAndFellows = $("#residentsAndFellows").prop("checked");
 
     } else {     
         //add new
@@ -121,7 +129,7 @@ function saveMentoringJobOpportunities(opportunityId) {
         jobOpportunity.categoryFaculty = $("#faculty").prop("checked");
         jobOpportunity.categoryResidentsAndFellows = $("#residentsAndFellows").prop("checked");
         
-        gMentoriesOpportunities.push(jobOpportunity);
+        gMentorOpportunities.push(jobOpportunity);
     }
 
    
@@ -129,7 +137,7 @@ function saveMentoringJobOpportunities(opportunityId) {
     var url = g.editApiPath + "?function=AddUpdateProperty&s=" + subject + "&p=http://profiles.catalyst.harvard.edu/ontology/prns!hasMentoringJobOpportunity"
 
 
-    editPost(url, gMentoriesOpportunities, "");
+    editPost(url, gMentorOpportunities, "");
     setupJobOpps();
     return false;
 
@@ -163,11 +171,9 @@ function loadJobOpportunity(jobOpportunity) {
 
 }
 function loadJobOpportunities(jobOpportunities) {
-
-
     if (Array.isArray(jobOpportunities)) {
         if (jobOpportunities.length != 0) {
-            gMentoriesOpportunities = jobOpportunities;
+            gMentorOpportunities = jobOpportunities;
         }
         
         var jobCategories = "";
@@ -177,7 +183,7 @@ function loadJobOpportunities(jobOpportunities) {
         var $tableBody = $('#tableJobOpportunities tbody');
         $tableBody.html('');
         var cnt = 1;
-        gMentoriesOpportunities.forEach(row => {
+        gMentorOpportunities.forEach(row => {
             console.log(row);
           
             jobCategories = row.categoryStudents ? "Students " : "";
@@ -197,15 +203,15 @@ function loadJobOpportunities(jobOpportunities) {
 }
 function editJobOpportunity(opportunityId) {
     $("#addEditJobOpportunity").show();
-    let jobOpportunity = gMentoriesOpportunities.find(x => x.opportunityId == opportunityId);
+    let jobOpportunity = gMentorOpportunities.find(x => x.opportunityId == opportunityId);
     $("#editJobOpportunity").attr("onclick", `javascript:saveMentoringJobOpportunities('${opportunityId}'); return true;`)
     loadJobOpportunity(jobOpportunity);
 }
 function deleteJobOpportunity(opportunityId) {
 
-    let byeBye = gMentoriesOpportunities.filter(x => x.opportunityId == opportunityId);
+    let byeBye = gMentorOpportunities.filter(x => x.opportunityId == opportunityId);
     if (byeBye != -1) {
-        gMentoriesOpportunities.splice(byeBye, 1);
+        gMentorOpportunities.splice(byeBye, 1);
     }
     var searchParams = window.location.search;
     const urlParams = new URLSearchParams(searchParams);
@@ -213,7 +219,7 @@ function deleteJobOpportunity(opportunityId) {
 
     var url = g.editApiPath + "?function=AddUpdateProperty&s=" + subject + "&p=http://profiles.catalyst.harvard.edu/ontology/prns!MentoringJobOpportunities"
 
-    editPost(url, gMentoriesOpportunities, "");
+    editPost(url, gMentorOpportunities, "");
     setupJobOpps();
     return false;
 }
@@ -222,10 +228,6 @@ $('input[type="radio"][name="visibility"]').change(function () {
     var selectedValue = $('input[name="visibility"]:checked').val();
 }); 
 
-function setCurrentVisibility(catagory) {
-    
-    //$("#currentVisibility").text(propertyList.Categories[0].Properties.find(obj => obj.Label == catagory).ViewSecurityGroupLabel)
-}
 function getPageBody() {
     return $(`
     <div id="pageBody" class="container">
@@ -233,12 +235,17 @@ function getPageBody() {
             <div class="col-12">
                 <div id="editTopNav" class="container">
                 </div>
-                <div id="editMenu">
-                    <div><a id="editVisibilityLink" class="editMenuLink" table-id="editVisibility" href="#"><img id="visibilityMenuIcon" src="{profilesPath}/edit/images/icon_squareArrow.gif" /> Edit Visibility (<span id="currentVisibility"></span>)</a></div>
-                    <div id="editVisibility">
-                    </div>
+                <div><a id="editVisibilityLink" class="editMenuLink link-ish">
+                        <img id="visibilityMenuIcon" /> Edit Visibility (<span id="currentVisibility"></span>)</a>
                 </div>
-                <div id="addEditJobOpportunity" class="editPanel">
+                <div class="link-ish mt-2" id="createJobOppDiv"><span class="link-ish"><img id="createJobOppArrow" src="${gEdit.rightArrow}"/></span>
+                            Create New Job Opportunity</a>
+                    
+                </div>
+                <div id="addEditJobOpportunity" class="editPanel mt-0">
+                <div><a id="editJobOpportunity" href="#" onclick="javascript:saveMentoringJobOpportunities(''); return true;">Save</a>
+                    <span class="pipe">|</span><span><a href="#" onclick='javascript:clearJobOpportunityForm(); return false;'>Cancel</a></span>
+                </div>
                     <div class="moduleOptions">Enter the job opportunity information below:</div>
                     <div class="inputLabel">Job Title</div>
                     <div><input type="text" id="jobTitle" /></div>
@@ -254,15 +261,9 @@ function getPageBody() {
                             <div><input type="checkbox" id="residentsAndFellows" /><span>Residents and Fellows</span></div>
                         </div>
                     </div>
-                    <div><a id="editJobOpportunity" href="#" onclick="javascript:saveMentoringJobOpportunities(''); return true;">Save</a><span class="pipe">|</span><span><a href="#" onclick='javascript:clearJobOpportunityPage(); return false;'>Cancel</a></span></div>
                 </div>
                 <div id="moduleBody" class="container">
-                    <div class="row d-felx">
-                        <div class="col-6">
-                            <a href="#" onclick="javascript:createNewJobOpportunity()">Create New Job Opportunity</a>
-                        </div>
-                    </div>
-                    <div class="row d-felx">
+                    <div class="row d-flex">
                         <div class="col-12">
                             <table id="tableJobOpportunities">
                                 <thead>

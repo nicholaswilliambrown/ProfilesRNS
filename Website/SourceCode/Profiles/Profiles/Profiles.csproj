@@ -363,7 +363,6 @@
     <Content Include="StaticFiles\html-templates\searchForm.html" />
     <Content Include="StaticFiles\html-templates\searchPeopleResults.html" />
     <Content Include="StaticFiles\html-templates\searchWhyResults.html" />
-    <Content Include="StaticFiles\html-templates\SecuritySettings.html" />
     <Content Include="StaticFiles\img\aboutAndHelp\about_visualizations.jpg" />
     <Content Include="StaticFiles\img\branding\_OpenSourceBanner.png" />
     <Content Include="StaticFiles\img\branding\_OpenSourceBannerNarrow.png" />

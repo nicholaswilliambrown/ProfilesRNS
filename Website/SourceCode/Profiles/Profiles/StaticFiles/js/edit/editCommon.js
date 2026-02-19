@@ -2,9 +2,9 @@
 gEditProp.downArrow = `${g.profilesRootURL}/Edit/Images/icon_squaredownArrow.gif`;
 gEditProp.rightArrow = `${g.profilesRootURL}/Edit/Images/icon_squareArrow.gif`;
 
-gEditProp.visPublic = -1;
-gEditProp.visNoBots = -10;
-gEditProp.visUsers = -20;
+gEditProp.visPublic = '-1';
+gEditProp.visNoBots = '-10';
+gEditProp.visUsers = '-20';
 
 gEditProp.ontologyUrlPrefix = 'http://profiles.catalyst.harvard.edu/ontology/prns!';
 gEditProp.ontologyMentoring = 'mentoringOverview';
@@ -13,8 +13,10 @@ gEditProp.getMentorOverviewUrl = `${gEditProp.ontologyUrlPrefix}${gEditProp.onto
 gEditProp.getJobOpportunitiesUrl = `${gEditProp.ontologyUrlPrefix}${gEditProp.ontologyJobOpps}`;
 
 async function editCommonReady() {
+    gEditProp.subject = getSearchParam('subject');
+
     console.log('=============editProp', g.editPropertyParams);
-    console.log('=============subject', getSearchParam('subject'));
+    console.log('=============subject <', gEditProp.subject, '>');
 
     let title = JSON.parse(g.preLoad).filter(p=>p.DisplayModule=='Person.Label')[0].ModuleData[0].DisplayName;
 
@@ -53,7 +55,6 @@ function toggleSrcIcon(target, srcRoot1, srcRoot2) {
         target.attr('src', srcRoot1);
     }
 }
-
 function loadVisibilityDiv(target) {
     let div = $(`
         <div id="editVisibilityDiv"><a className="editMenuLink link-ish">
@@ -71,25 +72,29 @@ function loadVisibilityDiv(target) {
             <tbody>
                 <tr class="evenRow">
                     <td class="CenterSelect">
-                        <input onchange="javascript:SecuritySettingChange('1234');" type="radio" name="visibility" value="1234" /></td>
+                        <input type="radio" name="visibility" value="${gEditProp.subject}" /></td>
                     <td>Only Me</td>
                     <td>Only me and special authorized users who manage this website.</td></tr>
                 <tr class="oddRow"><td class="CenterSelect">
-                        <input onchange="javascript:SecuritySettingChange('-20');" type="radio" name="visibility" value="-20" /></td>
+                        <input type="radio" name="visibility" value="${gEditProp.visUsers}" /></td>
                     <td>Users</td>
                     <td>Limited to people who have logged into website.</td></tr>
                 <tr class="evenRow"><td class="CenterSelect">
-                        <input onchange="javascript:SecuritySettingChange('-10');"  type="radio" name="visibility" value="-10" /></td>
+                        <input type="radio" name="visibility" value="${gEditProp.visNoBots}" /></td>
                     <td>No Search</td>
                     <td>Open to the general public, but blocked to certain (but not all) search engines such as Google.</td></tr>
                 <tr class="oddRow"><td class="CenterSelect">
-                        <input  onchange="javascript:SecuritySettingChange('-1');" type="radio" name="visibility" value="-1" /></td>
+                        <input type="radio" name="visibility" value="${gEditProp.visPublic}" /></td>
                     <td>Public</td>
                     <td>Open to the general public and may be indexed by search engines.</td></tr>
             </tbody>
         </table>
     `)
     target.append(div);
+    $('input[name="visibility"]').on('click', function() {
+        gEditProp.visibility = $('input[name="visibility"]:checked').val();
+        console.log("======= visibility: --------", gEditProp.visibility);
+    });
     return div;
 }
 ///////////////////////////////////////////////////

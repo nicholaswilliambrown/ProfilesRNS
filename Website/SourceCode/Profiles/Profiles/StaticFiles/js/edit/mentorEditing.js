@@ -1,53 +1,42 @@
 ﻿gEditProp.mentorJobOpportunities = [];
 
-async function mentorReady() {
-    editPropReady();
+async function mentorEditingReady() {
+    let mainDiv = await editCommonReady();
 
-    let title = 'Mentoring';
-    loadEditTopNav(title);
-
-    await commonSetup(title);
-    $('#mainDiv').append(getPageBody());
-
-    setupVisibilityTable();
-    await setupJobOpps();
-    setupOverview();
+    if (gEditProp.properties.propertyURI.toLowerCase().match(gEditProp.ontologyJobOpps.toLowerCase())) {
+        await setupJobOpps(mainDiv);
+    } else if (gEditProp.properties.propertyURI.toLowerCase().match(gEditProp.ontologyMentoring.toLowerCase())) {
+        await setupOverview(mainDiv);
+    }
 
     setupScrolling();
 }
-function setupOverview() {
-    // var label = "Mentoring Overview";
-    // loadEditTopNav(label);
-    // setCurrentVisibility(label);
-    //$(".pageTitle").html(`<h2>${propertyList.Label}</h2>`);
-    // var searchParams = window.location.search;
-    // const urlParams = new URLSearchParams(searchParams);
+
+function setupOverview(target) {
+    loadMentoringOverviewDiv(target);
+
     let subject = getSearchParam('subject');
-    let url = g.editApiPath + "?function=GetData&s="
-        + subject + "&p=" + gEditProp.getMentorOverviewUrl;
+    let url = g.editApiPath + "?function=GetData&s=" + subject + "&p=" + gEditProp.getMentorOverviewUrl;
 
-    let mentoringOverview = getData(url, loadOverviewPage);
-
+    getData(url, emitOverviewSection);
 }
-async function setupJobOpps() {
-    clearJobOpportunityForm();
+async function setupJobOpps(target) {
+    loadJobOpportunitiesDiv(target);
 
-    let searchParams = window.location.search;
-    let urlParams = new URLSearchParams(searchParams);
-    let subject = urlParams.get('subject');
-    let url = g.editApiPath + "?function=GetData&s="
-        + subject + "&p=" + gEditProp.getJobOpportunitiesUrl;
+    let subject = getSearchParam('subject');
+    let url = g.editApiPath + "?function=GetData&s=" + subject + "&p=" + gEditProp.getJobOpportunitiesUrl;
 
-    await getData(url, loadJobOpportunities);
+    await getData(url, emitJobOpportunities);
 
-    $('#addEditJobOpportunity').hide(); // initially
-    $('#createJobOppDiv').on('click', function(e) {
-        toggleEltVisibility($('#addEditJobOpportunity'));
+    let addEdit = $('#addEditJobOpportunity');
+    addEdit.hide(); // initially
+    $('#createJobOppDiv').on('click', function (e) {
+        toggleEltVisibility(addEdit);
         toggleSrcIcon($('#createJobOppArrow'), gEditProp.downArrow, gEditProp.rightArrow);
     });
 }
 
-function clearPage() {
+function clearMentorOverviewSection() {
     $("#mentoringOverviewText").val("");
     $("#studentsOnResearchProjects").prop("checked", false);
     $("#studentsOnCareerDevelopment").prop("checked", false);
@@ -63,20 +52,23 @@ function clearPage() {
 
     return true;
 }
+
 function clearJobOpportunityForm() {
-     $("#jobTitle").val('');
+    $("#jobTitle").val('');
     $("#jobDescription").val('');
     $("#jobURL").val('');
-    $("#students").prop("checked",false);
-    $("#faculty").prop("checked",false);
+    $("#students").prop("checked", false);
+    $("#faculty").prop("checked", false);
     $("#residentsAndFellows").prop("checked", false);
     //$("#addEditJobOpportunity").hide();
     $("#editJobOpportunity").attr("onclick", `javascript:saveMentoringJobOpportunities(''); return true;`)
 
 }
+
 function createNewJobOpportunity() {
     $("#addEditJobOpportunity").show();
 }
+
 function saveMentoringOverview() {
     var searchParams = window.location.search;
     const urlParams = new URLSearchParams(searchParams);
@@ -99,7 +91,7 @@ function saveMentoringOverview() {
 
     var redirectTo = g.profilesRootURL + "/edit/default.aspx?subject=" + subject;
     editPost(url, mentoringOverview, redirectTo);
-  
+
     return false;
 
 }
@@ -108,7 +100,7 @@ function saveMentoringJobOpportunities(opportunityId) {
     var searchParams = window.location.search;
     const urlParams = new URLSearchParams(searchParams);
     var subject = urlParams.get('subject');
-  
+
     if (gEditProp.mentorJobOpportunities.length != 0 && gEditProp.mentorJobOpportunities.find(x => x.opportunityId == opportunityId) != undefined) {
         //edit existing 
 
@@ -120,7 +112,7 @@ function saveMentoringJobOpportunities(opportunityId) {
         gEditProp.mentorJobOpportunities[indexToEdit].categoryFaculty = $("#faculty").prop("checked");
         gEditProp.mentorJobOpportunities[indexToEdit].categoryResidentsAndFellows = $("#residentsAndFellows").prop("checked");
 
-    } else {     
+    } else {
         //add new
         opportunityId = crypto.randomUUID();
         let jobOpportunity = {};
@@ -131,11 +123,10 @@ function saveMentoringJobOpportunities(opportunityId) {
         jobOpportunity.categoryStudents = $("#students").prop("checked");
         jobOpportunity.categoryFaculty = $("#faculty").prop("checked");
         jobOpportunity.categoryResidentsAndFellows = $("#residentsAndFellows").prop("checked");
-        
+
         gEditProp.mentorJobOpportunities.push(jobOpportunity);
     }
 
-   
 
     var url = g.editApiPath + "?function=AddUpdateProperty&s=" + subject + "&p=http://profiles.catalyst.harvard.edu/ontology/prns!hasMentoringJobOpportunity"
 
@@ -145,7 +136,8 @@ function saveMentoringJobOpportunities(opportunityId) {
     return false;
 
 }
-function loadOverviewPage(mentoringOverview) {
+
+function emitOverviewSection(mentoringOverview) {
 
     $("#mentoringOverviewText").val(mentoringOverview.text);
     $("#studentsOnResearchProjects").prop("checked", mentoringOverview.studentsOnResearchProjects);
@@ -161,9 +153,8 @@ function loadOverviewPage(mentoringOverview) {
     $("#residentsAndFellowsOnWorkLifeBalance").prop("checked", mentoringOverview.residentsAndFellowsOnWorkLifeBalance);
     return true;
 }
+
 function loadJobOpportunity(jobOpportunity) {
-
-
     $("#jobTitle").val(jobOpportunity.title);
     $("#jobDescription").val(jobOpportunity.jobDescription);
     $("#jobURL").val(jobOpportunity.jobURL);
@@ -173,12 +164,13 @@ function loadJobOpportunity(jobOpportunity) {
     return true;
 
 }
-function loadJobOpportunities(jobOpportunities) {
+
+function emitJobOpportunities(jobOpportunities) {
     if (Array.isArray(jobOpportunities)) {
         if (jobOpportunities.length != 0) {
             gEditProp.mentorJobOpportunities = jobOpportunities;
         }
-        
+
         var jobCategories = "";
 
         var editIcon = `${g.profilesRootURL}/edit/images/Icon_Edit.gif`;
@@ -188,14 +180,14 @@ function loadJobOpportunities(jobOpportunities) {
         var cnt = 1;
         gEditProp.mentorJobOpportunities.forEach(row => {
             console.log(row);
-          
+
             jobCategories = row.categoryStudents ? "Students " : "";
             jobCategories += row.categoryFaculty ? "Faculty " : "";
             jobCategories += row.categoryResidentsAndFellows ? "Residents and Fellows " : "";
             var $newRow = $('<tr class="oddRow">');
 
             $newRow.append($('<td class="jobOpportunitiesFirstCell">').append(`<div class="jobTitle">${cnt}. ${row.title}</div><div class="jobDescription">${row.jobDescription}</div><div><span class="jobCategoryDisplayLabel">Job Category:</span> ${jobCategories} <span class="jobURLDisplayLabel">Job URL:</span> <a target="_blank" rel="noopener noreferrer" href="${row.jobURL}">${row.jobURL}</a></div>`));
-            $newRow.append($('<td class="alignCenterAction">').append(`<div><img src='${editIcon}' onclick='javascript:editJobOpportunity("${row.opportunityId}"); return false;'/><img src='${deleteIcon}' onclick='javascript:deleteJobOpportunity("${row.opportunityId}");return false;'/></div>`));
+            $newRow.append($('<td class="alignCenterAction">').append(`<div><img src='${editIcon}' onclick='editJobOpportunity("${row.opportunityId}"); return false;'/><img src='${deleteIcon}' onclick='deleteJobOpportunity("${row.opportunityId}");return false;'/></div>`));
             $tableBody.append($newRow);
             cnt++;
         });
@@ -204,12 +196,14 @@ function loadJobOpportunities(jobOpportunities) {
     return true;
 
 }
+
 function editJobOpportunity(opportunityId) {
     $("#addEditJobOpportunity").show();
     let jobOpportunity = gEditProp.mentorJobOpportunities.find(x => x.opportunityId == opportunityId);
     $("#editJobOpportunity").attr("onclick", `javascript:saveMentoringJobOpportunities('${opportunityId}'); return true;`)
     loadJobOpportunity(jobOpportunity);
 }
+
 function deleteJobOpportunity(opportunityId) {
 
     let byeBye = gEditProp.mentorJobOpportunities.filter(x => x.opportunityId == opportunityId);
@@ -229,84 +223,83 @@ function deleteJobOpportunity(opportunityId) {
 
 $('input[type="radio"][name="visibility"]').change(function () {
     var selectedValue = $('input[name="visibility"]:checked').val();
-}); 
+});
 
-function getPageBody() {
-    return $(`
-    <div id="pageBody" class="container">
-        <div class="row d-flex justify-content-center">
-            <div class="col-12">
-                <div id="editTopNav" class="container">
-                </div>
-                <div id="editVisibilityDiv"><a class="editMenuLink link-ish">
-                        <img id="visibilityMenuIcon" src="${gEditProp.rightArrow}"/> Edit Visibility (<span id="currentVisibility"></span>)</a>
-                </div>
-                <div class="link-ish mt-2" id="createJobOppDiv"><span class="link-ish"><img id="createJobOppArrow" src="${gEditProp.rightArrow}"/></span>
-                            Create New Job Opportunity</a>
-                    
-                </div>
-                <div id="addEditJobOpportunity" class="editPanel mt-0">
-                <div><a id="editJobOpportunity" href="#" onclick="javascript:saveMentoringJobOpportunities(''); return true;">Save</a>
-                    <span class="pipe">|</span><span><a href="#" onclick='javascript:clearJobOpportunityForm(); return false;'>Cancel</a></span>
-                </div>
-                    <div class="moduleOptions">Enter the job opportunity information below:</div>
-                    <div class="inputLabel">Job Title</div>
-                    <div><input type="text" id="jobTitle" /></div>
-                    <div class="inputLabel">Job Description</div>
-                    <div><textarea rows="4" cols="40" id="jobDescription"></textarea></div>
-                    <div class="inputLabel">Job URL</div>
-                    <div><input type="text" id="jobURL" /></div>
-                    <div class="jobCategories">
-                        <span class="jobCategoryTitle"><b>Job Category</b></span>
-                        <div class="jobCategoryOptions">
-                            <div><input type="checkbox" id="students" /><span>Students</span></div>
-                            <div><input type="checkbox" id="faculty" /><span>Faculty</span></div>
-                            <div><input type="checkbox" id="residentsAndFellows" /><span>Residents and Fellows</span></div>
-                        </div>
-                    </div>
-                </div>
-                <div id="moduleBody" class="container">
-                    <div class="row d-flex">
-                        <div class="col-12">
-                            <table id="tableJobOpportunities">
-                                <thead>
-                                    <tr id="moduleHeadRow" class="topRow bold">
-                                        <th class="alignLeft">Job Opportunities</th>
-                                        <th class="alignCenterAction">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="moduleBody">
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <table class="moduleTable mt-2 mb-2">
-                        <tr id="moduleHeadRow" class="topRow bold">
-                            <td colspan="3">Mentoring Overview</td>
-                        </tr>
-                        <tr><td class="moduleOptions w-50">Enter or update an overview:</td>
-                            <td class="w-50 d-flex justify-content-end"><span class="clearPage"><a href="#" onclick="javascript: clearPage();">Clear</a></span><span class="save"><a href="#" onclick="javascript: saveMentoringOverview();">Save</a></span></td>
-                            <td></td>
-                            </tr>
-                        <tr><td colspan="3"><textarea rows="8" cols="100" id="mentoringOverviewText"></textarea>"</td></tr>
-                        <tr><td><div class="moduleInstruction">I'm available to mentor:</div></td><td><div><input type="checkbox" id="studentsOnResearchProjects" /> Students on Research Projects</div></td></tr>
-                        <tr><td></td><td colspan="2"><div><input type="checkbox" id="studentsOnCareerDevelopment" /> Students on Career Development</div></td></tr>
-                        <tr><td></td><td><div><input type="checkbox" id="studentsOnWorkLifeBalance" /> Students on Work/Life Balance</div></td></tr>
-                        <tr><td></td><td><div><input type="checkbox" id="facultyOnResearch" /> Faculty on Research</div></td></tr>
-                        <tr><td></td><td><div><input type="checkbox" id="facultyOnResearchProjects" /> Faculty on Research Projects</div></td></tr>
-                        <tr><td></td><td><div><input type="checkbox" id="facultyOnCreerDevelopment" /> Faculty on Career Development</div></td></tr>
-                        <tr><td></td><td><div><input type="checkbox" id="facultyOnWorkLifeBalance" /> Faculty on Work/Life Balance</div></td></tr>
-                        <tr><td></td><td><div><input type="checkbox" id="residentsAndFellowsOnResearch" /> Residents and Fellows on Research</div></td></tr>
-                        <tr><td></td><td><div><input type="checkbox" id="residentsAndFellowsOnResearchProjects" /> Residents and Fellows on Research Projects</div></td></tr>
-                        <tr><td></td><td><div><input type="checkbox" id="residentsAndFellowsOnCareerDevelopment" /> Residents and Fellows on Career Development</div></td></tr>
-                        <tr><td></td><td><div><input type="checkbox" id="residentsAndFellowsOnWorkLifeBalance" /> Residents and Fellows on Work/Life Balance</div></td></tr>
-
-                    </table>
-
-                </div>
-            </div>
+function loadMentoringOverviewDiv(target) {
+    let div = $(`
+        <div id="mentoringOverviewOuterDiv">
+            <table class="moduleTable mt-2 mb-2">
+                <tr id="moduleTableHeadRow" class="topRow bold">
+                    <td colspan="3">Mentoring Overview</td>
+                </tr>
+                <tr><td class="moduleOptions w-50">Enter or update an overview:</td>
+                    <td class="w-50 d-flex justify-content-end"><span class="clearPage"><a href="#" onclick="clearMentorOverviewSection();">Clear</a></span><span class="save"><a href="#" onclick="saveMentoringOverview();">Save</a></span></td>
+                    <td></td>
+                    </tr>
+                <tr><td colspan="3"><textarea rows="8" cols="100" id="mentoringOverviewText"></textarea>"</td></tr>
+                <tr><td><div class="moduleInstruction">I'm available to mentor:</div></td><td><div><input type="checkbox" id="studentsOnResearchProjects" /> Students on Research Projects</div></td></tr>
+                <tr><td></td><td colspan="2"><div><input type="checkbox" id="studentsOnCareerDevelopment" /> Students on Career Development</div></td></tr>
+                <tr><td></td><td><div><input type="checkbox" id="studentsOnWorkLifeBalance" /> Students on Work/Life Balance</div></td></tr>
+                <tr><td></td><td><div><input type="checkbox" id="facultyOnResearch" /> Faculty on Research</div></td></tr>
+                <tr><td></td><td><div><input type="checkbox" id="facultyOnResearchProjects" /> Faculty on Research Projects</div></td></tr>
+                <tr><td></td><td><div><input type="checkbox" id="facultyOnCreerDevelopment" /> Faculty on Career Development</div></td></tr>
+                <tr><td></td><td><div><input type="checkbox" id="facultyOnWorkLifeBalance" /> Faculty on Work/Life Balance</div></td></tr>
+                <tr><td></td><td><div><input type="checkbox" id="residentsAndFellowsOnResearch" /> Residents and Fellows on Research</div></td></tr>
+                <tr><td></td><td><div><input type="checkbox" id="residentsAndFellowsOnResearchProjects" /> Residents and Fellows on Research Projects</div></td></tr>
+                <tr><td></td><td><div><input type="checkbox" id="residentsAndFellowsOnCareerDevelopment" /> Residents and Fellows on Career Development</div></td></tr>
+                <tr><td></td><td><div><input type="checkbox" id="residentsAndFellowsOnWorkLifeBalance" /> Residents and Fellows on Work/Life Balance</div></td></tr>
+            </table>
         </div>
-    </div>
+        `);
+    target.append(div);
+    return div;
+}
+function loadJobOpportunitiesDiv(target) {
+    let div = $(`
+        <div id="jobOpportunitiesOuterDiv">
+            <div class="link-ish mt-2" id="createJobOppDiv"><span class="link-ish"><img id="createJobOppArrow" src="${gEditProp.rightArrow}"/></span>
+                        Create New Job Opportunity</a>
+            </div>
+            <div id="addEditJobOpportunity" class="editPanel mt-0">
+                <div><a id="editJobOpportunity" href="#" onclick="saveMentoringJobOpportunities(''); return true;">Save</a>
+                    <span class="pipe">|</span><span><a href="#" onclick='clearJobOpportunityForm(); return false;'>Cancel</a></span>
+                </div>
+                <div class="moduleOptions">Enter the job opportunity information below:</div>
+                <div class="inputLabel">Job Title</div>
+                <div><input type="text" id="jobTitle" /></div>
+                <div class="inputLabel">Job Description</div>
+                <div><textarea rows="4" cols="40" id="jobDescription"></textarea></div>
+                <div class="inputLabel">Job URL</div>
+                <div><input type="text" id="jobURL" /></div>
+                <div class="jobCategories">
+                    <span class="jobCategoryTitle"><b>Job Category</b></span>
+                    <div class="jobCategoryOptions">
+                        <div><input type="checkbox" id="students" /><span>Students</span></div>
+                        <div><input type="checkbox" id="faculty" /><span>Faculty</span></div>
+                        <div><input type="checkbox" id="residentsAndFellows" /><span>Residents and Fellows</span></div>
+                    </div>
+                </div>
+            </div> <!-- addEditJobOpportunity -->
+            <div id="moduleBody" class="container">
+                <div class="row d-flex">
+                    <div class="col-12">
+                        <table id="tableJobOpportunities">
+                            <thead>
+                                <tr id="moduleHeadRow" class="topRow bold">
+                                    <th class="alignLeft">Job Opportunities</th>
+                                    <th class="alignCenterAction">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="moduleBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> <!-- moduleBody -->
+
+        </div> <!-- jobOpportunitiesOuterDiv -->
     `);
+    target.append(div);
+    return div;
 }
 

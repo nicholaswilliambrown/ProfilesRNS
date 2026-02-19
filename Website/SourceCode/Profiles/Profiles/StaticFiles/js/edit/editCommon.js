@@ -7,42 +7,59 @@ gEditProp.visNoBots = -10;
 gEditProp.visUsers = -20;
 
 gEditProp.ontologyUrlPrefix = 'http://profiles.catalyst.harvard.edu/ontology/prns!';
-gEditProp.getMentorOverviewUrl = `${gEditProp.ontologyUrlPrefix}mentoringOverview`;
-gEditProp.getJobOpportunitiesUrl = `${gEditProp.ontologyUrlPrefix}hasMentoringJobOpportunity`;
+gEditProp.ontologyMentoring = 'mentoringOverview';
+gEditProp.ontologyJobOpps = 'hasMentoringJobOpportunity';
+gEditProp.getMentorOverviewUrl = `${gEditProp.ontologyUrlPrefix}${gEditProp.ontologyMentoring}`;
+gEditProp.getJobOpportunitiesUrl = `${gEditProp.ontologyUrlPrefix}${gEditProp.ontologyJobOpps}`;
 
-function editPropReady() {
+async function editCommonReady() {
     console.log('=============editProp', g.editPropertyParams);
     console.log('=============subject', getSearchParam('subject'));
-    console.log('=============preLoad label',
-        JSON.parse(g.preLoad).filter(p=>p.DisplayModule=='Person.Label')[0].ModuleData[0].DisplayName);
+
+    let title = JSON.parse(g.preLoad).filter(p=>p.DisplayModule=='Person.Label')[0].ModuleData[0].DisplayName;
+
+    gEditProp.properties = JSON.parse(g.editPropertyParams);
+
+    await commonSetup(title);
+    let mainDiv = $('#mainDiv')
+
+    loadBreadcrumbs(title, mainDiv);
+    
+    setupVisibilityTable(mainDiv);
+    
+    return mainDiv;
+}
+function setupVisibilityTable(target) {
+    let div = loadVisibilityDiv(target)
+
+    let table = $('#tblVisibility');
+    table.hide(); // initially
+    div.on('click', function() {
+        toggleEltVisibility(table);
+        toggleSrcIcon($("#visibilityMenuIcon"), gEditProp.rightArrow, gEditProp.downArrow);
+    });
 }
 function getSearchParam(param) {
     let urlParams = new URLSearchParams(window.location.search);
     let result = urlParams.get(param);
     return result;
 }
-function toggleSrcIcon(target, postRoot1, postRoot2) {
+function toggleSrcIcon(target, srcRoot1, srcRoot2) {
     console.log(target.attr('src'));
-    if (target.attr('src').match(postRoot1)) {
-        target.attr('src', postRoot2);
+    if (target.attr('src').match(srcRoot1)) {
+        target.attr('src', srcRoot2);
     }
     else {
-        target.attr('src', postRoot1);
+        target.attr('src', srcRoot1);
     }
 }
- function setupVisibilityTable() {
-    let table = gEditProp.visibilitySettingsTable;
-     $("#editVisibilityDiv").append(table);
-     table.hide();
-     $("#editVisibilityDiv").on('click', function() {
-         toggleEltVisibility(table);
-         toggleSrcIcon($("#visibilityMenuIcon"), gEditProp.rightArrow, gEditProp.downArrow);
-     });
- }
 
-///////////////////////////////////////////////////
-
- gEditProp.visibilitySettingsTable = $(`
+function loadVisibilityDiv(target) {
+    let div = $(`
+        <div id="editVisibilityDiv"><a className="editMenuLink link-ish">
+            <img id="visibilityMenuIcon" src="${gEditProp.rightArrow}"/> Edit Visibility (<span
+            id="currentVisibility"></span>)</a>
+        </div>
         <table id="tblVisibility">
             <thead>
                 <tr class="topRow"> 
@@ -70,7 +87,12 @@ function toggleSrcIcon(target, postRoot1, postRoot2) {
                     <td>Public</td>
                     <td>Open to the general public and may be indexed by search engines.</td></tr>
             </tbody>
-        </table>`);
+        </table>
+    `)
+    target.append(div);
+    return div;
+}
+///////////////////////////////////////////////////
 
 async function editPost(url, body,redirectTo) {
     console.log('--------edit for post----------');
@@ -100,18 +122,6 @@ async function editPost(url, body,redirectTo) {
     return true;
 }
 
-function loadEditTopNav(title) {
-    var menuStr = `<div class="row ">
-                        <div class='col-10 d-flex justify-content-start'>
-                            <a class='editMenuLink' href='edit/${g.profilesRootURL}/default.aspx?subject=${sessionInfo.personNodeID}'>Edit Menu</a>
-                            <span class='editMenuGT'>&nbsp;>&nbsp;</span><span><b>${title}</b></span>
-                        </div>
-                        <div class='col-2 d-flex justify-content-end'>
-                            <a href='${sessionInfo.personURI}'><img src='${g.profilesRootURL}/Framework/Images/arrowLeft.png' /> View Profile</a> 
-                        </div>
-                    </div>`;
-    $("#editTopNav").html(menuStr);
-}
 
 
 function SecuritySettingChange(secVal) {
@@ -137,4 +147,16 @@ function SecuritySettingChange(secVal) {
     // $('#editVisibility').hide();
 
 
+}
+function loadBreadcrumbs(title, target) {
+    let breadcrumbs = $(`<div class="row ">
+                        <div class='col-10 d-flex justify-content-start'>
+                            <a class='editMenuLink' href='edit/${g.profilesRootURL}/default.aspx?subject=${sessionInfo.personNodeID}'>Edit Menu</a>
+                            <span class='editMenuGT'>&nbsp;>&nbsp;</span><span><b>${title}</b></span>
+                        </div>
+                        <div class='col-2 d-flex justify-content-end'>
+                            <a href='${sessionInfo.personURI}'><img src='${g.profilesRootURL}/Framework/Images/arrowLeft.png' /> View Profile</a> 
+                        </div>
+                    </div>`);
+    target.append(breadcrumbs);
 }

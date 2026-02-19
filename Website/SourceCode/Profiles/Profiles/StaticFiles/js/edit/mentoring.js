@@ -39,7 +39,7 @@ async function setupJobOpps() {
 
     $('#addEditJobOpportunity').hide(); // initially
     $('#createJobOppDiv').on('click', function(e) {
-        toggleVisibility($('#addEditJobOpportunity'));
+        toggleEltVisibility($('#addEditJobOpportunity'));
         toggleSrcIcon($('#createJobOppArrow'), gEdit.downArrow, gEdit.rightArrow);
     });
 }
@@ -235,8 +235,8 @@ function getPageBody() {
             <div class="col-12">
                 <div id="editTopNav" class="container">
                 </div>
-                <div><a id="editVisibilityLink" class="editMenuLink link-ish">
-                        <img id="visibilityMenuIcon" /> Edit Visibility (<span id="currentVisibility"></span>)</a>
+                <div id="editVisibilityDiv"><a class="editMenuLink link-ish">
+                        <img id="visibilityMenuIcon" src="${gEdit.rightArrow}"/> Edit Visibility (<span id="currentVisibility"></span>)</a>
                 </div>
                 <div class="link-ish mt-2" id="createJobOppDiv"><span class="link-ish"><img id="createJobOppArrow" src="${gEdit.rightArrow}"/></span>
                             Create New Job Opportunity</a>

@@ -10,28 +10,15 @@ function toggleSrcIcon(target, postRoot1, postRoot2) {
     else {
         target.attr('src', postRoot1);
     }
-
 }
- function manageCurrentTableVisibility() {
-     gEdit.visibilityTable = $('#tblVisibility');
-     gEdit.editVisDivIsShown = gEdit.visibilityTable.is(':visible');
-     let icon = gEdit.editVisDivIsShown ? gEdit.downArrow : gEdit.rightArrow ;
-
-     $("#visibilityMenuIcon").attr('src', icon);
- }
- function toggleEditVisibility() {
-     if (gEdit.editVisDivIsShown) {
-         gEdit.visibilityTable.hide();
-     }
-     else {
-         gEdit.visibilityTable.show();
-     }
-     manageCurrentTableVisibility();
- }
  function setupVisibilityTable() {
-     $("#editVisibilityLink").append(gEdit.visibilitySettingsTable);
-     $("#editVisibilityLink").on('click', toggleEditVisibility);
-     manageCurrentTableVisibility();
+    let table = gEdit.visibilitySettingsTable;
+     $("#editVisibilityDiv").append(table);
+     table.hide();
+     $("#editVisibilityDiv").on('click', function() {
+         toggleEltVisibility(table);
+         toggleSrcIcon($("#visibilityMenuIcon"), gEdit.rightArrow, gEdit.downArrow);
+     });
  }
 
 ///////////////////////////////////////////////////

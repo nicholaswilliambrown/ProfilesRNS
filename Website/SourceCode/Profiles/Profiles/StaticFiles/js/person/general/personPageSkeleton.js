@@ -179,7 +179,7 @@ function skeletonRhsParser(moduleJson) {
         .append(moreInfoButton);
 
     moreInfoButton.on("click", function() {
-        toggleVisibility(blurbDiv);
+        toggleEltVisibility(blurbDiv);
     })
 
     targetDiv.append(dataDiv);

@@ -315,7 +315,7 @@ function divEltTo(elt, target, divClass) {
     return div;
 }
 
-function toggleVisibility(togglingDiv, andThen) {
+function toggleEltVisibility(togglingDiv, andThen) {
 
     if (togglingDiv.is(":visible")) {
         // may not need both of these two

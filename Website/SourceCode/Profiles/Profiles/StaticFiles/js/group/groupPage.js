@@ -202,7 +202,7 @@ async function setupGroupExploreRhs(module) {
         .append(moreInfoButton);
 
     moreInfoButton.on("click", function () {
-        toggleVisibility(blurbDiv);
+        toggleEltVisibility(blurbDiv);
     });
 
     let i = 0;

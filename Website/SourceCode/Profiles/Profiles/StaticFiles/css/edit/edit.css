@@ -35,11 +35,12 @@ table {
 .topRow td {
     background-color: #EEEBE5;
     font-weight: bold;
-    color: #666;
+    color: #333;
     font-family: Arial;
     font-size: 13px;
     height: 24px;
     padding-left: 6px;
+    border-bottom-width: 1px;
 }
 
 .topRow th {

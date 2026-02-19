@@ -1,11 +1,13 @@
-﻿let gMentorOpportunities = [];
+﻿gEditProp.mentorJobOpportunities = [];
 
 async function mentorReady() {
-    let title = 'Mentoring';
-    await commonSetup(title);
-    $('#mainDiv').prepend(getPageBody());
+    editPropReady();
 
+    let title = 'Mentoring';
     loadEditTopNav(title);
+
+    await commonSetup(title);
+    $('#mainDiv').append(getPageBody());
 
     setupVisibilityTable();
     await setupJobOpps();
@@ -18,10 +20,11 @@ function setupOverview() {
     // loadEditTopNav(label);
     // setCurrentVisibility(label);
     //$(".pageTitle").html(`<h2>${propertyList.Label}</h2>`);
-    var searchParams = window.location.search;
-    const urlParams = new URLSearchParams(searchParams);
-    var subject = urlParams.get('subject');
-    var url = g.editApiPath + "?function=GetData&s=" + subject + "&p=http://profiles.catalyst.harvard.edu/ontology/prns!mentoringOverview"
+    // var searchParams = window.location.search;
+    // const urlParams = new URLSearchParams(searchParams);
+    let subject = getSearchParam('subject');
+    let url = g.editApiPath + "?function=GetData&s="
+        + subject + "&p=" + gEditProp.getMentorOverviewUrl;
 
     let mentoringOverview = getData(url, loadOverviewPage);
 
@@ -32,15 +35,15 @@ async function setupJobOpps() {
     let searchParams = window.location.search;
     let urlParams = new URLSearchParams(searchParams);
     let subject = urlParams.get('subject');
-    let url = g.editApiPath + "?function=GetData&s=" + subject
-        + "&p=http://profiles.catalyst.harvard.edu/ontology/prns!hasMentoringJobOpportunity";
+    let url = g.editApiPath + "?function=GetData&s="
+        + subject + "&p=" + gEditProp.getJobOpportunitiesUrl;
 
     await getData(url, loadJobOpportunities);
 
     $('#addEditJobOpportunity').hide(); // initially
     $('#createJobOppDiv').on('click', function(e) {
         toggleEltVisibility($('#addEditJobOpportunity'));
-        toggleSrcIcon($('#createJobOppArrow'), gEdit.downArrow, gEdit.rightArrow);
+        toggleSrcIcon($('#createJobOppArrow'), gEditProp.downArrow, gEditProp.rightArrow);
     });
 }
 
@@ -106,16 +109,16 @@ function saveMentoringJobOpportunities(opportunityId) {
     const urlParams = new URLSearchParams(searchParams);
     var subject = urlParams.get('subject');
   
-    if (gMentorOpportunities.length != 0 && gMentorOpportunities.find(x => x.opportunityId == opportunityId) != undefined) {
+    if (gEditProp.mentorJobOpportunities.length != 0 && gEditProp.mentorJobOpportunities.find(x => x.opportunityId == opportunityId) != undefined) {
         //edit existing 
 
-        const indexToEdit = gMentorOpportunities.findIndex(x => x.opportunityId == opportunityId);
-        gMentorOpportunities[indexToEdit].title = $("#jobTitle").val();
-        gMentorOpportunities[indexToEdit].jobDescription = $("#jobDescription").val();
-        gMentorOpportunities[indexToEdit].jobURL = $("#jobURL").val();
-        gMentorOpportunities[indexToEdit].categoryStudents = $("#students").prop("checked");
-        gMentorOpportunities[indexToEdit].categoryFaculty = $("#faculty").prop("checked");
-        gMentorOpportunities[indexToEdit].categoryResidentsAndFellows = $("#residentsAndFellows").prop("checked");
+        const indexToEdit = gEditProp.mentorJobOpportunities.findIndex(x => x.opportunityId == opportunityId);
+        gEditProp.mentorJobOpportunities[indexToEdit].title = $("#jobTitle").val();
+        gEditProp.mentorJobOpportunities[indexToEdit].jobDescription = $("#jobDescription").val();
+        gEditProp.mentorJobOpportunities[indexToEdit].jobURL = $("#jobURL").val();
+        gEditProp.mentorJobOpportunities[indexToEdit].categoryStudents = $("#students").prop("checked");
+        gEditProp.mentorJobOpportunities[indexToEdit].categoryFaculty = $("#faculty").prop("checked");
+        gEditProp.mentorJobOpportunities[indexToEdit].categoryResidentsAndFellows = $("#residentsAndFellows").prop("checked");
 
     } else {     
         //add new
@@ -129,7 +132,7 @@ function saveMentoringJobOpportunities(opportunityId) {
         jobOpportunity.categoryFaculty = $("#faculty").prop("checked");
         jobOpportunity.categoryResidentsAndFellows = $("#residentsAndFellows").prop("checked");
         
-        gMentorOpportunities.push(jobOpportunity);
+        gEditProp.mentorJobOpportunities.push(jobOpportunity);
     }
 
    
@@ -137,7 +140,7 @@ function saveMentoringJobOpportunities(opportunityId) {
     var url = g.editApiPath + "?function=AddUpdateProperty&s=" + subject + "&p=http://profiles.catalyst.harvard.edu/ontology/prns!hasMentoringJobOpportunity"
 
 
-    editPost(url, gMentorOpportunities, "");
+    editPost(url, gEditProp.mentorJobOpportunities, "");
     setupJobOpps();
     return false;
 
@@ -173,7 +176,7 @@ function loadJobOpportunity(jobOpportunity) {
 function loadJobOpportunities(jobOpportunities) {
     if (Array.isArray(jobOpportunities)) {
         if (jobOpportunities.length != 0) {
-            gMentorOpportunities = jobOpportunities;
+            gEditProp.mentorJobOpportunities = jobOpportunities;
         }
         
         var jobCategories = "";
@@ -183,7 +186,7 @@ function loadJobOpportunities(jobOpportunities) {
         var $tableBody = $('#tableJobOpportunities tbody');
         $tableBody.html('');
         var cnt = 1;
-        gMentorOpportunities.forEach(row => {
+        gEditProp.mentorJobOpportunities.forEach(row => {
             console.log(row);
           
             jobCategories = row.categoryStudents ? "Students " : "";
@@ -203,15 +206,15 @@ function loadJobOpportunities(jobOpportunities) {
 }
 function editJobOpportunity(opportunityId) {
     $("#addEditJobOpportunity").show();
-    let jobOpportunity = gMentorOpportunities.find(x => x.opportunityId == opportunityId);
+    let jobOpportunity = gEditProp.mentorJobOpportunities.find(x => x.opportunityId == opportunityId);
     $("#editJobOpportunity").attr("onclick", `javascript:saveMentoringJobOpportunities('${opportunityId}'); return true;`)
     loadJobOpportunity(jobOpportunity);
 }
 function deleteJobOpportunity(opportunityId) {
 
-    let byeBye = gMentorOpportunities.filter(x => x.opportunityId == opportunityId);
+    let byeBye = gEditProp.mentorJobOpportunities.filter(x => x.opportunityId == opportunityId);
     if (byeBye != -1) {
-        gMentorOpportunities.splice(byeBye, 1);
+        gEditProp.mentorJobOpportunities.splice(byeBye, 1);
     }
     var searchParams = window.location.search;
     const urlParams = new URLSearchParams(searchParams);
@@ -219,7 +222,7 @@ function deleteJobOpportunity(opportunityId) {
 
     var url = g.editApiPath + "?function=AddUpdateProperty&s=" + subject + "&p=http://profiles.catalyst.harvard.edu/ontology/prns!MentoringJobOpportunities"
 
-    editPost(url, gMentorOpportunities, "");
+    editPost(url, gEditProp.mentorJobOpportunities, "");
     setupJobOpps();
     return false;
 }
@@ -236,9 +239,9 @@ function getPageBody() {
                 <div id="editTopNav" class="container">
                 </div>
                 <div id="editVisibilityDiv"><a class="editMenuLink link-ish">
-                        <img id="visibilityMenuIcon" src="${gEdit.rightArrow}"/> Edit Visibility (<span id="currentVisibility"></span>)</a>
+                        <img id="visibilityMenuIcon" src="${gEditProp.rightArrow}"/> Edit Visibility (<span id="currentVisibility"></span>)</a>
                 </div>
-                <div class="link-ish mt-2" id="createJobOppDiv"><span class="link-ish"><img id="createJobOppArrow" src="${gEdit.rightArrow}"/></span>
+                <div class="link-ish mt-2" id="createJobOppDiv"><span class="link-ish"><img id="createJobOppArrow" src="${gEditProp.rightArrow}"/></span>
                             Create New Job Opportunity</a>
                     
                 </div>
@@ -267,7 +270,7 @@ function getPageBody() {
                         <div class="col-12">
                             <table id="tableJobOpportunities">
                                 <thead>
-                                    <tr id="moduleHeadRow" class="topRow">
+                                    <tr id="moduleHeadRow" class="topRow bold">
                                         <th class="alignLeft">Job Opportunities</th>
                                         <th class="alignCenterAction">Action</th>
                                     </tr>
@@ -277,12 +280,15 @@ function getPageBody() {
                             </table>
                         </div>
                     </div>
-                    <table class="moduleTable">
-                        <tr id="moduleHeadRow" class="topRow">
+                    <table class="moduleTable mt-2 mb-2">
+                        <tr id="moduleHeadRow" class="topRow bold">
                             <td colspan="3">Mentoring Overview</td>
                         </tr>
-                        <tr><td colspan="2" class="moduleOptions">Enter an overview:</td><td><span class="clearPage"><a href="#" onclick="javascript: clearPage();">Clear</a></span><span class="save"><a href="#" onclick="javascript: saveMentoringOverview();">Save</a></span></td></tr>
-                        <tr><td colspan="3"><textarea rows="25" cols="100" id="mentoringOverviewText"></textarea>"</td></tr>
+                        <tr><td class="moduleOptions w-50">Enter or update an overview:</td>
+                            <td class="w-50 d-flex justify-content-end"><span class="clearPage"><a href="#" onclick="javascript: clearPage();">Clear</a></span><span class="save"><a href="#" onclick="javascript: saveMentoringOverview();">Save</a></span></td>
+                            <td></td>
+                            </tr>
+                        <tr><td colspan="3"><textarea rows="8" cols="100" id="mentoringOverviewText"></textarea>"</td></tr>
                         <tr><td><div class="moduleInstruction">I'm available to mentor:</div></td><td><div><input type="checkbox" id="studentsOnResearchProjects" /> Students on Research Projects</div></td></tr>
                         <tr><td></td><td colspan="2"><div><input type="checkbox" id="studentsOnCareerDevelopment" /> Students on Career Development</div></td></tr>
                         <tr><td></td><td><div><input type="checkbox" id="studentsOnWorkLifeBalance" /> Students on Work/Life Balance</div></td></tr>

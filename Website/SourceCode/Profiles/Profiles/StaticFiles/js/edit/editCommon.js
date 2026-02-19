@@ -1,7 +1,26 @@
-﻿let gEdit = {};
-gEdit.downArrow = `${g.profilesRootURL}/Edit/Images/icon_squaredownArrow.gif`;
-gEdit.rightArrow = `${g.profilesRootURL}/Edit/Images/icon_squareArrow.gif`;
+﻿let gEditProp = {};
+gEditProp.downArrow = `${g.profilesRootURL}/Edit/Images/icon_squaredownArrow.gif`;
+gEditProp.rightArrow = `${g.profilesRootURL}/Edit/Images/icon_squareArrow.gif`;
 
+gEditProp.visPublic = -1;
+gEditProp.visNoBots = -10;
+gEditProp.visUsers = -20;
+
+gEditProp.ontologyUrlPrefix = 'http://profiles.catalyst.harvard.edu/ontology/prns!';
+gEditProp.getMentorOverviewUrl = `${gEditProp.ontologyUrlPrefix}mentoringOverview`;
+gEditProp.getJobOpportunitiesUrl = `${gEditProp.ontologyUrlPrefix}hasMentoringJobOpportunity`;
+
+function editPropReady() {
+    console.log('=============editProp', g.editPropertyParams);
+    console.log('=============subject', getSearchParam('subject'));
+    console.log('=============preLoad label',
+        JSON.parse(g.preLoad).filter(p=>p.DisplayModule=='Person.Label')[0].ModuleData[0].DisplayName);
+}
+function getSearchParam(param) {
+    let urlParams = new URLSearchParams(window.location.search);
+    let result = urlParams.get(param);
+    return result;
+}
 function toggleSrcIcon(target, postRoot1, postRoot2) {
     console.log(target.attr('src'));
     if (target.attr('src').match(postRoot1)) {
@@ -12,18 +31,18 @@ function toggleSrcIcon(target, postRoot1, postRoot2) {
     }
 }
  function setupVisibilityTable() {
-    let table = gEdit.visibilitySettingsTable;
+    let table = gEditProp.visibilitySettingsTable;
      $("#editVisibilityDiv").append(table);
      table.hide();
      $("#editVisibilityDiv").on('click', function() {
          toggleEltVisibility(table);
-         toggleSrcIcon($("#visibilityMenuIcon"), gEdit.rightArrow, gEdit.downArrow);
+         toggleSrcIcon($("#visibilityMenuIcon"), gEditProp.rightArrow, gEditProp.downArrow);
      });
  }
 
 ///////////////////////////////////////////////////
 
- gEdit.visibilitySettingsTable = $(`
+ gEditProp.visibilitySettingsTable = $(`
         <table id="tblVisibility">
             <thead>
                 <tr class="topRow"> 

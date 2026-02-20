@@ -2,15 +2,25 @@
 gEditProp.downArrow = `${g.profilesRootURL}/Edit/Images/icon_squaredownArrow.gif`;
 gEditProp.rightArrow = `${g.profilesRootURL}/Edit/Images/icon_squareArrow.gif`;
 
-gEditProp.visPublic = '-1';
+gEditProp.visPublic = '-1' ;
 gEditProp.visNoBots = '-10';
-gEditProp.visUsers = '-20';
+gEditProp.visUsers  = '-20';
 
-gEditProp.ontologyUrlPrefix = 'http://profiles.catalyst.harvard.edu/ontology/prns!';
+gEditProp.prettyVis = new Map();
+gEditProp.prettyVis.set(gEditProp.visPublic, 'public'   );
+gEditProp.prettyVis.set(gEditProp.visNoBots, 'no search');
+gEditProp.prettyVis.set(gEditProp.visUsers , 'any user' );
+
+gEditProp.updateVisibilityPrefix = g.editApiPath + "?function=UpdateVisibility&s=";
+gEditProp.getDataFunctionPrefix = g.editApiPath + "?function=GetData&s=";
+gEditProp.addUpdateDataFunctionPrefix = g.editApiPath + "?function=AddUpdateProperty&s=";
+
+gEditProp.ontologyUrlPrnsPrefix = 'http://profiles.catalyst.harvard.edu/ontology/prns!';
 gEditProp.ontologyMentoring = 'mentoringOverview';
-gEditProp.ontologyJobOpps = 'hasMentoringJobOpportunity';
-gEditProp.getMentorOverviewUrl = `${gEditProp.ontologyUrlPrefix}${gEditProp.ontologyMentoring}`;
-gEditProp.getJobOpportunitiesUrl = `${gEditProp.ontologyUrlPrefix}${gEditProp.ontologyJobOpps}`;
+gEditProp.ontologyHasJobOpps = 'hasMentoringJobOpportunity';
+
+gEditProp.getMentorOverviewPrnsUrl = `${gEditProp.ontologyUrlPrnsPrefix}${gEditProp.ontologyMentoring}`;
+gEditProp.getJobOpportunitiesPrnsUrl = `${gEditProp.ontologyUrlPrnsPrefix}${gEditProp.ontologyHasJobOpps}`;
 
 async function editCommonReady() {
     gEditProp.subject = getSearchParam('subject');
@@ -18,42 +28,17 @@ async function editCommonReady() {
     console.log('=============editProp', g.editPropertyParams);
     console.log('=============subject <', gEditProp.subject, '>');
 
-    let title = JSON.parse(g.preLoad).filter(p=>p.DisplayModule=='Person.Label')[0].ModuleData[0].DisplayName;
-
+    gEditProp.title = JSON.parse(g.preLoad).filter(p=>p.DisplayModule=='Person.Label')[0].ModuleData[0].DisplayName;
     gEditProp.properties = JSON.parse(g.editPropertyParams);
 
-    await commonSetup(title);
+    await commonSetup(gEditProp.title);
     let mainDiv = $('#mainDiv')
 
-    loadBreadcrumbs(title, mainDiv);
+    loadBreadcrumbs(gEditProp.title, mainDiv);
     
     setupVisibilityTable(mainDiv);
     
     return mainDiv;
-}
-function setupVisibilityTable(target) {
-    let div = loadVisibilityDiv(target)
-
-    let table = $('#tblVisibility');
-    table.hide(); // initially
-    div.on('click', function() {
-        toggleEltVisibility(table);
-        toggleSrcIcon($("#visibilityMenuIcon"), gEditProp.rightArrow, gEditProp.downArrow);
-    });
-}
-function getSearchParam(param) {
-    let urlParams = new URLSearchParams(window.location.search);
-    let result = urlParams.get(param);
-    return result;
-}
-function toggleSrcIcon(target, srcRoot1, srcRoot2) {
-    console.log(target.attr('src'));
-    if (target.attr('src').match(srcRoot1)) {
-        target.attr('src', srcRoot2);
-    }
-    else {
-        target.attr('src', srcRoot1);
-    }
 }
 function loadVisibilityDiv(target) {
     let div = $(`
@@ -91,68 +76,34 @@ function loadVisibilityDiv(target) {
         </table>
     `)
     target.append(div);
-    $('input[name="visibility"]').on('click', function() {
-        gEditProp.visibility = $('input[name="visibility"]:checked').val();
-        console.log("======= visibility: --------", gEditProp.visibility);
-    });
     return div;
 }
-///////////////////////////////////////////////////
+function setupVisibilityTable(target) {
+    let div = loadVisibilityDiv(target);
+    // let visibilityData = getDataViaPost(url, (data) => {
+    //     let d = data;
+    // });
 
-async function editPost(url, body,redirectTo) {
-    console.log('--------edit for post----------');
-    console.log(url);
-    var _body = JSON.stringify(body);
-    console.log(_body); 
-     try {
-         const results = await $.post(url, _body);
-             let stringResults = JSON.stringify(results);
-             console.log('--------Done with edit for post----------');
-             console.log(stringResults);
-             if (redirectTo != '')
-                window.location.href = redirectTo;
-     } catch (error) {
-         console.log(error);
-         if (redirectTo != '')
-            window.location.href = redirectTo;
-     }
-}
- async function getData(url,callback) {
-    console.log('--------get edit data----------');
-    console.log(url);
-
-    $.post(url,function (results) {
-        callback(results);
+    let table = $('#tblVisibility');
+    table.hide(); // initially
+    div.on('click', function() {
+        toggleEltVisibility(table);
+        toggleSrcIcon($("#visibilityMenuIcon"), gEditProp.rightArrow, gEditProp.downArrow);
     });
-    return true;
+    $('input[name="visibility"]').on('click', function() {
+        let visibility = $('input[name="visibility"]:checked').val();
+        gEditProp.visibility = visibility;
+        let prettyVis = gEditProp.prettyVis.get(visibility) ? gEditProp.prettyVis.get(visibility) : 'Only ' + gEditProp.title;
+        $('#currentVisibility').text(prettyVis);
+        console.log("======= visibility: --------", gEditProp.visibility);
+
+        let subject = getSearchParam('subject');
+        let url = `${gEditProp.updateVisibilityPrefix}${subject}`
+            + `&p=${gEditProp.ontologyUrlPrnsPrefix}MentoringDevelopment&v=${visibility}`;
+        editSaveViaPost(url);
+    });
 }
 
-
-
-function SecuritySettingChange(secVal) {
-
-    // Get the selected radio button's value
-    const selectedValue = secVal;
-
-    // Find the matching SecurityGroup object in propertyList.SecurityGroupList
-    const securityGroup = propertyList.SecurityGroupList.find(
-        group => group.SecurityGroup.toString() === selectedValue
-    );
-
-    // Update the #currentVisibility span with the corresponding ViewSecurityGroupLabel
-    if (securityGroup) {
-        $('#currentVisibility').text(securityGroup.Label);
-    } else {
-        $('#currentVisibility').text('Unknown'); // Fallback if no matching label is found
-    }
-
-    // Hide the #editVisibility div
-
-    // $("#visibilityMenuIcon").attr('src', $("#visibilityMenuIcon").attr('src').replace('icon_squaredownArrow', 'icon_squareArrow'));
-    // $('#editVisibility').hide();
-
-
-}
 function loadBreadcrumbs(title, target) {
     let breadcrumbs = $(`<div class="row ">
                         <div class='col-10 d-flex justify-content-start'>
@@ -165,3 +116,49 @@ function loadBreadcrumbs(title, target) {
                     </div>`);
     target.append(breadcrumbs);
 }
+
+function getSearchParam(param) {
+    let urlParams = new URLSearchParams(window.location.search);
+    let result = urlParams.get(param);
+    return result;
+}
+function toggleSrcIcon(target, srcRoot1, srcRoot2) {
+    console.log(target.attr('src'));
+    if (target.attr('src').match(srcRoot1)) {
+        target.attr('src', srcRoot2);
+    }
+    else {
+        target.attr('src', srcRoot1);
+    }
+}
+///////////////////////////////////////////////////
+
+async function editSaveViaPost(url, content, redirectTo) {
+    let _content = JSON.stringify(content);
+    console.log(_content);
+     try {
+         await $.ajax({
+             type: "POST",
+             url: url,
+             data: _content,
+             success: () => {
+                 if (redirectTo) {
+                     window.location.href = redirectTo;
+                 }
+                 else {
+                     window.location.reload();
+                 }
+             },
+             dataType: 'text'
+         });
+     } catch (error) {
+         console.log(error);
+         window.location.reload();
+     }
+}
+ async function getDataViaPost(url, callback) {
+    $.post(url,function (results) {
+        callback(results);
+    });
+}
+

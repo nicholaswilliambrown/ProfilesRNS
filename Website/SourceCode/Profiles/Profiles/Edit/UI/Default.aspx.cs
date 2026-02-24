@@ -46,6 +46,7 @@ namespace Profiles.Edit.UI
                 string str = string.Empty;
                 bool botindex = true;
                 string layoutData = "{}";
+                string editPropertyParams = "{}";
 
                 try
                 {
@@ -84,21 +85,31 @@ namespace Profiles.Edit.UI
                     if (!dbreader.IsClosed)
                         dbreader.Close();
 
+                    SqlCommand dbcommand2 = new SqlCommand("[Edit.Module].[GetEditPropertyParams]");
+                    dbcommand2.CommandTimeout = Convert.ToInt32(ConfigurationManager.AppSettings["COMMANDTIMEOUT"]);
+
+                    SqlDataReader dbreader2;
+                    dbconnection.Open();
+                    dbcommand2.CommandType = CommandType.StoredProcedure;
+                    //dbcommand.CommandTimeout = base.GetCommandTimeout();
+                    dbcommand2.Parameters.Add(new SqlParameter("@subject", this.Subject));
+                    dbcommand2.Parameters.Add(new SqlParameter("@PropertyURI", Request.QueryString["predicateuri"].Replace('!', '#')));
+                    //if (session.UserID > 0) dbcommand.Parameters.Add(new SqlParameter("@SessionID", session.SessionID));
+                    dbcommand2.Parameters.Add(new SqlParameter("@SessionID", session.SessionID));
+
+                    dbcommand2.Connection = dbconnection;
+                    dbreader2 = dbcommand2.ExecuteReader(CommandBehavior.CloseConnection);
+
+                    while (dbreader2.Read())
+                    {
+                        editPropertyParams = dbreader2["editPropertyParams"].ToString();
+                    }
+
+                    if (!dbreader2.IsClosed)
+                        dbreader2.Close();
+
                 }
-                catch (Exception ex) { Framework.Utilities.DebugLogging.Log($"Profile/Display.aspx.cs : {ex.Message}"); }
-
-                string editPropertyParams = "{}";
-
-                switch (Request.QueryString["predicateuri"].ToLower())
-                {
-                    case "http://profiles.catalyst.harvard.edu/ontology/prns!mentoringoverview":
-                        editPropertyParams = "{\"propertyURI\":\"http://profiles.catalyst.harvard.edu/ontology/prns!mentoringoverview\", \"propertyName\":\"mentoring overview\", \"propertyModule\":\"edit.mentoringOverview\", \"maxCardinality\":1}";
-                        break;
-                    case "http://profiles.catalyst.harvard.edu/ontology/prns!hasmentoringjobopportunity":
-                        editPropertyParams = "{\"propertyURI\":\"http://profiles.catalyst.harvard.edu/ontology/prns!hasmentoringjobopportunity\", \"propertyName\":\"mentoring job opportunities\", \"propertyModule\":\"edit.mentoringJobOpportunities\", \"maxCardinality\":-1}";
-                        break;
-
-                }
+                catch (Exception ex) { Framework.Utilities.DebugLogging.Log($"Edit/UI/Display.aspx.cs : {ex.Message}"); }
 
                 string sessionInfo = ConfigurationHelper.GetSessionInfoJavascriptObject(session);
                 string g = ConfigurationHelper.GlobalJavascriptVariablesProfilePage.Replace("{dataURLs}", dataURLs + "'; g.editPropertyParams='" + editPropertyParams).Replace("{tab}", "").Replace("{preLoad}", layoutData.Replace("'", "\\'"));

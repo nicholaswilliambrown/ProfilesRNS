@@ -31,8 +31,9 @@ namespace Profiles.Edit
 			if (Request.QueryString["function"] != null) function = Request.QueryString["function"].ToString();
 			if (Request.QueryString["s"] != null) s = Request.QueryString["s"].ToString();
 			if (Request.QueryString["p"] != null) p = Request.QueryString["p"].ToString();
-			if (Request.QueryString["v"] != null) v = Request.QueryString["v"].ToString();
-	
+            p = p.Replace('!', '#');
+            if (Request.QueryString["v"] != null) v = Request.QueryString["v"].ToString();
+
 			string sessionID = session.SessionID;
 			if (session.UserID == 0) // Not logged in return unauthorized (unauthenticated) response
 			{
@@ -131,7 +132,7 @@ namespace Profiles.Edit
 				Response.ContentType = "application/json; charset=utf-8";
 				Response.AppendHeader("Access-Control-Allow-Origin", "*");
 				Response.AppendHeader("cache-control", "no-store");
-				Response.Write("SUCCESS");					
+				Response.Write("{\"status\":\"SUCCESS\"}");					
 			}
 			else if(string.Equals("AddUpdateProperty",function))
 			{
@@ -180,8 +181,8 @@ namespace Profiles.Edit
 				Response.ContentType = "application/json; charset=utf-8";
 				Response.AppendHeader("Access-Control-Allow-Origin", "*");
 				Response.AppendHeader("cache-control", "no-store");
-				Response.Write("SUCCESS");
-			}
+                Response.Write("{\"status\":\"SUCCESS\"}");
+            }
         }
 
 

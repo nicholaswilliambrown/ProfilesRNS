@@ -96,10 +96,10 @@ function setupVisibilityTable(target) {
         let prettyVis = gEditProp.prettyVis.get(visibility) ? gEditProp.prettyVis.get(visibility) : 'Only ' + gEditProp.title;
         $('#currentVisibility').text(prettyVis);
         console.log("======= visibility: --------", gEditProp.visibility);
-
+        let predicateURI = getSearchParam('predicateuri');
         let subject = getSearchParam('subject');
         let url = `${gEditProp.updateVisibilityPrefix}${subject}`
-            + `&p=${gEditProp.ontologyUrlPrnsPrefix}MentoringDevelopment&v=${visibility}`;
+            + `&p=${predicateURI}&v=${visibility}`;
         editSaveViaPost(url);
     });
 }
@@ -107,7 +107,7 @@ function setupVisibilityTable(target) {
 function loadBreadcrumbs(title, target) {
     let breadcrumbs = $(`<div class="row ">
                         <div class='col-10 d-flex justify-content-start'>
-                            <a class='editMenuLink' href='edit/${g.profilesRootURL}/default.aspx?subject=${sessionInfo.personNodeID}'>Edit Menu</a>
+                            <a class='editMenuLink' href='${g.profilesRootURL}/edit/default.aspx?subject=${sessionInfo.personNodeID}'>Edit Menu</a>
                             <span class='editMenuGT'>&nbsp;>&nbsp;</span><span><b>${title}</b></span>
                         </div>
                         <div class='col-2 d-flex justify-content-end'>

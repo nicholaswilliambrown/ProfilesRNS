@@ -5,6 +5,7 @@ gEditProp.rightArrow = `${g.profilesRootURL}/Edit/Images/icon_squareArrow.gif`;
 gEditProp.visPublic = '-1' ;
 gEditProp.visNoBots = '-10';
 gEditProp.visUsers  = '-20';
+gEditProp.justUpdatedVisibility = 'justUpdatedVisibility';
 
 gEditProp.prettyVis = new Map();
 gEditProp.prettyVis.set(gEditProp.visPublic, 'public'   );
@@ -79,14 +80,21 @@ function loadVisibilityDiv(target) {
     return div;
 }
 function setupVisibilityTable(target) {
+    let subject = getSearchParam('subject');
     let div = loadVisibilityDiv(target);
-    // url = <get current visibility> // or maybe comes from g.editPropertyParams
-    // let visibilityData = getDataViaPost(url, (data) => {
-    //     let d = data;
-    // });
+    let currentVisibility = JSON.parse(g.editPropertyParams).viewSecurityGroup;
+    if (currentVisibility >= 0) {
+        currentVisibility = subject; // workaround to get subject id
+    }
+    $(`input[name="visibility"][value="${currentVisibility}"]`).prop("checked", true);
 
     let table = $('#tblVisibility');
-    table.hide(); // initially
+    if (! localStorage.getItem(gEditProp.justUpdatedVisibility)) {
+        table.hide();
+    }
+    else { // transient property
+        localStorage.removeItem(gEditProp.justUpdatedVisibility);
+    }
     div.on('click', function() {
         toggleEltVisibility(table);
         toggleSrcIcon($("#visibilityMenuIcon"), gEditProp.rightArrow, gEditProp.downArrow);
@@ -98,9 +106,9 @@ function setupVisibilityTable(target) {
         $('#currentVisibility').text(prettyVis);
         console.log("======= visibility: --------", gEditProp.visibility);
         let predicateURI = getSearchParam('predicateuri');
-        let subject = getSearchParam('subject');
         let url = `${gEditProp.updateVisibilityPrefix}${subject}`
             + `&p=${predicateURI}&v=${visibility}`;
+        localStorage.setItem(gEditProp.justUpdatedVisibility, true);
         editSaveViaPost(url);
     });
 }
@@ -136,24 +144,17 @@ function toggleSrcIcon(target, srcRoot1, srcRoot2) {
 
 async function editSaveViaPost(url, content, redirectTo) {
     let _content = JSON.stringify(content);
-    console.log(_content);
      try {
-         await $.ajax({
-             type: "POST",
-             url: url,
-             data: _content,
-             dataType: 'text'
-         });
+         await $.post(url, _content);
      } catch (error) {
          console.log(error);
-         window.location.reload();
      } finally {
-             if (redirectTo) {
-                 window.location.href = redirectTo;
-             }
-             else {
-                 window.location.reload();
-             }
+         if (redirectTo) {
+             window.location.href = redirectTo;
+         }
+         else {
+             window.location.reload();
+         }
      }
 }
  async function getDataViaPost(url, callback) {

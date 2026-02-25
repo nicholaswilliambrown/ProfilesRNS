@@ -26,11 +26,10 @@ gEditProp.getJobOpportunitiesPrnsUrl = `${gEditProp.ontologyUrlPrnsPrefix}${gEdi
 async function editCommonReady() {
     gEditProp.subject = getSearchParam('subject');
 
-    console.log('=============editProp', g.editPropertyParams);
-    console.log('=============subject <', gEditProp.subject, '>');
-
     gEditProp.title = JSON.parse(g.preLoad).filter(p=>p.DisplayModule=='Person.Label')[0].ModuleData[0].DisplayName;
     gEditProp.properties = JSON.parse(g.editPropertyParams);
+
+    console.log('=============editPropertyParams', gEditProp.properties);
 
     await commonSetup(gEditProp.title);
     let mainDiv = $('#mainDiv')
@@ -82,7 +81,7 @@ function loadVisibilityDiv(target) {
 function setupVisibilityTable(target) {
     let subject = getSearchParam('subject');
     let div = loadVisibilityDiv(target);
-    let currentVisibility = JSON.parse(g.editPropertyParams).viewSecurityGroup;
+    let currentVisibility = gEditProp.properties.viewSecurityGroup;
     if (currentVisibility >= 0) {
         currentVisibility = subject; // workaround to get subject id
     }
@@ -158,8 +157,14 @@ async function editSaveViaPost(url, content, redirectTo) {
      }
 }
  async function getDataViaPost(url, callback) {
-    $.post(url,function (results) {
-        callback(results);
+    let result = 0;
+    await $.post(url,function (results) {
+        result = callback(results);
+    })
+    .fail(function(response) {
+        alert(`${url} failed, saying: ${response.responseText}. Try logging in again.`);
+        window.location.href = gCommon.loginUrl;
     });
+    return result;
 }
 

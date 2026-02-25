@@ -108,8 +108,14 @@ async function setupJobOpps(target) {
     let subject = getSearchParam('subject');
     let url = gEditProp.getDataFunctionPrefix + subject + "&p=" + gEditProp.getJobOpportunitiesPrnsUrl;
 
-    await getDataViaPost(url, emitJobOpportunities);
-
+    let numCurrentJobs = await getDataViaPost(url, emitJobOpportunities);
+    let maxCardinality = gEditProp.properties.maxCardinality;
+    let createJobDiv = $('#createJobOppDiv');
+    if ( maxCardinality > 0 && numCurrentJobs >= maxCardinality) {
+        createJobDiv.remove();
+        $('#addEditJobOpportunity').remove();
+        $('#tableJobOpportunities').addClass("mt-2"); // mind the gap
+    }
     let addEdit = $('#addEditJobOpportunity');
     addEdit.hide(); // initially
     $('#createJobOppDiv').on('click', function (e) {
@@ -221,7 +227,6 @@ function emitOverviewSection(mentoringOverview) {
     $("#residentsAndFellowsOnResearchProjects").prop("checked", mentoringOverview.residentsAndFellowsOnResearchProjects);
     $("#residentsAndFellowsOnCareerDevelopment").prop("checked", mentoringOverview.residentsAndFellowsOnCareerDevelopment);
     $("#residentsAndFellowsOnWorkLifeBalance").prop("checked", mentoringOverview.residentsAndFellowsOnWorkLifeBalance);
-    return true;
 }
 
 function loadJobOpportunity(jobOpportunity) {
@@ -236,9 +241,12 @@ function loadJobOpportunity(jobOpportunity) {
 }
 
 function emitJobOpportunities(jobOpportunities) {
+    let numJobs = 0;
+
     if (Array.isArray(jobOpportunities)) {
         if (jobOpportunities.length != 0) {
             gEditProp.mentorJobOpportunities = jobOpportunities;
+            numJobs = jobOpportunities.length;
         }
 
         let jobCategories = "";
@@ -262,9 +270,7 @@ function emitJobOpportunities(jobOpportunities) {
             cnt++;
         });
     }
-
-    return true;
-
+    return numJobs;
 }
 
 function editJobOpportunity(opportunityId) {

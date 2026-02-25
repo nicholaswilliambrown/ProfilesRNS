@@ -80,6 +80,7 @@ function loadVisibilityDiv(target) {
 }
 function setupVisibilityTable(target) {
     let div = loadVisibilityDiv(target);
+    // url = <get current visibility> // or maybe comes from g.editPropertyParams
     // let visibilityData = getDataViaPost(url, (data) => {
     //     let d = data;
     // });
@@ -141,19 +142,18 @@ async function editSaveViaPost(url, content, redirectTo) {
              type: "POST",
              url: url,
              data: _content,
-             success: () => {
-                 if (redirectTo) {
-                     window.location.href = redirectTo;
-                 }
-                 else {
-                     window.location.reload();
-                 }
-             },
              dataType: 'text'
          });
      } catch (error) {
          console.log(error);
          window.location.reload();
+     } finally {
+             if (redirectTo) {
+                 window.location.href = redirectTo;
+             }
+             else {
+                 window.location.reload();
+             }
      }
 }
  async function getDataViaPost(url, callback) {

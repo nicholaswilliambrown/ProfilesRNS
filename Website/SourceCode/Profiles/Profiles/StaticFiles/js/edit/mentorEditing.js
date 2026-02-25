@@ -171,9 +171,9 @@ function saveMentoringOverview() {
 }
 
 function saveMentoringJobOpportunities(opportunityId) {
-    var searchParams = window.location.search;
+    let searchParams = window.location.search;
     const urlParams = new URLSearchParams(searchParams);
-    var subject = urlParams.get('subject');
+    let subject = urlParams.get('subject');
 
     if (gEditProp.mentorJobOpportunities.length != 0 && gEditProp.mentorJobOpportunities.find(x => x.opportunityId == opportunityId) != undefined) {
         //edit existing 
@@ -241,20 +241,20 @@ function emitJobOpportunities(jobOpportunities) {
             gEditProp.mentorJobOpportunities = jobOpportunities;
         }
 
-        var jobCategories = "";
+        let jobCategories = "";
 
-        var editIcon = `${g.profilesRootURL}/edit/images/Icon_Edit.gif`;
-        var deleteIcon = `${g.profilesRootURL}/edit/images/Icon_delete.gif`;
-        var $tableBody = $('#tableJobOpportunities tbody');
+        let editIcon = `${g.profilesRootURL}/edit/images/Icon_Edit.gif`;
+        let deleteIcon = `${g.profilesRootURL}/edit/images/Icon_delete.gif`;
+        let $tableBody = $('#tableJobOpportunities tbody');
         $tableBody.html('');
-        var cnt = 1;
+        let cnt = 1;
         gEditProp.mentorJobOpportunities.forEach(row => {
-            console.log(row);
+            //console.log(row);
 
             jobCategories = row.categoryStudents ? "Students " : "";
             jobCategories += row.categoryFaculty ? "Faculty " : "";
             jobCategories += row.categoryResidentsAndFellows ? "Residents and Fellows " : "";
-            var $newRow = $('<tr class="oddRow">');
+            let $newRow = $('<tr class="oddRow">');
 
             $newRow.append($('<td class="jobOpportunitiesFirstCell">').append(`<div class="jobTitle">${cnt}. ${row.title}</div><div class="jobDescription">${row.jobDescription}</div><div><span class="jobCategoryDisplayLabel">Job Category:</span> ${jobCategories} <span class="jobURLDisplayLabel">Job URL:</span> <a target="_blank" rel="noopener noreferrer" href="${row.jobURL}">${row.jobURL}</a></div>`));
             $newRow.append($('<td class="alignCenterAction">').append(`<div><img src='${editIcon}' onclick='editJobOpportunity("${row.opportunityId}"); return false;'/><img src='${deleteIcon}' onclick='deleteJobOpportunity("${row.opportunityId}");return false;'/></div>`));
@@ -280,11 +280,11 @@ function deleteJobOpportunity(opportunityId) {
     if (byeBye != -1) {
         gEditProp.mentorJobOpportunities.splice(byeBye, 1);
     }
-    var searchParams = window.location.search;
+    let searchParams = window.location.search;
     const urlParams = new URLSearchParams(searchParams);
-    var subject = urlParams.get('subject');
+    let subject = urlParams.get('subject');
 
-    var url = gEditProp.addUpdateDataFunctionPrefix + subject +  "&p=" + gEditProp.getJobOpportunitiesPrnsUrl;
+    let url = gEditProp.addUpdateDataFunctionPrefix + subject +  "&p=" + gEditProp.getJobOpportunitiesPrnsUrl;
 
     editSaveViaPost(url, gEditProp.mentorJobOpportunities);
 }

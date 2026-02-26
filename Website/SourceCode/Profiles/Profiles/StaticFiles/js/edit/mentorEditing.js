@@ -49,7 +49,7 @@ function loadJobOpportunitiesDiv(target) {
             <div class="link-ish mt-2" id="createJobOppDiv"><span class="link-ish"><img id="createJobOppArrow" src="${gEditProp.rightArrow}"/></span>
                         Create New Job Opportunity</a>
             </div>
-            <div id="addEditJobOpportunity" class="editPanel mt-0">
+            <div id="newJobOpportunityDiv" class="editPanel mt-0">
                 <div><a id="editJobOpportunity" href="#" onclick="saveMentoringJobOpportunities('')">Save</a>
                     <span class="pipe">|</span><span><a href="#" onclick='clearJobOpportunityForm(); return false;'>Cancel</a></span>
                 </div>
@@ -68,7 +68,7 @@ function loadJobOpportunitiesDiv(target) {
                         <div><input type="checkbox" id="residentsAndFellows" /><span>Residents and Fellows</span></div>
                     </div>
                 </div>
-            </div> <!-- addEditJobOpportunity -->
+            </div> <!-- newJobOpportunityDiv -->
             <div id="moduleBody" class="container">
                 <div class="row d-flex">
                     <div class="col-12">
@@ -109,21 +109,44 @@ async function setupJobOpps(target) {
     let url = gEditProp.getDataFunctionPrefix + subject + "&p=" + gEditProp.getJobOpportunitiesPrnsUrl;
 
     let numCurrentJobs = await getDataViaPost(url, emitJobOpportunities);
-    let maxCardinality = gEditProp.properties.maxCardinality;
-    let createJobDiv = $('#createJobOppDiv');
-    if ( maxCardinality > 0 && numCurrentJobs >= maxCardinality) {
-        createJobDiv.remove();
-        $('#addEditJobOpportunity').remove();
-        $('#tableJobOpportunities').addClass("mt-2"); // mind the gap
-    }
-    let addEdit = $('#addEditJobOpportunity');
-    addEdit.hide(); // initially
-    $('#createJobOppDiv').on('click', function (e) {
-        toggleEltVisibility(addEdit);
-        toggleSrcIcon($('#createJobOppArrow'), gEditProp.downArrow, gEditProp.rightArrow);
-    });
+    cardinalityPattern({
+        createItemOverallDivId: 'createJobOppDiv',
+        newItemDivId:           'newJobOpportunityDiv',
+        currentItemsDivId:      'tableJobOpportunities',
+        togglingArrowImgId:     'createJobOppArrow',
+        numItems:               numCurrentJobs }
+    );
 }
+function cardinalityPattern(options) {
+    // allow 'de-structuring' to tolerate options provided in any order
+    let [createItemOverallDivId, newItemDivId, currentItemsDivId, togglingArrowImgId, numItems] =
+        [   options.createItemOverallDivId,
+            options.newItemDivId,
+            options.currentItemsDivId,
+            options.togglingArrowImgId,
+            options.numItems ];
+    
+    let maxCardinality = gEditProp.properties.maxCardinality;
 
+    let currentItemsDiv = $(`#${currentItemsDivId}`);
+    let createJobDiv = $(`#${createItemOverallDivId}`);
+    let newItemDiv = $(`#${newItemDivId}`);
+    newItemDiv.hide(); // at least initially
+    let togglingArrowImg = $(`#${togglingArrowImgId}`);
+
+    if ( maxCardinality > 0 && numItems >= maxCardinality) {
+        createJobDiv.remove();
+        newItemDiv.remove();
+        currentItemsDiv.addClass("mt-2"); // mind the gap
+    }
+    else {
+        createJobDiv.on('click', function (e) {
+            toggleEltVisibility(newItemDiv);
+            toggleSrcIcon(togglingArrowImg, gEditProp.downArrow, gEditProp.rightArrow);
+        });
+    }
+
+}
 function clearMentorOverviewSection() {
     $("#mentoringOverviewText").val("");
     $("#studentsOnResearchProjects").prop("checked", false);
@@ -148,7 +171,7 @@ function clearJobOpportunityForm() {
     $("#students").prop("checked", false);
     $("#faculty").prop("checked", false);
     $("#residentsAndFellows").prop("checked", false);
-    //$("#addEditJobOpportunity").hide();
+    //$("#newJobOpportunityDiv").hide();
     $("#editJobOpportunity").attr("onclick", `javascript:saveMentoringJobOpportunities('')`)
 
 }
@@ -274,7 +297,7 @@ function emitJobOpportunities(jobOpportunities) {
 }
 
 function editJobOpportunity(opportunityId) {
-    $("#addEditJobOpportunity").show();
+    $("#newJobOpportunityDiv").show();
     let jobOpportunity = gEditProp.mentorJobOpportunities.find(x => x.opportunityId == opportunityId);
     $("#editJobOpportunity").attr("onclick", `javascript:saveMentoringJobOpportunities('${opportunityId}')`)
     loadJobOpportunity(jobOpportunity);

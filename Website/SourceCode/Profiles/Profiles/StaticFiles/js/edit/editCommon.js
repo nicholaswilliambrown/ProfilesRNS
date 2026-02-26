@@ -143,28 +143,24 @@ function toggleSrcIcon(target, srcRoot1, srcRoot2) {
 
 async function editSaveViaPost(url, content, redirectTo) {
     let _content = JSON.stringify(content);
-     try {
-         await $.post(url, _content);
-     } catch (error) {
-         console.log(error);
-     } finally {
+     await $.post(url, _content, function () {
          if (redirectTo) {
              window.location.href = redirectTo;
          }
          else {
              window.location.reload();
          }
-     }
+     })
+     .fail((response) => ajaxPostFailure(response, url));
 }
  async function getDataViaPost(url, callback) {
     let result = 0;
-    await $.post(url,function (results) {
+    await $.post(url, function (results) {
         result = callback(results);
     })
-    .fail(function(response) {
-        alert(`${url} failed, saying: ${response.responseText}. Try logging in again.`);
-        window.location.href = gCommon.loginUrl;
-    });
+    .fail((response) => ajaxPostFailure(response, url));
     return result;
 }
-
+function ajaxPostFailure(response, url) {
+        alert(`${url} failed, saying: <${response.responseText}>.\n\nMaybe log in again at \n\n${gCommon.loginUrl}.`);
+}

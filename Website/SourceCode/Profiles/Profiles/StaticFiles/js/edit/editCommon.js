@@ -26,15 +26,16 @@ gEditProp.getJobOpportunitiesPrnsUrl = `${gEditProp.ontologyUrlPrnsPrefix}${gEdi
 async function editCommonReady() {
     gEditProp.subject = getSearchParam('subject');
 
-    gEditProp.title = JSON.parse(g.preLoad).filter(p=>p.DisplayModule=='Person.Label')[0].ModuleData[0].DisplayName;
+    gEditProp.personName = JSON.parse(g.preLoad).filter(p=>p.DisplayModule=='Person.Label')[0].ModuleData[0].DisplayName;
     gEditProp.properties = JSON.parse(g.editPropertyParams);
+    gEditProp.propertyName = gEditProp.properties.propertyName;
 
     console.log('=============editPropertyParams', gEditProp.properties);
 
-    await commonSetup(gEditProp.title);
+    await commonSetup(gEditProp.propertyName);
     let mainDiv = $('#mainDiv')
 
-    loadBreadcrumbs(gEditProp.title, mainDiv);
+    loadBreadcrumbs(gEditProp.propertyName, mainDiv);
     
     setupVisibilityTable(mainDiv);
     
@@ -86,6 +87,9 @@ function setupVisibilityTable(target) {
         currentVisibility = subject; // workaround to get subject id
     }
     $(`input[name="visibility"][value="${currentVisibility}"]`).prop("checked", true);
+    let prettyVis = gEditProp.prettyVis.get(visibility) ? gEditProp.prettyVis.get(visibility) : 'Only ' + gEditProp.personName;
+    $('#currentVisibility').html(prettyVis);
+    console.log("======= visibility: --------", gEditProp.visibility);
 
     let table = $('#tblVisibility');
     if (! localStorage.getItem(gEditProp.justUpdatedVisibility)) {
@@ -101,9 +105,6 @@ function setupVisibilityTable(target) {
     $('input[name="visibility"]').on('click', function() {
         let visibility = $('input[name="visibility"]:checked').val();
         gEditProp.visibility = visibility;
-        let prettyVis = gEditProp.prettyVis.get(visibility) ? gEditProp.prettyVis.get(visibility) : 'Only ' + gEditProp.title;
-        $('#currentVisibility').text(prettyVis);
-        console.log("======= visibility: --------", gEditProp.visibility);
         let predicateURI = getSearchParam('predicateuri');
         let url = `${gEditProp.updateVisibilityPrefix}${subject}`
             + `&p=${predicateURI}&v=${visibility}`;

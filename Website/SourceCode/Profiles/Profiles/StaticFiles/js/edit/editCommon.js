@@ -2,15 +2,15 @@
 gEditProp.downArrow = `${g.profilesRootURL}/Edit/Images/icon_squaredownArrow.gif`;
 gEditProp.rightArrow = `${g.profilesRootURL}/Edit/Images/icon_squareArrow.gif`;
 
-gEditProp.visPublic = '-1' ;
-gEditProp.visNoBots = '-10';
-gEditProp.visUsers  = '-20';
+gEditProp.visPublic = -1 ;
+gEditProp.visNoBots = -10;
+gEditProp.visUsers  = -20;
 gEditProp.justUpdatedVisibility = 'justUpdatedVisibility';
 
 gEditProp.prettyVis = new Map();
-gEditProp.prettyVis.set(gEditProp.visPublic, 'public'   );
-gEditProp.prettyVis.set(gEditProp.visNoBots, 'no search');
-gEditProp.prettyVis.set(gEditProp.visUsers , 'any user' );
+gEditProp.prettyVis.set(gEditProp.visPublic, 'Public'   );
+gEditProp.prettyVis.set(gEditProp.visNoBots, 'No Search');
+gEditProp.prettyVis.set(gEditProp.visUsers , 'Users' );
 
 gEditProp.updateVisibilityPrefix = g.editApiPath + "?function=UpdateVisibility&s=";
 gEditProp.getDataFunctionPrefix = g.editApiPath + "?function=GetData&s=";
@@ -26,7 +26,6 @@ gEditProp.getJobOpportunitiesPrnsUrl = `${gEditProp.ontologyUrlPrnsPrefix}${gEdi
 async function editCommonReady() {
     gEditProp.subject = getSearchParam('subject');
 
-    gEditProp.personName = JSON.parse(g.preLoad).filter(p=>p.DisplayModule=='Person.Label')[0].ModuleData[0].DisplayName;
     gEditProp.properties = JSON.parse(g.editPropertyParams);
     gEditProp.propertyName = gEditProp.properties.propertyName;
 
@@ -86,10 +85,11 @@ function setupVisibilityTable(target) {
     if (currentVisibility >= 0) {
         currentVisibility = subject; // workaround to get subject id
     }
+
     $(`input[name="visibility"][value="${currentVisibility}"]`).prop("checked", true);
-    let prettyVis = gEditProp.prettyVis.get(visibility) ? gEditProp.prettyVis.get(visibility) : 'Only ' + gEditProp.personName;
+    let prettyVis = gEditProp.prettyVis.get(currentVisibility) ? gEditProp.prettyVis.get(currentVisibility) : 'Only Me';
     $('#currentVisibility').html(prettyVis);
-    console.log("======= visibility: --------", gEditProp.visibility);
+    console.log("======= visibility: --------", currentVisibility);
 
     let table = $('#tblVisibility');
     if (! localStorage.getItem(gEditProp.justUpdatedVisibility)) {
@@ -114,7 +114,7 @@ function setupVisibilityTable(target) {
 }
 
 function loadBreadcrumbs(title, target) {
-    let breadcrumbs = $(`<div class="row ">
+    let breadcrumbs = $(`<div class="row mb-2">
                         <div class='col-10 d-flex justify-content-start'>
                             <a class='editMenuLink' href='${g.profilesRootURL}/edit/default.aspx?subject=${sessionInfo.personNodeID}'>Edit Menu</a>
                             <span class='editMenuGT'>&nbsp;>&nbsp;</span><span><b>${title}</b></span>
@@ -132,7 +132,6 @@ function getSearchParam(param) {
     return result;
 }
 function toggleSrcIcon(target, srcRoot1, srcRoot2) {
-    console.log(target.attr('src'));
     if (target.attr('src').match(srcRoot1)) {
         target.attr('src', srcRoot2);
     }

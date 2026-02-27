@@ -95,7 +95,7 @@ function cardinalityPattern(options) {
     else {
         createItemDiv.on('click', function (e) {
             console.log('++++++++++++++++++++++++++++++ save will CREATE opp')
-            saveItem.off('click').on('click', () => {saveJobOpportunities('')});
+            saveItem.off('click').on('click', () => {saveJobOpportunity('')});
             toggleEltVisibility(itemDetailsDiv);
             toggleSrcIcon(togglingArrowImg, gEditProp.downArrow, gEditProp.rightArrow);
         });
@@ -114,11 +114,7 @@ function clearAndCloseJobOpportunityForm() {
     $("#jobOpportunityDetailsDiv").hide();
     $("#createJobOppArrow").attr('src', gEditProp.rightArrow);
 }
-function saveJobOpportunities(opportunityId) {
-    let searchParams = window.location.search;
-    const urlParams = new URLSearchParams(searchParams);
-    let subject = urlParams.get('subject');
-
+function saveJobOpportunity(opportunityId) {
     if (gEditProp.mentorJobOpportunities.length != 0 && gEditProp.mentorJobOpportunities.find(x => x.opportunityId == opportunityId) != undefined) {
         //edit existing 
 
@@ -144,9 +140,14 @@ function saveJobOpportunities(opportunityId) {
 
         gEditProp.mentorJobOpportunities.push(jobOpportunity);
     }
+    saveAllJobOpportunities();
+}
+function saveAllJobOpportunities() {
+    let searchParams = window.location.search;
+    const urlParams = new URLSearchParams(searchParams);
 
+    let subject = urlParams.get('subject');
     let url = gEditProp.addUpdateDataFunctionPrefix + subject +  "&p=" + gEditProp.getJobOpportunitiesPrnsUrl;
-
     editSaveViaPost(url, gEditProp.mentorJobOpportunities);
 }
 function loadJobOpportunity(jobOpportunity) {
@@ -173,7 +174,8 @@ function emitJobOpportunities(jobOpportunities) {
         let tableBody = $('#tableJobOpportunities tbody');
         tableBody.empty();
 
-        for (let i=0; i<gEditProp.mentorJobOpportunities.length; i++) {
+        let numJobOpps = gEditProp.mentorJobOpportunities.length;
+        for (let i=0; i<numJobOpps; i++) {
             let jobOpp = gEditProp.mentorJobOpportunities[i];
 
             jobCategories = jobOpp.categoryStudents ? "Students " : "";
@@ -191,30 +193,47 @@ function emitJobOpportunities(jobOpportunities) {
                         <a target="_blank" rel="noopener noreferrer" href="${jobOpp.jobURL}">${jobOpp.jobURL}</a>
                 </div>`));
 
-            emitJobOppsActionTd(row, i, jobOpp);
+            emitJobOppsActionTd(row, i, jobOpp, numJobOpps);
         }
     }
     return numJobs;
 }
-function emitJobOppsActionTd(row, index, jobOpp) {
-    let editIcon = `${g.profilesRootURL}/edit/images/Icon_Edit.gif`;
-    let deleteIcon = `${g.profilesRootURL}/edit/images/Icon_delete.gif`;
+function emitJobOppsActionTd(row, index, jobOpp, numJobOpps) {
+    let editIcon = $(`<img alt="edit" src='${g.profilesRootURL}/edit/images/Icon_Edit.gif'/>`);
+    let deleteIcon = $(`<img alt="delete" src='${g.profilesRootURL}/edit/images/Icon_delete.gif'/>`);
+
+    let upIcon = $(`<img alt="up" src='${g.profilesRootURL}/edit/images/Icon_rounded_ArrowGrayUp.png'/>`);
+    let downIcon = $(`<img alt="down" src='${g.profilesRootURL}/edit/images/Icon_rounded_ArrowGrayDown.png'/>`);
 
     let td = $('<td class="alignCenterAction">');
     row.append(td);
     let actionDiv = $(`<div id="actions_row_${index}"></div>`);
-    td.append(actionDiv);
-    let editImg = $(`<img src='${editIcon}'/>`);
-    td.append(editImg);
-    let deleteImg = $(`<img src='${deleteIcon}'/>`);
-    td.append(deleteImg);
+    td.append(actionDiv) ;
+
+    if (index > 0) {
+        td.append(upIcon);
+    }
+    if (index+1 < numJobOpps) {
+        td.append(downIcon);
+    }
+
+    td.append(editIcon)  ;
+    td.append(deleteIcon);
 
     console.log('--------- oppId ---------', jobOpp.opportunityId);
-    editImg.on('click', function() {
+    editIcon.on('click', function() {
         editJobOpportunity(jobOpp.opportunityId);
     });
-    deleteImg.on('click', function() {
+    deleteIcon.on('click', function() {
         deleteJobOpportunity(jobOpp.opportunityId);
+    });
+    upIcon.on('click', function() {
+        moveArrayItemUp(gEditProp.mentorJobOpportunities, index);
+        saveAllJobOpportunities();
+    });
+    downIcon.on('click', function() {
+        moveArrayItemDown(gEditProp.mentorJobOpportunities, index)
+        saveAllJobOpportunities();
     });
 }
 function editJobOpportunity(opportunityId) {
@@ -222,7 +241,7 @@ function editJobOpportunity(opportunityId) {
     let jobOpportunity = gEditProp.mentorJobOpportunities.find(x => x.opportunityId == opportunityId);
     console.log('++++++++++++++++++++++++++++++ save will UPDATE opp')
     $("#saveJobOpp").off('click').on('click', function() {
-        saveJobOpportunities(opportunityId);
+        saveJobOpportunity(opportunityId);
     });
     loadJobOpportunity(jobOpportunity);
 }

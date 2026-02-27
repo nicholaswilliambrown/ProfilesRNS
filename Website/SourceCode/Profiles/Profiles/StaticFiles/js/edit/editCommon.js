@@ -145,7 +145,6 @@ function toggleSrcIcon(target, srcRoot1, srcRoot2) {
         target.attr('src', srcRoot1);
     }
 }
-///////////////////////////////////////////////////
 
 async function editSaveViaPost(url, content, redirectTo) {
     let _content = JSON.stringify(content);

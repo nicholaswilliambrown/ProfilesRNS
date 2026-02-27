@@ -174,11 +174,13 @@ function moveArrayItemUp(array, indexToMove) {
     if (indexToMove > 0) {
         // Swap the element with the one before it
         [array[indexToMove], array[indexToMove - 1]] = [array[indexToMove - 1], array[indexToMove]];
+        return true; // if caller wants to know whether anything moved
     }
 }
 function moveArrayItemDown(array, indexToMove) {
     if (indexToMove+1 < array.length) {
         // Swap the element with the one before it
         [array[indexToMove], array[indexToMove + 1]] = [array[indexToMove + 1], array[indexToMove]];
+        return true; // if caller wants to know whether anything moved
     }
 }

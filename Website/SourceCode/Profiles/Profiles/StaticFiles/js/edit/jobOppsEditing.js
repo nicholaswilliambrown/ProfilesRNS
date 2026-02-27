@@ -7,10 +7,6 @@ function loadJobOpportunitiesDiv(target) {
                         Create New Job Opportunity</a>
             </div>
             <div id="jobOpportunityDetailsDiv" class="editPanel mt-0">
-                <div><button class="link-ish" id="saveJobOpp">Save</button>
-                    <span class="pipe">|</span>
-                    <button class="link-ish" id="cancelJobOppEdit">Cancel</button>
-                </div>
                 <div class="moduleOptions">Enter the job opportunity information below:</div>
                 <div class="inputLabel">Job Title</div>
                 <div><input type="text" id="jobTitle" /></div>
@@ -26,6 +22,11 @@ function loadJobOpportunitiesDiv(target) {
                         <div><input type="checkbox" id="residentsAndFellows" /><span>Residents and Fellows</span></div>
                     </div>
                 </div>
+                <div><button class="link-ish mt-2 ps-0" id="saveJobOpp">Save</button>
+                    <span class="pipe">|</span>
+                    <button class="link-ish" id="cancelJobOppEdit">Cancel</button>
+                </div>
+
             </div> <!-- jobOpportunityDetailsDiv -->
             <div id="moduleBody" class="container">
                 <div class="row d-flex">

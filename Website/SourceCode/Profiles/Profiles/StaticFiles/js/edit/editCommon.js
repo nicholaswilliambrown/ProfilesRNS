@@ -37,8 +37,14 @@ async function editCommonReady() {
     loadBreadcrumbs(gEditProp.propertyName, mainDiv);
     
     setupVisibilityTable(mainDiv);
-    
-    return mainDiv;
+
+    if (gEditProp.properties.propertyURI.toLowerCase().match(gEditProp.ontologyHasJobOpps.toLowerCase())) {
+        await setupJobOpps(mainDiv);
+    } else if (gEditProp.properties.propertyURI.toLowerCase().match(gEditProp.ontologyMentoring.toLowerCase())) {
+        await setupMentorOverview(mainDiv);
+    }
+
+    setupScrolling();
 }
 function loadVisibilityDiv(target) {
     let div = $(`
@@ -163,4 +169,17 @@ async function editSaveViaPost(url, content, redirectTo) {
 }
 function ajaxPostFailure(response, url) {
         alert(`${url} failed, saying: <${response.responseText}>.\n\nMaybe log in again at \n\n${gCommon.loginUrl}.`);
+}
+// https://www.google.com/search?q=js+move+one+item+up+in+an+array&sca_esv=db2351f46a6aa745&rlz=1C5GCCM_en&sxsrf=ANbL-n6FxPbqHcKF3RXZSpju5FgcnNmyEA%3A1772132954979&ei=WpqgadW-O5HY5NoPjY7ZkQo&biw=1066&bih=591&ved=0ahUKEwjV05ra7feSAxURLFkFHQ1HNqIQ4dUDCBE&uact=5&oq=js+move+one+item+up+in+an+array&gs_lp=Egxnd3Mtd2l6LXNlcnAiH2pzIG1vdmUgb25lIGl0ZW0gdXAgaW4gYW4gYXJyYXkyBRAhGKABMgUQIRigATIFECEYoAEyBRAhGKABMgUQIRigATIFECEYnwUyBRAhGJ8FMgUQIRifBTIFECEYnwUyBRAhGJ8FSNJbUJsWWJJZcAN4AZABAJgBugGgAcsbqgEEOS4yMbgBA8gBAPgBAZgCIKAC9BvCAgoQABiwAxjWBBhHwgINEAAYgAQYsAMYQxiKBcICBBAjGCfCAgoQABiABBhDGIoFwgIREAAYgAQYkQIYsQMYgwEYigXCAg0QABiABBixAxgUGIcCwgIFEAAYgATCAgsQABiABBiRAhiKBcICCxAuGIAEGMcBGK8BwgIKEAAYgAQYFBiHAsICBhAAGBYYHsICBRAAGO8FwgIIEAAYogQYiQXCAgcQIRigARgKwgIFECEYqwKYAwCIBgGQBgqSBwQ5LjIzoAeBzgGyBwQ2LjIzuAfiG8IHBzEuMTkuMTLIB1KACAA&sclient=gws-wiz-serp
+function moveArrayItemUp(array, indexToMove) {
+    if (indexToMove > 0) {
+        // Swap the element with the one before it
+        [array[indexToMove], array[indexToMove - 1]] = [array[indexToMove - 1], array[indexToMove]];
+    }
+}
+function moveArrayItemDown(array, indexToMove) {
+    if (indexToMove+1 < array.length) {
+        // Swap the element with the one before it
+        [array[indexToMove], array[indexToMove + 1]] = [array[indexToMove + 1], array[indexToMove]];
+    }
 }

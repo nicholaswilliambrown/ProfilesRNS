@@ -20,6 +20,9 @@ function loadJobOpportunitiesDiv(target) {
                         <div><input type="checkbox" id="students" /><span>Students</span></div>
                         <div><input type="checkbox" id="faculty" /><span>Faculty</span></div>
                         <div><input type="checkbox" id="residentsAndFellows" /><span>Residents and Fellows</span></div>
+ 
+                        <div><input type="checkbox" id="fellowsAndPostDocs" /><span>Fellows and PostDocs</span></div>
+                        <div><input type="checkbox" id="researchStaff" /><span>Research Staff</span></div>
                     </div>
                 </div>
                 <div><button class="link-ish mt-2 ps-0" id="saveJobOpp">Save</button>
@@ -67,6 +70,8 @@ async function setupJobOpps(target) {
         currentItemsDivId:      'tableJobOpportunities',
         togglingArrowImgId:     'createJobOppArrow',
         saveItemId:             'saveJobOpp',
+        saveItemFn:             () => {saveJobOpportunity('')},
+        createItemFn:           clearJobOpportunityForm,
         numItems:               numCurrentJobs }
     );
 }
@@ -79,6 +84,8 @@ function cardinalityPattern(options) {
             options.currentItemsDivId,
             options.togglingArrowImgId,
             options.saveItemId,
+            options.saveItemFn,
+            options.createItemFn,
             options.numItems ];
     
     let maxCardinality = gEditProp.properties.maxCardinality;
@@ -96,13 +103,18 @@ function cardinalityPattern(options) {
     else {
         createItemDiv.on('click', function (e) {
             console.log('++++++++++++++++++++++++++++++ save will CREATE opp')
-            saveItem.off('click').on('click', () => {saveJobOpportunity('')});
-            toggleEltVisibility(itemDetailsDiv);
-            toggleSrcIcon(togglingArrowImg, gEditProp.downArrow, gEditProp.rightArrow);
+            options.createItemFn();
+            saveItem.off('click').on('click', options.saveItemFn);
+            toggleSrcIcon(togglingArrowImg, gEditProp.rightArrow, gEditProp.downArrow);
+            visibilityFollowsArrow(itemDetailsDiv, togglingArrowImg, gEditProp.rightArrow)
         });
     }
 }
 function clearAndCloseJobOpportunityForm() {
+    clearJobOpportunityForm();
+    closeJobOpportunityForm();
+}
+function clearJobOpportunityForm() {
     // clear
     $("#jobTitle").val('');
     $("#jobDescription").val('');
@@ -110,7 +122,8 @@ function clearAndCloseJobOpportunityForm() {
     $("#students").prop("checked", false);
     $("#faculty").prop("checked", false);
     $("#residentsAndFellows").prop("checked", false);
-
+}
+function closeJobOpportunityForm() {
     // close
     $("#jobOpportunityDetailsDiv").hide();
     $("#createJobOppArrow").attr('src', gEditProp.rightArrow);
@@ -127,6 +140,9 @@ function saveJobOpportunity(opportunityId) {
         gEditProp.mentorJobOpportunities[indexToEdit].categoryFaculty = $("#faculty").prop("checked");
         gEditProp.mentorJobOpportunities[indexToEdit].categoryResidentsAndFellows = $("#residentsAndFellows").prop("checked");
 
+        gEditProp.mentorJobOpportunities[indexToEdit].categoryFellowsAndPostDocs = $("#fellowsAndPostDocs").prop("checked");
+        gEditProp.mentorJobOpportunities[indexToEdit].categoryResearchStaff = $("#researchStaff").prop("checked");
+
     } else {
         //add new
         opportunityId = crypto.randomUUID();
@@ -138,6 +154,9 @@ function saveJobOpportunity(opportunityId) {
         jobOpportunity.categoryStudents = $("#students").prop("checked");
         jobOpportunity.categoryFaculty = $("#faculty").prop("checked");
         jobOpportunity.categoryResidentsAndFellows = $("#residentsAndFellows").prop("checked");
+
+        jobOpportunity.categoryFellowsAndPostDocs = $("#fellowsAndPostDocs").prop("checked");
+        jobOpportunity.categoryResearchStaff = $("#researchStaff").prop("checked");
 
         gEditProp.mentorJobOpportunities.push(jobOpportunity);
     }
@@ -158,6 +177,9 @@ function loadJobOpportunity(jobOpportunity) {
     $("#students").prop("checked", jobOpportunity.categoryStudents);
     $("#faculty").prop("checked", jobOpportunity.categoryFaculty);
     $("#residentsAndFellows").prop("checked", jobOpportunity.categoryResidentsAndFellows);
+
+    $("#fellowsAndPostDocs").prop("checked", jobOpportunity.categoryFellowsAndPostDocs);
+    $("#researchStaff").prop("checked", jobOpportunity.categoryResearchStaff);
     return true;
 
 }
@@ -182,6 +204,9 @@ function emitJobOpportunities(jobOpportunities) {
             jobCategories = jobOpp.categoryStudents ? "Students " : "";
             jobCategories += jobOpp.categoryFaculty ? "Faculty " : "";
             jobCategories += jobOpp.categoryResidentsAndFellows ? "Residents and Fellows " : "";
+
+            jobCategories += jobOpp.categoryFellowsAndPostDocs ? "Fellows and PostDocs " : "";
+            jobCategories += jobOpp.categoryResearchStaff ? "Research Staff " : "";
             let row = $(`<tr class="oddRow" jId="${jobOpp.opportunityId}">`);
             tableBody.append(row);
 
@@ -238,6 +263,7 @@ function emitJobOppsActionTd(row, index, jobOpp, numJobOpps) {
     });
 }
 function editJobOpportunity(opportunityId) {
+    closeJobOpportunityForm(); // eg, if in midst of creation
     $("#jobOpportunityDetailsDiv").show();
     let jobOpportunity = gEditProp.mentorJobOpportunities.find(x => x.opportunityId == opportunityId);
     console.log('++++++++++++++++++++++++++++++ save will UPDATE opp')

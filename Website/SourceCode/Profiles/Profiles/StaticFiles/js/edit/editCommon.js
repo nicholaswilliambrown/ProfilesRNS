@@ -137,15 +137,22 @@ function getSearchParam(param) {
     let result = urlParams.get(param);
     return result;
 }
-function toggleSrcIcon(target, srcRoot1, srcRoot2) {
-    if (target.attr('src').match(srcRoot1)) {
-        target.attr('src', srcRoot2);
+function toggleSrcIcon(target, currentlyClosed, currentlyOpen) {
+    if (target.attr('src') == currentlyClosed) {
+        target.attr('src', currentlyOpen);
     }
     else {
-        target.attr('src', srcRoot1);
+        target.attr('src', currentlyClosed);
     }
 }
-
+function visibilityFollowsArrow(elt, src, closed) {
+    if (src.attr('src') == closed) {
+        elt.hide();
+    }
+    else {
+        elt.show();
+    }
+}
 async function editSaveViaPost(url, content, redirectTo) {
     let _content = JSON.stringify(content);
      await $.post(url, _content, function () {

@@ -2,33 +2,62 @@
 
 function loadMentorOverviewDiv(target) {
     let div = $(`
-        <div id="mentoringOverviewOuterDiv">
-            <table class="moduleTable mt-2 mb-2">
-                <tr id="moduleTableHeadRow" class="topRow bold">
-                    <td colspan="3">Mentoring Overview</td>
-                </tr>
-                <tr><td class="moduleOptions w-50">Enter or update an overview:</td>
-                    <td class="w-50 d-flex justify-content-end">
-                        <button id="clearMentorOverview" class="link-ish clearPage">Clear</a></button>
-                        <button id="saveMentorOverview" class="link-ish save">Save</a></button></td>
-                    <td></td>
-                    </tr>
-                <tr><td colspan="3"><textarea rows="8" cols="100" id="mentoringOverviewText"></textarea>"</td></tr>
-                <tr><td><div class="moduleInstruction">I'm available to mentor:</div></td><td><div><input type="checkbox" id="studentsOnResearchProjects" /> Students on Research Projects</div></td></tr>
-                <tr><td></td><td colspan="2"><div><input type="checkbox" id="studentsOnCareerDevelopment" /> Students on Career Development</div></td></tr>
-                <tr><td></td><td><div><input type="checkbox" id="studentsOnWorkLifeBalance" /> Students on Work/Life Balance</div></td></tr>
-                <tr><td></td><td><div><input type="checkbox" id="facultyOnResearch" /> Faculty on Research</div></td></tr>
-                <tr><td></td><td><div><input type="checkbox" id="facultyOnResearchProjects" /> Faculty on Research Projects</div></td></tr>
-                <tr><td></td><td><div><input type="checkbox" id="facultyOnCreerDevelopment" /> Faculty on Career Development</div></td></tr>
-                <tr><td></td><td><div><input type="checkbox" id="facultyOnWorkLifeBalance" /> Faculty on Work/Life Balance</div></td></tr>
-                <tr><td></td><td><div><input type="checkbox" id="residentsAndFellowsOnResearch" /> Residents and Fellows on Research</div></td></tr>
-                <tr><td></td><td><div><input type="checkbox" id="residentsAndFellowsOnResearchProjects" /> Residents and Fellows on Research Projects</div></td></tr>
-                <tr><td></td><td><div><input type="checkbox" id="residentsAndFellowsOnCareerDevelopment" /> Residents and Fellows on Career Development</div></td></tr>
-                <tr><td></td><td><div><input type="checkbox" id="residentsAndFellowsOnWorkLifeBalance" /> Residents and Fellows on Work/Life Balance</div></td></tr>
-            </table>
+    <div id="mentoringOverviewOuterDiv">
+        <div class="container moduleTable mt-2 mb-2">
+            <div id="moduleTableHeadRow" class="row topRow bold">
+                <div class="col-12 ps-1">Mentoring Overview</div>
+            </div>
+            <div class="row">
+                <div class="${gCommon.cols6or12} ps-1">Enter or update an overview:</div>
+                <div class="${gCommon.cols6or12} d-flex justify-content-start">
+                    <button id="clearMentorOverview" class="link-ish clearPage">Clear</a></button>
+                    <button id="saveMentorOverview" class="link-ish save">Save</a></button>
+                </div>
+             </div>
+            <div class="row">
+                <div class="col-12 ps-0"><textarea rows="8" id="mentoringOverviewText"></textarea></div>
+            </div>
+            <div class="row">
+                <div class="${gCommon.cols4or12} ps-0" ><div class="moduleInstruction">I'm available to mentor:</div></div>
+                <div class="${gCommon.cols8or12}"><input type="checkbox" id="studentsOnResearchProjects" /> Students on Research Projects</div>
+            </div>
+            <div class="row">
+                <div class="${gCommon.cols4or12}" > </div>
+                <div class="${gCommon.cols8or12}"><div><input type="checkbox" id="studentsOnCareerDevelopment" /> Students on Career Development</div></div>
+            </div>
+            <div class="row">
+                <div class="${gCommon.cols4or12}" > </div>
+                <div class="${gCommon.cols8or12}" ><div><input type="checkbox" id="studentsOnWorkLifeBalance" /> Students on Work/Life Balance</div></div></div>
+            <div class="row">
+                <div class="${gCommon.cols4or12}" > </div>
+                <div class="${gCommon.cols8or12}" ><div><input type="checkbox" id="facultyOnResearch" /> Faculty on Research</div></div></div>
+            <div class="row">
+                <div class="${gCommon.cols4or12}" > </div>
+                <div class="${gCommon.cols8or12}" ><div><input type="checkbox" id="facultyOnResearchProjects" /> Faculty on Research Projects</div></div></div>
+            <div class="row">
+                <div class="${gCommon.cols4or12}" > </div>
+                <div class="${gCommon.cols8or12}" ><div><input type="checkbox" id="facultyOnCreerDevelopment" /> Faculty on Career Development</div></div></div>
+            <div class="row">
+                <div class="${gCommon.cols4or12}" > </div>
+                <div class="${gCommon.cols8or12}" ><div><input type="checkbox" id="facultyOnWorkLifeBalance" /> Faculty on Work/Life Balance</div></div></div>
+            <div class="row">
+                <div class="${gCommon.cols4or12}" > </div>
+                <div class="${gCommon.cols8or12}" ><div><input type="checkbox" id="residentsAndFellowsOnResearch" /> Residents and Fellows on Research</div></div></div>
+            <div class="row">
+                <div class="${gCommon.cols4or12}" > </div>
+                <div class="${gCommon.cols8or12}" ><div><input type="checkbox" id="residentsAndFellowsOnResearchProjects" /> Residents and Fellows on Research Projects</div></div></div>
+            <div class="row">
+                <div class="${gCommon.cols4or12}" > </div>
+                <div class="${gCommon.cols8or12}" ><div><input type="checkbox" id="residentsAndFellowsOnCareerDevelopment" /> Residents and Fellows on Career Development</div></div></div>
+            <div class="row">
+                <div class="${gCommon.cols4or12}" > </div>
+                <div class="${gCommon.cols8or12}" ><div><input type="checkbox" id="residentsAndFellowsOnWorkLifeBalance" /> Residents and Fellows on Work/Life Balance</div></div></div>
         </div>
-        `);
+    </div>
+    `);
     target.append(div);
+    div.find('#mentoringOverviewText').css('width', '100%');
+
     return div;
 }
 function setupMentorOverview(target) {

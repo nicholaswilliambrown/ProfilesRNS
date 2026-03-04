@@ -138,8 +138,6 @@ function saveJobOpportunity(opportunityId) {
         gEditProp.mentorJobOpportunities[indexToEdit].jobURL = $("#jobURL").val();
         gEditProp.mentorJobOpportunities[indexToEdit].categoryStudents = $("#students").prop("checked");
         gEditProp.mentorJobOpportunities[indexToEdit].categoryFaculty = $("#faculty").prop("checked");
-        gEditProp.mentorJobOpportunities[indexToEdit].categoryResidentsAndFellows = $("#residentsAndFellows").prop("checked");
-
         gEditProp.mentorJobOpportunities[indexToEdit].categoryFellowsAndPostDocs = $("#fellowsAndPostDocs").prop("checked");
         gEditProp.mentorJobOpportunities[indexToEdit].categoryResearchStaff = $("#researchStaff").prop("checked");
 
@@ -153,8 +151,6 @@ function saveJobOpportunity(opportunityId) {
         jobOpportunity.jobURL = $("#jobURL").val();
         jobOpportunity.categoryStudents = $("#students").prop("checked");
         jobOpportunity.categoryFaculty = $("#faculty").prop("checked");
-        jobOpportunity.categoryResidentsAndFellows = $("#residentsAndFellows").prop("checked");
-
         jobOpportunity.categoryFellowsAndPostDocs = $("#fellowsAndPostDocs").prop("checked");
         jobOpportunity.categoryResearchStaff = $("#researchStaff").prop("checked");
 
@@ -176,8 +172,6 @@ function loadJobOpportunity(jobOpportunity) {
     $("#jobURL").val(jobOpportunity.jobURL);
     $("#students").prop("checked", jobOpportunity.categoryStudents);
     $("#faculty").prop("checked", jobOpportunity.categoryFaculty);
-    $("#residentsAndFellows").prop("checked", jobOpportunity.categoryResidentsAndFellows);
-
     $("#fellowsAndPostDocs").prop("checked", jobOpportunity.categoryFellowsAndPostDocs);
     $("#researchStaff").prop("checked", jobOpportunity.categoryResearchStaff);
     return true;
@@ -192,7 +186,7 @@ function emitJobOpportunities(jobOpportunities) {
             numJobs = jobOpportunities.length;
         }
 
-        let jobCategories = "";
+        let jobCategories = [];
 
         let tableBody = $('#tableJobOpportunities tbody');
         tableBody.empty();
@@ -201,13 +195,19 @@ function emitJobOpportunities(jobOpportunities) {
         for (let i=0; i<numJobOpps; i++) {
             let jobOpp = gEditProp.mentorJobOpportunities[i];
 
-            jobCategories = jobOpp.categoryStudents ? "Students " : "";
-            jobCategories += jobOpp.categoryFaculty ? "Faculty " : "";
-            jobCategories += jobOpp.categoryResidentsAndFellows ? "Residents and Fellows " : "";
-
-            jobCategories += jobOpp.categoryFellowsAndPostDocs ? "Fellows and PostDocs " : "";
-            jobCategories += jobOpp.categoryResearchStaff ? "Research Staff " : "";
-            let row = $(`<tr class="oddRow" jId="${jobOpp.opportunityId}">`);
+            if (jobOpp.categoryStudents          ) {
+                jobCategories.push("Students");
+            }
+            if (jobOpp.categoryFaculty           ) {
+                jobCategories.push("Faculty");
+            }
+            if (jobOpp.categoryFellowsAndPostDocs) {
+                jobCategories.push("Fellows and PostDocs");
+            }
+            if (jobOpp.categoryResearchStaff     ) {
+                jobCategories.push("Research Staff");
+            }
+            let row = $(`<tr class="oddRow">`);
             tableBody.append(row);
 
             row.append($('<td class="jobOpportunitiesFirstCell">').append(`
@@ -215,7 +215,7 @@ function emitJobOpportunities(jobOpportunities) {
     } class="jobTitle">${i+1}. ${jobOpp.title}</div>
                 <div class="jobDescription">${jobOpp.jobDescription}</div>
                 <div>   <span class="jobCategoryDisplayLabel">Job Category:</span> 
-                        ${jobCategories} <span class="jobURLDisplayLabel">Job URL:</span> 
+                        ${jobCategories.join(', ')} <span class="jobURLDisplayLabel">Job URL:</span> 
                         <a target="_blank" rel="noopener noreferrer" href="${jobOpp.jobURL}">${jobOpp.jobURL}</a>
                 </div>`));
 

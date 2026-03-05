@@ -11,10 +11,11 @@ function mentorJobOpportunityParser(json, moduleTitle, miscInfo, explicitTarget)
 
         li.append($(`<div class="mb-2 bold">${elt.title}</div>`));
         li.append($(`<div class="mb-2">${elt.jobDescription}</div>`));
-        let categories = Object.keys(elt).filter(k => k.match(/^category/) && elt[k] == true);
-        let category = categories.length > 0 ? categories[0].replace(/category/,"") : gCommon.NA;
+
+        let categories = prettyTruthyJobs(elt);
+
         let colSpecs = [
-            newColumnSpec(`${gCommon.cols6or12}`, spanify(`Job Category: ${category}`)),
+            newColumnSpec(`${gCommon.cols6or12}`, spanify(`Job Category: ${categories}`)),
             newColumnSpec(`${gCommon.cols6or12}`, spanify(`Job URL: `))
         ];
         let id = `mentorOpp-${i}`;

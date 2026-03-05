@@ -186,8 +186,6 @@ function emitJobOpportunities(jobOpportunities) {
             numJobs = jobOpportunities.length;
         }
 
-        let jobCategories = [];
-
         let tableBody = $('#tableJobOpportunities tbody');
         tableBody.empty();
 
@@ -195,27 +193,17 @@ function emitJobOpportunities(jobOpportunities) {
         for (let i=0; i<numJobOpps; i++) {
             let jobOpp = gEditProp.mentorJobOpportunities[i];
 
-            if (jobOpp.categoryStudents          ) {
-                jobCategories.push("Students");
-            }
-            if (jobOpp.categoryFaculty           ) {
-                jobCategories.push("Faculty");
-            }
-            if (jobOpp.categoryFellowsAndPostDocs) {
-                jobCategories.push("Fellows and PostDocs");
-            }
-            if (jobOpp.categoryResearchStaff     ) {
-                jobCategories.push("Research Staff");
-            }
-            let row = $(`<tr class="oddRow">`);
+            let truthyJobCategories = prettyTruthyJobs(jobOpp);
+
+            let oddEven = i%2 ? 'oddRow' : 'evenRow';
+            let row = $(`<tr class="${oddEven}">`);
             tableBody.append(row);
 
             row.append($('<td class="jobOpportunitiesFirstCell">').append(`
-        <div
-    } class="jobTitle">${i+1}. ${jobOpp.title}</div>
+                <div class="jobTitle">${i+1}. ${jobOpp.title}</div>
                 <div class="jobDescription">${jobOpp.jobDescription}</div>
                 <div>   <span class="jobCategoryDisplayLabel">Job Category:</span> 
-                        ${jobCategories.join(', ')} <span class="jobURLDisplayLabel">Job URL:</span> 
+                        ${truthyJobCategories} <span class="jobURLDisplayLabel">Job URL:</span> 
                         <a target="_blank" rel="noopener noreferrer" href="${jobOpp.jobURL}">${jobOpp.jobURL}</a>
                 </div>`));
 
@@ -223,6 +211,42 @@ function emitJobOpportunities(jobOpportunities) {
         }
     }
     return numJobs;
+}
+function prettyTruthyJobs(jobOpp) {
+    function prettyJobCategory(category) {
+        // handles single-word categories
+        let result = category.replace('category', '');
+
+        // break up multi-word categories
+        if (result == 'FellowsAndPostDocs') {
+            result = "Fellows and PostDocs";
+        }
+        if (result == 'ResearchStaff') {
+            result = "Research Staff";
+        }
+        return result;
+    }
+
+    let truthyJobCategories = Object.keys(jobOpp)
+        .filter(k => k.match(/^category/) && jobOpp[k])
+        .map(k => prettyJobCategory(k));
+
+    return truthyJobCategories.join(', ');
+}
+function maybePushPrettyJobCategory(array, jobOpp) {
+    if (jobOpp.categoryStudents          ) {
+        array.push("Students");
+    }
+    if (jobOpp.categoryFaculty           ) {
+        array.push("Faculty");
+    }
+    if (jobOpp.categoryFellowsAndPostDocs) {
+        array.push("Fellows and PostDocs");
+    }
+    if (jobOpp.categoryResearchStaff     ) {
+        array.push("Research Staff");
+    }
+
 }
 function emitJobOppsActionTd(row, index, jobOpp, numJobOpps) {
     let editIcon = $(`<img alt="edit" src='${g.profilesRootURL}/edit/images/Icon_Edit.gif'/>`);

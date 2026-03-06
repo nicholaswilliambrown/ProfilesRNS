@@ -1,5 +1,14 @@
 ﻿gEditProp.mentorJobOpportunities = [];
 
+gEditProp.colSpecsJobOuterTwoCols = [
+        newColumnSpec(`${gCommon.cols10or12} md_ebordE`),
+        newColumnSpec(`${gCommon.cols2or12} d-flex justify-content-center align-items-center`)
+];
+gEditProp.colSpecsJobInnerTwoCols = [
+        newColumnSpec(`${gCommon.cols5or12} wrap2`),
+        newColumnSpec(`${gCommon.cols5or12} wrap2`)
+];
+
 function loadJobOpportunitiesDiv(target) {
     let div = $(`
         <div id="jobOpportunitiesOuterDiv">
@@ -15,7 +24,7 @@ function loadJobOpportunitiesDiv(target) {
                 <div class="inputLabel">Job URL</div>
                 <div><input type="text" id="jobURL" /></div>
                 <div class="jobCategories">
-                    <span class="jobCategoryTitle"><b>Job Category</b></span>
+                    <span class="bold"><b>Job Category</b></span>
                     <div class="jobCategoryOptions">
                         <div><input type="checkbox" id="students" /><span>Students</span></div>
                         <div><input type="checkbox" id="faculty" /><span>Faculty</span></div>
@@ -31,27 +40,107 @@ function loadJobOpportunitiesDiv(target) {
                 </div>
 
             </div> <!-- jobOpportunityDetailsDiv -->
-            <div id="moduleBody" class="container">
-                <div class="row d-flex">
-                    <div class="col-12">
-                        <table id="tableJobOpportunities">
-                            <thead>
-                                <tr id="moduleHeadRow" class="topRow bold">
-                                    <th class="alignLeft">Job Opportunities</th>
-                                    <th class="alignCenterAction">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="moduleBody">
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+            <div id="moduleBody" class="container mt-1 ms-5">
+                <div id="tableJobOpportunities"></div>
             </div> <!-- moduleBody -->
-
         </div> <!-- jobOpportunitiesOuterDiv -->
     `);
     target.append(div);
-    return div;
+
+    let tableJobOpportunities = target.find('#tableJobOpportunities');
+    let rowId = 'jobOppHeader';
+    let row = makeRowWithColumns(tableJobOpportunities, rowId, gEditProp.colSpecsJobOuterTwoCols, 'ebordS ebordE ebordT ebordB topRow');
+    row.find(`#${rowId}Col0`).append($(`<div>Job Opportunities</div>`));
+    row.find(`#${rowId}Col1`).append($(`<div>Action</div>`));
+}
+function emitJobOpportunities(jobOpportunities) {
+    let numJobs = 0;
+
+    if (Array.isArray(jobOpportunities)) {
+        if (jobOpportunities.length != 0) {
+            gEditProp.mentorJobOpportunities = jobOpportunities;
+            numJobs = jobOpportunities.length;
+        }
+
+        let tableJobOpportunities = $('#tableJobOpportunities');
+
+        let numJobOpps = gEditProp.mentorJobOpportunities.length;
+        for (let i=0; i<numJobOpps; i++) {
+            let jobOpp = gEditProp.mentorJobOpportunities[i];
+
+            let truthyJobCategories = prettyTruthyJobs(jobOpp);
+
+            let oddEven = i%2 ? 'oddRow' : 'evenRow';
+
+            let overallRowId = 'joRow2' + i;
+            let overallRow = makeRowWithColumns(tableJobOpportunities, overallRowId, gEditProp.colSpecsJobOuterTwoCols, oddEven + ' ebordS ebordE ebordB');
+            let actionCol = createJobOppsActionColumn(i, jobOpp, numJobOpps);
+            overallRow.find(`#${overallRowId}Col1`).append(actionCol);
+
+            let subRow1 = $(`<div class="row "><div className="bold col-12">${i + 1}. ${jobOpp.title}</div></div>`);
+            tableJobOpportunities.append(subRow1);
+
+            let subRow2 = $(`<div class="row ps-3"><div className="bold col-12">${jobOpp.jobDescription}</div></div>`);
+            tableJobOpportunities.append(subRow1);
+
+            let itemSubRowId = 'jobOpp' + i;
+            let subRow3 = makeRowWithColumns(tableJobOpportunities, itemSubRowId, gEditProp.colSpecsJobInnerTwoCols, oddEven);
+
+            overallRow.find(`#${overallRowId}Col0`).append(subRow1);
+            overallRow.find(`#${overallRowId}Col0`).append(subRow2);
+            overallRow.find(`#${overallRowId}Col0`).append(subRow3);
+
+            let leftCol = $(`
+                <div class="ps-4">
+                    <span class="jobCategoryDisplayLabel">Job Category:</span><span> ${truthyJobCategories}</span>
+                </div>`);
+            let rightCol = $(`
+                <div class="ps-4">
+                    <span class="jobCategoryDisplayLabel">Job URL:</span> 
+                    <a target="_blank" rel="noopener noreferrer" href="${jobOpp.jobURL}">${jobOpp.jobURL}</a>
+                </div>`);
+            subRow3.find(`#${itemSubRowId}Col0`).append(leftCol);
+            subRow3.find(`#${itemSubRowId}Col1`).append(rightCol);
+        }
+    }
+    return numJobs;
+}
+function createJobOppsActionColumn(index, jobOpp, numJobOpps) {
+    let editIcon = $(`<img alt="edit" src='${g.profilesRootURL}/edit/images/Icon_Edit.gif'/>`);
+    let deleteIcon = $(`<img alt="delete" src='${g.profilesRootURL}/edit/images/Icon_delete.gif'/>`);
+
+    let upIcon = $(`<img alt="up" src='${g.profilesRootURL}/edit/images/Icon_rounded_ArrowGrayUp.png'/>`);
+    let downIcon = $(`<img alt="down" src='${g.profilesRootURL}/edit/images/Icon_rounded_ArrowGrayDown.png'/>`);
+
+    let centeredActionDiv = $(`<div>`);
+
+    if (index > 0) {
+        centeredActionDiv.append(upIcon);
+    }
+    if (index+1 < numJobOpps) {
+        centeredActionDiv.append(downIcon);
+    }
+
+    centeredActionDiv.append(editIcon)  ;
+    centeredActionDiv.append(deleteIcon);
+
+    console.log('--------- oppId ---------', jobOpp.opportunityId);
+    editIcon.on('click', function() {
+        editJobOpportunity(jobOpp.opportunityId);
+    });
+    deleteIcon.on('click', function() {
+        deleteJobOpportunity(jobOpp.opportunityId);
+    });
+    upIcon.on('click', function() {
+        moveArrayItemUp(gEditProp.mentorJobOpportunities, index);
+        saveAllJobOpportunities();
+    });
+    downIcon.on('click', function() {
+        moveArrayItemDown(gEditProp.mentorJobOpportunities, index)
+        saveAllJobOpportunities();
+    });
+
+    return centeredActionDiv;
 }
 
 async function setupJobOpps(target) {
@@ -177,41 +266,6 @@ function loadJobOpportunity(jobOpportunity) {
     return true;
 
 }
-function emitJobOpportunities(jobOpportunities) {
-    let numJobs = 0;
-
-    if (Array.isArray(jobOpportunities)) {
-        if (jobOpportunities.length != 0) {
-            gEditProp.mentorJobOpportunities = jobOpportunities;
-            numJobs = jobOpportunities.length;
-        }
-
-        let tableBody = $('#tableJobOpportunities tbody');
-        tableBody.empty();
-
-        let numJobOpps = gEditProp.mentorJobOpportunities.length;
-        for (let i=0; i<numJobOpps; i++) {
-            let jobOpp = gEditProp.mentorJobOpportunities[i];
-
-            let truthyJobCategories = prettyTruthyJobs(jobOpp);
-
-            let oddEven = i%2 ? 'oddRow' : 'evenRow';
-            let row = $(`<tr class="${oddEven}">`);
-            tableBody.append(row);
-
-            row.append($('<td class="jobOpportunitiesFirstCell">').append(`
-                <div class="jobTitle">${i+1}. ${jobOpp.title}</div>
-                <div class="jobDescription">${jobOpp.jobDescription}</div>
-                <div>   <span class="jobCategoryDisplayLabel">Job Category:</span> 
-                        ${truthyJobCategories} <span class="jobURLDisplayLabel">Job URL:</span> 
-                        <a target="_blank" rel="noopener noreferrer" href="${jobOpp.jobURL}">${jobOpp.jobURL}</a>
-                </div>`));
-
-            emitJobOppsActionTd(row, i, jobOpp, numJobOpps);
-        }
-    }
-    return numJobs;
-}
 function prettyTruthyJobs(jobOpp) {
     function prettyJobCategory(category) {
         // handles single-word categories
@@ -247,44 +301,6 @@ function maybePushPrettyJobCategory(array, jobOpp) {
         array.push("Research Staff");
     }
 
-}
-function emitJobOppsActionTd(row, index, jobOpp, numJobOpps) {
-    let editIcon = $(`<img alt="edit" src='${g.profilesRootURL}/edit/images/Icon_Edit.gif'/>`);
-    let deleteIcon = $(`<img alt="delete" src='${g.profilesRootURL}/edit/images/Icon_delete.gif'/>`);
-
-    let upIcon = $(`<img alt="up" src='${g.profilesRootURL}/edit/images/Icon_rounded_ArrowGrayUp.png'/>`);
-    let downIcon = $(`<img alt="down" src='${g.profilesRootURL}/edit/images/Icon_rounded_ArrowGrayDown.png'/>`);
-
-    let td = $('<td class="alignCenterAction">');
-    row.append(td);
-    let actionDiv = $(`<div id="actions_row_${index}"></div>`);
-    td.append(actionDiv) ;
-
-    if (index > 0) {
-        td.append(upIcon);
-    }
-    if (index+1 < numJobOpps) {
-        td.append(downIcon);
-    }
-
-    td.append(editIcon)  ;
-    td.append(deleteIcon);
-
-    console.log('--------- oppId ---------', jobOpp.opportunityId);
-    editIcon.on('click', function() {
-        editJobOpportunity(jobOpp.opportunityId);
-    });
-    deleteIcon.on('click', function() {
-        deleteJobOpportunity(jobOpp.opportunityId);
-    });
-    upIcon.on('click', function() {
-        moveArrayItemUp(gEditProp.mentorJobOpportunities, index);
-        saveAllJobOpportunities();
-    });
-    downIcon.on('click', function() {
-        moveArrayItemDown(gEditProp.mentorJobOpportunities, index)
-        saveAllJobOpportunities();
-    });
 }
 function editJobOpportunity(opportunityId) {
     closeJobOpportunityForm(); // eg, if in midst of creation

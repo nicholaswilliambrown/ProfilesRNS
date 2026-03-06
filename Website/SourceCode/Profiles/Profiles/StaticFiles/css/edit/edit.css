@@ -14,43 +14,39 @@ a {
     color:#3366CC;
     font-size:13px;
 }
-table {
-    font-family: arial, sans-serif;
-    font-size: 13px;
-}
 
 .h2 {
     color: #AC1B30;
     font-size: 13px;
 }
 
-.table {
-    border: 1px solid #999999;
+.ebordT {
+    border-top: 1px solid #999999 !important;
+}
+.ebordB {
+    border-bottom: 1px solid #999999 !important;
+}
+.ebordS {
+    border-left: 1px solid #999999 !important;
+}
+.ebordE {
+    border-right: 1px solid #999999 !important;
 }
 
-.td th {
-    border: 1px solid #999999;
+md_ebordE {
+}
+@media (min-width: 768px) {
+    .md_ebordE {
+        border-right: 1px solid #999999 !important;
+    }
 }
 
-.topRow td {
+.topRow {
     background-color: #EEEBE5;
     font-weight: bold;
     color: #333;
     font-family: Arial;
     font-size: 13px;
-    height: 24px;
-    padding-left: 6px;
-    border-bottom-width: 1px;
-}
-
-.topRow th {
-    background-color: #EEEBE5;
-    font-weight: bold;
-    color: #333;
-    font-family: Arial;
-    font-size: 13px;
-    height: 24px;
-    padding-left: 6px;
 }
 .CenterSelect {
     text-align: center;
@@ -89,25 +85,6 @@ table {
     padding-left: 0px;
     margin-bottom: 12px;    
 }
-.moduleTable {
-    border: 1px solid #999999;
-    width:100%;
-}
-    .moduleTable textarea{margin-left:5px;}
-    #editVisibility table td {
-        border: 1px solid #999999;
-        padding-left: 5px;
-    }
-#editVisibility table th {
-    border: 1px solid #999999;
-    background-color: #EEEBE5;
-    font-weight: bold;
-    color: #333;
-    font-family: Arial;
-    font-size: 13px;
-    height: 24px;
-    padding-left: 6px;
-}
 #editVisibility{display:none;}
 .moduleOptions {
     color: #333;
@@ -120,54 +97,27 @@ table {
     margin-right: 10px;
 }
 .save{margin-right:10px;}
-.editPanel {
-    width:800px;
-    margin-top: 8px;
-    padding: 10px;
-    background-color: #EAF0F8;
-    border: 1px solid #999999;
-    font-size: 13px;
-    color: #333333;
-}
 .inputLabel{margin-top:5px; font-weight:700;}
-.jobCategoryTitle{margin-right:15px;}
 .jobCategoryOptions{display:inline-grid;}
 .jobCategoryOptions input{margin-right:5px;}
 .jobCategories {
     margin-top: 5px;
 }
 #tableJobOpportunities {
-    border: 1px solid #999999;  
-    width:100%;
+    /*border: 1px solid #999999;  */
 }
-    #tableJobOpportunities td {
-        border: 1px solid #999999;
-      
-    }
-    #tableJobOpportunities th {
-        border: 1px solid #999999;
-    }
 .jobOpportunitiesFirstCell {
     padding-left: 5px;
 }
 .pipe{margin:5px;}
 .alignCenterAction {
     text-align: center !important;
-    width: 110px;
 }
 .alignCenterAction img{cursor:pointer;
                        margin:2px;
 }
-.jobTitle {
-    color: #666666;
-    font-weight:700;
-}
-.jobDescription{margin-left:14px;}
-.jobCategoryDisplayLabel{margin-left:14px; 
+.jobCategoryDisplayLabel{
                          font-weight:700;
                          font-size:12px;
-}
-.jobURLDisplayLabel{font-weight:700;
-                    font-size:12px;
 }
 #moduleBody{padding-left:0px;}

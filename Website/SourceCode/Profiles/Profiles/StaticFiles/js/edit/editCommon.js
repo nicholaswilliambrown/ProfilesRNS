@@ -191,3 +191,15 @@ function moveArrayItemDown(array, indexToMove) {
         return true; // if caller wants to know whether anything moved
     }
 }
+function isValidURLRegex(url) {
+    const pattern = new RegExp(
+        "^(https?:\\/\\/)?" + // optional protocol
+        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+        "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+        "(\\?[;&a-z\\d%_.~+=-]*)*" + // query string
+        "(\\#[-a-z\\d_]*)?$", // fragment locator
+        "i" // case-insensitive flag
+    );
+    return !!pattern.test(url);
+}

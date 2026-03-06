@@ -84,23 +84,33 @@ function emitJobOpportunities(jobOpportunities) {
             tableJobOpportunities.append(subRow1);
 
             let itemSubRowId = 'jobOpp' + i;
-            let subRow3 = makeRowWithColumns(tableJobOpportunities, itemSubRowId, gEditProp.colSpecsJobInnerTwoCols, oddEven);
+            let jobCategoryDiv = $(`
+                    <div class="ps-4">
+                        <span class="jobCategoryDisplayLabel">Job Category:</span><span> ${truthyJobCategories}</span>
+                    </div>`);
+            let subRow3;
+            if ( ! jobOpp.jobURL) {
+                subRow3 = $(`<div class="row ps-3"></div>`);
+                let sr3Col = $('<div class="col-12"></div>');
+                subRow3.find(`#${itemSubRowId}Col0`).append(sr3Col);
+                sr3Col.append(jobCategoryDiv);
+            }
+            else {
+                subRow3 = makeRowWithColumns(tableJobOpportunities, itemSubRowId, gEditProp.colSpecsJobInnerTwoCols, oddEven);
+
+                let rightCol = $(`
+                    <div class="ps-4">
+                        <span class="jobCategoryDisplayLabel">Job URL:</span> 
+                        <a target="_blank" rel="noopener noreferrer" href="${jobOpp.jobURL}">${jobOpp.jobURL}</a>
+                    </div>`);
+                subRow3.find(`#${itemSubRowId}Col0`).append(jobCategoryDiv);
+                subRow3.find(`#${itemSubRowId}Col1`).append(rightCol);
+            }
 
             overallRow.find(`#${overallRowId}Col0`).append(subRow1);
             overallRow.find(`#${overallRowId}Col0`).append(subRow2);
             overallRow.find(`#${overallRowId}Col0`).append(subRow3);
 
-            let leftCol = $(`
-                <div class="ps-4">
-                    <span class="jobCategoryDisplayLabel">Job Category:</span><span> ${truthyJobCategories}</span>
-                </div>`);
-            let rightCol = $(`
-                <div class="ps-4">
-                    <span class="jobCategoryDisplayLabel">Job URL:</span> 
-                    <a target="_blank" rel="noopener noreferrer" href="${jobOpp.jobURL}">${jobOpp.jobURL}</a>
-                </div>`);
-            subRow3.find(`#${itemSubRowId}Col0`).append(leftCol);
-            subRow3.find(`#${itemSubRowId}Col1`).append(rightCol);
         }
     }
     return numJobs;
@@ -217,7 +227,16 @@ function closeJobOpportunityForm() {
     $("#jobOpportunityDetailsDiv").hide();
     $("#createJobOppArrow").attr('src', gEditProp.rightArrow);
 }
+function validateJobOpportunity() {
+    let candidateUrl = $("#jobURL").val();
+    return isValidURLRegex(candidateUrl);
+}
 function saveJobOpportunity(opportunityId) {
+    if ( ! validateJobOpportunity()) {
+        alert('Please enter a URL starting with http:// or https://');
+        return;
+    }
+
     if (gEditProp.mentorJobOpportunities.length != 0 && gEditProp.mentorJobOpportunities.find(x => x.opportunityId == opportunityId) != undefined) {
         //edit existing 
 

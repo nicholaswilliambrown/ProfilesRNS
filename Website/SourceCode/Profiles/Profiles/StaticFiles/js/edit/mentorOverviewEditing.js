@@ -36,7 +36,7 @@ function loadMentorOverviewDiv(target) {
                 <div class="${gCommon.cols8or12}" ><div><input type="checkbox" id="facultyOnResearchProjects" /> Faculty on Research Projects</div></div></div>
             <div class="row">
                 <div class="${gCommon.cols4or12}" > </div>
-                <div class="${gCommon.cols8or12}" ><div><input type="checkbox" id="facultyOnCreerDevelopment" /> Faculty on Career Development</div></div></div>
+                <div class="${gCommon.cols8or12}" ><div><input type="checkbox" id="facultyOnCareerDevelopment" /> Faculty on Career Development</div></div></div>
             <div class="row">
                 <div class="${gCommon.cols4or12}" > </div>
                 <div class="${gCommon.cols8or12}" ><div><input type="checkbox" id="facultyOnWorkLifeBalance" /> Faculty on Work/Life Balance</div></div></div>
@@ -77,7 +77,7 @@ function clearMentorOverviewSection() {
     $("#studentsOnWorkLifeBalance").prop("checked", false);
     $("#facultyOnResearch").prop("checked", false);
     $("#facultyOnResearchProjects").prop("checked", false);
-    $("#facultyOnCreerDevelopment").prop("checked", false);
+    $("#facultyOnCareerDevelopment").prop("checked", false);
     $("#facultyOnWorkLifeBalance").prop("checked", false);
     $("#residentsAndFellowsOnResearch").prop("checked", false);
     $("#residentsAndFellowsOnResearchProjects").prop("checked", false);
@@ -98,7 +98,7 @@ function saveMentorOverview() {
     mentoringOverview.studentsOnWorkLifeBalance = $("#studentsOnWorkLifeBalance").prop("checked");
     mentoringOverview.facultyOnResearch = $("#facultyOnResearch").prop("checked");
     mentoringOverview.facultyOnResearchProjects = $("#facultyOnResearchProjects").prop("checked");
-    mentoringOverview.facultyOnCreerDevelopment = $("#facultyOnCreerDevelopment").prop("checked");
+    mentoringOverview.facultyOnCareerDevelopment = $("#facultyOnCareerDevelopment").prop("checked");
     mentoringOverview.facultyOnWorkLifeBalance = $("#facultyOnWorkLifeBalance").prop("checked");
     mentoringOverview.residentsAndFellowsOnResearch = $("#residentsAndFellowsOnResearch").prop("checked");
     mentoringOverview.residentsAndFellowsOnResearchProjects = $("#residentsAndFellowsOnResearchProjects").prop("checked");
@@ -116,7 +116,7 @@ function emitMentorOverviewSection(mentoringOverview) {
     $("#studentsOnWorkLifeBalance").prop("checked", mentoringOverview.studentsOnWorkLifeBalance);
     $("#facultyOnResearch").prop("checked", mentoringOverview.facultyOnResearch);
     $("#facultyOnResearchProjects").prop("checked", mentoringOverview.facultyOnResearchProjects);
-    $("#facultyOnCreerDevelopment").prop("checked", mentoringOverview.facultyOnCreerDevelopment);
+    $("#facultyOnCareerDevelopment").prop("checked", mentoringOverview.facultyOnCareerDevelopment);
     $("#facultyOnWorkLifeBalance").prop("checked", mentoringOverview.facultyOnWorkLifeBalance);
     $("#residentsAndFellowsOnResearch").prop("checked", mentoringOverview.residentsAndFellowsOnResearch);
     $("#residentsAndFellowsOnResearchProjects").prop("checked", mentoringOverview.residentsAndFellowsOnResearchProjects);

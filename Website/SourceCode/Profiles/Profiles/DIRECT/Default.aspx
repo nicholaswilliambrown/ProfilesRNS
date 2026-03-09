@@ -1,3 +1,4 @@
-﻿<%@ Page Title="" Language="C#" ValidateRequest="false" AutoEventWireup="true"
- CodeBehind="Default.aspx.cs" Inherits="Profiles.DIRECT.Default" %>
-<asp:literal runat="server" ID="litText" />
+﻿<%@ Page  Language="C#"  AutoEventWireup="true"
+        MasterPageFile="~/Framework/Template.Master" 
+    CodeBehind="Default.aspx.cs"  Inherits="Profiles.DIRECT.Default" EnableViewState="true"
+    EnableEventValidation="false" EnableViewStateMac="false" ValidateRequest="false" %>

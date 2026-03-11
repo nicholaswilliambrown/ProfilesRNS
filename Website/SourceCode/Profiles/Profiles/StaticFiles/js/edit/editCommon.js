@@ -48,7 +48,7 @@ async function editCommonReady() {
 }
 function loadVisibilityDiv(target) {
     let div = $(`
-        <div id="editVisibilityDiv"><a className="editMenuLink link-ish">
+        <div id="editVisibilityDiv"><a class="editMenuLink link-ish">
             <img id="visibilityMenuIcon" src="${gEditProp.rightArrow}"/> Edit Visibility (<span
             id="currentVisibility"></span>)</a>
         </div>

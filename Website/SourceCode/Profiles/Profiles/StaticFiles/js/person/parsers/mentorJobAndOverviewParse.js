@@ -15,13 +15,17 @@ function mentorJobOpportunityParser(json, moduleTitle, miscInfo, explicitTarget)
         let categories = prettyTruthyJobs(elt);
 
         let colSpecs = [
-            newColumnSpec(`${gCommon.cols6or12}`, spanify(`Job Category: ${categories}`)),
-            newColumnSpec(`${gCommon.cols6or12}`, spanify(`Job URL: `))
+            newColumnSpec(gCommon.cols6or12, spanify(`Job Category: ${categories}`)),
+            newColumnSpec(gCommon.cols6or12)
         ];
         let id = `mentorOpp-${i}`;
         let row = makeRowWithColumns(li, id, colSpecs, "ps-0");
-        let anchor = createAnchorElement(elt.jobURL);
-        row.find(`#${id}Col1`).append(anchor);
+
+        let url = elt.jobURL;
+        if (url) {
+            let anchor = createAnchorElement(elt.jobURL);
+            row.find(`#${id}Col1`).append($('<span>Job URL: </span>')).append(anchor);
+        }
     }
     return innerPayloadDiv;
 }

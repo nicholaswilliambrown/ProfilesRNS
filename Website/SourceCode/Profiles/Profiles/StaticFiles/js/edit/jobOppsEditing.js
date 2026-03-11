@@ -40,27 +40,31 @@ function loadJobOpportunitiesDiv(target) {
                 </div>
 
             </div> <!-- jobOpportunityDetailsDiv -->
-            <div id="moduleBody" class="container mt-1 ms-5">
+            <div id="moduleBody" class="container mt-2 ms-5">
                 <div id="tableJobOpportunities"></div>
             </div> <!-- moduleBody -->
         </div> <!-- jobOpportunitiesOuterDiv -->
     `);
     target.append(div);
-
-    let tableJobOpportunities = target.find('#tableJobOpportunities');
-    let rowId = 'jobOppHeader';
-    let row = makeRowWithColumns(tableJobOpportunities, rowId, gEditProp.colSpecsJobOuterTwoCols, 'ebordS ebordE ebordT ebordB topRow');
-    row.find(`#${rowId}Col0`).append($(`<div>Job Opportunities</div>`));
-    row.find(`#${rowId}Col1`).append($(`<div>Action</div>`));
 }
 function emitJobOpportunities(jobOpportunities) {
     let numJobs = 0;
 
     if (Array.isArray(jobOpportunities)) {
+        let jobOppsTable = $('#tableJobOpportunities');
         if (jobOpportunities.length != 0) {
             gEditProp.mentorJobOpportunities = jobOpportunities;
             numJobs = jobOpportunities.length;
+
+            let rowId = 'jobOppHeader';
+            let row = makeRowWithColumns(jobOppsTable, rowId, gEditProp.colSpecsJobOuterTwoCols, 'ebordS ebordE ebordT ebordB topRow');
+            row.find(`#${rowId}Col0`).append($(`<div>Job Opportunities</div>`));
+            row.find(`#${rowId}Col1`).append($(`<div>Action</div>`));
         }
+        else {
+            jobOppsTable.append("No job opportunities have been added.");
+        }
+
 
         let tableJobOpportunities = $('#tableJobOpportunities');
 
@@ -77,10 +81,10 @@ function emitJobOpportunities(jobOpportunities) {
             let actionCol = createJobOppsActionColumn(i, jobOpp, numJobOpps);
             overallRow.find(`#${overallRowId}Col1`).append(actionCol);
 
-            let subRow1 = $(`<div class="row "><div className="bold col-12">${i + 1}. ${jobOpp.title}</div></div>`);
+            let subRow1 = $(`<div class="row "><div class="bold col-12">${i + 1}. ${jobOpp.title}</div></div>`);
             tableJobOpportunities.append(subRow1);
 
-            let subRow2 = $(`<div class="row ps-3"><div className="bold col-12">${jobOpp.jobDescription}</div></div>`);
+            let subRow2 = $(`<div class="row ps-3"><div class="col-12">${jobOpp.jobDescription}</div></div>`);
             tableJobOpportunities.append(subRow1);
 
             let itemSubRowId = 'jobOpp' + i;

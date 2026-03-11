@@ -15,7 +15,7 @@ function loadJobOpportunitiesDiv(target) {
             <div class="link-ish mt-2" id="createJobOppDiv"><span class="link-ish"><img id="createJobOppArrow" src="${gEditProp.rightArrow}"/></span>
                         Create New Job Opportunity</a>
             </div>
-            <div id="jobOpportunityDetailsDiv" class="editPanel mt-0">
+            <div id="jobOpportunityDetailsDiv" class="editPanel mt-2">
                 <div class="moduleOptions">Enter the job opportunity information below:</div>
                 <div class="inputLabel">Job Title</div>
                 <div><input type="text" id="jobTitle" /></div>
@@ -28,7 +28,6 @@ function loadJobOpportunitiesDiv(target) {
                     <div class="jobCategoryOptions">
                         <div><input type="checkbox" id="students" /><span>Students</span></div>
                         <div><input type="checkbox" id="faculty" /><span>Faculty</span></div>
-                        <div><input type="checkbox" id="residentsAndFellows" /><span>Residents and Fellows</span></div>
  
                         <div><input type="checkbox" id="fellowsAndPostDocs" /><span>Fellows and PostDocs</span></div>
                         <div><input type="checkbox" id="researchStaff" /><span>Research Staff</span></div>

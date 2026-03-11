@@ -31,8 +31,10 @@ async function editCommonReady() {
 
     console.log('=============editPropertyParams', gEditProp.properties);
 
-    await commonSetup(gEditProp.propertyName);
-    let mainDiv = $('#mainDiv')
+    await commonSetup();
+    let mainDiv = $('#mainDiv');
+
+    addTitleFromPreLoad();
 
     loadBreadcrumbs(gEditProp.propertyName, mainDiv);
     

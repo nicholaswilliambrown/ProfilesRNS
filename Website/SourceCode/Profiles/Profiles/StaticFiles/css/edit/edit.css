@@ -53,6 +53,12 @@ md_ebordE {
     width:75px;
 }
 
+.editPanel {
+    margin-top: 8px;
+    padding: 10px;
+    background-color: #EAF0F8;
+    border: 1px solid #999999;
+}
 .alignLeft {
     text-align: left !important;
     padding-left: 6px;

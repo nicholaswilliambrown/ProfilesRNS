@@ -47,17 +47,18 @@ function resolveMoveables() {
 }
 async function commonSetup(title) {
     let mainBodyStructure = setupMainStructure;
-    await setupPageStub(mainBodyStructure, title);
-
-    console.log("g values upon 'ready': ", g);
-    console.log("sessionInfo values upon 'ready': ", sessionInfo);
 
     if (title) {
         h2Title(title);
     }
     else {
-        addTitleFromPreLoad();
+        title = addTitleFromPreLoad();
     }
+
+    await setupPageStub(mainBodyStructure, title);
+
+    console.log("g values upon 'ready': ", g);
+    console.log("sessionInfo values upon 'ready': ", sessionInfo);
 }
 function addTitleFromPreLoad() {
     let preLoadTitle;
@@ -70,6 +71,7 @@ function addTitleFromPreLoad() {
                 `DisplayName in? ${JSON.stringify(moduleData)}`);
             //preLoadTitle = ;
             h2Title(preLoadTitle);
+            return preLoadTitle;
         }
     }
     catch (e) {
@@ -516,8 +518,12 @@ function emitTopAndTabs(params) {
 }
 
 function createAnchorElement(text, url, klass) {
+    if (!url) {
+        url = text;
+    }
     let addClass = klass ? klass : "";
-    let result = $(`<a class="link-ish ${addClass}" href="${url}">${text}</a>`);
+    let result = $(`<a class="link-ish ${addClass}" target="_blank" href="${url}">${text}</a>`);
+
     return result;
 }
 

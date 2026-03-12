@@ -3,7 +3,7 @@
 function loadMentorOverviewDiv(target) {
     let div = $(`
     <div id="mentoringOverviewOuterDiv">
-        <div id="mentoringDisplayEmpty" class="mentoringAlternateDivs">
+        <div id="mentoringDisplayEmpty" class="mentoringAlternateDivs mt-2">
             <a class="editMentorOverview mt-2"><span class="link-ish">
                 <img src="${gEditProp.rightArrow}"/> Create Mentoring Overview</span>
             </a>

@@ -32,24 +32,7 @@ function mentorJobOpportunityParser(json, moduleTitle, miscInfo, explicitTarget)
 function mentorOverviewParser(json, moduleTitle, miscInfo, explicitTarget) {
     let innerPayloadDiv = getTargetUntentavizeIfSo(moduleTitle, explicitTarget);
 
-    let blurbDiv = $(`<div class="mb-2">${json.text}</div>`);
-    innerPayloadDiv.append(blurbDiv);
-
-    let areas = Object.keys(json)
-        .filter(a => a != 'text')
-        .filter(a => json[a] == true);
-    if (areas.length) {
-        innerPayloadDiv.append($('<div>Available to mentor:</div>'));
-        let list = $('<ul></ul>');
-        innerPayloadDiv.append(list);
-        for (let area of areas) {
-            // https://stackoverflow.com/questions/18379254/regex-to-split-camel-case
-            area = area.replace(/([a-z])([A-Z])/g, '$1 $2')
-                .replace(/ On /, " on ");
-            area = initialCap(area);
-            list.append($(`<li>${area}</li>`));
-        }
-    }
+    emitMentorOverviewDisplay(json, innerPayloadDiv);
     return innerPayloadDiv;
 }
 

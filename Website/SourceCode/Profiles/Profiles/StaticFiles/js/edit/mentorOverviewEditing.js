@@ -3,24 +3,28 @@
 function loadMentorOverviewDiv(target) {
     let div = $(`
     <div id="mentoringOverviewOuterDiv">
-        <div id="mentoringDisplay" class="mentoringAlternateDivs">
-            <div class="editMentorOverview link-ish mt-2" id="createMentorOverview"><span class="link-ish">
-                <img src="${gEditProp.rightArrow}"/> Create or Update Mentoring Overview</span>
-            </div>
-            <div id="displayInner"></div>
+        <div id="mentoringDisplayEmpty" class="mentoringAlternateDivs">
+            <a class="editMentorOverview mt-2"><span class="link-ish">
+                <img src="${gEditProp.rightArrow}"/> Create Mentoring Overview</span>
+            </a>
+        </div>
+        <div id="mentoringDisplayNonempty" class="mentoringAlternateDivs">
+            <a class="editMentorOverview link-ish mt-2"><span class="link-ish">
+                <img src="${gEditProp.rightArrow}"/> Update Mentoring Overview</span>
+            </a>
+            <div class="mt-2 ms-2 displayInner"></div>
         </div>
         <div id="mentoringEdit" class="mentoringAlternateDivs">
-                <div class="link-ish mt-2 cancelEdit" id="createMentorOverview"><span class="link-ish"><img src="${gEditProp.downArrow}"/></span>
-                        Cancel</a>
+                <div class="cancelEdit link-ish mt-2"><span class="link-ish"><img src="${gEditProp.downArrow}"/></span>
+                        Create Mentoring Overview (Cancel)</a>
                 </div>
-                <div class="mentoringAlternateButtons" id="mentorEditEmpty">
-                    <h2>empty one</h2>
-                    <button class="saveMentorOverview link-ish save">Save</a></button>
-                    <button class="deleteMentorOverview link-ish save">Delete</a></button>
-                </div>
-                <div class="container mt-2 mb-2">
+                <div class="editPanel container mt-2 mb-2 pt-0">
+                    <div class="mentoringAlternateButtons" id="mentorEditEmpty">
+                        <button class="saveMentorOverview link-ish save">Save</a></button>
+                        <button class="deleteMentorOverview link-ish save">Delete</a></button>
+                        <button class="cancelEdit link-ish">Cancel</a></button>
+                    </div>
                     <div class="mentoringAlternateButtons" id="mentorEditNonempty">
-                        <h2>update nonempty one</h2>
                         <div class="row">
                             <div class="${gCommon.cols6or12} ps-1">Enter or update an overview:</div>
                             <div class="${gCommon.cols6or12} d-flex justify-content-start">
@@ -31,7 +35,7 @@ function loadMentorOverviewDiv(target) {
                          </div>                
                     </div>
                     <div class="row">
-                        <div class="col-12 ps-0"><textarea rows="8" id="mentoringOverviewText"></textarea></div>
+                        <div class="col-12 ps-1"><textarea rows="8" id="mentoringOverviewText"></textarea></div>
                     </div>
                     <div class="row">
                         <div class="${gCommon.cols4or12} ps-0" ><div class="moduleInstruction">I'm available to mentor:</div></div>
@@ -92,15 +96,10 @@ async function setupMentorOverview(target) {
     $('.cancelEdit').on('click', function() {
         setupMentorOverview(target)});
     $('.editMentorOverview').on('click', function() {
-        emitMentorOverviewEdit(mentoringJson, target)});
+        emitMentorOverviewEdit(mentoringJson)});
 }
 function emitMentor(mentoringJson) {
-    if (mentoringIsEmpty(mentoringJson)) {
-        emitMentorOverviewEdit(mentoringJson);
-    }
-    else {
-        emitMentorOverviewDisplay(mentoringJson);
-    }
+    emitMentorOverviewDisplay(mentoringJson);
     return mentoringJson;
 }
 function getMentoringTextAndAreas(mentoringJson, truthy) {
@@ -124,11 +123,16 @@ function emitMentorOverviewDisplay(mentoringJson, target) {
     if (! target) { // specific to edit module
         $('.mentoringAlternateDivs').hide();
 
-        target = $('#mentoringDisplay');
+        let displayFlavor = mentoringIsEmpty(mentoringJson) ? 'Empty' : 'Nonempty'
+        target = $(`#mentoringDisplay${displayFlavor}`);
         target.show();
 
-        innerTarget = $('#displayInner');
+        innerTarget = target.find('.displayInner');
         innerTarget.empty();
+
+        if (displayFlavor == 'Empty') {
+            return; // our work here is done for now
+        }
     }
 
     let [blurb, areas] = getMentoringTextAndAreas(mentoringJson, true);
@@ -149,15 +153,17 @@ function emitMentorOverviewDisplay(mentoringJson, target) {
         }
     }
 }
-function emitMentorOverviewEdit(mentoringOverview, newVsUpdate) {
+function emitMentorOverviewEdit(mentoringOverview) {
+    let newVsUpdate = mentoringIsEmpty(mentoringOverview);
+
     $('.mentoringAlternateDivs').hide();
     $('.mentoringAlternateButtons').hide();
     $('#mentoringEdit').show();
     if (newVsUpdate) {
-        $('#mentorEditNonempty').show();
+        $('#mentorEditEmpty').show();
     }
     else {
-        $('#mentorEditEmpty').show();
+        $('#mentorEditNonempty').show();
     }
 
     $("#mentoringOverviewText").val(mentoringOverview.text);

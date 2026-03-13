@@ -124,18 +124,26 @@ function createJobOppsActionColumn(index, jobOpp, numJobOpps) {
 
     let upIcon = $(`<img alt="up" src='${g.profilesRootURL}/edit/images/Icon_rounded_ArrowGrayUp.png'/>`);
     let downIcon = $(`<img alt="down" src='${g.profilesRootURL}/edit/images/Icon_rounded_ArrowGrayDown.png'/>`);
+    let blankIcon = $(`<img alt="blank" class="w18" src='${g.profilesRootURL}/edit/images/icons_blank.gif'/>`);
 
-    let centeredActionDiv = $(`<div>`);
+    let iconDiv = $(`<div class="ms-3 d-flex justify-content-end w-50">`);
 
     if (index > 0) {
-        centeredActionDiv.append(upIcon);
+        iconDiv.append(upIcon);
     }
-    if (index+1 < numJobOpps) {
-        centeredActionDiv.append(downIcon);
+    else {
+        iconDiv.append(blankIcon);
     }
 
-    centeredActionDiv.append(editIcon)  ;
-    centeredActionDiv.append(deleteIcon);
+    if (index+1 < numJobOpps) {
+        iconDiv.append(downIcon);
+    }
+    else {
+        iconDiv.append(blankIcon);
+    }
+
+    iconDiv.append(editIcon)  ;
+    iconDiv.append(deleteIcon);
 
     console.log('--------- oppId ---------', jobOpp.opportunityId);
     editIcon.on('click', function() {
@@ -153,7 +161,7 @@ function createJobOppsActionColumn(index, jobOpp, numJobOpps) {
         saveAllJobOpportunities();
     });
 
-    return centeredActionDiv;
+    return iconDiv;
 }
 
 async function setupJobOpps(target) {
@@ -232,7 +240,7 @@ function closeJobOpportunityForm() {
 }
 function validateJobOpportunity() {
     let candidateUrl = $("#jobURL").val();
-    return isValidURLRegex(candidateUrl);
+    return !candidateUrl || isValidURLRegex(candidateUrl);
 }
 function saveJobOpportunity(opportunityId) {
     if ( ! validateJobOpportunity()) {

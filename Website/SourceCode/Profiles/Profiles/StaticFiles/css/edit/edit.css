@@ -124,3 +124,10 @@ md_ebordE {
                          font-size:12px;
 }
 #moduleBody{padding-left:0px;}
+
+.w18 {
+    width: 18px !important;
+    min-width: 18px !important;
+    height: 18px !important;
+    max-height: 18px !important;
+}

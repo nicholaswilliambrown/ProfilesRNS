@@ -101,9 +101,9 @@ function createJobOppsActionColumn(index, jobOpp, numJobOpps) {
     let editIcon = $(`<img alt="edit" src='${g.profilesRootURL}/edit/images/Icon_Edit.gif'/>`);
     let deleteIcon = $(`<img alt="delete" src='${g.profilesRootURL}/edit/images/Icon_delete.gif'/>`);
 
-    let upIcon = $(`<img alt="up" src='${g.profilesRootURL}/edit/images/Icon_rounded_ArrowGrayUp.png'/>`);
-    let downIcon = $(`<img alt="down" src='${g.profilesRootURL}/edit/images/Icon_rounded_ArrowGrayDown.png'/>`);
-    let blankIcon = $(`<img alt="blank" class="w18" src='${g.profilesRootURL}/edit/images/icons_blank.gif'/>`);
+    let upIcon = $(`<img alt="up" src='${g.profilesRootURL}/edit/images/Icon_Up.gif'/>`);
+    let downIcon = $(`<img alt="down" src='${g.profilesRootURL}/edit/images/Icon_Down.gif'/>`);
+    let blankSpan = $(`<span class="w18"></span>`);
 
     let iconDiv = $(`<div class="ms-3 d-flex justify-content-end w-50">`);
 
@@ -111,14 +111,14 @@ function createJobOppsActionColumn(index, jobOpp, numJobOpps) {
         iconDiv.append(upIcon);
     }
     else {
-        iconDiv.append(blankIcon);
+        iconDiv.append(blankSpan);
     }
 
     if (index+1 < numJobOpps) {
         iconDiv.append(downIcon);
     }
     else {
-        iconDiv.append(blankIcon);
+        iconDiv.append(blankSpan);
     }
 
     iconDiv.append(editIcon)  ;

@@ -23,14 +23,14 @@ function loadJobOpportunitiesDiv(target) {
                 <div><textarea rows="4" cols="40" id="jobDescription"></textarea></div>
                 <div class="inputLabel">Job URL</div>
                 <div><input type="text" id="jobURL" /></div>
-                <div class="jobCategories">
-                    <span class="bold"><b>Job Category</b></span>
-                    <div class="jobCategoryOptions">
-                        <div><input type="checkbox" id="students" /><span>Students</span></div>
-                        <div><input type="checkbox" id="faculty" /><span>Faculty</span></div>
+                <div class="jobCategories mt-2">
+                    <span class="inputLabel">Job Category</span>
+                    <div class="mt-2">
+                        <div class="ms-2"><input type="checkbox" id="students" /><span class="ms-1">Students</span></div>
+                        <div class="ms-2"><input type="checkbox" id="faculty" /><span class="ms-1">Faculty</span></div>
  
-                        <div><input type="checkbox" id="fellowsAndPostDocs" /><span>Fellows and PostDocs</span></div>
-                        <div><input type="checkbox" id="researchStaff" /><span>Research Staff</span></div>
+                        <div class="ms-2"><input type="checkbox" id="fellowsAndPostDocs" /><span class="ms-1">Fellows and PostDocs</span></div>
+                        <div class="ms-2"><input type="checkbox" id="researchStaff" /><span class="ms-1">Research Staff</span></div>
                     </div>
                 </div>
                 <div><button class="link-ish mt-2 ps-0" id="saveJobOpp">Save</button>
@@ -40,7 +40,7 @@ function loadJobOpportunitiesDiv(target) {
 
             </div> <!-- jobOpportunityDetailsDiv -->
             <div id="moduleBody" class="container mt-2 ms-5">
-                <div id="tableJobOpportunities"></div>
+                <div id="jobOpportunitiesDiv"></div>
             </div> <!-- moduleBody -->
         </div> <!-- jobOpportunitiesOuterDiv -->
     `);
@@ -50,22 +50,20 @@ function emitJobOpportunities(jobOpportunities) {
     let numJobs = 0;
 
     if (Array.isArray(jobOpportunities)) {
-        let jobOppsTable = $('#tableJobOpportunities');
+        let jobOpportunitiesDiv = $('#jobOpportunitiesDiv');
+
         if (jobOpportunities.length != 0) {
             gEditProp.mentorJobOpportunities = jobOpportunities;
             numJobs = jobOpportunities.length;
 
             let rowId = 'jobOppHeader';
-            let row = makeRowWithColumns(jobOppsTable, rowId, gEditProp.colSpecsJobOuterTwoCols, 'ebordS ebordE ebordT ebordB topRow');
+            let row = makeRowWithColumns(jobOpportunitiesDiv, rowId, gEditProp.colSpecsJobOuterTwoCols, 'ebordS ebordE ebordT ebordB topRow');
             row.find(`#${rowId}Col0`).append($(`<div>Job Opportunities</div>`));
             row.find(`#${rowId}Col1`).append($(`<div>Action</div>`));
         }
         else {
-            jobOppsTable.append("No job opportunities have been added.");
+            jobOpportunitiesDiv.append("No job opportunities have been added.");
         }
-
-
-        let tableJobOpportunities = $('#tableJobOpportunities');
 
         let numJobOpps = gEditProp.mentorJobOpportunities.length;
         for (let i=0; i<numJobOpps; i++) {
@@ -76,44 +74,25 @@ function emitJobOpportunities(jobOpportunities) {
             let oddEven = i%2 ? 'oddRow' : 'evenRow';
 
             let overallRowId = 'joRow2' + i;
-            let overallRow = makeRowWithColumns(tableJobOpportunities, overallRowId, gEditProp.colSpecsJobOuterTwoCols, oddEven + ' ebordS ebordE ebordB');
+            let overallRow = makeRowWithColumns(jobOpportunitiesDiv, overallRowId, gEditProp.colSpecsJobOuterTwoCols, oddEven + ' ebordS ebordE ebordB');
             let actionCol = createJobOppsActionColumn(i, jobOpp, numJobOpps);
             overallRow.find(`#${overallRowId}Col1`).append(actionCol);
 
-            let subRow1 = $(`<div class="row "><div class="bold col-12">${i + 1}. ${jobOpp.title}</div></div>`);
-            tableJobOpportunities.append(subRow1);
+            let jobTitleDiv = $(`<div class="bold">${i + 1}. ${jobOpp.title}</div>`);
+            let jobDescDiv = $(`<div class="">${jobOpp.jobDescription}</div>`);
+            let jobCategoryDiv = $(`<div class=""><span class="jobCategoryDisplayLabel">Job Category:</span>
+                                        <span> ${truthyJobCategories}</span></div>`);
 
-            let subRow2 = $(`<div class="row ps-3"><div class="col-12">${jobOpp.jobDescription}</div></div>`);
-            tableJobOpportunities.append(subRow1);
+            let col0 = overallRow.find(`#${overallRowId}Col0`);
+            col0.append(jobTitleDiv);
+            col0.append(jobDescDiv);
+            col0.append(jobCategoryDiv);
 
-            let itemSubRowId = 'jobOpp' + i;
-            let jobCategoryDiv = $(`
-                    <div class="ps-4">
-                        <span class="jobCategoryDisplayLabel">Job Category:</span><span> ${truthyJobCategories}</span>
-                    </div>`);
-            let subRow3;
-            if ( ! jobOpp.jobURL) {
-                subRow3 = $(`<div class="row ps-3"></div>`);
-                let sr3Col = $('<div class="col-12"></div>');
-                subRow3.find(`#${itemSubRowId}Col0`).append(sr3Col);
-                sr3Col.append(jobCategoryDiv);
+            let url = jobOpp.jobURL;
+            if (url) {
+                col0.append($(`<div class=""><span class="jobCategoryDisplayLabel">Job URL:</span> 
+                                    <a target="_blank" rel="noopener noreferrer" href="${url}">${url}</a></div>`));
             }
-            else {
-                subRow3 = makeRowWithColumns(tableJobOpportunities, itemSubRowId, gEditProp.colSpecsJobInnerTwoCols, oddEven);
-
-                let rightCol = $(`
-                    <div class="ps-4">
-                        <span class="jobCategoryDisplayLabel">Job URL:</span> 
-                        <a target="_blank" rel="noopener noreferrer" href="${jobOpp.jobURL}">${jobOpp.jobURL}</a>
-                    </div>`);
-                subRow3.find(`#${itemSubRowId}Col0`).append(jobCategoryDiv);
-                subRow3.find(`#${itemSubRowId}Col1`).append(rightCol);
-            }
-
-            overallRow.find(`#${overallRowId}Col0`).append(subRow1);
-            overallRow.find(`#${overallRowId}Col0`).append(subRow2);
-            overallRow.find(`#${overallRowId}Col0`).append(subRow3);
-
         }
     }
     return numJobs;
@@ -177,7 +156,7 @@ async function setupJobOpps(target) {
     await cardinalityPattern({
         createItemOverallDivId: 'createJobOppDiv',
         itemDetailsDivId:       'jobOpportunityDetailsDiv',
-        currentItemsDivId:      'tableJobOpportunities',
+        currentItemsDivId:      'jobOpportunitiesDiv',
         togglingArrowImgId:     'createJobOppArrow',
         saveItemId:             'saveJobOpp',
         saveItemFn:             () => {saveJobOpportunity('')},

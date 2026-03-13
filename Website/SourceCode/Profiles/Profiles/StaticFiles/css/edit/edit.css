@@ -98,14 +98,8 @@ md_ebordE {
     font-size: 13px;
     padding-left:5px;
 }
-.moduleInstruction{margin-left:5px;}
 .save{margin-right:10px;}
 .inputLabel{margin-top:5px; font-weight:700;}
-.jobCategoryOptions{display:inline-grid;}
-.jobCategoryOptions input{margin-right:5px;}
-.jobCategories {
-    margin-top: 5px;
-}
 #tableJobOpportunities {
     /*border: 1px solid #999999;  */
 }

@@ -37,41 +37,17 @@ function loadMentorOverviewDiv(target) {
                     <div class="row">
                         <div class="col-12 ps-1"><textarea rows="8" id="mentoringOverviewText"></textarea></div>
                     </div>
-                    <div class="row">
-                        <div class="${gCommon.cols4or12} ps-0" ><div class="moduleInstruction">I'm available to mentor:</div></div>
-                        <div class="${gCommon.cols8or12}"><input type="checkbox" id="studentsOnResearchProjects" /> Students on Research Projects</div>
-                    </div>
-                    <div class="row">
-                        <div class="${gCommon.cols4or12}" > </div>
-                        <div class="${gCommon.cols8or12}"><div><input type="checkbox" id="studentsOnCareerDevelopment" /> Students on Career Development</div></div>
-                    </div>
-                    <div class="row">
-                        <div class="${gCommon.cols4or12}" > </div>
-                        <div class="${gCommon.cols8or12}" ><div><input type="checkbox" id="studentsOnWorkLifeBalance" /> Students on Work/Life Balance</div></div></div>
-                    <div class="row">
-                        <div class="${gCommon.cols4or12}" > </div>
-                        <div class="${gCommon.cols8or12}" ><div><input type="checkbox" id="facultyOnResearch" /> Faculty on Research</div></div></div>
-                    <div class="row">
-                        <div class="${gCommon.cols4or12}" > </div>
-                        <div class="${gCommon.cols8or12}" ><div><input type="checkbox" id="facultyOnResearchProjects" /> Faculty on Research Projects</div></div></div>
-                    <div class="row">
-                        <div class="${gCommon.cols4or12}" > </div>
-                        <div class="${gCommon.cols8or12}" ><div><input type="checkbox" id="facultyOnCareerDevelopment" /> Faculty on Career Development</div></div></div>
-                    <div class="row">
-                        <div class="${gCommon.cols4or12}" > </div>
-                        <div class="${gCommon.cols8or12}" ><div><input type="checkbox" id="facultyOnWorkLifeBalance" /> Faculty on Work/Life Balance</div></div></div>
-                    <div class="row">
-                        <div class="${gCommon.cols4or12}" > </div>
-                        <div class="${gCommon.cols8or12}" ><div><input type="checkbox" id="residentsAndFellowsOnResearch" /> Residents and Fellows on Research</div></div></div>
-                    <div class="row">
-                        <div class="${gCommon.cols4or12}" > </div>
-                        <div class="${gCommon.cols8or12}" ><div><input type="checkbox" id="residentsAndFellowsOnResearchProjects" /> Residents and Fellows on Research Projects</div></div></div>
-                    <div class="row">
-                        <div class="${gCommon.cols4or12}" > </div>
-                        <div class="${gCommon.cols8or12}" ><div><input type="checkbox" id="residentsAndFellowsOnCareerDevelopment" /> Residents and Fellows on Career Development</div></div></div>
-                    <div class="row">
-                        <div class="${gCommon.cols4or12}" > </div>
-                        <div class="${gCommon.cols8or12}" ><div><input type="checkbox" id="residentsAndFellowsOnWorkLifeBalance" /> Residents and Fellows on Work/Life Balance</div></div></div>
+                    
+                    <div class="ms-1 mb-1">I'm available to mentor:</div>
+                    <div class="ms-2"><input type="checkbox" id="studentsOnResearchProjects" /> Students on Research</div>
+                    <div class="ms-2"><input type="checkbox" id="studentsOnCareerDevelopment" /> Students on Career Development</div>
+                    <div class="ms-2"><input type="checkbox" id="studentsOnWorkLifeBalance" /> Students on Work/Life Balance</div>
+                    <div class="ms-2"><input type="checkbox" id="facultyOnResearch" /> Faculty on Research</div>
+                    <div class="ms-2"><input type="checkbox" id="facultyOnCareerDevelopment" /> Faculty on Career Development</div>
+                    <div class="ms-2"><input type="checkbox" id="facultyOnWorkLifeBalance" /> Faculty on Work/Life Balance</div>
+                    <div class="ms-2"><input type="checkbox" id="residentsAndFellowsOnResearch" /> Residents and Fellows on Research</div>
+                    <div class="ms-2"><input type="checkbox" id="residentsAndFellowsOnCareerDevelopment" /> Residents and Fellows on Career Development</div>
+                    <div class="ms-2"><input type="checkbox" id="residentsAndFellowsOnWorkLifeBalance" /> Residents and Fellows on Work/Life Balance</div>
                 </div>
             </div>
     </div>

@@ -304,6 +304,9 @@ gDirect = {
 gDirect.exactPhrase = 'exactPhrase';
 gDirect.searchFor = 'searchFor';
 
+let gEditProp = {};
+
+
 
 
 

@@ -1,5 +1,4 @@
-﻿let gEditProp = {};
-gEditProp.downArrow = `${g.profilesRootURL}/Edit/Images/icon_squaredownArrow.gif`;
+﻿gEditProp.downArrow = `${g.profilesRootURL}/Edit/Images/icon_squaredownArrow.gif`;
 gEditProp.rightArrow = `${g.profilesRootURL}/Edit/Images/icon_squareArrow.gif`;
 
 gEditProp.visPublic = -1 ;
@@ -31,10 +30,10 @@ async function editCommonReady() {
 
     console.log('=============editPropertyParams', gEditProp.properties);
 
-    await commonSetup();
-    let mainDiv = $('#mainDiv');
+    let title = getLastFirstFromPreload();
+    await commonSetup(title);
 
-    addTitleFromPreLoad();
+    let mainDiv = $('#mainDiv');
 
     loadBreadcrumbs(gEditProp.propertyName, mainDiv);
     
@@ -47,6 +46,12 @@ async function editCommonReady() {
     }
 
     setupScrolling();
+}
+function getLastFirstFromPreload() {
+    let preLoad = JSON.parse(g.preLoad).filter(m => m.DisplayModule.match(/Person.Label$/));
+    let moduleData = preLoad[0].ModuleData[0];
+    let lastFirst = moduleData.LastName + ', ' + moduleData.FirstName;
+    return lastFirst;
 }
 function loadVisibilityDiv(target) {
     let div = $(`

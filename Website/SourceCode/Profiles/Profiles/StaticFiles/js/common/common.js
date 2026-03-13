@@ -47,19 +47,19 @@ function resolveMoveables() {
 }
 async function commonSetup(title) {
     let mainBodyStructure = setupMainStructure;
+    await setupPageStub(mainBodyStructure, title);
+
+    console.log("g values upon 'ready': ", g);
+    console.log("sessionInfo values upon 'ready': ", sessionInfo);
 
     if (title) {
         h2Title(title);
     }
     else {
-        title = addTitleFromPreLoad();
+        addTitleFromPreLoad();
     }
-
-    await setupPageStub(mainBodyStructure, title);
-
-    console.log("g values upon 'ready': ", g);
-    console.log("sessionInfo values upon 'ready': ", sessionInfo);
 }
+
 function addTitleFromPreLoad() {
     let preLoadTitle;
 

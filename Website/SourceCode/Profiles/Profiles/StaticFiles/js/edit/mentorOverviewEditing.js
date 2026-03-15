@@ -4,17 +4,25 @@ function loadMentorOverviewDiv(target) {
     let div = $(`
     <div id="mentoringOverviewOuterDiv">
         <div id="mentoringDisplayEmpty" class="mentoringAlternateDivs mt-2">
+            <h2>display empty</h2>
             <a class="editMentorOverview mt-2"><span class="link-ish">
                 <img src="${gEditProp.rightArrow}"/> Create Mentoring Overview</span>
             </a>
         </div>
-        <div id="mentoringDisplayNonempty" class="mentoringAlternateDivs">
-            <a class="editMentorOverview link-ish mt-2"><span class="link-ish">
+        <div id="mentoringDisplayNonempty" class="mentoringAlternateDivs container">
+              <h2>display non-empty</h2>
+           <a class="editMentorOverview link-ish mt-2"><span class="link-ish">
                 <img src="${gEditProp.rightArrow}"/> Update Mentoring Overview</span>
             </a>
-            <div class="mt-2 ms-2 displayInner"></div>
+           <div class="row bord w-100">
+                <div class='${gCommon.cols10or12} ebordE'>LHS
+                    <div class="mt-2 ms-2 displayInner"></div>
+                </div>
+                <div class='${gCommon.cols2or12}'>RHS</div>
+        </div>
         </div>
         <div id="mentoringEdit" class="mentoringAlternateDivs">
+                            <h2>edit</h2>
                 <div class="cancelEdit link-ish mt-2"><span class="link-ish"><img src="${gEditProp.downArrow}"/></span>
                         Create Mentoring Overview (Cancel)</a>
                 </div>
@@ -32,7 +40,7 @@ function loadMentorOverviewDiv(target) {
                                 <button class="saveMentorOverview link-ish save">Save</a></button>
                                 <button class="deleteMentorOverview link-ish save">Delete</a></button>
                            </div>
-                         </div>                
+                        </div>                
                     </div>
                     <div class="row">
                         <div class="col-12 ps-1"><textarea rows="8" id="mentoringOverviewText"></textarea></div>
@@ -111,6 +119,7 @@ function emitMentorOverviewDisplay(mentoringJson, target) {
         }
     }
 
+    innerTarget.append($('<h2>display .displayInner of non empty</h2>'))
     let [blurb, areas] = getMentoringTextAndAreas(mentoringJson, true);
 
     let blurbDiv = $(`<div class="mb-2">${blurb}</div>`);

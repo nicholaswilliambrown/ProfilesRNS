@@ -8,43 +8,32 @@ function loadMentorOverviewDiv(target) {
             <a class="editMentorOverview mt-2"><span class="link-ish">
                 <img src="${gEditProp.rightArrow}"/> Create Mentoring Overview</span>
             </a>
+            <div class="mt-1">No overview has been added.</div>
         </div>
         <div id="mentoringDisplayNonempty" class="mentoringAlternateDivs container">
 <!--              <h2>display non-empty</h2>-->
-           <div class="row bord w-100">
+            <div class="row topRow ebordS ebordE ebordT ">
+                <div class="${gCommon.cols10or12} ebordE">Mentoring Overview</div>
+                <div class="${gCommon.cols2or12}" id="mentorEditAction">Action</div>            
+            </div>
+           <div class="row ebordT ebordS ebordE ebordB">
                 <div class='${gCommon.cols10or12} ebordE'>
                     <div class="mt-2 ms-2 displayInner"></div>
                 </div>
-                <div class='${gCommon.cols2or12}'>
-                   <button class="editMentorOverview link-ish mt-2">Edit</button>
-                   <button class="deleteMentorOverview link-ish save">Delete</a></button>
-
+                <div class='${gCommon.cols2or12} d-flex justify-content-center align-items-center'>
+                   <button class="editMentorOverview link-ish"><img alt="edit" src='${g.profilesRootURL}/edit/images/Icon_Edit.gif'/></button>
+                   <button class="deleteMentorOverview link-ish"><img alt="delete" src='${g.profilesRootURL}/edit/images/Icon_delete.gif'/></a></button>
                 </div>
         </div>
         </div>
         <div id="mentoringEdit" class="mentoringAlternateDivs">
 <!--                            <h2>edit</h2>-->
-                <div class="cancelEdit link-ish mt-2"><span class="link-ish"><img src="${gEditProp.downArrow}"/></span>
-                        Create Mentoring Overview (Cancel)</a>
-                </div>
+                <div class="mt-1">Enter mentor information</div>
                 <div class="editPanel container mt-2 mb-2 pt-0">
-                    <div class="mentoringAlternateButtons" id="mentorEditEmpty">
-                        <button class="saveMentorOverview link-ish save">Save</a></button>
-                        <button class="deleteMentorOverview link-ish save">Delete</a></button>
-                        <button class="cancelEdit link-ish">Cancel</a></button>
-                    </div>
                     <div class="mentoringAlternateButtons" id="mentorEditNonempty">
-                        <div class="row">
-                            <div class="${gCommon.cols6or12} ps-1">Enter or update an overview:</div>
-                            <div class="${gCommon.cols6or12} d-flex justify-content-start">
-                                <button class="cancelEdit link-ish">Cancel</a></button>
-                                <button class="saveMentorOverview link-ish save">Save</a></button>
-                                <button class="deleteMentorOverview link-ish save">Delete</a></button>
-                           </div>
-                        </div>                
                     </div>
                     <div class="row">
-                        <div class="col-12 ps-1"><textarea rows="8" id="mentoringOverviewText"></textarea></div>
+                        <div class="col-12 ps-1 pt-1"><textarea rows="8" id="mentoringOverviewText"></textarea></div>
                     </div>
                     
                     <div class="ms-1 mb-1">I'm available to mentor:</div>
@@ -57,6 +46,12 @@ function loadMentorOverviewDiv(target) {
                     <div class="ms-2"><input type="checkbox" id="residentsAndFellowsOnResearch" /> Residents and Fellows on Research</div>
                     <div class="ms-2"><input type="checkbox" id="residentsAndFellowsOnCareerDevelopment" /> Residents and Fellows on Career Development</div>
                     <div class="ms-2"><input type="checkbox" id="residentsAndFellowsOnWorkLifeBalance" /> Residents and Fellows on Work/Life Balance</div>
+                    
+                    <div>
+                        <button class="cancelEdit link-ish">Cancel</a></button>
+                        <span class="ms-1 me-1">|</span>
+                        <button class="saveMentorOverview link-ish save">Save</a></button>                    
+                    </div>
                 </div>
             </div>
     </div>
@@ -164,6 +159,15 @@ function emitMentorOverviewEdit(mentoringOverview) {
     $("#residentsAndFellowsOnResearchProjects").prop("checked", mentoringOverview.residentsAndFellowsOnResearchProjects);
     $("#residentsAndFellowsOnCareerDevelopment").prop("checked", mentoringOverview.residentsAndFellowsOnCareerDevelopment);
     $("#residentsAndFellowsOnWorkLifeBalance").prop("checked", mentoringOverview.residentsAndFellowsOnWorkLifeBalance);
+}
+function confirmMentorOverviewDelete() {
+    if (confirm("Are you sure?")) {
+        // Code to run if the user clicks "OK" (Yes)
+        alert("Action confirmed!");
+    } else {
+        // Code to run if the user clicks "Cancel" (No)
+        alert("Action cancelled.");
+    }
 }
 function deleteMentorOverview() {
     $("#mentoringOverviewText").val("");

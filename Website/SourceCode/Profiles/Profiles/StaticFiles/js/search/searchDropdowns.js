@@ -1,11 +1,13 @@
 function prepareDropdownData(data) {
     let result = [];
     let sortedOtherOptionsData = prepareTwoLevelOptionsData(data.OtherOptions);
-    let sortedHasSectionsData = prepareTwoLevelOptionsData(data.HasSections);
-    if ( ! sortedOtherOptionsData.length) {
+    let sortedHasSectionsData = []; // not used quite yet
+
+    sortedOtherOptionsData = prepareTwoLevelOptionsData(data.HasSections).concat(sortedOtherOptionsData);
+    if (sortedOtherOptionsData && ! sortedOtherOptionsData.length) {
         $('#otherOptionsUlDiv').addClass('d-none');
     }
-    if ( ! sortedHasSectionsData.length) {
+    if (sortedHasSectionsData && ! sortedHasSectionsData.length) {
         $('#hasSectionsUlDiv').addClass('d-none');
     }
     result.push ({

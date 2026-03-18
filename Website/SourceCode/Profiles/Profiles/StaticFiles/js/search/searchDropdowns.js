@@ -1,9 +1,12 @@
 function prepareDropdownData(data) {
     let result = [];
-    let sortedOptionsData = prepareOtherOptionsData(data.OtherOptions);
-    if ( ! sortedOptionsData.length) {
-        $('#otherOptionsUlDiv').hide(); // hide does not work here
+    let sortedOtherOptionsData = prepareTwoLevelOptionsData(data.OtherOptions);
+    let sortedHasSectionsData = prepareTwoLevelOptionsData(data.HasSections);
+    if ( ! sortedOtherOptionsData.length) {
         $('#otherOptionsUlDiv').addClass('d-none');
+    }
+    if ( ! sortedHasSectionsData.length) {
+        $('#hasSectionsUlDiv').addClass('d-none');
     }
     result.push ({
         label: 'Institution',
@@ -27,13 +30,20 @@ function prepareDropdownData(data) {
         label: 'Other Options',
         prefix: 'otherOptions',
         displayProperty: "PersonFilter",
-        list: sortedOptionsData,
+        list: sortedOtherOptionsData,
+        useMultiCheckbox: true,
+        categoryProperty: "PersonFilterCategory"});
+    result.push({
+        label: 'Has Sections',
+        prefix: 'hasSections',
+        displayProperty: "PersonFilter",
+        list: sortedHasSectionsData,
         useMultiCheckbox: true,
         categoryProperty: "PersonFilterCategory"});
 
     return result;
 }
-function prepareOtherOptionsData(data) {
+function prepareTwoLevelOptionsData(data) {
     let result = [];
     let categories = sortArrayViaSortLabel(data, 'CategorySort');
 

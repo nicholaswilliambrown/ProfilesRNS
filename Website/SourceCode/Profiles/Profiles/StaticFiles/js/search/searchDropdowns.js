@@ -27,17 +27,17 @@ function prepareDropdownData(data) {
         list: data.FacultyType,
         useMultiCheckbox: true});
     result.push({
-        label: 'Other Options',
-        prefix: 'otherOptions',
-        displayProperty: "PersonFilter",
-        list: sortedOtherOptionsData,
-        useMultiCheckbox: true,
-        categoryProperty: "PersonFilterCategory"});
-    result.push({
         label: 'Has Sections',
         prefix: 'hasSections',
         displayProperty: "PersonFilter",
         list: sortedHasSectionsData,
+        useMultiCheckbox: true,
+        categoryProperty: "PersonFilterCategory"});
+    result.push({
+        label: 'Other Options',
+        prefix: 'otherOptions',
+        displayProperty: "PersonFilter",
+        list: sortedOtherOptionsData,
         useMultiCheckbox: true,
         categoryProperty: "PersonFilterCategory"});
 

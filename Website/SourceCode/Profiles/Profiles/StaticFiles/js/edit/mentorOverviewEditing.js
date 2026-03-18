@@ -12,7 +12,7 @@ function loadMentorOverviewDiv(target) {
         </div>
         <div id="mentoringDisplayNonempty" class="mentoringAlternateDivs container">
 <!--              <h2>display non-empty</h2>-->
-            <div class="row topRow ebordS ebordE ebordT ">
+            <div class="row topRow ebordS ebordE ebordT mt-2 mt-2">
                 <div class="${gCommon.cols10or12} ebordE">Mentoring Overview</div>
                 <div class="${gCommon.cols2or12}" id="mentorEditAction">Action</div>            
             </div>
@@ -71,7 +71,7 @@ async function setupMentorOverview(target) {
 
     let mentoringJson = await getDataViaPost(url, emitMentor);
 
-    $('.deleteMentorOverview').on('click', deleteMentorOverview);
+    $('.deleteMentorOverview').on('click', confirmDeleteMentorOverview);
     $('.saveMentorOverview').on('click', saveMentorOverview);
     $('.cancelEdit').on('click', function() {
         setupMentorOverview(target)});
@@ -160,13 +160,11 @@ function emitMentorOverviewEdit(mentoringOverview) {
     $("#residentsAndFellowsOnCareerDevelopment").prop("checked", mentoringOverview.residentsAndFellowsOnCareerDevelopment);
     $("#residentsAndFellowsOnWorkLifeBalance").prop("checked", mentoringOverview.residentsAndFellowsOnWorkLifeBalance);
 }
-function confirmMentorOverviewDelete() {
-    if (confirm("Are you sure?")) {
-        // Code to run if the user clicks "OK" (Yes)
-        alert("Action confirmed!");
+function confirmDeleteMentorOverview() {
+    if (confirm("Are you sure you want to delete the Mentor information?")) {
+        deleteMentorOverview();
     } else {
         // Code to run if the user clicks "Cancel" (No)
-        alert("Action cancelled.");
     }
 }
 function deleteMentorOverview() {

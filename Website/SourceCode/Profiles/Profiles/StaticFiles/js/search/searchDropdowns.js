@@ -45,20 +45,23 @@ function prepareDropdownData(data) {
 }
 function prepareTwoLevelOptionsData(data) {
     let result = [];
-    let categories = sortArrayViaSortLabel(data, 'CategorySort');
 
-    for (let i=0; i<categories.length; i++) {
-        let category = categories[i];
-        let categoryName = category.PersonFilterCategory;
-        let filters = sortArrayViaSortLabel(category.PersonFilters, "PersonFilterSort");
-        for (let i=0; i<filters.length; i++) {
-            let filter = filters[i];
-            let item = {
-                "NodeID": filter.NodeID,
-                "PersonFilter": filter.PersonFilter,
-                "PersonFilterCategory": categoryName,
-            };
-            result.push(item);
+    if (data) {
+        let categories = sortArrayViaSortLabel(data, 'CategorySort');
+
+        for (let i = 0; i < categories.length; i++) {
+            let category = categories[i];
+            let categoryName = category.PersonFilterCategory;
+            let filters = sortArrayViaSortLabel(category.PersonFilters, "PersonFilterSort");
+            for (let i = 0; i < filters.length; i++) {
+                let filter = filters[i];
+                let item = {
+                    "NodeID": filter.NodeID,
+                    "PersonFilter": filter.PersonFilter,
+                    "PersonFilterCategory": categoryName,
+                };
+                result.push(item);
+            }
         }
     }
     return result;

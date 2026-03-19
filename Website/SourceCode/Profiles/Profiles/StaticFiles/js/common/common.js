@@ -522,7 +522,7 @@ function createAnchorElement(text, url, klass) {
         url = text;
     }
     let addClass = klass ? klass : "";
-    let result = $(`<a class="link-ish ${addClass}" target="_blank" href="${url}">${text}</a>`);
+    let result = $(`<a class="link-ish ${addClass}" href="${url}">${text}</a>`);
 
     return result;
 }

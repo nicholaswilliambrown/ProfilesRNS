@@ -1,9 +1,8 @@
 function prepareDropdownData(data) {
     let result = [];
     let sortedOtherOptionsData = prepareTwoLevelOptionsData(data.OtherOptions);
-    let sortedHasSectionsData = []; // not used quite yet
+    let sortedHasSectionsData = prepareTwoLevelOptionsData(data.HasSections);
 
-    sortedOtherOptionsData = sortedOtherOptionsData.concat(prepareTwoLevelOptionsData(data.HasSections));
     if (sortedOtherOptionsData && ! sortedOtherOptionsData.length) {
         $('#otherOptionsUlDiv').addClass('d-none');
     }
@@ -29,7 +28,7 @@ function prepareDropdownData(data) {
         list: data.FacultyType,
         useMultiCheckbox: true});
     result.push({
-        label: 'Has Sections',
+        label: 'Profile Contains',
         prefix: 'hasSections',
         displayProperty: "PersonFilter",
         list: sortedHasSectionsData,
@@ -259,8 +258,9 @@ function indicesToItems(items, indices) {
 function collectDropdownSelections(selections) {
     for (let dropdownPrefix of gSearch.dropdownPrefixes) {
         let items = gSearch[dropdownPrefix].items;
+
         let jsonNodeIDLabel = gSearch.prefix2jsonLabel[dropdownPrefix];
-        let jsonNameLabel = gSearch.prefix2jsonLabel[dropdownPrefix] + 'Name';
+        let jsonNameLabel = jsonNodeIDLabel + 'Name';
         let singular = gSearch.prefix2singular[dropdownPrefix];
 
         let indices = gSearch[dropdownPrefix].selectedIndices;
@@ -274,7 +274,17 @@ function collectDropdownSelections(selections) {
             let allExceptCheckbox = gSearch[dropdownPrefix].allExceptCheckbox;
             selections[`${jsonNodeIDLabel}Except`] = allExceptCheckbox.is(':checked');
         }
-        selections[jsonNodeIDLabel] = selectedNodeIDs;
-        selections[jsonNameLabel] = selectedNames;
+        // post ProfileContains piggy-backed on OtherOptions
+        if (jsonNodeIDLabel == "ProfileContains") {
+            jsonNodeIDLabel = "OtherOptions";
+            jsonNameLabel = "OtherOptionsName";
+        }
+        // in case we process ProfileContains before seeing OtherOptions
+        if ( ! selections[jsonNodeIDLabel]) {
+            selections[jsonNodeIDLabel] = [];
+            selections[jsonNameLabel] = [];
+        }
+        selections[jsonNodeIDLabel] = selections[jsonNodeIDLabel].concat(selectedNodeIDs);
+        selections[jsonNameLabel]   = selections[jsonNameLabel].concat(selectedNames);
     }
 }

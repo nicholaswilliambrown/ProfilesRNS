@@ -67,6 +67,7 @@ function respectPriorCriteria(prefix) {
             let departmentAllExcept = priorResults.SearchQuery.DepartmentExcept;
             let facultyTypes = priorResults.SearchQuery.FacultyType;
             let otherOptions = priorResults.SearchQuery.OtherOptions;
+            let profileContains = priorResults.SearchQuery.ProfileContains;
 
             restoreText('lnameInput', lnameInput);
             restoreText('fnameInput', fnameInput);
@@ -79,6 +80,7 @@ function respectPriorCriteria(prefix) {
             pushForRestore(department, nodesToClick);
             pushForRestore(facultyTypes, nodesToClick);
             pushForRestore(otherOptions, nodesToClick);
+            pushForRestore(profileContains, nodesToClick);
 
             restoreDropdowns(nodesToClick);
         }
@@ -99,7 +101,9 @@ function pushForRestore(candidate, target) {
 function restoreDropdowns(nodesToClick) {
     for (let i = 0; i < nodesToClick.length; i++) {
         let node = nodesToClick[i];
-        $(`#${node}`).closest('li').click();
+        if (node) {
+            $(`#${node}`).closest('li').click();
+        }
     }
     $('#dropbox2Col2').click(); // close the dropdowns by clicking outside
 }

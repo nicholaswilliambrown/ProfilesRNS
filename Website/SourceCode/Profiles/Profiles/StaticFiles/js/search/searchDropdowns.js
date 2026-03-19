@@ -3,7 +3,7 @@ function prepareDropdownData(data) {
     let sortedOtherOptionsData = prepareTwoLevelOptionsData(data.OtherOptions);
     let sortedHasSectionsData = []; // not used quite yet
 
-    sortedOtherOptionsData = prepareTwoLevelOptionsData(data.HasSections).concat(sortedOtherOptionsData);
+    sortedOtherOptionsData = sortedOtherOptionsData.concat(prepareTwoLevelOptionsData(data.HasSections));
     if (sortedOtherOptionsData && ! sortedOtherOptionsData.length) {
         $('#otherOptionsUlDiv').addClass('d-none');
     }

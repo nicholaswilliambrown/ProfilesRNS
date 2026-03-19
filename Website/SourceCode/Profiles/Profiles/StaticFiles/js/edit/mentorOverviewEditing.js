@@ -8,7 +8,7 @@ function loadMentorOverviewDiv(target) {
             <a class="editMentorOverview mt-2"><span class="link-ish">
                 <img src="${gEditProp.rightArrow}"/> Create Mentoring Overview</span>
             </a>
-            <div class="mt-1">No overview has been added.</div>
+            <div class="mt-1 ms-5">No overview has been added.</div>
         </div>
         <div id="mentoringDisplayNonempty" class="mentoringAlternateDivs container">
 <!--              <h2>display non-empty</h2>-->

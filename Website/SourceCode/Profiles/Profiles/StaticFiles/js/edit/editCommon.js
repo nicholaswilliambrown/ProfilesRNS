@@ -213,22 +213,35 @@ function isValidURLRegex(url) {
     return !!pattern.test(url);
 }
 // https://www.google.com/search?q=js+utility+to+support+links+and+bold+in+textarea&rlz=1C5GCCM_en&oq=js+utility+to+support+links+and+bold+in+textarea&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigATIHCAIQIRigATIHCAMQIRigATIHCAQQIRifBTIHCAUQIRifBTIHCAYQIRifBTIHCAcQIRifBTIHCAgQIRifBTIHCAkQIRifBdIBCTE0MzQ2ajBqN6gCCLACAfEFGIcOwW7BzXI&sourceid=chrome&ie=UTF-8
-function wrapTextInTa(taId, beforeSelection, afterSelection) {
-    let ta = document.getElementById(taId);
-    let start = ta.selectionStart;
-    let end = ta.selectionEnd;
+function getTextAreaSelection(textAreaId) {
+    let docTextArea = document.getElementById(textAreaId);
+    let selection = ""; // burden of proof
+
+    let start = docTextArea.selectionStart;
+    let end = docTextArea.selectionEnd;
     if (end > start) {
-        let text = ta.value;
-        let selected = text.substring(start, end);
-        let replacement = beforeSelection + selected + afterSelection;
-        ta.value = text.substring(0, start) + replacement + text.substring(end);
+        let text = docTextArea.value;
+        selection = text.substring(start, end);
+    }
+    return {docTextArea:docTextArea, selection:selection, start:start, end:end};
+}
+function replaceTextAreaSelection(textAreaId, replacement) {
+    let {docTextArea, selection, start, end} = getTextAreaSelection(textAreaId);
+    let text = docTextArea.value;
+    docTextArea.value = text.substring(0, start) + replacement + text.substring(end);
+}
+function wrapTextInTextArea(textAreaId, beforeSelection, afterSelection) {
+    let {docTextArea, selection, start, end} = getTextAreaSelection(textAreaId);
+    if (selection) {
+        let replacement = beforeSelection + selection + afterSelection;
+        replaceTextAreaSelection(textAreaId, replacement);
     }
 }
 function restoreBoldLinks(text) {
     let result = text.replace(/\[\/b]/g, "</b>")
         .replace(/\[b]/g, "<b>");
 
-    result = result.replace(/\[url=(.*?)]/g, "<a href='$1'>$1")
+    result = result.replace(/\[url=(.*?)]/g, "<a href='$1'>")
         .replace(/\[\/url]/g, "</a>");
 
     return result;

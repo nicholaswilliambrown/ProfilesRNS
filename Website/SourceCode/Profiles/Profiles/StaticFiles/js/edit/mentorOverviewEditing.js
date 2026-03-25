@@ -34,7 +34,15 @@ function loadMentorOverviewDiv(target) {
                         <span id="makeBold" title="bold the selection" class="italics link-ish ms-2">B</span>
                         <span id="makeLink" title="link the selection" class="italics link-ish ms-4">Link</span>
                     </div>
-                    <div class="row">
+                     <div id="linkDetails" class="editPanel bold">
+                        <div>Text: <input id="linkText"/></div>
+                        <div class="mt-2">URL: <input id="linkUrl"/></div>
+                        <div class="mt-2">
+                            <span id="makeLinkAdd" class="link-ish ms-2">Add</span>
+                            <span id="makeLinkCancel" class="link-ish ms-2">Cancel</span>
+                        </div>
+                    </div>
+                   <div class="row">
                         <div class="col-12 ps-1 pt-1"><textarea rows="8" id="mentoringOverviewText"></textarea></div>
                     </div>
                     
@@ -60,17 +68,51 @@ function loadMentorOverviewDiv(target) {
     `);
 
     target.append(div);
-    // todo Do we need find(), or maybe just access directly?
-    div.find('#mentoringOverviewText').css('width', '100%');
-    div.find('#makeBold').on('click', function() {
-        wrapTextInTa('mentoringOverviewText', "[b]", "[/b]");
-    });
-    div.find('#makeLink').on('click', function() {
-        wrapTextInTa('mentoringOverviewText', '[url=', '][/url]');
-    });
 
+    $('#mentoringOverviewText').css('width', '100%');
+
+    $('#linkDetails').hide();
+    $('#makeBold').on('click', function() {
+        wrapTextInTextArea('mentoringOverviewText', "[b]", "[/b]");
+    });
+    $('#makeLink').on('click', function() {
+        let text = getTextAreaSelection('mentoringOverviewText').selection;
+        $('#linkDetails').show();
+        $('#linkText').val(text);
+        $('#linkUrl').val(text);
+    });
+    $('#makeLinkAdd').on('click', makeLinkAdd);
+    $('#makeLinkCancel').on('click', makeLinkCancel);
 
     return div;
+}
+
+function makeLinkInvalidities(text, candidateUrl) {
+    let validationMessages = [];
+    if (! isValidURLRegex(candidateUrl)) {
+        validationMessages.push('Please enter a URL, e.g., starting with http:// or https://');
+    }
+    if (!text) {
+        validationMessages.push('Please text to display for this link');
+    }
+    return validationMessages;
+}
+function makeLinkAdd() {
+    let text = $('#linkText').val();
+    let url = $('#linkUrl').val();
+
+    let invalidities = makeLinkInvalidities(text, url);
+    if (invalidities.length) {
+        alert(invalidities.join('\n'));
+    }
+    else {
+        let replacement = `[url=${url}]${text}[/url]`;
+        replaceTextAreaSelection('mentoringOverviewText', replacement);
+        $('#linkDetails').hide();
+    }
+}
+function makeLinkCancel() {
+    $('#linkDetails').hide();
 }
 async function setupMentorOverview(target) {
     loadMentorOverviewDiv(target);

@@ -217,13 +217,18 @@ function closeJobOpportunityForm() {
     $("#jobOpportunityDetailsDiv").hide();
     $("#createJobOppArrow").attr('src', gEditProp.rightArrow);
 }
-function validateJobOpportunity() {
+function jobOpportunityInvalidities() {
+    let validationMessages = [];
     let candidateUrl = $("#jobURL").val();
-    return !candidateUrl || isValidURLRegex(candidateUrl);
+    if (candidateUrl && ! isValidURLRegex(candidateUrl)) {
+        validationMessages.push('Please enter a URL, e.g., starting with http:// or https://');
+    }
+    return validationMessages;
 }
 function saveJobOpportunity(opportunityId) {
-    if ( ! validateJobOpportunity()) {
-        alert('Please enter a URL starting with http:// or https://');
+    let invalidities = jobOpportunityInvalidities();
+    if (invalidities.length) {
+        alert(invalidities.join('\n'));
         return;
     }
 

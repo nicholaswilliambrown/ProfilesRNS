@@ -123,3 +123,6 @@ md_ebordE {
     width: 18px !important;
     height: 18px !important;
 }
+.italics {
+    font-style: italic;
+}

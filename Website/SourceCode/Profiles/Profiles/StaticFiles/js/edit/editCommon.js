@@ -170,7 +170,9 @@ async function editSaveViaPost(url, content, redirectTo) {
              window.location.reload();
          }
      })
-     .fail((response) => ajaxPostFailure(response, url));
+     .fail((response) => {
+         ajaxPostFailure(response, url)
+     });
 }
  async function getDataViaPost(url, callback) {
     let result = 0;
@@ -209,4 +211,25 @@ function isValidURLRegex(url) {
         "i" // case-insensitive flag
     );
     return !!pattern.test(url);
+}
+// https://www.google.com/search?q=js+utility+to+support+links+and+bold+in+textarea&rlz=1C5GCCM_en&oq=js+utility+to+support+links+and+bold+in+textarea&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigATIHCAIQIRigATIHCAMQIRigATIHCAQQIRifBTIHCAUQIRifBTIHCAYQIRifBTIHCAcQIRifBTIHCAgQIRifBTIHCAkQIRifBdIBCTE0MzQ2ajBqN6gCCLACAfEFGIcOwW7BzXI&sourceid=chrome&ie=UTF-8
+function wrapTextInTa(taId, beforeSelection, afterSelection) {
+    let ta = document.getElementById(taId);
+    let start = ta.selectionStart;
+    let end = ta.selectionEnd;
+    if (end > start) {
+        let text = ta.value;
+        let selected = text.substring(start, end);
+        let replacement = beforeSelection + selected + afterSelection;
+        ta.value = text.substring(0, start) + replacement + text.substring(end);
+    }
+}
+function restoreBoldLinks(text) {
+    let result = text.replace(/\[\/b]/g, "</b>")
+        .replace(/\[b]/g, "<b>");
+
+    result = result.replace(/\[url=(.*?)]/g, "<a href='$1'>$1")
+        .replace(/\[\/url]/g, "</a>");
+
+    return result;
 }

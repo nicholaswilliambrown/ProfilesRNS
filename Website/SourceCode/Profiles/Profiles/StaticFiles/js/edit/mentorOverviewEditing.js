@@ -30,7 +30,9 @@ function loadMentorOverviewDiv(target) {
 <!--                            <h2>edit</h2>-->
                 <div class="mt-1">Enter mentor information</div>
                 <div class="editPanel container mt-2 mb-2 pt-0">
-                    <div class="mentoringAlternateButtons" id="mentorEditNonempty">
+                    <div>
+                        <span id="makeBold" title="bold the selection" class="italics link-ish ms-2">B</span>
+                        <span id="makeLink" title="link the selection" class="italics link-ish ms-4">Link</span>
                     </div>
                     <div class="row">
                         <div class="col-12 ps-1 pt-1"><textarea rows="8" id="mentoringOverviewText"></textarea></div>
@@ -58,8 +60,15 @@ function loadMentorOverviewDiv(target) {
     `);
 
     target.append(div);
-    // todo Do we need find(), or maybe just access directly? or in *.css, vs JS
+    // todo Do we need find(), or maybe just access directly?
     div.find('#mentoringOverviewText').css('width', '100%');
+    div.find('#makeBold').on('click', function() {
+        wrapTextInTa('mentoringOverviewText', "[b]", "[/b]");
+    });
+    div.find('#makeLink').on('click', function() {
+        wrapTextInTa('mentoringOverviewText', '[url=', '][/url]');
+    });
+
 
     return div;
 }
@@ -82,19 +91,19 @@ function emitMentor(mentoringJson) {
     emitMentorOverviewDisplay(mentoringJson);
     return mentoringJson;
 }
-function getMentoringTextAndAreas(mentoringJson, truthy) {
+function getMentoringTextAndAreasFromJson(mentoringJson, truthy) {
     let areas = Object.keys(mentoringJson)
         .filter(a => a != 'text');
     if (truthy) {
         areas = areas.filter(a => mentoringJson[a] == true);
     }
 
-    let text = mentoringJson.text;
+    let text = restoreBoldLinks(mentoringJson.text);
 
     return [text, areas]
 }
 function mentoringIsEmpty(mentoringJson) {
-    let [blurb, areas] = getMentoringTextAndAreas(mentoringJson, true);
+    let [blurb, areas] = getMentoringTextAndAreasFromJson(mentoringJson, true);
     return ( ! blurb && ! areas.length);
 }
 function emitMentorOverviewDisplay(mentoringJson, target) {
@@ -116,8 +125,11 @@ function emitMentorOverviewDisplay(mentoringJson, target) {
     }
 
     // innerTarget.append($('<h2>display .displayInner of non empty</h2>'))
-    let [blurb, areas] = getMentoringTextAndAreas(mentoringJson, true);
+    let [blurb, areas] = getMentoringTextAndAreasFromJson(mentoringJson, true);
 
+    // The textarea source of blurb may have newlines
+    // We don't clutter the textarea itself with explicit '<br/>' (or [br]) tags
+    blurb = blurb.replace(/\n/g, "<br/>");
     let blurbDiv = $(`<div class="mb-2">${blurb}</div>`);
     innerTarget.append(blurbDiv);
 
@@ -138,7 +150,6 @@ function emitMentorOverviewEdit(mentoringOverview) {
     let newVsUpdate = mentoringIsEmpty(mentoringOverview);
 
     $('.mentoringAlternateDivs').hide();
-    $('.mentoringAlternateButtons').hide();
     $('#mentoringEdit').show();
     if (newVsUpdate) {
         $('#mentorEditEmpty').show();

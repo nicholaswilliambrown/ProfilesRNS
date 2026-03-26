@@ -26,9 +26,9 @@ function loadMentorOverviewDiv(target) {
                 </div>
         </div>
         </div>
-        <div id="mentoringEdit" class="mentoringAlternateDivs">
+        <div id="mentoringEdit" class="editPanel mentoringAlternateDivs">
 <!--                            <h2>edit</h2>-->
-                <div class="mt-1">Enter mentor information</div>
+                <div class="mt-1 ms-2">Enter mentor information below:</div>
                 <div class="editPanel container mt-2 mb-2 pt-0">
                     <div>
                         <span id="makeBold" title="bold the selection" class="italics link-ish ms-2">B</span>

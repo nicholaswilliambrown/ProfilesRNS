@@ -118,7 +118,7 @@ async function setupMentorOverview(target) {
     loadMentorOverviewDiv(target);
 
     let subject = getSearchParam('subject');
-    let url = gEditProp.getDataFunctionPrefix + subject + "&p=" + gEditProp.getMentorOverviewPrnsUrl;
+    let url = gEditProp.getDataFunctionPrefix + subject + "&p=" + gEditProp.getMentorOverviewOntologyUrl;
 
     let mentoringJson = await getDataViaPost(url, emitMentor);
 
@@ -254,7 +254,7 @@ function saveMentorOverview() {
     mentoringOverview.residentsAndFellowsOnResearchProjects = $("#residentsAndFellowsOnResearchProjects").prop("checked");
     mentoringOverview.residentsAndFellowsOnCareerDevelopment = $("#residentsAndFellowsOnCareerDevelopment").prop("checked");
     mentoringOverview.residentsAndFellowsOnWorkLifeBalance = $("#residentsAndFellowsOnWorkLifeBalance").prop("checked");
-    let url = gEditProp.addUpdateDataFunctionPrefix + subject + "&p=" + gEditProp.getMentorOverviewPrnsUrl;
+    let url = gEditProp.addUpdateDataFunctionPrefix + subject + "&p=" + gEditProp.getMentorOverviewOntologyUrl;
 
     editSaveViaPost(url, mentoringOverview);
 }

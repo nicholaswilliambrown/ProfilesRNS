@@ -80,7 +80,7 @@ function emitJobOpportunities(jobOpportunities) {
 
             let jobTitleDiv = $(`<div class="bold">${i + 1}. ${jobOpp.title}</div>`);
             let jobDescDiv = $(`<div class="">${jobOpp.jobDescription}</div>`);
-            let jobCategoryDiv = $(`<div class=""><span class="jobCategoryDisplayLabel">Job Category:</span>
+            let jobCategoryDiv = $(`<div class=""><span class="bigBoldLabel">Job Category:</span>
                                         <span> ${truthyJobCategories}</span></div>`);
 
             let col0 = overallRow.find(`#${overallRowId}Col0`);
@@ -90,7 +90,7 @@ function emitJobOpportunities(jobOpportunities) {
 
             let url = jobOpp.jobURL;
             if (url) {
-                col0.append($(`<div class=""><span class="jobCategoryDisplayLabel">Job URL:</span> 
+                col0.append($(`<div class=""><span class="bigBoldLabel">Job URL:</span> 
                                     <a target="_blank" rel="noopener noreferrer" href="${url}">${url}</a></div>`));
             }
         }
@@ -147,7 +147,7 @@ async function setupJobOpps(target) {
     loadJobOpportunitiesDiv(target);
 
     let subject = getSearchParam('subject');
-    let url = gEditProp.getDataFunctionPrefix + subject + "&p=" + gEditProp.getJobOpportunitiesPrnsUrl;
+    let url = gEditProp.getDataFunctionPrefix + subject + "&p=" + gEditProp.getJobOpportunitiesOntologyUrl;
 
     $('#jobOpportunityDetailsDiv').hide(); // at least initially
     $('#cancelJobOppEdit').on('click', clearAndCloseJobOpportunityForm);
@@ -231,7 +231,7 @@ function saveAllJobOpportunities() {
     const urlParams = new URLSearchParams(searchParams);
 
     let subject = urlParams.get('subject');
-    let url = gEditProp.addUpdateDataFunctionPrefix + subject +  "&p=" + gEditProp.getJobOpportunitiesPrnsUrl;
+    let url = gEditProp.addUpdateDataFunctionPrefix + subject +  "&p=" + gEditProp.getJobOpportunitiesOntologyUrl;
     editSaveViaPost(url, gEditProp.mentorJobOpportunities);
 }
 function loadJobOpportunity(jobOpportunity) {
@@ -299,7 +299,7 @@ function deleteJobOpportunity(opportunityId) {
     const urlParams = new URLSearchParams(searchParams);
     let subject = urlParams.get('subject');
 
-    let url = gEditProp.addUpdateDataFunctionPrefix + subject +  "&p=" + gEditProp.getJobOpportunitiesPrnsUrl;
+    let url = gEditProp.addUpdateDataFunctionPrefix + subject +  "&p=" + gEditProp.getJobOpportunitiesOntologyUrl;
 
     editSaveViaPost(url, gEditProp.mentorJobOpportunities);
 }

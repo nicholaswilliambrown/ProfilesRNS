@@ -15,12 +15,14 @@ gEditProp.updateVisibilityPrefix = g.editApiPath + "?function=UpdateVisibility&s
 gEditProp.getDataFunctionPrefix = g.editApiPath + "?function=GetData&s=";
 gEditProp.addUpdateDataFunctionPrefix = g.editApiPath + "?function=AddUpdateProperty&s=";
 
-gEditProp.ontologyUrlPrnsPrefix = 'http://profiles.catalyst.harvard.edu/ontology/prns!';
-gEditProp.ontologyMentoring = 'mentoringOverview';
-gEditProp.ontologyHasJobOpps = 'hasMentoringJobOpportunity';
+gEditProp.ontologyUrlPrefix = 'http://profiles.catalyst.harvard.edu/ontology/';
+gEditProp.ontologyMentoring = 'prns!mentoringOverview';
+gEditProp.ontologyHasJobOpps = 'prns!hasMentoringJobOpportunity';
+gEditProp.ontologySlideshare = 'plugins!FeaturedPresentations';
 
-gEditProp.getMentorOverviewPrnsUrl = `${gEditProp.ontologyUrlPrnsPrefix}${gEditProp.ontologyMentoring}`;
-gEditProp.getJobOpportunitiesPrnsUrl = `${gEditProp.ontologyUrlPrnsPrefix}${gEditProp.ontologyHasJobOpps}`;
+gEditProp.getMentorOverviewOntologyUrl = `${gEditProp.ontologyUrlPrefix}${gEditProp.ontologyMentoring}`;
+gEditProp.getJobOpportunitiesOntologyUrl = `${gEditProp.ontologyUrlPrefix}${gEditProp.ontologyHasJobOpps}`;
+gEditProp.getSlideshareOntologyUrl = `${gEditProp.ontologyUrlPrefix}${gEditProp.ontologySlideshare}`;
 
 async function editCommonReady() {
     gEditProp.subject = getSearchParam('subject');
@@ -43,8 +45,7 @@ async function editCommonReady() {
         await setupJobOpps(mainDiv);
     } else if (gEditProp.properties.propertyURI.toLowerCase().match(gEditProp.ontologyMentoring.toLowerCase())) {
         await setupMentorOverview(mainDiv);
-    }
-    else { // for now, slideshare is fallback default
+    } else if (gEditProp.properties.propertyURI.toLowerCase().match(gEditProp.ontologySlideshare.toLowerCase())) {
         await setupSlideshare(mainDiv);
     }
 

@@ -44,9 +44,13 @@ async function editCommonReady() {
     } else if (gEditProp.properties.propertyURI.toLowerCase().match(gEditProp.ontologyMentoring.toLowerCase())) {
         await setupMentorOverview(mainDiv);
     }
+    else { // for now, slideshare is fallback default
+        await setupSlideshare(mainDiv);
+    }
 
     setupScrolling();
 }
+
 function getLastFirstFromPreload() {
     let preLoad = JSON.parse(g.preLoad).filter(m => m.DisplayModule.match(/Person.Label$/));
     let moduleData = preLoad[0].ModuleData[0];
@@ -245,4 +249,39 @@ function restoreBoldLinks(text) {
         .replace(/\[\/url]/g, "</a>");
 
     return result;
+}
+function cardinalityPattern(options) {
+    // allow 'de-structuring' to tolerate options provided in any order
+    let [createItemOverallDivId, itemDetailsDivId, currentItemsDivId,
+        togglingArrowImgId, saveItemId, numItems] =
+        [   options.createItemOverallDivId,
+            options.itemDetailsDivId,
+            options.currentItemsDivId,
+            options.togglingArrowImgId,
+            options.saveItemId,
+            options.saveItemFn,
+            options.createItemFn,
+            options.numItems ];
+
+    let maxCardinality = gEditProp.properties.maxCardinality;
+
+    let currentItemsDiv = $(`#${currentItemsDivId}`);
+    let createItemDiv = $(`#${createItemOverallDivId}`);
+    let itemDetailsDiv = $(`#${itemDetailsDivId}`);
+    let togglingArrowImg = $(`#${togglingArrowImgId}`);
+    let saveItem = $(`#${saveItemId}`);
+
+    if ( maxCardinality > 0 && numItems >= maxCardinality) {
+        createItemDiv.remove();
+        currentItemsDiv.addClass("mt-2"); // mind the gap
+    }
+    else {
+        createItemDiv.on('click', function (e) {
+            console.log('++++++++++++++++++++++++++++++ save will CREATE opp')
+            options.createItemFn();
+            saveItem.off('click').on('click', options.saveItemFn);
+            toggleSrcIcon(togglingArrowImg, gEditProp.rightArrow, gEditProp.downArrow);
+            visibilityFollowsArrow(itemDetailsDiv, togglingArrowImg, gEditProp.rightArrow)
+        });
+    }
 }

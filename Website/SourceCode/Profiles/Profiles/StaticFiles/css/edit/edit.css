@@ -126,3 +126,7 @@ md_ebordE {
 .italics {
     font-style: italic;
 }
+.helpSlideshare {
+    width: 200px;
+    height: 200px;
+}

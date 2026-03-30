@@ -16,6 +16,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Text;
 using System.Xml;
+using System.Linq;
 
 using Profiles.Framework.Utilities;
 
@@ -23,6 +24,8 @@ namespace Profiles.Edit.Modules.EditPropertyList
 {
     public partial class EditPropertyList : BaseModule
     {
+        string[] newUIpredicates;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             DrawProfilesModule();
@@ -37,6 +40,9 @@ namespace Profiles.Edit.Modules.EditPropertyList
 
         private void DrawProfilesModule()
         {
+            Edit.Utilities.DataIO editData = new Profiles.Edit.Utilities.DataIO();
+            newUIpredicates = editData.GetNewUIPredicates();
+
             List<GenericListItem> gli = new List<GenericListItem>();
             bool canedit = false;
             Profile.Utilities.DataIO data = new Profiles.Profile.Utilities.DataIO();
@@ -170,7 +176,7 @@ namespace Profiles.Edit.Modules.EditPropertyList
                 }
 
                 string editlink = "javascript:GoTo('" + Root.Domain + "/edit/default.aspx?subject=" + this.Subject.ToString() + "&predicateuri=" + hf.Value.Replace("#", "!") + "&module=DisplayItemToEdit&ObjectType=" + objecttype + "')";
-                if ("http://profiles.catalyst.harvard.edu/ontology/prns#mentoringOverview".Equals(hf.Value) || "http://profiles.catalyst.harvard.edu/ontology/prns#hasMentoringJobOpportunity".Equals(hf.Value))
+                if (newUIpredicates.Any(p => p.Equals(hf.Value)))
                     editlink = "javascript:GoTo('" + Root.Domain + "/edit/ui/default.aspx?subject=" + this.Subject.ToString() + "&predicateuri=" + hf.Value.Replace("#", "!") + "&module=DisplayItemToEdit&ObjectType=" + objecttype + "')";
                 if (e.Row.RowState == DataControlRowState.Alternate)
                 {

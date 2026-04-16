@@ -48,7 +48,6 @@ function adjustTabs() {
     let myUrl = window.location.href;
     let urlPrefix = myUrl.replace(/(.*\/display\/\d+\/\d+).*/, "$1/");
 
-
     let coauthors = "coauthors";
     let byName = "byname";
     let map = "map";

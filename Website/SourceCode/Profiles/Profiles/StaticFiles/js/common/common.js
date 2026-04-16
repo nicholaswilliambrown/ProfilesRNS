@@ -336,6 +336,9 @@ function toggleEltVisibility(togglingDiv, andThen) {
 function findModuleByName(modulesJson, displayName) {
     let result = modulesJson
             .find(m => m.DisplayModule == displayName);
+    if (!result) {
+        result = findModuleByName(JSON.parse(g.preLoad), displayName);
+    }
     return result;
 }
 function findModuleDataByName(modulesJson, displayName) {

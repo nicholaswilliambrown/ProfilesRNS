@@ -19,7 +19,9 @@ async function setupSlideshare(target) {
     $('#slideshareDetailsDiv').hide(); // at least initially
     $('#cancelSlideshareEdit').on('click', clearAndCloseSlideshareForm);
 
-    let numCurrentSlideshares = await getDataViaPost(url, emitSlideshares);
+    let numCurrentSlideshares = await getDataViaPost(url, function(data) {
+        emitSlideshares(data, $('#slideshareDiv'), true)
+    });
     await cardinalityPattern({
         createItemOverallDivId: 'createSlideshareDiv',
         itemDetailsDivId:       'slideshareDetailsDiv',
@@ -83,7 +85,6 @@ function loadSlideshareDiv(target) {
                 <div><textarea rows="4" cols="40" id="slideshareDescription"></textarea></div>
                 <div class="inputLabel">Slideshare Embedding Code</div>
                 <div><textarea rows="4" cols="40" id="slideshareEmbedCode"></textarea></div>
-                <div id="slideshareItself"></div>
                 <div><button class="link-ish mt-2 ps-0" id="saveSlideshare">Save</button>
                     <span class="pipe">|</span>
                     <button class="link-ish" id="cancelSlideshareEdit">Cancel</button>
@@ -97,57 +98,78 @@ function loadSlideshareDiv(target) {
     `);
     target.append(div);
 }
-function emitSlideshares(slideshareData) {
+function emitSlideshares(slideshareData, slideshareDiv, editVsProfile) {
     if (! slideshareData[0]) {
         return; // none to emit
     }
 
     let slideshareArray = slideshareData[0].Data;
-    let numSlideShares = 0;
-    console.log('set numSS = 0');
+    let numSlideshares = 0;
 
     if (Array.isArray(slideshareArray)) {
-        let slideshareDiv = $('#slideshareDiv');
+        gEditProp.slideshares = slideshareArray;
+        numSlideshares = slideshareArray.length;
 
-        if (slideshareArray.length != 0) {
-            gEditProp.slideshares = slideshareArray;
-            console.log('numSS == ', numSlideShares);
-            numSlideShares = slideshareArray.length;
-
-            let rowId = 'slideshareHeader';
-            let row = makeRowWithColumns(slideshareDiv, rowId, gEditProp.colSpecsJobOuterTwoCols, 'ebordS ebordE ebordT ebordB topRow');
-            row.find(`#${rowId}Col0`).append($(`<div>Slideshare</div>`));
-            row.find(`#${rowId}Col1`).append($(`<div>Action</div>`));
+        // header for edit module
+        if (editVsProfile) {
+            if (numSlideshares) {
+                let rowId = 'slideshareHeader';
+                let row = makeRowWithColumns(slideshareDiv, rowId, gEditProp.colSpecsJobOuterTwoCols, 'ebordS ebordE ebordT ebordB topRow');
+                row.find(`#${rowId}Col0`).append($(`<div>Slideshare</div>`));
+                row.find(`#${rowId}Col1`).append($(`<div>Action</div>`));
+            }
+            else {
+                slideshareDiv.append("No slideshares have been added.");
+            }
         }
-        else {
-            slideshareDiv.append("No slideshares have been added.");
-        }
 
-        let numSlideshares = gEditProp.slideshares.length;
         for (let i=0; i<numSlideshares; i++) {
             let slideshare = gEditProp.slideshares[i];
 
             let oddEven = i%2 ? 'oddRow' : 'evenRow';
 
+            let slideshareItselfDivId = 'ssItself' + i;
             let overallRowId = slideshare.slideshareId;
             let overallRow = makeRowWithColumns(slideshareDiv, overallRowId, gEditProp.colSpecsJobOuterTwoCols, oddEven + ' ebordS ebordE ebordB');
-            let actionCol = createSlidesharesActionColumn(i, slideshare, numSlideshares);
-            overallRow.find(`#${overallRowId}Col1`).append(actionCol);
 
+            if (editVsProfile) {
+                let actionCol = createSlidesharesActionColumn(i, slideshare, numSlideshares);
+                overallRow.find(`#${overallRowId}Col1`).append(actionCol);
+            }
+
+            let ssInfoDiv = $(`<div class="ssInfo" pointsTo="${slideshareItselfDivId}"></div>`);
             let slideshareTitleDiv = $(`<div class="bold">${i + 1}. ${slideshare.title}</div>`);
-            let slideshareDescDiv = $(`<div class="">${slideshare.description}</div>`);
-
-            //let slideshareEmbedCode = iframeDecode(slideshare.code);   // decoded version for profile display
-            let slideshareEmbedCode = slideshare.code;
-            let slideshareEmbedDiv = $(`<div class="">${slideshareEmbedCode}</div>`);
+            let slideshareDescDiv = $(`<div>${slideshare.description}</div>`);
+            ssInfoDiv.append(slideshareTitleDiv).append(slideshareDescDiv);
 
             let col0 = overallRow.find(`#${overallRowId}Col0`);
-            col0.append(slideshareTitleDiv);
-            col0.append(slideshareDescDiv);
-            col0.append(slideshareEmbedDiv);
+            col0.append(ssInfoDiv);
+
+            // for edit page
+            if (editVsProfile) {
+                let slideshareEmbedDiv = $(`<div class="">${slideshare.code}</div>`);
+                col0.append(slideshareEmbedDiv);
+            }
+            // for profile page
+            else {
+                $('.ssInfo').on('click', function(e) {
+                    $('.slideshareItself').hide();
+                    let elt = $(e.target).closest('.ssInfo');
+                    let selectedSsId = elt.attr('pointsTo');
+                    $(`#${selectedSsId}`).show();
+                })
+            }
+
+            let slideshareEmbedCode = iframeDecode(slideshare.code);   // decoded version for profile display
+            let slideshareItself = $(`<div class="slideshareItself" id="${slideshareItselfDivId}">${slideshareEmbedCode}</div>`);
+            col0.append(slideshareItself);
+
+            if (i>0) {
+                slideshareItself.hide();
+            }
         }
     }
-    return numSlideShares;
+    return numSlideshares;
 }
 function createSlidesharesActionColumn(index, slideshare, numSlideshares) {
     let editIcon = $(`<img alt="edit" src='${g.profilesRootURL}/edit/images/Icon_Edit.gif'/>`);
@@ -279,6 +301,7 @@ function editSlideshare(slideshareId) {
         saveSlideshare(slideshareId);
     });
     loadSlideshare(slideshare);
+    topFunction(); // scroll up
 }
 async function deleteSlideshare(slideshareId) {
 

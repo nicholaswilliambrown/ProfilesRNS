@@ -161,7 +161,9 @@ async function setupJobOpps(target) {
         saveItemId:             'saveJobOpp',
         saveItemFn:             () => {saveJobOpportunity('')},
         createItemFn:           clearJobOpportunityForm,
-        numItems:               numCurrentJobs }
+        numItems:               numCurrentJobs,
+        itemType:               'opportunity'
+        }
     );
 }
 function clearAndCloseJobOpportunityForm() {
@@ -226,13 +228,13 @@ function saveJobOpportunity(opportunityId) {
     }
     saveAllJobOpportunities();
 }
-function saveAllJobOpportunities() {
+async function saveAllJobOpportunities() {
     let searchParams = window.location.search;
     const urlParams = new URLSearchParams(searchParams);
 
     let subject = urlParams.get('subject');
     let url = gEditProp.addUpdateDataFunctionPrefix + subject +  "&p=" + gEditProp.getJobOpportunitiesOntologyUrl;
-    editSaveViaPost(url, gEditProp.mentorJobOpportunities);
+    await editSaveViaPost(url, gEditProp.mentorJobOpportunities);
 }
 function loadJobOpportunity(jobOpportunity) {
     $("#jobTitle").val(jobOpportunity.title);
@@ -291,7 +293,7 @@ function editJobOpportunity(opportunityId) {
     });
     loadJobOpportunity(jobOpportunity);
 }
-function deleteJobOpportunity(opportunityId) {
+async function deleteJobOpportunity(opportunityId) {
 
     gEditProp.mentorJobOpportunities = gEditProp.mentorJobOpportunities.filter(x => x.opportunityId != opportunityId);
 
@@ -301,5 +303,5 @@ function deleteJobOpportunity(opportunityId) {
 
     let url = gEditProp.addUpdateDataFunctionPrefix + subject +  "&p=" + gEditProp.getJobOpportunitiesOntologyUrl;
 
-    editSaveViaPost(url, gEditProp.mentorJobOpportunities);
+    await editSaveViaPost(url, gEditProp.mentorJobOpportunities);
 }

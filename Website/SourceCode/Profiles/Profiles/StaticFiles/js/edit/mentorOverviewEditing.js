@@ -236,7 +236,7 @@ function deleteMentorOverview() {
 
     saveMentorOverview();
 }
-function saveMentorOverview() {
+async function saveMentorOverview() {
     let searchParams = window.location.search;
     let urlParams = new URLSearchParams(searchParams);
     let subject = urlParams.get('subject');
@@ -256,5 +256,5 @@ function saveMentorOverview() {
     mentoringOverview.residentsAndFellowsOnWorkLifeBalance = $("#residentsAndFellowsOnWorkLifeBalance").prop("checked");
     let url = gEditProp.addUpdateDataFunctionPrefix + subject + "&p=" + gEditProp.getMentorOverviewOntologyUrl;
 
-    editSaveViaPost(url, mentoringOverview);
+    await editSaveViaPost(url, mentoringOverview);
 }

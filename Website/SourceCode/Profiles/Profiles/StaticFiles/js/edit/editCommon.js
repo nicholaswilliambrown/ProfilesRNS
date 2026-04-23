@@ -120,14 +120,14 @@ function setupVisibilityTable(target) {
         toggleEltVisibility(table);
         toggleSrcIcon($("#visibilityMenuIcon"), gEditProp.rightArrow, gEditProp.downArrow);
     });
-    $('input[name="visibility"]').on('click', function() {
+    $('input[name="visibility"]').on('click', async function() {
         let visibility = $('input[name="visibility"]:checked').val();
         gEditProp.visibility = visibility;
         let predicateURI = getSearchParam('predicateuri');
         let url = `${gEditProp.updateVisibilityPrefix}${subject}`
             + `&p=${predicateURI}&v=${visibility}`;
         localStorage.setItem(gEditProp.justUpdatedVisibility, true);
-        editSaveViaPost(url);
+        await editSaveViaPost(url);
     });
 }
 
@@ -253,16 +253,15 @@ function restoreBoldLinks(text) {
 }
 function cardinalityPattern(options) {
     // allow 'de-structuring' to tolerate options provided in any order
-    let [createItemOverallDivId, itemDetailsDivId, currentItemsDivId,
-        togglingArrowImgId, saveItemId, numItems] =
-        [   options.createItemOverallDivId,
-            options.itemDetailsDivId,
-            options.currentItemsDivId,
-            options.togglingArrowImgId,
-            options.saveItemId,
-            options.saveItemFn,
-            options.createItemFn,
-            options.numItems ];
+    let createItemOverallDivId = options.createItemOverallDivId;
+    let itemDetailsDivId       = options.itemDetailsDivId;
+    let currentItemsDivId      = options.currentItemsDivId;
+    let togglingArrowImgId     = options.togglingArrowImgId;
+    let saveItemId             = options.saveItemId;
+    let saveItemFn             = options.saveItemFn;
+    let createItemFn           = options.createItemFn;
+    let numItems               = options.numItems;
+    let itemType               = options.itemType;
 
     let maxCardinality = gEditProp.properties.maxCardinality;
 
@@ -278,11 +277,24 @@ function cardinalityPattern(options) {
     }
     else {
         createItemDiv.on('click', function (e) {
-            console.log('++++++++++++++++++++++++++++++ save will CREATE opp')
+            console.log(`++++++++++++++++++++++++++++++ save will CREATE a new ${itemType}`)
             options.createItemFn();
             saveItem.off('click').on('click', options.saveItemFn);
             toggleSrcIcon(togglingArrowImg, gEditProp.rightArrow, gEditProp.downArrow);
             visibilityFollowsArrow(itemDetailsDiv, togglingArrowImg, gEditProp.rightArrow)
         });
     }
+}
+//https://www.google.com/search?q=js+htmlencode&rlz=1C5GCCM_en&oq=js+htmlencode&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIICAEQABgWGB4yCAgCEAAYFhgeMg0IAxAAGIYDGIAEGIoF0gEINDQzMmowajSoAgGwAgHxBXUwyIsL9s-k8QV1MMiLC_bPpA&sourceid=chrome&ie=UTF-8
+function iframeEncode(str) {
+    let result = String(str)
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    return result;
+}
+function iframeDecode(str) {
+    let result = String(str)
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>');
+    return result;
 }

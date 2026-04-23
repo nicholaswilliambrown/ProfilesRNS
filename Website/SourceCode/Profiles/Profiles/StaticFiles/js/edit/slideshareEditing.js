@@ -1,4 +1,4 @@
-﻿gEditProp.mentorSlideshares = [];
+﻿gEditProp.slideshares = [];
 
 gEditProp.colSpecsJobOuterTwoCols = [
         newColumnSpec(`${gCommon.cols10or12} md_ebordE`),
@@ -28,7 +28,9 @@ async function setupSlideshare(target) {
         saveItemId:             'saveSlideshare',
         saveItemFn:             () => {saveSlideshare('')},
         createItemFn:           clearSlideshareForm,
-        numItems:               numCurrentSlideshares }
+        numItems:               numCurrentSlideshares,
+        itemType:               'slideshare',
+        }
     );
 }
 async function setupHelpSlideshare(target) {
@@ -81,6 +83,7 @@ function loadSlideshareDiv(target) {
                 <div><textarea rows="4" cols="40" id="slideshareDescription"></textarea></div>
                 <div class="inputLabel">Slideshare Embedding Code</div>
                 <div><textarea rows="4" cols="40" id="slideshareEmbedCode"></textarea></div>
+                <div id="slideshareItself"></div>
                 <div><button class="link-ish mt-2 ps-0" id="saveSlideshare">Save</button>
                     <span class="pipe">|</span>
                     <button class="link-ish" id="cancelSlideshareEdit">Cancel</button>
@@ -94,7 +97,12 @@ function loadSlideshareDiv(target) {
     `);
     target.append(div);
 }
-function emitSlideshares(slideshareArray) {
+function emitSlideshares(slideshareData) {
+    if (! slideshareData[0]) {
+        return; // none to emit
+    }
+
+    let slideshareArray = slideshareData[0].Data;
     let numSlideShares = 0;
     console.log('set numSS = 0');
 
@@ -102,7 +110,7 @@ function emitSlideshares(slideshareArray) {
         let slideshareDiv = $('#slideshareDiv');
 
         if (slideshareArray.length != 0) {
-            gEditProp.mentorSlideshares = slideshareArray;
+            gEditProp.slideshares = slideshareArray;
             console.log('numSS == ', numSlideShares);
             numSlideShares = slideshareArray.length;
 
@@ -115,24 +123,28 @@ function emitSlideshares(slideshareArray) {
             slideshareDiv.append("No slideshares have been added.");
         }
 
-        let numSlideshares = gEditProp.mentorSlideshares.length;
+        let numSlideshares = gEditProp.slideshares.length;
         for (let i=0; i<numSlideshares; i++) {
-            let slideshare = gEditProp.mentorSlideshares[i];
+            let slideshare = gEditProp.slideshares[i];
 
             let oddEven = i%2 ? 'oddRow' : 'evenRow';
 
-            let overallRowId = 'joRow2' + i;
+            let overallRowId = slideshare.slideshareId;
             let overallRow = makeRowWithColumns(slideshareDiv, overallRowId, gEditProp.colSpecsJobOuterTwoCols, oddEven + ' ebordS ebordE ebordB');
             let actionCol = createSlidesharesActionColumn(i, slideshare, numSlideshares);
             overallRow.find(`#${overallRowId}Col1`).append(actionCol);
 
             let slideshareTitleDiv = $(`<div class="bold">${i + 1}. ${slideshare.title}</div>`);
-            let jobDescDiv = $(`<div class="">${slideshare.description}</div>`);
+            let slideshareDescDiv = $(`<div class="">${slideshare.description}</div>`);
+
+            //let slideshareEmbedCode = iframeDecode(slideshare.code);   // decoded version for profile display
+            let slideshareEmbedCode = slideshare.code;
+            let slideshareEmbedDiv = $(`<div class="">${slideshareEmbedCode}</div>`);
 
             let col0 = overallRow.find(`#${overallRowId}Col0`);
             col0.append(slideshareTitleDiv);
-            col0.append(jobDescDiv);
-            col0.append(slideshareEmbedCode);
+            col0.append(slideshareDescDiv);
+            col0.append(slideshareEmbedDiv);
         }
     }
     return numSlideShares;
@@ -172,11 +184,11 @@ function createSlidesharesActionColumn(index, slideshare, numSlideshares) {
         deleteSlideshare(slideshare.slideshareId);
     });
     upIcon.on('click', function() {
-        moveArrayItemUp(gEditProp.mentorSlideshares, index);
+        moveArrayItemUp(gEditProp.slideshares, index);
         saveAllSlideshares();
     });
     downIcon.on('click', function() {
-        moveArrayItemDown(gEditProp.mentorSlideshares, index)
+        moveArrayItemDown(gEditProp.slideshares, index)
         saveAllSlideshares();
     });
 
@@ -201,7 +213,7 @@ function closeSlideshareForm() {
 }
 function isValidSlideshareEmbedRegex(code) {
     const pattern = new RegExp(
-        "^<iframe>.*$"
+        "^<iframe.*$"
     );
     return !!pattern.test(code);
 }
@@ -221,13 +233,13 @@ function saveSlideshare(slideshareId) {
         return;
     }
 
-    if (gEditProp.mentorSlideshares.length != 0 && gEditProp.mentorSlideshares.find(x => x.slideshareId == slideshareId) != undefined) {
+    if (gEditProp.slideshares.length != 0 && gEditProp.slideshares.find(x => x.slideshareId == slideshareId) != undefined) {
         //edit existing 
 
-        const indexToEdit = gEditProp.mentorSlideshares.findIndex(x => x.slideshareId == slideshareId);
-        gEditProp.mentorSlideshares[indexToEdit].title = $("#slideshareTitle").val();
-        gEditProp.mentorSlideshares[indexToEdit].description = $("#slideshareDescription").val();
-        gEditProp.mentorSlideshares[indexToEdit].code = $("#slideshareEmbedCode").val();
+        const indexToEdit = gEditProp.slideshares.findIndex(x => x.slideshareId == slideshareId);
+        gEditProp.slideshares[indexToEdit].title = $("#slideshareTitle").val();
+        gEditProp.slideshares[indexToEdit].description = $("#slideshareDescription").val();
+        gEditProp.slideshares[indexToEdit].code = $("#slideshareEmbedCode").val();
 
     } else {
         //add new
@@ -238,38 +250,39 @@ function saveSlideshare(slideshareId) {
         slideshare.description = $("#slideshareDescription").val();
         slideshare.code = $("#slideshareEmbedCode").val();
 
-        gEditProp.mentorSlideshares.push(slideshare);
+        gEditProp.slideshares.push(slideshare);
     }
     saveAllSlideshares();
 }
-function saveAllSlideshares() {
+async function saveAllSlideshares() {
     let searchParams = window.location.search;
     const urlParams = new URLSearchParams(searchParams);
 
     let subject = urlParams.get('subject');
     let url = gEditProp.addUpdateDataFunctionPrefix + subject +  "&p=" + gEditProp.getSlideshareOntologyUrl;
-    editSaveViaPost(url, {Data: gEditProp.mentorSlideshares, SearchableData:"SlideShare"});
+    let stringySlidesArray = iframeEncode(JSON.stringify(gEditProp.slideshares));
+    await editSaveViaPost(url, {Data: stringySlidesArray, SearchableData:"SlideShare"});
 }
 function loadSlideshare(slideshare) {
     $("#slideshareTitle").val(slideshare.title);
     $("#slideshareDescription").val(slideshare.description);
-    $("#slideshareEmbedCode").val(slideshare.code);
+    $("#slideshareEmbedCode").val(iframeDecode(slideshare.code));
     return true;
 
 }
 function editSlideshare(slideshareId) {
     closeSlideshareForm(); // eg, if in midst of creation
     $("#slideshareDetailsDiv").show();
-    let slideshare = gEditProp.mentorSlideshares.find(x => x.slideshareId == slideshareId);
+    let slideshare = gEditProp.slideshares.find(x => x.slideshareId == slideshareId);
     console.log('++++++++++++++++++++++++++++++ save will UPDATE opp')
     $("#saveSlideshare").off('click').on('click', function() {
         saveSlideshare(slideshareId);
     });
     loadSlideshare(slideshare);
 }
-function deleteSlideshare(slideshareId) {
+async function deleteSlideshare(slideshareId) {
 
-    gEditProp.mentorSlideshares = gEditProp.mentorSlideshares.filter(x => x.slideshareId != slideshareId);
+    gEditProp.slideshares = gEditProp.slideshares.filter(x => x.slideshareId != slideshareId);
 
     let searchParams = window.location.search;
     const urlParams = new URLSearchParams(searchParams);
@@ -277,5 +290,5 @@ function deleteSlideshare(slideshareId) {
 
     let url = gEditProp.addUpdateDataFunctionPrefix + subject +  "&p=" + gEditProp.getSlideshareOntologyUrl;
 
-    editSaveViaPost(url, gEditProp.mentorSlideshares);
+    await editSaveViaPost(url, gEditProp.slideshares);
 }

@@ -140,9 +140,10 @@ function getMentoringTextAndAreasFromJson(mentoringJson, truthy) {
         areas = areas.filter(a => mentoringJson[a] == true);
     }
 
-    let text = restoreBoldLinks(mentoringJson.text);
+    let text = mentoringJson.text ? restoreBoldLinks(mentoringJson.text)
+                                : '';
 
-    return [text, areas]
+    return [text, areas];
 }
 function mentoringIsEmpty(mentoringJson) {
     let [blurb, areas] = getMentoringTextAndAreasFromJson(mentoringJson, true);

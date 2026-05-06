@@ -3,14 +3,14 @@
 function loadMentorOverviewDiv(target) {
     let div = $(`
     <div id="mentoringOverviewOuterDiv">
-        <div id="mentoringDisplayEmpty" class="mentoringAlternateDivs mt-2">
+        <div id="mentoringDisplayEmpty" class="mentoringAlternateDivs mt-2 d-none">
 <!--            <h2>display empty</h2>-->
             <a class="editMentorOverview mt-2"><span class="link-ish">
                 <img src="${gEditProp.rightArrow}"/> Create Mentoring Overview</span>
             </a>
             <div class="mt-1 ms-5">No overview has been added.</div>
         </div>
-        <div id="mentoringDisplayNonempty" class="mentoringAlternateDivs container">
+        <div id="mentoringDisplayNonempty" class="mentoringAlternateDivs container d-none">
 <!--              <h2>display non-empty</h2>-->
             <div class="row topRow ebordS ebordE ebordT mt-2 mt-2">
                 <div class="${gCommon.cols10or12} ebordE">Mentoring Overview</div>
@@ -26,7 +26,7 @@ function loadMentorOverviewDiv(target) {
                 </div>
         </div>
         </div>
-        <div id="mentoringEdit" class="editPanel mentoringAlternateDivs">
+        <div id="mentoringEdit" class="editPanel mentoringAlternateDivs d-none">
 <!--                            <h2>edit</h2>-->
                 <div class="mt-1 ms-2">Enter mentor information below:</div>
                 <div class="editPanel container mt-2 mb-2 pt-0">
@@ -157,6 +157,7 @@ function emitMentorOverviewDisplay(mentoringJson, target) {
 
         let displayFlavor = mentoringIsEmpty(mentoringJson) ? 'Empty' : 'Nonempty'
         target = $(`#mentoringDisplay${displayFlavor}`);
+        target.removeClass('d-none');
         target.show();
 
         innerTarget = target.find('.displayInner');
@@ -193,6 +194,7 @@ function emitMentorOverviewEdit(mentoringOverview) {
     let newVsUpdate = mentoringIsEmpty(mentoringOverview);
 
     $('.mentoringAlternateDivs').hide();
+    $('#mentoringEdit').removeClass('d-none');
     $('#mentoringEdit').show();
     if (newVsUpdate) {
         $('#mentorEditEmpty').show();

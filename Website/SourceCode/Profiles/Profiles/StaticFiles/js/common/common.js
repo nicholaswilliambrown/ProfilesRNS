@@ -344,6 +344,9 @@ function getNodeId() {
                 label = label[0];
             }
             result = label.NodeID;
+            if (!result) {
+                throw "no label NodeID";
+            }
         }
     }
     catch (error) {

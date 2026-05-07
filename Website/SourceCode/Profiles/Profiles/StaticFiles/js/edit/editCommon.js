@@ -129,7 +129,7 @@ function setupVisibilityTable(target) {
 function loadBreadcrumbs(title, target) {
     let breadcrumbs = $(`<div class="row mb-2">
                         <div class='col-10 d-flex justify-content-start'>
-                            <a class='editMenuLink' href='${g.profilesRootURL}/edit/default.aspx?subject=${myGetNodeId()}'>Edit Menu</a>
+                            <a class='editMenuLink' href='${g.profilesRootURL}/edit/default.aspx?subject=${getNodeId()}'>Edit Menu</a>
                             <span class='editMenuGT'>&nbsp;>&nbsp;</span><span><b>${title}</b></span>
                         </div>
                         <div class='col-2 d-flex justify-content-end'>

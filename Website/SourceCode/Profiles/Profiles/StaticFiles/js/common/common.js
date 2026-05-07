@@ -333,7 +333,7 @@ function toggleEltVisibility(togglingDiv, andThen) {
     }
 }
 
-function myGetNodeId() {
+function getNodeId() {
     let result = '';
 
     try {

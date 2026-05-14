@@ -11,7 +11,7 @@ namespace Profiles.Lists
 {
 
 
-    public partial class myListsSVC
+    public partial class MyListsSVC
     {
     }
 }

@@ -12,7 +12,7 @@ using System.IO;
 
 namespace Profiles.Lists
 {
-    public partial class myListsSVC : System.Web.UI.Page, System.Web.SessionState.IRequiresSessionState
+    public partial class MyListsSVC : System.Web.UI.Page, System.Web.SessionState.IRequiresSessionState
     {
         protected void Page_Load(object sender, EventArgs e)
         {

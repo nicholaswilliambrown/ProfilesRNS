@@ -186,6 +186,7 @@
     <Content Include="Lists\Modules\NetworkClusterList\network_browser_force.swf" />
     <Content Include="Lists\Modules\NetworkMapList\config.xml" />
     <Content Include="Lists\Modules\NetworkMapList\NetworkMapList.aspx" />
+    <Content Include="Lists\MyListsSVC.aspx" />
     <Content Include="Lists\PresentationXML\MyClusterList.xml" />
     <Content Include="Lists\PresentationXML\MyLists.xml" />
     <Content Include="Login\Modules\ADLogin\ADLogin.ascx" />
@@ -844,8 +845,12 @@
     <Compile Include="Lists\ListsSVC.aspx.designer.cs">
       <DependentUpon>ListsSVC.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Lists\myListsSVC.aspx.designer.cs">
-      <DependentUpon>myListsSVC.aspx</DependentUpon>
+    <Compile Include="Lists\MyListsSVC.aspx.cs">
+      <DependentUpon>MyListsSVC.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Lists\MyListsSVC.aspx.designer.cs">
+      <DependentUpon>MyListsSVC.aspx</DependentUpon>
     </Compile>
     <Compile Include="Lists\Modules\Lists\ManageLists.ascx.cs">
       <DependentUpon>ManageLists.ascx</DependentUpon>

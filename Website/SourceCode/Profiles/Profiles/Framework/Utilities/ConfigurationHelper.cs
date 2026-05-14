@@ -133,7 +133,7 @@ namespace Profiles.Framework.Utilities
                         "g.apiBasePath = '" + ProfilesRootURL + "/Profile/ProfileJsonSvc.aspx';" +
                         "g.searchApiPath = '" + ProfilesRootURL + "/Search/SearchSvc.aspx';" +
                         "g.listsApiPath = '" + ProfilesRootURL + "/Lists/ListsSvc.aspx';" +
-                        "g.myListsApiPath = '" + ProfilesRootURL + "/Lists/myListsSvc.aspx';" +
+                        "g.myListsApiPath = '" + ProfilesRootURL + "/Lists/MyListsSvc.aspx';" +
                         "g.activityApiPath = '" + ProfilesRootURL + "/Activity/ActivitySvc.aspx';" +
                         "g.DIRECTApiPath = '" + ProfilesRootURL + "/DIRECT/DIRECTSVC.aspx';" +
                         "g.editApiPath = '" + ProfilesRootURL + "/Edit/EditSvc.aspx';" +

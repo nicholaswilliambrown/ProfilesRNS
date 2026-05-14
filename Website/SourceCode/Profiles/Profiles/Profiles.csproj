@@ -844,6 +844,9 @@
     <Compile Include="Lists\ListsSVC.aspx.designer.cs">
       <DependentUpon>ListsSVC.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Lists\myListsSVC.aspx.designer.cs">
+      <DependentUpon>myListsSVC.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Lists\Modules\Lists\ManageLists.ascx.cs">
       <DependentUpon>ManageLists.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

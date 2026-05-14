@@ -249,6 +249,7 @@ function adjustMyPersonList() {
 
 
     $("#addPersonToListA").on("click", listsAddPerson);
+    $("#myAddPersonToListA").on("click", myListsAddPerson);
     $("#removePersonFromListA").on("click", listsDeletePerson);
     $("#deleteAllFromListA").on("click", listsDeleteAll);
     $("#addMatchingPeopleA").on("click", listsAddSearch);
@@ -273,13 +274,13 @@ function listsDeleteSearch() {
     listsPost(listsUrl, data);
 }
 function listsAddPerson() {
-    let listsUrl = g.listsApiPath + "?action=addperson";
+    let listsUrl = g.mListsApiPath + "?action=addperson";
     var data = {};
     data.SubjectPersonID = g.pageJSON.find(x => x.DisplayModule == 'Person.Label').ModuleData[0].PersonID;
     listsPost(listsUrl, data);
 }
-function listsAddSearch() {
-    let listsUrl = g.listsApiPath + "?action=addsearch";
+function myListsAddSearch() {
+    let listsUrl = g.myListsApiPath + "?action=addsearch";
     var data = {};
     var tmp = JSON.parse(fromSession(makeSearchResultsKey(gSearch.people)));
     data = tmp.SearchQuery;

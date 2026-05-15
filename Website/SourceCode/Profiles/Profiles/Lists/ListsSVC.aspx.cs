@@ -17,7 +17,6 @@ namespace Profiles.Lists
         protected void Page_Load(object sender, EventArgs e)
         {
             //Profiles.Profile.Modules.CustomViewAuthorInAuthorship.DataIO data = new Profiles.Profile.Modules.CustomViewAuthorInAuthorship.DataIO();
-
             //Profiles.Framework.Utilities.RDFTriple request = new RDFTriple(Convert.ToInt32(Request.QueryString["p"]));
             string str = null;
             SessionManagement sessionManagement = new SessionManagement();

@@ -94,7 +94,7 @@ function loadMainDataContainer() {
                       <li id="removeMatchingPeopleList"><a id="removeMatchingPeopleA" class="dropdown-item r2" href="#">Remove matching people to my list</a></li>
                       <li id="clearPersonList"><a id="deleteAllFromListA" class="dropdown-item r2" href="#">Clear my list</a></li>
                       <li id="addPersonList"><a id="addPersonToListA" class="dropdown-item r2" href="#">Add this person to my list</a></li>
-                      <li id="addPersonList"><a id="myAddPersonToListA" class="dropdown-item r2" href="#">Add this person to my list</a></li>
+                      <li id="myAddPersonList"><a id="myAddPersonToListA" class="dropdown-item r2" href="#">myAdd this person to my list</a></li>
                       <li id="removePersonList"><a id="removePersonFromListA" class="dropdown-item r2" href="#">Remove person from list</a></li>
                     </ul>
                   </a>

@@ -211,6 +211,7 @@ function adjustMyPersonList() {
     switch (g.pageContext) {
         case 'search-form':
             $('#addPersonList').hide();
+            $('#myAddPersonList').hide();
             (gCommon.numPersons === 0 ? $('#clearPersonList').hide() : $('#clearPersonList').show());
             $('#removePersonList').hide();
             $("#addMatchingPeopleList").hide()
@@ -218,6 +219,7 @@ function adjustMyPersonList() {
             break;
         case 'search-results':
             $('#addPersonList').hide();
+            $('#myAddPersonList').hide();
             (gCommon.numPersons === 0 ? $('#clearPersonList').hide() : $('#clearPersonList').show());
             $('#removePersonList').hide();
             if (JSON.parse(fromSession(makeSearchResultsKey(gSearch.people))).Count > 0) {
@@ -233,6 +235,7 @@ function adjustMyPersonList() {
             $("#addMatchingPeopleList").hide();
             (gCommon.numPersons === 0 ? $("#removeMatchingPeopleList").hide() : $("#removeMatchingPeopleList").hide());
             $('#addPersonList').show();
+            $("#myAddPersonList").show();
             (gCommon.numPersons === 0 ? $('#clearPersonList').hide() : $('#clearPersonList').show());
             (gCommon.numPersons === 0 ? $('#removePersonList').hide() : $('#removePersonList').show());
             
@@ -242,6 +245,7 @@ function adjustMyPersonList() {
             $("#addMatchingPeopleList").hide();
             $("#removeMatchingPeopleList").hide();
             $('#addPersonList').hide();
+            $('#myAddPersonList').hide();
             (gCommon.numPersons === 0 ? $('#clearPersonList').hide() : $('#clearPersonList').show());
             $('#removePersonList').hide();
 
@@ -274,13 +278,19 @@ function listsDeleteSearch() {
     listsPost(listsUrl, data);
 }
 function listsAddPerson() {
-    let listsUrl = g.mListsApiPath + "?action=addperson";
+    let listsUrl = g.listsApiPath + "?action=addperson";
     var data = {};
     data.SubjectPersonID = g.pageJSON.find(x => x.DisplayModule == 'Person.Label').ModuleData[0].PersonID;
     listsPost(listsUrl, data);
 }
-function myListsAddSearch() {
-    let listsUrl = g.myListsApiPath + "?action=addsearch";
+function myListsAddPerson() {
+    let listsUrl = g.myListsApiPath + "?action=addperson";
+    var data = {};
+    data.SubjectPersonID = g.pageJSON.find(x => x.DisplayModule == 'Person.Label').ModuleData[0].PersonID;
+    listsPost(listsUrl, data);
+}
+function listsAddSearch() {
+    let listsUrl = g.listsApiPath + "?action=addsearch";
     var data = {};
     var tmp = JSON.parse(fromSession(makeSearchResultsKey(gSearch.people)));
     data = tmp.SearchQuery;

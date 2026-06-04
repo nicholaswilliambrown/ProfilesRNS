@@ -13,5 +13,6 @@ namespace Profiles.Lists
 
     public partial class Default
     {
+        protected global::System.Web.UI.WebControls.Literal litText;
     }
 }

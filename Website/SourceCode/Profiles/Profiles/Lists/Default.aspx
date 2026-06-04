@@ -1,2 +1,7 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Framework/Template.Master" 
-    AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Profiles.Lists.Default" %>
+﻿<%@ Page Title=""
+    Language="C#"
+    AutoEventWireup="true"
+    CodeBehind="Default.aspx.cs"
+    Inherits="Profiles.Lists.Default" %>
+
+<asp:literal runat="server" ID="litText" />

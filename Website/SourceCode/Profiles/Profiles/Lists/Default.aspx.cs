@@ -92,6 +92,7 @@ namespace Profiles.Lists
 //            catch (Exception ex) { Framework.Utilities.DebugLogging.Log($"Edit/UI/Display.aspx.cs : {ex.Message}");
 //            }
         }
+
         override protected void OnInit(EventArgs e)
          {
             string layoutData = "{}";
@@ -117,7 +118,7 @@ namespace Profiles.Lists
 
        protected void Page_Load(object sender, EventArgs e)
         {
-            sessionManagement = new Framework.Utilities.SessionManagement();
+//            sessionManagement = new Framework.Utilities.SessionManagement();
 //
 //            if (sessionManagement.Session().UserID < 0 || sessionManagement.Session().UserID == 0)
 //                Response.Redirect(Framework.Utilities.Root.Domain);
@@ -128,35 +129,34 @@ namespace Profiles.Lists
         }
 
 
-        public void LoadPresentationXML()
-        {
+//        public void LoadPresentationXML()
+//        {
+//
+//            this.PresentationXML = new XmlDocument();
+//
+//            this.PresentationXML.LoadXml(System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/Lists/PresentationXML/MyLists.xml"));
+//            masterpage.PresentationXML = this.PresentationXML;
+//        }
 
-            this.PresentationXML = new XmlDocument();
 
-            this.PresentationXML.LoadXml(System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/Lists/PresentationXML/MyLists.xml"));
-            masterpage.PresentationXML = this.PresentationXML;
-        }
-
-
+        // used by MyLists (in logged-in menu)
         [System.Web.Services.WebMethod]
         public static string AddPersonToList(string ownernodeid, string listid, string personid)
         {
-
             if (listid == "0")
                 listid = Lists.Utilities.DataIO.CreateList(ownernodeid, "List");
 
             return Lists.Utilities.DataIO.AddRemovePerson(listid, personid);
-
-
         }
-
+        // used by MyLists (in logged-in menu)
         [System.Web.Services.WebMethod]
         public static string DeleteSingle(string listid, string personid)
         {
-
             Lists.Utilities.DataIO.AddRemovePerson(listid, personid, true);
             return Lists.Utilities.DataIO.GetListCount();
         }
+
+
         [System.Web.Services.WebMethod]
         public static string DeleteSelected(string listid, string personids)
         {

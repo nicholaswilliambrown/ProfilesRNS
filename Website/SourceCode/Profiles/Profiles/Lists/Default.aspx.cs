@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
 using Profiles.Framework.Utilities;
+using System.Web.Script.Serialization; // Requires a reference to System.Web.Extensions.dll
 
 namespace Profiles.Lists
 {
@@ -15,25 +16,34 @@ namespace Profiles.Lists
         SessionManagement sessionManagement;
 
         private string dbActivity() {
+            Session session = sessionManagement.Session();
+
+            if (session.ListID == null)
+            {
+                session.ListID = session.PersonID.ToString();
+            }
+
             Utilities.DataIO.ProfilesList profilesList =
                 Profiles.Lists.Utilities.DataIO.GetPeople("", "");
-            return "";
+
+            var serializer = new JavaScriptSerializer();
+            string result = serializer.Serialize(profilesList);
+            return result;
         }
 
         override protected void OnInit(EventArgs e)
          {
-            string dbResult = dbActivity();
-
-            string layoutData = "{}";
-            string editPropertyParams = "{}";
-
             sessionManagement = new SessionManagement();
             Framework.Utilities.Session session = sessionManagement.Session();
+
+            string peopleJson = dbActivity();
+
+            string editPropertyParams = "{}";
 
             string sessionInfo = ConfigurationHelper.GetSessionInfoJavascriptObject(session);
             string g = ConfigurationHelper.GlobalJavascriptVariablesProfilePage
                 .Replace("{tab}", "")
-                .Replace("{preLoad}", layoutData.Replace("'", "\\'"));
+                .Replace("{preLoad}", peopleJson);
 
             string HTML = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/lists.html");
             HTML = HTML.Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)

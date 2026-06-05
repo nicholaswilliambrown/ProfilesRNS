@@ -530,6 +530,7 @@
     <Content Include="StaticFiles\js\connections\personSimilarConnection.js" />
     <Content Include="StaticFiles\js\edit\editCommon.js" />
     <Content Include="StaticFiles\js\edit\mentorOverviewEditing.js" />
+    <Content Include="StaticFiles\js\lists\listsPage.js" />
     <Content Include="StaticFiles\js\group\groupPage.js" />
     <Content Include="StaticFiles\js\group\groupRolePage.js" />
     <Content Include="StaticFiles\js\helpAbout\aboutAndHelp.js" />

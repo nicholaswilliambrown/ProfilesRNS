@@ -12,7 +12,6 @@ namespace Profiles.Lists
 {
     public partial class Default : System.Web.UI.Page
     {
-        Profiles.Framework.Template masterpage;
         SessionManagement sessionManagement;
 
         private string dbActivity() {

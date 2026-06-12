@@ -273,18 +273,23 @@ function collectDropdownSelections(selections) {
             selectedNames = selectedItems.length > 0 ? `${selectedNames[0]}` : '';
             let allExceptCheckbox = gSearch[dropdownPrefix].allExceptCheckbox;
             selections[`${jsonNodeIDLabel}Except`] = allExceptCheckbox.is(':checked');
+
+            selections[jsonNodeIDLabel] = selectedNodeIDs;
+            selections[jsonNameLabel] = selectedNames;
         }
-        // post ProfileContains piggy-backed on OtherOptions
-        if (jsonNodeIDLabel == "ProfileContains") {
-            jsonNodeIDLabel = "OtherOptions";
-            jsonNameLabel = "OtherOptionsName";
+        else {
+            // post ProfileContains piggy-backed on OtherOptions
+            if (jsonNodeIDLabel == "ProfileContains") {
+                jsonNodeIDLabel = "OtherOptions";
+                jsonNameLabel = "OtherOptionsName";
+            }
+            // in case we process ProfileContains before seeing OtherOptions
+            if (!selections[jsonNodeIDLabel]) {
+                selections[jsonNodeIDLabel] = [];
+                selections[jsonNameLabel] = [];
+            }
+            selections[jsonNodeIDLabel] = selections[jsonNodeIDLabel].concat(selectedNodeIDs);
+            selections[jsonNameLabel] = selections[jsonNameLabel].concat(selectedNames);
         }
-        // in case we process ProfileContains before seeing OtherOptions
-        if ( ! selections[jsonNodeIDLabel]) {
-            selections[jsonNodeIDLabel] = [];
-            selections[jsonNameLabel] = [];
-        }
-        selections[jsonNodeIDLabel] = selections[jsonNodeIDLabel].concat(selectedNodeIDs);
-        selections[jsonNameLabel]   = selections[jsonNameLabel].concat(selectedNames);
     }
 }

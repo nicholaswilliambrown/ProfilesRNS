@@ -27,7 +27,7 @@ function setupTopNav() {
         $("#topNav2EditThis").remove(); 
     }
     setUrlByAnchorId("editMyProfileA", gCommon.editProfileUrl + sessionInfo.personNodeID);
-    setUrlByAnchorId("manageProxiesA", gCommon.manageProxiesUrl);
+    setUrlByAnchorId("manageProxiesA", gCommon.manageProxiesUrl + sessionInfo.personNodeID);
     setUrlByAnchorId("dashboardA", gCommon.dashboardUrl + sessionInfo.personNodeID)
     setUrlByAnchorId("opportunitySearchA", gCommon.opportunitySearch);
     setUrlByAnchorId("viewMyListA", gCommon.viewMyListUrl)

@@ -6,7 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
 using Profiles.Framework.Utilities;
-using System.Web.Script.Serialization; // Requires a reference to System.Web.Extensions.dll
+using System.Web.Script.Serialization;
 
 namespace Profiles.Lists
 {
@@ -14,7 +14,12 @@ namespace Profiles.Lists
     {
         SessionManagement sessionManagement;
 
+        private void myLog(string message) {
+            message = $"------------myLog--------------->> {message} <<----------";
+            System.Diagnostics.Debug.WriteLine(message);
+        }
         private string dbActivity() {
+            myLog("dbActivity");
             Session session = sessionManagement.Session();
 
             if (session.ListID == null)

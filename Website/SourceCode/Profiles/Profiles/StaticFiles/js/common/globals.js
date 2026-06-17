@@ -26,7 +26,7 @@ gCommon.historyKey = 'profilesNavHistory';
 gCommon.undefined = 'undefined';
 
 gCommon.loggedIn = null;
-gCommon.numPersons = sessionInfo.listSize;
+gCommon.numPersons = sessionInfo ? (Number.isFinite(sessionInfo.numPersons) ? sessionInfo.numPersons : 0) : 0;
 
 gCommon.NA = "N/A";
 gCommon.monthNames = [

@@ -1,15 +1,20 @@
 async function setupListsPage() {
-    let rawPeople = g.preLoad;
-    let peopleList = JSON.parse(rawPeople);
+    let peopleListData = JSON.parse(g.preLoad);
+    let people = peopleListData.ListItems;
+    let numPeople = people.length;
+    console.log('Listed Folks', people);
 
-    let main = $('main');
-    console.log('Listed Folks', peopleList);
+    gCommon.numPersons = numPeople;
+    await commonSetup();
 
+    setTabTitleAndOrFavicon(`My Person List (${numPeople})`);
     setupScrolling();
-    parseLists(main, peopleList.ListItems);
+
+    let main = $('#mainDiv');
+    parseLists(main, people);
 }
 
-async function parseLists(target, people) {
+function parseLists(target, people) {
 
     let colSpecs0 = [
         newColumnSpec(`${gCommon.cols3}`, 'Person'),

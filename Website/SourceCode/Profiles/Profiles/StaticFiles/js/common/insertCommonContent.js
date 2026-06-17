@@ -14,7 +14,7 @@ let dashAndOpportunity = `
               </a>
             </div>
 `;
-function loadMainDataContainer() {
+async function loadMainDataContainer() {
     if (gBrandingConstants.omitDashAndOpportunity) {
         dashAndOpportunity = '';
     }

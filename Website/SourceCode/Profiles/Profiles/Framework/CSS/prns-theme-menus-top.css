@@ -15,7 +15,7 @@
 
         #prns-nav ul.prns-main,
         #prns-nav ul.sub {
-            width: 968px;
+            width: 100%;
         }
 
             #prns-nav ul.prns-main,
@@ -121,7 +121,7 @@ li#search-drop a:hover {
     position: relative;
     top: 7px;
     vertical-align: middle;
-    width: 320px;
+    width: 120px;
     margin-left:280px; 
     /* for when the rdf use our data comes back 145px;*/
 }

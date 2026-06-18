@@ -98,13 +98,12 @@ function addSearchForm(target, formClass, searchGlassClass, displayClass, sizeFl
 }
 
 function setupNavSearch(topNavbar) {
-    let navSearchItem = $('#topNavSearch');
 
     // large and small versions
-    addSearchForm(navSearchItem, "formHeightDesktop",
+    addSearchForm($('#topNavSearchLarge'), "formHeightDesktop",
         "searchMagGlassWide", gCommon.hideXsSmallShowOthers, gCommon.large, "end");
-   // addSearchForm(navSearchItem, "formHeightPhone",
-   //     "searchMagGlassNarrow", gCommon.showXsSmallHideOthers, gCommon.small, "start");
+    addSearchForm($('#topNavSearchSmall'), "formHeightPhone",
+       "searchMagGlassNarrow", gCommon.showXsSmallHideOthers, gCommon.small, "start");
 
     let searchGlass = $('.navSearchGlass'); 
     let searchTerm = $('.navSearchTerm');  

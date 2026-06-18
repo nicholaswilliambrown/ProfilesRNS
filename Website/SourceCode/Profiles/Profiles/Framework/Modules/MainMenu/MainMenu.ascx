@@ -43,7 +43,7 @@
             <li id="search-drop" class="last main-nav" style="float: right !important; width: 25px;">
                 <a href="#" style="padding: 0px; padding-top: 9px; margin: 0px;">
                     <img src="<%=ResolveUrl("~/framework/images/arrowDown.png") %>" /></a>
-                <ul class="drop" style="top: 39px; left: 835px;">
+                <ul class="drop">
                     <asp:Literal runat="server" ID="litSearchOptions"></asp:Literal>
                 </ul>
             </li>

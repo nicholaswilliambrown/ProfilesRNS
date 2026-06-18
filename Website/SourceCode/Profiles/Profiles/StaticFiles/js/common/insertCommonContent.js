@@ -57,7 +57,8 @@ async function loadMainDataContainer() {
                     </ul>
                   </div>
                   <div id="longerItem" class="nav-item d-flex flex-fill justify-content-end ">
-                    <div id="topNavSearch" class="nav-item ms-1 "></div>
+                    <div id="topNavSearchLarge" class="nav-item ms-1 "></div>
+                    <div id="topNavSearchSmall" class="nav-item ms-1 "></div>
                   </div>
                 </div>
               </div>

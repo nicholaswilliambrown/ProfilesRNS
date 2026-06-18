@@ -51,6 +51,11 @@
     <script src="{profilesPath}/StaticFiles/js/common/topBar.js" type="text/javascript"></script>
 
     <script src="{profilesPath}/StaticFiles/js/lists/listsPage.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/lists/clusterView.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/lists/export.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/lists/mapView.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/lists/reports.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/lists/savedLists.js" type="text/javascript"></script>
 
     <script type="text/javascript">
         $(document).ready(setupListsPage);
@@ -61,7 +66,28 @@
 
     {TrackingCode}
     <main>
-
+        <div id="mainTabs" class="border-bottom">
+            <ul class="nav">
+                <li class="nav-item mainTabItem">
+                    <span id="manage" class="nav-link tab tabTopHat active" aria-current="page">Manage List</span>
+                </li>
+                <li class="nav-item mainTabItem">
+                    <span id="map" class="nav-link tab tabTopHat">Map View</span>
+                </li>
+                <li class="nav-item mainTabItem">
+                    <span id="cluster" class="nav-link tab tabTopHat">Cluster View</span>
+                </li>
+                <li class="nav-item mainTabItem">
+                    <span id="reports" class="nav-link tab tabTopHat">Reports</span>
+                </li>
+                <li class="nav-item mainTabItem">
+                    <span id="export" class="nav-link tab tabTopHat">Export Data</span>
+                </li>
+                <li class="nav-item mainTabItem">
+                    <span id="savedLists" class="nav-link tab tabTopHat">Saved Lists</span>
+                </li>
+            </ul>
+        </div>
     </main>
 </body>
 </html>

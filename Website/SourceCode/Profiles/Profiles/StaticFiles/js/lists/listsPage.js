@@ -11,9 +11,24 @@ async function setupListsPage() {
     setupScrolling();
 
     let main = $('#mainDiv');
+    let tabs = $('#mainTabs');
+    moveContentTo(tabs, main);
+
+    $('.nav-item').on('click', adjustTab);
+
     parseLists(main, people);
 }
+function adjustTab(e) {
+    let ariaCurr = 'aria-current';
+    let target = $(e.target);
 
+    let tabs = $('.mainTabItem').find('.tab');
+    tabs.removeAttr(ariaCurr);
+    tabs.removeClass('active');
+
+    target.attr(ariaCurr, 'page');
+    target.addClass('active');
+}
 function parseLists(target, people) {
 
     let colSpecs0 = [

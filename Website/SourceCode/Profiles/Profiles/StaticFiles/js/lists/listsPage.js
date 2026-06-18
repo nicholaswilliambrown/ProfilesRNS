@@ -1,3 +1,5 @@
+let gLists = {};
+
 async function setupListsPage() {
     let peopleListData = JSON.parse(g.preLoad);
     let people = peopleListData.ListItems;
@@ -16,7 +18,24 @@ async function setupListsPage() {
 
     $('.nav-item').on('click', adjustTab);
 
-    parseLists(main, people);
+    gLists.manage.data = people;
+
+    parseLists($('#manageContent'), people);
+}
+function initTabs() {
+    gLists = {
+        manage: {},
+        map: {},
+        cluster: {},
+        reports: {},
+        export: {},
+        savedLists: {},
+    };
+    gLists.manage.setup = () => {
+        console.log('landing-manage');
+        // perhaps:
+        //location.reload();
+    }
 }
 function adjustTab(e) {
     let ariaCurr = 'aria-current';
@@ -25,9 +44,14 @@ function adjustTab(e) {
     let tabs = $('.mainTabItem').find('.tab');
     tabs.removeAttr(ariaCurr);
     tabs.removeClass('active');
+    $('.mainTabsContent').hide();
 
     target.attr(ariaCurr, 'page');
     target.addClass('active');
+
+    let tabFlavor = target.attr('id');
+    $(`#${tabFlavor}content`).show();
+    gLists[tabFlavor].setup();
 }
 function parseLists(target, people) {
 
@@ -53,3 +77,6 @@ function parseLists(target, people) {
         makeRowWithColumns(target, id, colSpecs);
     }
 }
+
+// html should load this file before the JS for each tab
+initTabs();

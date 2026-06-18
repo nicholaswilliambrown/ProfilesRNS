@@ -310,26 +310,27 @@ function listsPost(url, data) {
 }
 
 $(window).resize(function () {
-
-    if ($(window).width() <= 770) {
-        $('.myNavbar-nav2').removeClass('d-flex flex-row');   
-        $('#topNavbarUser').addClass('topNavUserBarMax');
-        $('#topNavbarUser').removeClass('topNavUserBarMin');
-    
-    }
-    if ($(window).width() >= 770) {
-        $('.myNavbar-nav2').addClass('d-flex flex-row');
-      
-    }
-    if ($(window).width() <= 1115) {        
-        $('#topNavbarUser').addClass('topNavUserBarMin');
-        $('#topNavbarUser').removeClass('topNavUserBarMax');
-
-    }
-    if ($(window).width() >= 1115) {
-        $('#topNavbarUser').addClass('topNavUserBarMax');
-        $('#topNavbarUser').removeClass('topNavUserBarMin');
-    }
+    // seems not to work !!
+    //
+    // if ($(window).width() <= 770) {
+    //     $('.myNavbar-nav2').removeClass('d-flex flex-row');
+    //     $('#topNavbarUser').addClass('topNavUserBarMax');
+    //     $('#topNavbarUser').removeClass('topNavUserBarMin');
+    //
+    // }
+    // if ($(window).width() >= 770) {
+    //     $('.myNavbar-nav2').addClass('d-flex flex-row');
+    //
+    // }
+    // if ($(window).width() <= 1115) {
+    //     $('#topNavbarUser').addClass('topNavUserBarMin');
+    //     $('#topNavbarUser').removeClass('topNavUserBarMax');
+    //
+    // }
+    // if ($(window).width() >= 1115) {
+    //     $('#topNavbarUser').addClass('topNavUserBarMax');
+    //     $('#topNavbarUser').removeClass('topNavUserBarMin');
+    // }
 });
 
   

@@ -1,3 +1,5 @@
-gLists.export.setup = () => {
-    console.log('export');
-}
+gLists.export = {
+    setup: () => {
+        console.log('export');
+    }
+};

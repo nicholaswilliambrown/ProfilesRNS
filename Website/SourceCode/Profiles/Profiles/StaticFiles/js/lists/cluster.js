@@ -1,3 +1,5 @@
-gLists.cluster.setup = () => {
-    console.log('cluster');
-}
+gLists.cluster = {
+    setup: () => {
+        console.log('cluster');
+    }
+};

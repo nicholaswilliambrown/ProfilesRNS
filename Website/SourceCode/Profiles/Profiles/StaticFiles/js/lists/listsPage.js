@@ -1,4 +1,12 @@
+// this JS should load before the other tab-JS, so they can use gLists
 let gLists = {};
+
+gLists.manage = {
+    setup: () => {
+        console.log('manage');
+        parseLists($('#manageContent'), gLists.manage.people);
+    }
+};
 
 async function setupListsPage() {
     let peopleListData = JSON.parse(g.preLoad);
@@ -6,6 +14,7 @@ async function setupListsPage() {
     let numPeople = people.length;
     console.log('Listed Folks', people);
 
+    gLists.manage.people = people;
     gCommon.numPersons = numPeople;
     await commonSetup();
 
@@ -18,39 +27,33 @@ async function setupListsPage() {
 
     $('.nav-item').on('click', adjustTab);
 
-    gLists.manage.data = people;
-
-    parseLists($('#manageContent'), people);
-}
-function initTabs() {
-    gLists = {
-        manage: {},
-        map: {},
-        cluster: {},
-        reports: {},
-        export: {},
-        savedLists: {},
-    };
-    gLists.manage.setup = () => {
-        console.log('landing-manage');
-        // perhaps:
-        //location.reload();
-    }
+    gLists.manage.setup();
 }
 function adjustTab(e) {
     let ariaCurr = 'aria-current';
-    let target = $(e.target);
-
     let tabs = $('.mainTabItem').find('.tab');
-    tabs.removeAttr(ariaCurr);
-    tabs.removeClass('active');
     $('.mainTabsContent').hide();
 
-    target.attr(ariaCurr, 'page');
-    target.addClass('active');
+    let target = $(e.target);
+    let spanTarget = target.find('span');
+    if (!spanTarget.length) { // presumably b/c target is a span and find() looks at children, not self
+        spanTarget = target;
+    }
 
-    let tabFlavor = target.attr('id');
+    if (spanTarget.hasClass('active')) { // click on current tab should be no-op
+        return;
+    }
+    tabs.removeAttr(ariaCurr);
+    tabs.removeClass('active');
+
+    spanTarget.attr(ariaCurr, 'page');
+    spanTarget.addClass('active');
+
+    let tabFlavor = spanTarget.attr('id');
+
     $(`#${tabFlavor}content`).show();
+    console.log('flavor is: ', tabFlavor);
+    console.log('setup is: ', gLists[tabFlavor].setup);
     gLists[tabFlavor].setup();
 }
 function parseLists(target, people) {
@@ -77,6 +80,3 @@ function parseLists(target, people) {
         makeRowWithColumns(target, id, colSpecs);
     }
 }
-
-// html should load this file before the JS for each tab
-initTabs();

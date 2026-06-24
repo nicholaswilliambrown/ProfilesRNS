@@ -1,3 +1,5 @@
-gLists.map.setup = () => {
-    console.log('map');
-}
+gLists.map = {
+    setup: () => {
+        console.log('map');
+    }
+};

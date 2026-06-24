@@ -1,3 +1,5 @@
-gLists.reports.setup = () => {
-    console.log('reports');
-}
+gLists.reports = {
+    setup: () => {
+        console.log('reports');
+    }
+};

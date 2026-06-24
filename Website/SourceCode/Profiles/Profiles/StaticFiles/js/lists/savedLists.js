@@ -1,3 +1,5 @@
-gLists.savedLists.setup = () => {
-    console.log('savedLists');
-}
+gLists.savedLists = {
+    setup: () => {
+        console.log('savedLists');
+    }
+};

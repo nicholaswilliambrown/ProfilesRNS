@@ -317,6 +317,7 @@
     <Content Include="StaticFiles\css\common\map.css" />
     <Content Include="StaticFiles\css\common\parse.css" />
     <Content Include="StaticFiles\css\common\timeline.css" />
+    <Content Include="StaticFiles\css\lists\lists.css" />
     <Content Include="StaticFiles\css\edit\edit.css" />
     <Content Include="StaticFiles\css\helpAbout\helpAbout.css" />
     <Content Include="StaticFiles\css\paging\paging.css" />

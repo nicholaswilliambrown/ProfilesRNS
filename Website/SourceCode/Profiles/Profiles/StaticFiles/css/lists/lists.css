@@ -1,0 +1,7 @@
+.redBold {
+    color: #AC1B30;
+    font-weight: bold;
+}
+.bordBottom {
+    border-bottom: 1px solid lightgrey !important;
+}

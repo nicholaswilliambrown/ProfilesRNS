@@ -20,7 +20,7 @@
     <link href="{profilesPath}/StaticFiles/css/common/common-access.css" rel="stylesheet" type="text/css">
     <link href="{profilesPath}/StaticFiles/css/common/common.css" rel="stylesheet" type="text/css">
 
-    <link href="{profilesPath}/StaticFiles/css/helpAbout/helpAbout.css" rel="stylesheet" type="text/css">
+    <link href="{profilesPath}/StaticFiles/css/lists/lists.css" rel="stylesheet" type="text/css">
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
@@ -64,38 +64,55 @@
 
 <body>
 
-    {TrackingCode}
-    <main>
-        <div id="mainTabs" class="border-bottom">
-            <ul class="nav">
-                <li class="nav-item mainTabItem">
-                    <span id="manage" class="nav-link tab tabTopHat active" aria-current="page">Manage List</span>
-                </li>
-                <li class="nav-item mainTabItem">
-                    <span id="map" class="nav-link tab tabTopHat">Map View</span>
-                </li>
-                <li class="nav-item mainTabItem">
-                    <span id="cluster" class="nav-link tab tabTopHat">Cluster View</span>
-                </li>
-                <li class="nav-item mainTabItem">
-                    <span id="reports" class="nav-link tab tabTopHat">Reports</span>
-                </li>
-                <li class="nav-item mainTabItem">
-                    <span id="export" class="nav-link tab tabTopHat">Export Data</span>
-                </li>
-                <li class="nav-item mainTabItem">
-                    <span id="savedLists" class="nav-link tab tabTopHat">Saved Lists</span>
-                </li>
-            </ul>
-            <div>
-                <div class="mainTabsContent" id="manageContent"></div>
-                <div class="mainTabsContent" id="mapContent"></div>
-                <div class="mainTabsContent" id="clusterContent"></div>
-                <div class="mainTabsContent" id="reportsContent"></div>
-                <div class="mainTabsContent" id="exportContent"></div>
-                <div class="mainTabsContent" id="savedListsContent"></div>
+{TrackingCode}
+<main>
+    <div id="mainTabs">
+        <ul class="nav bordBottom">
+            <li class="nav-item mainTabItem">
+                <span id="manage" class="nav-link tab tabTopHat active" aria-current="page">Manage List</span>
+            </li>
+            <li class="nav-item mainTabItem">
+                <span id="map" class="nav-link tab tabTopHat">Map View</span>
+            </li>
+            <li class="nav-item mainTabItem">
+                <span id="cluster" class="nav-link tab tabTopHat">Cluster View</span>
+            </li>
+            <li class="nav-item mainTabItem">
+                <span id="reports" class="nav-link tab tabTopHat">Reports</span>
+            </li>
+            <li class="nav-item mainTabItem">
+                <span id="export" class="nav-link tab tabTopHat">Export Data</span>
+            </li>
+            <li class="nav-item mainTabItem">
+                <span id="savedLists" class="nav-link tab tabTopHat">Saved Lists</span>
+            </li>
+        </ul>
+        <div>
+            <div class="mainTabsContent" id="manageContent">
+                <div class="mt-2 bold d-none" id="noPeople">
+                    You currently have no people in your list.
+                </div>
+                <div class="mt-2 d-none" id="somePeople">
+                    <div class="pb-2 mb-2 bordBottom">
+                        There <span id="currentNum">is currently 1 person</span> in your list. Filter the list by
+                        institution or faculty rank.
+                        <span class="link-ish" id="removeAll">Remove <span id="allPeopleShown">the 1 person shown</span></span>
+                        or just the selected people from your list.
+                        <span class="link-ish" id="saveCopy">Save a copy</span> of your list so you can view it later or
+                        combine it with other lists;
+                        <span class="link-ish" id="replaceWithCoauthors">replace the people</span> on your list with
+                        their coauthors; or,
+                        <span class="link-ish" id="addCoauthors">add their coauthors to your list</span>.
+                    </div>
+                </div>
             </div>
-        </div>
-    </main>
+            <div class="mainTabsContent" id="mapContent"></div>
+            <div class="mainTabsContent" id="clusterContent"></div>
+            <div class="mainTabsContent" id="reportsContent"></div>
+            <div class="mainTabsContent" id="exportContent"></div>
+            <div class="mainTabsContent" id="savedListsContent"></div>
+        </div> <!-- mainTabsContent -->
+    </div> <!-- mainTabs -->
+</main>
 </body>
 </html>

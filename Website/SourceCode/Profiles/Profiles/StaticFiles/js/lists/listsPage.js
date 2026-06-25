@@ -2,23 +2,26 @@
 let gLists = {};
 
 gLists.manage = {
-    setup: () => {
+    setup: async () => {
         console.log('manage');
-        parseLists(gLists.manage.people);
+        specialHandling();
+
+        await prepareManagePage();
     }
 };
 
-async function setupListsPage() {
-    let peopleListData = JSON.parse(g.preLoad);
-    let people = peopleListData.ListItems;
-    let numPeople = people.length;
-    console.log('Listed Folks', people);
+async function prepareManagePage() {
+    let manageTabData = JSON.parse(g.preLoad);
+    console.log('Manage Tab, aka preLoad, data: ', manageTabData);
 
-    gLists.manage.people = people;
-    gCommon.numPersons = numPeople;
+    gLists.manage.people = manageTabData.ListItems;
+    gLists.manage.numPeople = gCommon.numPersons = gLists.manage.people.length;
+    gLists.manage.institutions = manageTabData.Institutions;
+    gLists.manage.facultyRanks = manageTabData.FacultyRanks;
+
     await commonSetup();
 
-    setTabTitleAndOrFavicon(`My Person List (${numPeople})`);
+    setTabTitleAndOrFavicon(`My Person List (${gLists.manage.numPeople})`);
     setupScrolling();
 
     let main = $('#mainDiv');
@@ -27,9 +30,7 @@ async function setupListsPage() {
 
     $('.nav-item').on('click', adjustTab);
 
-    gLists.manage.setup();
-
-    specialHandling();
+    parseManageTabData(gLists.manage.people);
 }
 
 function adjustTab(e) {
@@ -60,33 +61,64 @@ function adjustTab(e) {
     gLists[tabFlavor].setup();
 }
 
-function parseLists(people) {
-    let numPeople = people.length;
-    if ( ! numPeople) {
+function parseManageTabData(people) {
+    if ( ! gCommon.numPersons) {
         $('#noPeople').removeClass('d-none');
     } else {
+        parseSomePeople(people);
+    }
+}
+function parseSomePeople(people) {
         $('#somePeople').removeClass('d-none');
-
-        if (numPeople != 1) { // == 1 is default html
-            let currentNumText = `are currently <span class="redBold">${numPeople}</span> people`;
-            let allPeopleShownText = `all ${numPeople} people shown`
-
-            $('#currentNum').html(currentNumText);
-            $('#allPeopleShown').html(allPeopleShownText);
-        }
-
         let target = $('#somePeople');
-        let colSpecs0 = [newColumnSpec(`${gCommon.cols3}`, 'Person'), newColumnSpec(`${gCommon.cols3}`, 'Department'), newColumnSpec(`${gCommon.cols3}`, 'Institution'), newColumnSpec(`${gCommon.cols3}`, 'Faculty Rank'),];
-        makeRowWithColumns(target, 'ListHeader', colSpecs0);
+        somePeopleFirstSection(people, target);
+        somePeopleTable(people, target);
+}
+function somePeopleFirstSection(people, target) {
+    if (gCommon.numPersons != 1) { // == 1 is default html
+        let currentNumText = `are currently <span class="redBold">${gCommon.numPersons}</span> people`;
+        let allPeopleShownText = `all ${gCommon.numPersons} people shown`
 
-        for (let i = 0; i < people.length; i++) {
-            let peep = people[i];
+        $('#currentNum').html(currentNumText);
+        $('#allPeopleShown').html(allPeopleShownText);
+    }
+    filterSelects(people, target);
 
-            let colSpecs = [newColumnSpec(`${gCommon.cols3}`, peep.DisplayName), newColumnSpec(`${gCommon.cols3}`, peep.DepartmentName), newColumnSpec(`${gCommon.cols3}`, peep.InstitutionName), newColumnSpec(`${gCommon.cols3}`, peep.FacultyRank),];
+    let colSpecs = [newColumnSpec(`${gCommon.cols3}`, 'Name'), newColumnSpec(`${gCommon.cols4}`, 'Institution'),
+        newColumnSpec(`${gCommon.cols3}`, 'Faculty Rank'), newColumnSpec(`${gCommon.cols2}`, 'Remove')];
+    makeRowWithColumns(target, 'ListHeader', colSpecs, 'bold');
+}
+function filterSelects(people, target) {
+    let colSpecs0 = [newColumnSpec(`${gCommon.cols4}`, 'Institution'), newColumnSpec(`${gCommon.cols4}`, 'Faculty Rank'),
+        newColumnSpec(`${gCommon.cols5}`, '')];
 
-            let id = 'person' + i;
-            makeRowWithColumns(target, id, colSpecs);
-        }
+    let rowId = 'filterSelects';
+    let row = makeRowWithColumns(target, rowId, colSpecs0, 'bold mb-2');
+
+    let institutionSelect = $('<select class="ms-1"><option>(all institutions)</option></select>');
+    let facultySelect = $('<select class="ms-1"><option>(all faculty ranks)</option></select>');
+    row.find(`#${rowId}Col0`).append(institutionSelect);
+    row.find(`#${rowId}Col1`).append(facultySelect);
+
+    for (let i=0; i<gLists.manage.institutions; i++) {
+        let institution = gLists.manage.institutions[i];
+        let option = $(`<option value=${institution.Value}>${institution.Text}`);
+        institutionSelect.append(option);
+    }
+    for (let i=0; i<gLists.manage.facultyRanks; i++) {
+        let rank = gLists.manage.institutions[i];
+        let option = $(`<option value=${rank.Value}>${rank.Text}`);
+        facultySelect.append(option);
+    }
+}
+function somePeopleTable(people, target) {
+    for (let i = 0; i < people.length; i++) {
+        let peep = people[i];
+        let colSpecs = [newColumnSpec(`${gCommon.cols3}`, peep.DisplayName), newColumnSpec(`${gCommon.cols4}`, peep.InstitutionName),
+            newColumnSpec(`${gCommon.cols3}`, peep.FacultyRank), newColumnSpec(`${gCommon.cols2}`)];
+
+        let id = 'person' + i;
+        makeRowWithColumns(target, id, colSpecs);
     }
 }
 function specialHandling() {

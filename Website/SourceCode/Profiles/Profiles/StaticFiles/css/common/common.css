@@ -323,6 +323,9 @@ header._ci_shared_asset.tool-page.mayHelpResponsivenessSm {
     border-radius: 10px; /* Rounded corners */
     font-size: xx-small;
 }
+.xxSmall {
+    font-size: xx-small;
+}
 
 .rtnBtn:hover {
     background-color: #555; /* Add a dark-grey background on hover */

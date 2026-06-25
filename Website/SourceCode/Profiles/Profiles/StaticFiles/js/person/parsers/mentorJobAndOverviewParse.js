@@ -2,7 +2,7 @@ function mentorJobOpportunityParser(json, moduleTitle, miscInfo, explicitTarget)
     let innerPayloadDiv = getTargetUntentavizeIfSo(moduleTitle, explicitTarget);
 
     if (gBrandingConstants.studentOpportunitiesNote) {
-        let noteDiv = $(`<div class="mb-2 xxSmall">${gBrandingConstants.studentOpportunitiesNote}</div>`);
+        let noteDiv = $(`<div class="mb-2 xxSmall bold">${gBrandingConstants.studentOpportunitiesNote}</div>`);
         innerPayloadDiv.append(noteDiv);
     }
 

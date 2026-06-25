@@ -327,6 +327,10 @@ header._ci_shared_asset.tool-page.mayHelpResponsivenessSm {
     font-size: xx-small;
 }
 
+.xxSmall {
+    font-size: xx-small;
+}
+
 .rtnBtn:hover {
     background-color: #555; /* Add a dark-grey background on hover */
     color: white;

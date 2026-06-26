@@ -27,8 +27,11 @@ namespace Profiles.Lists
                 session.ListID = session.PersonID.ToString();
             }
 
+            string institution = (string.IsNullOrEmpty(Request.QueryString["institution"]) ? "" : Request.QueryString["institution"].ToString());
+            string facultyRank = (string.IsNullOrEmpty(Request.QueryString["facultyrank"]) ? "" : Request.QueryString["facultyrank"].ToString());
+
             Utilities.DataIO.ProfilesList profilesList =
-                Profiles.Lists.Utilities.DataIO.GetPeople("", "");
+                Profiles.Lists.Utilities.DataIO.GetPeople(institution, facultyRank);
 
             var serializer = new JavaScriptSerializer();
             string result = serializer.Serialize(profilesList);

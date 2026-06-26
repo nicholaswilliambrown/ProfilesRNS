@@ -100,16 +100,33 @@ function filterSelects(people, target) {
     row.find(`#${rowId}Col0`).append(institutionSelect);
     row.find(`#${rowId}Col1`).append(facultySelect);
 
-    for (let i=0; i<gLists.manage.institutions; i++) {
+    for (let i=0; i<gLists.manage.institutions.length; i++) {
         let institution = gLists.manage.institutions[i];
-        let option = $(`<option value=${institution.Value}>${institution.Text}`);
+        let text = institution.Text;
+        let option = $(`<option value="${text}">${text}</option>`);
         institutionSelect.append(option);
     }
-    for (let i=0; i<gLists.manage.facultyRanks; i++) {
-        let rank = gLists.manage.institutions[i];
-        let option = $(`<option value=${rank.Value}>${rank.Text}`);
+    for (let i=0; i<gLists.manage.facultyRanks.length; i++) {
+        let rank = gLists.manage.facultyRanks[i];
+        let text = rank.Text;
+        let option = $(`<option value="${text}">${text}</option>`);
         facultySelect.append(option);
     }
+
+    institutionSelect.on('change', function(e) {
+        let val = institutionSelect.val();
+        updateUrlAndReload('institution', val);
+    });
+    facultySelect.on('change', function(e) {
+        let val = facultySelect.val();
+        updateUrlAndReload('facultyrank', val);
+    });
+}
+function updateUrlAndReload(key, val) {
+    let url = new URL(window.location.href);
+    url.searchParams.set(key, val);
+    let urlString = url.toString();
+    window.location.href = encodeURI(urlString);
 }
 function somePeopleTable(people, target) {
     for (let i = 0; i < people.length; i++) {

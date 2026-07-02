@@ -61,29 +61,36 @@ namespace Profiles.Lists
 
             litText.Text = HTML;
          }
+       protected void Page_Load(object sender, EventArgs e) {
+            Framework.Utilities.Session session = sessionManagement.Session();
 
-       protected void Page_Load(object sender, EventArgs e)
-        {
-//            sessionManagement = new Framework.Utilities.SessionManagement();
-//
-//            if (sessionManagement.Session().UserID < 0 || sessionManagement.Session().UserID == 0)
-//                Response.Redirect(Framework.Utilities.Root.Domain);
-//
-//            masterpage = (Framework.Template)base.Master;
-//
-//            LoadPresentationXML();
-        }
+            string[] restSegments = Request.Url.AbsolutePath.Split('/');
+            int len = restSegments.Length;
 
+            string restTask = null;
+            if (len > 3) {
+                // b/c of split() behavior, non-trivial content is 1 based
+                restTask = restSegments[3];
+                string result = "something did not work";
+                string ListID = session.ListID;
 
-//        public void LoadPresentationXML()
-//        {
-//
-//            this.PresentationXML = new XmlDocument();
-//
-//            this.PresentationXML.LoadXml(System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/Lists/PresentationXML/MyLists.xml"));
-//            masterpage.PresentationXML = this.PresentationXML;
-//        }
+                if (restTask == "ClearList") {
 
+                    ClearList(ListID);
+
+                    string expect = $"Expect empty list for {ListID}";
+                    result = "{result: '" + expect + "' }";
+                }
+
+                var serializer = new JavaScriptSerializer();
+                result = serializer.Serialize(result);
+
+                Response.Write(result);
+                Response.End(); // nuke the page lifecycle additions
+            }
+       }
+
+        /////////////////////// service API ///////////////////
 
         // used by MyLists (in logged-in menu)
         [System.Web.Services.WebMethod]
@@ -161,8 +168,6 @@ namespace Profiles.Lists
         {
             Profiles.Lists.Utilities.DataIO.DeleteFiltered(ListID, null, null);
         }
-
-
 
         public XmlDocument PresentationXML { get; set; }
 

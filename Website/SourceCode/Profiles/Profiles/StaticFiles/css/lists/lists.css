@@ -5,3 +5,25 @@
 .bordBottom {
     border-bottom: 1px solid lightgrey !important;
 }
+.personTableHeader {
+    background-color: #EEEBE5;
+    font-weight: bold;
+}
+.gradientLists {
+    font-size: 13px !important;
+    border-radius: 7px;
+    border: 1px solid darkgray !important;
+    background-color: #fff;
+    background-image: linear-gradient(rgb(255, 255, 255) 0px, rgb(224, 224, 224) 100%);
+}
+.gradientLists:hover, .gradientLists.hover {
+    background-color: #1144aa !important; /* Changes background color */
+    border-color: #003399 !important;     /* Changes border color */
+    /*transform: translateY(-2px);           !* Lifts the button up slightly *!*/
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Adds a shadow depth */
+}
+.gradientLists:active, .gradientLists.active {
+    background-color: #0b2e72 !important; /* Darker background */
+    transform: scale(0.98);                /* Gives a "sunken" physical feel */
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.3) !important;
+}

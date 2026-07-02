@@ -4,9 +4,9 @@ let gLists = {};
 gLists.manage = {
     setup: async () => {
         console.log('manage');
-        specialHandling();
-
         await prepareManagePage();
+
+        specialHandling();
     }
 };
 
@@ -29,6 +29,7 @@ async function prepareManagePage() {
     moveContentTo(tabs, main);
 
     $('.nav-item').on('click', adjustTab);
+    $('#removeAll').on('click', removeAllPersons);
 
     parseManageTabData(gLists.manage.people);
 }
@@ -73,6 +74,7 @@ function parseSomePeople(people) {
         let target = $('#somePeople');
         somePeopleFirstSection(people, target);
         somePeopleTable(people, target);
+        somePeopleBottomSection(target)
 }
 function somePeopleFirstSection(people, target) {
     if (gCommon.numPersons != 1) { // == 1 is default html
@@ -84,13 +86,16 @@ function somePeopleFirstSection(people, target) {
     }
     filterSelects(people, target);
 
-    let colSpecs = [newColumnSpec(`${gCommon.cols3}`, 'Name'), newColumnSpec(`${gCommon.cols4}`, 'Institution'),
-        newColumnSpec(`${gCommon.cols3}`, 'Faculty Rank'), newColumnSpec(`${gCommon.cols2}`, 'Remove')];
-    makeRowWithColumns(target, 'ListHeader', colSpecs, 'bold');
+    let colSpecs = [newColumnSpec(`${gCommon.cols4} bordE p-1`, 'Name'),
+                    newColumnSpec(`${gCommon.cols4} bordE p-1`, 'Institution'),
+                    newColumnSpec(`${gCommon.cols3} bordE p-1`, 'Faculty Rank'),
+                    newColumnSpec(`${gCommon.cols1} p-1`, 'Remove')];
+    makeRowWithColumns(target, 'ListHeader', colSpecs, 'personTableHeader bord9');
 }
 function filterSelects(people, target) {
-    let colSpecs0 = [newColumnSpec(`${gCommon.cols4}`, 'Institution'), newColumnSpec(`${gCommon.cols4}`, 'Faculty Rank'),
-        newColumnSpec(`${gCommon.cols5}`, '')];
+    let colSpecs0 = [   newColumnSpec(`${gCommon.cols6}`, 'Institution'),
+                        newColumnSpec(`${gCommon.cols4}`, 'Faculty Rank'),
+                        newColumnSpec(`${gCommon.cols2}`, '')];
 
     let rowId = 'filterSelects';
     let row = makeRowWithColumns(target, rowId, colSpecs0, 'bold mb-2');
@@ -130,18 +135,67 @@ function updateUrlAndReload(key, val) {
 }
 function somePeopleTable(people, target) {
     for (let i = 0; i < people.length; i++) {
-        let peep = people[i];
-        let colSpecs = [newColumnSpec(`${gCommon.cols3}`, peep.DisplayName), newColumnSpec(`${gCommon.cols4}`, peep.InstitutionName),
-            newColumnSpec(`${gCommon.cols3}`, peep.FacultyRank), newColumnSpec(`${gCommon.cols2}`)];
+        let person = people[i];
+        let rowId = 'person' + i;
+        let checkboxId = `${rowId}-removalCheck`;
+        let removalCheckbox = $(`<input type="checkbox" pid="${person.PersonID}" class="removalCheck" id="${checkboxId}"/>`);
 
-        let id = 'person' + i;
-        makeRowWithColumns(target, id, colSpecs);
+        let colSpecs = [newColumnSpec(`${gCommon.cols4} bordE`, person.DisplayName),
+                        newColumnSpec(`${gCommon.cols4} bordE`, person.InstitutionName),
+                        newColumnSpec(`${gCommon.cols3} bordE`, person.FacultyRank),
+                        newColumnSpec(`${gCommon.cols1} d-flex justify-content-center p-1`, removalCheckbox)];
+
+        makeRowWithColumns(target, rowId, colSpecs, 'bord9_3');
     }
 }
-function specialHandling() {
-    $("#deleteAllFromListA").off().on("click", listsPageDeleteAll);
+function somePeopleBottomSection(target) {
+    let colSpecs = [newColumnSpec(`${gCommon.cols12} d-flex justify-content-center`, 'paging stuff')];
+    makeRowWithColumns(target, 'pagingRow', colSpecs, 'bord9_3 pt-1 pb-1');
+
+    let button = $('<button class="btn gradientLists" id="removalButton">Remove Selected People</button>');
+    button.on('click', removeSelectedPersons);
+    let colSpecs2 = [newColumnSpec(`${gCommon.cols12} d-flex justify-content-end pe-0`, button)];
+    makeRowWithColumns(target, 'pagingRow', colSpecs2, 'mt-1')
 }
-function listsPageDeleteAll() {
-    // window.location.refresh();
-    return false;
+
+async function removeSelectedPersons(e) {
+    e.preventDefault();
+    let url = '/Lists/Default.aspx/DeleteSelected'
+    let selected = $(`.removalCheck:checked`);
+    let selectedPids = [];
+    selected.each(function () {
+        let pid = $(this).attr('pid');
+        selectedPids.push(pid);
+    });
+
+    console.log(`Want to remove: `, selectedPids);
+    let dataObject = {
+        listid: sessionInfo.listID,
+        personids: selectedPids
+    };
+
+    await $.post(url, dataObject)
+        .done(function (result) {
+            console.log(`Result: ${result}`);
+        })
+        .fail(function(xhr, status, error) {
+            console.log(xhr, status, error);
+        })
+
+    window.location.reload();
+}
+async function removeAllPersons(e) {
+    e.preventDefault();
+
+    let url = '/Lists/Default.aspx/ClearList'
+
+    await $.get(url, function (result) {
+            console.log('Result: ', JSON.parse(result));
+        });
+
+    window.location.reload();
+}
+function specialHandling() {
+    $("#deleteAllFromListA").off('click');
+    $("#deleteAllFromListA").on("click", removeAllPersons);
 }

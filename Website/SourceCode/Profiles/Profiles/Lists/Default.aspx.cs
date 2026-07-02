@@ -78,7 +78,7 @@ namespace Profiles.Lists
 
                     ClearList(ListID);
 
-                    string expect = $"Expect empty list for {ListID}";
+                    string expect = $"Expect 0 list-size for {ListID}: {session.ListSize}";
                     result = "{result: '" + expect + "' }";
                 }
 

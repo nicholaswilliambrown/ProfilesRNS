@@ -71,7 +71,7 @@ namespace Profiles.Lists
             if (len > 3) {
                 // b/c of split() behavior, non-trivial content is 1 based
                 restTask = restSegments[3];
-                string result = "something did not work";
+                string result = "{result: '" + restTask + "' does not compute}";
                 string ListID = session.ListID;
 
                 if (restTask == "ClearList") {
@@ -81,6 +81,14 @@ namespace Profiles.Lists
                     string expect = $"Expect 0 list-size for {ListID}: {session.ListSize}";
                     result = "{result: '" + expect + "' }";
                 }
+                if (restTask == "DeleteSelected") {
+
+                    string listId = Request.Form["listId"].ToString();
+                    string personIds = Request.Form["personIds"].ToString();
+
+                    string newSize = DeleteSelected(listId, personIds);
+                    result = "{newListSize: '" + newSize + "' }";
+               }
 
                 var serializer = new JavaScriptSerializer();
                 result = serializer.Serialize(result);

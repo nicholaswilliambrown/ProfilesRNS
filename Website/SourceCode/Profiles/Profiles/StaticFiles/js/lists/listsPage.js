@@ -170,8 +170,8 @@ async function removeSelectedPersons(e) {
 
     console.log(`Want to remove: `, selectedPids);
     let dataObject = {
-        listid: sessionInfo.listID,
-        personids: selectedPids
+        listId: sessionInfo.listID,
+        personIds: selectedPids.join(',')
     };
 
     await $.post(url, dataObject)

@@ -72,22 +72,26 @@ namespace Profiles.Lists
                 // b/c of split() behavior, non-trivial content is 1 based
                 restTask = restSegments[3];
                 string result = "{result: '" + restTask + "' does not compute}";
-                string ListID = session.ListID;
 
                 if (restTask == "ClearList") {
-
+                    string ListID = session.ListID;
                     ClearList(ListID);
 
                     string expect = $"Expect 0 list-size for {ListID}: {session.ListSize}";
                     result = "{result: '" + expect + "' }";
                 }
-                if (restTask == "DeleteSelected") {
-
+                else if (restTask == "DeleteSelected") {
                     string listId = Request.Form["listId"].ToString();
                     string personIds = Request.Form["personIds"].ToString();
 
                     string newSize = DeleteSelected(listId, personIds);
                     result = "{newListSize: '" + newSize + "' }";
+               }
+                else if (restTask == "AddCoauthors") {
+                    AddCoauthors();
+               }
+                else if (restTask == "ReplaceWithCoauthors") {
+                    RemoveCoauthors(); // amounts to RemoveAndReplaceWith
                }
 
                 var serializer = new JavaScriptSerializer();
@@ -133,7 +137,7 @@ namespace Profiles.Lists
         }
 
         [System.Web.Services.WebMethod]
-        public static void RemoveCoauthors()
+        public static void RemoveCoauthors() // better name would be RemoveAndReplaceWithCoauthors
         {
             Lists.Utilities.DataIO.AddRemoveCoAuthors("Replace");
         }

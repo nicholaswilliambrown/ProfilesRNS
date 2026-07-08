@@ -30,6 +30,8 @@ async function prepareManagePage() {
 
     $('.nav-item').on('click', adjustTab);
     $('#removeAll').on('click', removeAllPersons);
+    $('#replaceWithCoauthors').on('click', replaceWithCoauthors);
+    $('#addCoauthors').on('click', addCoauthors);
 
     parseManageTabData(gLists.manage.people);
 }
@@ -70,11 +72,20 @@ function parseManageTabData(people) {
     }
 }
 function parseSomePeople(people) {
-        $('#somePeople').removeClass('d-none');
-        let target = $('#somePeople');
-        somePeopleFirstSection(people, target);
-        somePeopleTable(people, target);
-        somePeopleBottomSection(target)
+    $('#somePeople').removeClass('d-none');
+    let target = $('#somePeople');
+    somePeopleFirstSection(people, target);
+
+    setupListPagination(target, people, [3, 5, 25, 50, 100]);
+
+    somePeopleBottomSection(target);
+}
+
+var myPagination;
+function setupListPagination(target, people, pageSizes) {
+    let pagination = new PagingCached(people, pageSizes, somePeopleTable);
+    pagination.display(target);
+    pagination.emitPagingRow(target, '', pagination.currentSlice);
 }
 function somePeopleFirstSection(people, target) {
     if (gCommon.numPersons != 1) { // == 1 is default html
@@ -192,7 +203,22 @@ async function removeAllPersons(e) {
     await $.get(url, function (result) {
             console.log('Result: ', JSON.parse(result));
         });
+    window.location.reload();
+}
+async function addCoauthors(e) {
+    e.preventDefault();
 
+    let url = '/Lists/Default.aspx/AddCoauthors'
+
+    await $.get(url);
+    window.location.reload();
+}
+async function replaceWithCoauthors(e) {
+    e.preventDefault();
+
+    let url = '/Lists/Default.aspx/ReplaceWithCoauthors'
+
+    await $.get(url);
     window.location.reload();
 }
 function specialHandling() {

@@ -1,18 +1,21 @@
 
 // es5 style. If es6 widespread enough, could use nicer 'class' syntax
-function PagingCached(allTheItems, sizes, displayFn){
+function PagingCached(allTheItems, sizes, displayFn, itemsTarget, pagingTarget) {
     this.allTheItems = allTheItems;
     this.currentPageSize = sizes[0];
     this.currentOffset = 0;
     this.sizes = sizes;
     this.displayFn = displayFn;
+    this.itemsTarget = itemsTarget;
+    this.pagingTarget = pagingTarget;
 }
 
-PagingCached.prototype.display = function(target) {
-    let slice = this.allTheItems.slice(this.currentOffset, this.currentPageSize);
-    this.displayFn(slice, target);
+PagingCached.prototype.display = function() {
+    let slice = this.getCurrentSlice();
+    this.displayFn(slice, this.itemsTarget);
+    this.emitPagingRow();
 }
-PagingCached.prototype.emitPagingRow = function(target, rowClass) {
+PagingCached.prototype.emitPagingRow = function() {
     let colspecs = [
         newColumnSpec(`${gCommon.cols3or12} d-flex justify-content-start`),
         newColumnSpec(`${gCommon.cols3or12} d-flex justify-content-start`),
@@ -22,18 +25,18 @@ PagingCached.prototype.emitPagingRow = function(target, rowClass) {
     let rowIdPrefix = `paging`;
     $(`#${rowIdPrefix}Row`).remove();
 
-    let row = makeRowWithColumns(target, rowIdPrefix, colspecs, rowClass);
+    let row = makeRowWithColumns(this.pagingTarget, rowIdPrefix, colspecs);
     let col1 = row.find(`#${rowIdPrefix}Col0`);
     let col2 = row.find(`#${rowIdPrefix}Col1`);
     let col3 = row.find(`#${rowIdPrefix}Col2`);
 
     this.emitPerPageDropdown(col1);
 
-    let numPages = this.emitPageOfAndTotalPages(col2);
-    let currentPage = 0;
+    let currentPageNum = this.getCurrentPageNum();
+    let numPages = this.emitPageOfAndTotalPages(col2, currentPageNum);
     this.emitPrevNext(col3);
 
-    this.adjustNavigation(currentPage, numPages);
+    this.adjustNavigation(currentPageNum, numPages);
 }
 
 PagingCached.prototype.emitPerPageDropdown = function(columnTarget) {
@@ -64,18 +67,8 @@ PagingCached.prototype.emitPerPageDropdown = function(columnTarget) {
         that.currentPageSize = pageSize;
         that.currentOffset = Math.floor(that.currentOffset / pageSize) * pageSize;
 
-        let slice = that.allTheItems.slice(that.currentOffset, that.currentPageSize);
-        that.displayFn(slice, columnTarget);
+        that.display(that.itemsTarget);
     });
-}
-
-// following have bullet-proofing in case the data is incomplete
-PagingCached.prototype.getNumItemsPerPage = function(items) {
-    let result = fromResultsOrInit(
-        items,
-        ['SearchQuery', 'Count'],
-        1);
-    return result;
 }
 PagingCached.prototype.getNumPages = function() {
     let numItems = this.allTheItems.length;
@@ -92,8 +85,13 @@ PagingCached.prototype.getCurrentPageNum = function() {
     let result = Math.floor(this.currentOffset / this.currentPageSize) + 1;
     return result;
 }
+PagingCached.prototype.getCurrentSlice = function() {
+    let offset = this.currentOffset;
+    let result = this.allTheItems.slice(offset, offset + this.currentPageSize);
+    return result;
+}
 
-PagingCached.prototype.emitPageOfAndTotalPages = function(columnTarget) {
+PagingCached.prototype.emitPageOfAndTotalPages = function(pageOfColumn, currentPageNum) {
     let that = this; // for embedded fns
 
     let labelB4 = $('<label for="pageNum" class="mt-1">Page </label>')
@@ -103,8 +101,6 @@ PagingCached.prototype.emitPageOfAndTotalPages = function(columnTarget) {
     let numPages = this.getNumPages();
     let total = spanify(numPages, "ms-1 mt-1");
 
-    let currentPageNum = this.getCurrentPageNum();
-
     input.val(currentPageNum);
     input.on('keypress',function(e) {
         e.stopPropagation();
@@ -112,10 +108,11 @@ PagingCached.prototype.emitPageOfAndTotalPages = function(columnTarget) {
         if(e.which == 13) {
             let inputTarget = $(e.target);
             let newPageNum = that.adjustInputPageNumber(inputTarget, numPages);
-            that.displayCurrentPage(newPageNum, items);
+            that.currentOffset = (newPageNum - 1) * that.currentPageSize;
+            that.display(pageOfColumn);
         }
     });
-    columnTarget
+    pageOfColumn
         .append(labelB4)
         .append(input)
         .append(labelF2)

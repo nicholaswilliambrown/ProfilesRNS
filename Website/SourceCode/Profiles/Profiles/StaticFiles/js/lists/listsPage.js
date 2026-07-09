@@ -75,17 +75,13 @@ function parseSomePeople(people) {
     $('#somePeople').removeClass('d-none');
     let target = $('#somePeople');
     somePeopleFirstSection(people, target);
-
-    setupListPagination(target, people, [3, 5, 25, 50, 100]);
-
-    somePeopleBottomSection(target);
+    somePeopleMainAndBottomSection(people, target);
 }
 
-var myPagination;
-function setupListPagination(target, people, pageSizes) {
-    let pagination = new PagingCached(people, pageSizes, somePeopleTable);
-    pagination.display(target);
-    pagination.emitPagingRow(target, '', pagination.currentSlice);
+function setupListPagination(itemsTarget, people, pageSizes, pagingTarget) {
+    let pagination = new PagingCached(people, pageSizes, somePeopleTable, itemsTarget, pagingTarget);
+    pagination.display(itemsTarget);
+    pagination.emitPagingRow(pagingTarget);
 }
 function somePeopleFirstSection(people, target) {
     if (gCommon.numPersons != 1) { // == 1 is default html
@@ -145,6 +141,8 @@ function updateUrlAndReload(key, val) {
     window.location.href = encodeURI(urlString);
 }
 function somePeopleTable(people, target) {
+    target.empty();
+
     for (let i = 0; i < people.length; i++) {
         let person = people[i];
         let rowId = 'person' + i;
@@ -159,14 +157,27 @@ function somePeopleTable(people, target) {
         makeRowWithColumns(target, rowId, colSpecs, 'bord9_3');
     }
 }
-function somePeopleBottomSection(target) {
-    let colSpecs = [newColumnSpec(`${gCommon.cols12} d-flex justify-content-center`, 'paging stuff')];
-    makeRowWithColumns(target, 'pagingRow', colSpecs, 'bord9_3 pt-1 pb-1');
+function somePeopleMainAndBottomSection(people, outerTarget) {
+    let peopleRows = $('<div id="peopleRows"></div>');
+    outerTarget.append(peopleRows);
+
+    let colSpecs = [newColumnSpec(`${gCommon.cols12} d-flex justify-content-center`)];
+    let pagingRow = makeRowWithColumns(outerTarget, 'pagingRow', colSpecs, 'bord9_3 pt-1 pb-1');
+
+    let debug = 1;
+    if (debug) {
+        for (let i=0; i<people.length; i++) {
+            let person = people[i];
+            person.DisplayName = String(i+1) + ". " + person.DisplayName;
+        }
+    }
+
+    setupListPagination(peopleRows, people, [3, 5, 25, 50, 100], pagingRow);
 
     let button = $('<button class="btn gradientLists" id="removalButton">Remove Selected People</button>');
     button.on('click', removeSelectedPersons);
     let colSpecs2 = [newColumnSpec(`${gCommon.cols12} d-flex justify-content-end pe-0`, button)];
-    makeRowWithColumns(target, 'pagingRow', colSpecs2, 'mt-1')
+    makeRowWithColumns(outerTarget, 'removalRow', colSpecs2, 'mt-1')
 }
 
 async function removeSelectedPersons(e) {

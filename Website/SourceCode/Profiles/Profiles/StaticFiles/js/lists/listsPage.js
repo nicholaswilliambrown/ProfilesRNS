@@ -184,11 +184,16 @@ function emitPersonRows(people, target) {
         let removalCheckbox = $(`<input type="checkbox" pid="${person.PersonID}" class="removalCheck" id="${checkboxId}"/>`);
 
         let colSpecs = [newColumnSpec(`${gCommon.cols4} bordE`, person.DisplayName),
-                        newColumnSpec(`${gCommon.cols4} bordE`, person.InstitutionName),
-                        newColumnSpec(`${gCommon.cols3} bordE`, person.FacultyRank),
-                        newColumnSpec(`${gCommon.cols1} d-flex justify-content-center p-1`, removalCheckbox)];
+            newColumnSpec(`${gCommon.cols4} bordE`, person.InstitutionName),
+            newColumnSpec(`${gCommon.cols3} bordE`, person.FacultyRank),
+            newColumnSpec(`${gCommon.cols1} d-flex justify-content-center p-1`, removalCheckbox)];
 
-        makeRowWithColumns(target, rowId, colSpecs, 'bord9_3 personRow');
+        let row = makeRowWithColumns(target, rowId, colSpecs, 'bord9_3 personRow');
+
+        let profileLink = `${g.profilesRootURL}/display/${person.NodeID}`;
+        row.on('click', () => {
+            window.location.href = profileLink
+        });
     }
 }
 function emitPersonRowsAndButtons(people, outerTarget) {

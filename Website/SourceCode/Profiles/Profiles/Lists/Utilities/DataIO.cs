@@ -34,6 +34,7 @@ namespace Profiles.Lists.Utilities
         public class ProfilesListItem
         {
             public string PersonID { get; set; }
+            public string NodeID { get; set; }
             public string DisplayName { get; set; }
             public string FirstName { get; set; }
             public string LastName { get; set; }
@@ -482,13 +483,14 @@ namespace Profiles.Lists.Utilities
                     while (dbreader.Read())
                         pl.ListItems.Add(new ProfilesListItem
                         {
-                            PersonID = dbreader[0].ToString(),
-                            DisplayName = dbreader[1].ToString(),
-                            FirstName = dbreader[2].ToString(),
-                            LastName = dbreader[3].ToString(),
-                            InstitutionName = dbreader[4].ToString(),
-                            FacultyRank = dbreader[5].ToString(),
-                            DepartmentName = dbreader[6].ToString()
+                            PersonID =          dbreader[0].ToString(),
+                            NodeID =            dbreader[1].ToString(),
+                            DisplayName =       dbreader[2].ToString(),
+                            FirstName =         dbreader[3].ToString(),
+                            LastName =          dbreader[4].ToString(),
+                            InstitutionName =   dbreader[5].ToString(),
+                            FacultyRank =       dbreader[6].ToString(),
+                            DepartmentName =    dbreader[7].ToString()
                         });
                 }
                 sqlconnection.Close();

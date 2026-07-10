@@ -9,6 +9,10 @@ function PagingCached(allTheItems, sizes, displayFn, itemsTarget, pagingTarget) 
     this.itemsTarget = itemsTarget;
     this.pagingTarget = pagingTarget;
 }
+PagingCached.prototype.gotoPage = function(pageNum) {
+    this.currentOffset = (pageNum - 1) * this.currentPageSize;
+    this.display();
+}
 
 PagingCached.prototype.display = function() {
     let slice = this.getCurrentSlice();
@@ -17,9 +21,9 @@ PagingCached.prototype.display = function() {
 }
 PagingCached.prototype.emitPagingRow = function() {
     let colspecs = [
-        newColumnSpec(`${gCommon.cols3or12} d-flex justify-content-start`),
-        newColumnSpec(`${gCommon.cols3or12} d-flex justify-content-start`),
-        newColumnSpec(`${gCommon.cols6or12} d-flex justify-content-end`)
+        newColumnSpec(`${gCommon.cols5or12} d-flex justify-content-center`),
+        newColumnSpec(`${gCommon.cols1or12} d-flex justify-content-center`),
+        newColumnSpec(`${gCommon.cols5or12} pt-1 ps-4 ms-3`)
     ];
 
     let rowIdPrefix = `paging`;
@@ -95,7 +99,7 @@ PagingCached.prototype.emitPageOfAndTotalPages = function(pageOfColumn, currentP
     let that = this; // for embedded fns
 
     let labelB4 = $('<label for="pageNum" class="mt-1">Page </label>')
-    let input = $('<input class="ms-1 me-1 pt-0 mb-1 pageNumInput" id="pageNum"/>');
+    let input = $('<input class="ms-1 me-1 mb-1 pageNumInput" id="pageNum"/>');
     let labelF2 = $('<label for="pageNum" class="mt-1"> of </label>');
 
     let numPages = this.getNumPages();
@@ -157,37 +161,36 @@ PagingCached.prototype.emitPrevNext = function(columnTarget) {
         .append(last);
 
     first.on('click', function() {
-        if (that.getCurrentPageNum(items) != 1) {
-            that.displayCurrentPage(1, items);
+        if (that.getCurrentPageNum() != 1) {
+            that.gotoPage(1);
         }
     });
     last.on('click', function() {
-        let numPages = that.getNumPages(items);
-
-        if (that.getCurrentPageNum(items) != numPages) {
-            that.displayCurrentPage(numPages, items);
+        let lastPage = that.getNumPages();
+        if (that.getCurrentPageNum() != lastPage) {
+            that.gotoPage(lastPage);
         }
     });
 
-    prev.on(        'click', function() {that.pageBefore(items);});
-    prevLabel.on(   'click', function() {that.pageBefore(items);});
-    nextLabel.on(   'click', function() {that.pageAfter (items);});
-    next.on(        'click', function() {that.pageAfter (items);});
+    prev.on(        'click', function() {that.pageBefore();});
+    prevLabel.on(   'click', function() {that.pageBefore();});
+    nextLabel.on(   'click', function() {that.pageAfter ();});
+    next.on(        'click', function() {that.pageAfter ();});
 }
-PagingCached.prototype.vetAndGotoPage = function(pageNum, items) {
-    let numPages = this.getNumPages(items);
+PagingCached.prototype.vetAndGotoPage = function(pageNum) {
+    let numPages = this.getNumPages();
 
     if (this.allowPageNumber(pageNum, numPages)) {
-        this.displayCurrentPage(pageNum, items);
+        this.gotoPage(pageNum);
     }
 }
-PagingCached.prototype.pageBefore = function(items) {
-    let currentPage = this.getCurrentPageNum(items);
-    this.vetAndGotoPage(currentPage - 1, items);
+PagingCached.prototype.pageBefore = function() {
+    let currentPage = this.getCurrentPageNum();
+    this.vetAndGotoPage(currentPage - 1);
 }
-PagingCached.prototype.pageAfter = function(items) {
-    let currentPage = this.getCurrentPageNum(items);
-    this.vetAndGotoPage(currentPage + 1, items);
+PagingCached.prototype.pageAfter = function() {
+    let currentPage = this.getCurrentPageNum();
+    this.vetAndGotoPage(currentPage + 1);
 }
 PagingCached.prototype.allowPageNumber = function(num, numPages) {
     let result = num > 0 && num <= numPages; // optimistic
@@ -239,16 +242,5 @@ PagingCached.prototype.ableElt = function(elt, which) {
         elt.find('.link-ish').hide();
         elt.find('.disablePageNav').show();
     }
-}
-PagingCached.prototype.sum = (a, b) => {
-    return a + b;
-}
-
-// for jest testing -- 'module' does not exit in browser context
-//        and jest does not seem to support (modern) ESM export/import
-if (typeof module !== 'undefined' &&
-    typeof module.exports !== 'undefined'  ) {
-    // Use module.exports to make function visible to node tests
-    module.exports.PagingCached = PagingCached;
 }
 

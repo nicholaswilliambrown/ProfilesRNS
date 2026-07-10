@@ -1,6 +1,7 @@
 // this JS should load before the other tab-JS, so they can use gLists
 let gLists = {};
 
+gLists.noRank = '--';
 gLists.manage = {
     setup: async () => {
         console.log('manage');
@@ -74,16 +75,16 @@ function parseManageTabData(people) {
 function parseSomePeople(people) {
     $('#somePeople').removeClass('d-none');
     let target = $('#somePeople');
-    somePeopleFirstSection(people, target);
-    somePeopleMainAndBottomSection(people, target);
+    emitTopOfPersonTable(people, target);
+    emitPersonRowsAndButtons(people, target);
 }
 
 function setupListPagination(itemsTarget, people, pageSizes, pagingTarget) {
-    let pagination = new PagingCached(people, pageSizes, somePeopleTable, itemsTarget, pagingTarget);
+    let pagination = new PagingCached(people, pageSizes, emitPersonRows, itemsTarget, pagingTarget);
     pagination.display(itemsTarget);
     pagination.emitPagingRow(pagingTarget);
 }
-function somePeopleFirstSection(people, target) {
+function emitTopOfPersonTable(people, target) {
     if (gCommon.numPersons != 1) { // == 1 is default html
         let currentNumText = `are currently <span class="redBold">${gCommon.numPersons}</span> people`;
         let allPeopleShownText = `all ${gCommon.numPersons} people shown`
@@ -107,44 +108,77 @@ function filterSelects(people, target) {
     let rowId = 'filterSelects';
     let row = makeRowWithColumns(target, rowId, colSpecs0, 'bold mb-2');
 
-    let institutionSelect = $('<select class="ms-1"><option>(all institutions)</option></select>');
-    let facultySelect = $('<select class="ms-1"><option>(all faculty ranks)</option></select>');
+    let institutionSelect = $('<select id="institutionSelect" class="ms-1"><option value="">(all institutions)</option></select>');
+    let facultySelect = $('<select id="facultySelect" class="ms-1"><option value="">(all faculty ranks)</option></select>');
     row.find(`#${rowId}Col0`).append(institutionSelect);
     row.find(`#${rowId}Col1`).append(facultySelect);
+
+    let institutionQp = tryMatchUrlParam(/institution=(.*?)(&|$)/);
+    let facultyQp = tryMatchUrlParam(/facultyrank=(.*?)(&|$)/);
 
     for (let i=0; i<gLists.manage.institutions.length; i++) {
         let institution = gLists.manage.institutions[i];
         let text = institution.Text;
         let option = $(`<option value="${text}">${text}</option>`);
+        if (text == institutionQp) {
+            option.attr('selected', true);
+        }
         institutionSelect.append(option);
     }
     for (let i=0; i<gLists.manage.facultyRanks.length; i++) {
         let rank = gLists.manage.facultyRanks[i];
         let text = rank.Text;
+        if (text == '') {
+            text = '--';
+        }
         let option = $(`<option value="${text}">${text}</option>`);
+        if (text == facultyQp) {
+            option.attr('selected', true);
+        }
         facultySelect.append(option);
     }
 
-    institutionSelect.on('change', function(e) {
-        let val = institutionSelect.val();
-        updateUrlAndReload('institution', val);
-    });
-    facultySelect.on('change', function(e) {
-        let val = facultySelect.val();
-        updateUrlAndReload('facultyrank', val);
-    });
+    institutionSelect.on('change', instOrFacChange);
+    facultySelect.on('change', instOrFacChange);
 }
-function updateUrlAndReload(key, val) {
+function instOrFacChange(e) {
+    let typeQp = tryMatchUrlParam(/type=(.*(;|$))/);
+    let keys = typeQp ? ['type'] : [];
+    let vals = typeQp ? [typeQp] : [];
+
+    let institutionSelect = $('#institutionSelect');
+    let facultySelect = $('#facultySelect');
+
+    keys = keys.concat(['institution', 'facultyrank']);
+
+    let instVal = institutionSelect.val();
+    let facVal = facultySelect.val();
+
+    vals = vals.concat([instVal, facVal]);
+
+    updateUrlMaybeReload(keys, vals);
+}
+function updateUrlMaybeReload(keys, vals) {
     let url = new URL(window.location.href);
-    url.searchParams.set(key, val);
-    let urlString = url.toString();
-    window.location.href = encodeURI(urlString);
+    let currentUrlString = url.toString();
+
+    for (let i=0; i<keys.length; i++) {
+        url.searchParams.set(keys[i], vals[i]);
+    }
+    let newUrlString = encodeURI(url.toString());
+    if (currentUrlString != newUrlString) {
+        window.location.href = newUrlString;
+    }
 }
-function somePeopleTable(people, target) {
+function emitPersonRows(people, target) {
     target.empty();
 
     for (let i = 0; i < people.length; i++) {
         let person = people[i];
+        if (person.FacultyRank == '') {
+            person.FacultyRank = gLists.noRank;
+        }
+
         let rowId = 'person' + i;
         let checkboxId = `${rowId}-removalCheck`;
         let removalCheckbox = $(`<input type="checkbox" pid="${person.PersonID}" class="removalCheck" id="${checkboxId}"/>`);
@@ -154,10 +188,10 @@ function somePeopleTable(people, target) {
                         newColumnSpec(`${gCommon.cols3} bordE`, person.FacultyRank),
                         newColumnSpec(`${gCommon.cols1} d-flex justify-content-center p-1`, removalCheckbox)];
 
-        makeRowWithColumns(target, rowId, colSpecs, 'bord9_3');
+        makeRowWithColumns(target, rowId, colSpecs, 'bord9_3 personRow');
     }
 }
-function somePeopleMainAndBottomSection(people, outerTarget) {
+function emitPersonRowsAndButtons(people, outerTarget) {
     let peopleRows = $('<div id="peopleRows"></div>');
     outerTarget.append(peopleRows);
 
@@ -172,7 +206,7 @@ function somePeopleMainAndBottomSection(people, outerTarget) {
         }
     }
 
-    setupListPagination(peopleRows, people, [3, 5, 25, 50, 100], pagingRow);
+    setupListPagination(peopleRows, people, [15, 25, 50, 100], pagingRow);
 
     let button = $('<button class="btn gradientLists" id="removalButton">Remove Selected People</button>');
     button.on('click', removeSelectedPersons);

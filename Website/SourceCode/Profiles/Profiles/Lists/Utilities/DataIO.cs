@@ -446,7 +446,7 @@ namespace Profiles.Lists.Utilities
                 {
 
                     if (facultyrank == "--")
-                        facultyrank = null;
+                        facultyrank = "";
 
                     parm = new SqlParameter("@FacultyRank", SqlDbType.VarChar);
                     parm.Direction = ParameterDirection.Input;

@@ -18,8 +18,8 @@ namespace Profiles.Lists
             message = $"------------myLog--------------->> {message} <<----------";
             System.Diagnostics.Debug.WriteLine(message);
         }
-        private string dbActivity() {
-            myLog("dbActivity");
+        private string getListPeople() {
+            myLog("getListPeople");
             Session session = sessionManagement.Session();
 
             if (session.ListID == null)
@@ -33,6 +33,13 @@ namespace Profiles.Lists
             Utilities.DataIO.ProfilesList profilesList =
                 Profiles.Lists.Utilities.DataIO.GetPeople(institution, facultyRank);
 
+           if (null == profilesList.ListID) {
+                profilesList.ListID = session.ListID;
+           }
+           if (null == profilesList.SessionID) {
+                profilesList.SessionID = session.SessionID.ToString();
+           }
+
             var serializer = new JavaScriptSerializer();
             string result = serializer.Serialize(profilesList);
             return result;
@@ -43,7 +50,7 @@ namespace Profiles.Lists
             sessionManagement = new SessionManagement();
             Framework.Utilities.Session session = sessionManagement.Session();
 
-            string peopleJson = dbActivity();
+            string peopleJson = getListPeople();
 
             string editPropertyParams = "{}";
 

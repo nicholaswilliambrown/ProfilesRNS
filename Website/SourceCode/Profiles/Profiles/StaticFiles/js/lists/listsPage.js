@@ -5,20 +5,26 @@ gLists.noRank = '--';
 gLists.manage = {
     setup: async () => {
         console.log('manage');
-        await prepareManagePage();
 
-        specialHandling();
+        if (!gLists.manage.done) {
+            await prepareManagePage();
+            specialHandling();
+            gLists.manage.done = true;
+        }
     }
 };
 
 async function prepareManagePage() {
-    let manageTabData = JSON.parse(g.preLoad);
-    console.log('Manage Tab, aka preLoad, data: ', manageTabData);
+    if ( ! gLists.manage.people) {
 
-    gLists.manage.people = manageTabData.ListItems;
-    gLists.manage.numPeople = gCommon.numPersons = gLists.manage.people.length;
-    gLists.manage.institutions = manageTabData.Institutions;
-    gLists.manage.facultyRanks = manageTabData.FacultyRanks;
+        let manageTabData = JSON.parse(g.preLoad);
+
+        console.log('Manage Tab, aka preLoad, data: ', manageTabData);
+        gLists.manage.people = manageTabData.ListItems;
+        gLists.manage.numPeople = gCommon.numPersons = gLists.manage.people.length;
+        gLists.manage.institutions = manageTabData.Institutions;
+        gLists.manage.facultyRanks = manageTabData.FacultyRanks;
+    }
 
     await commonSetup();
 
@@ -38,45 +44,46 @@ async function prepareManagePage() {
 }
 
 function adjustTab(e) {
-    let ariaCurr = 'aria-current';
-    let tabs = $('.mainTabItem').find('.tab');
-    $('.mainTabsContent').hide();
-
     let target = $(e.target);
     let spanTarget = target.find('span');
     if (!spanTarget.length) { // presumably b/c target is a span and find() looks at children, not self
         spanTarget = target;
     }
+    if ( ! spanTarget.hasClass('active')) { // click on current tab should be no-op
+        let ariaCurr = 'aria-current';
+        let tabs = $('.mainTabItem').find('.tab');
+        $('.mainTabsContent').hide();
 
-    if (spanTarget.hasClass('active')) { // click on current tab should be no-op
-        return;
+        tabs.removeAttr(ariaCurr);
+        tabs.removeClass('active');
+
+        spanTarget.attr(ariaCurr, 'page');
+        spanTarget.addClass('active');
+
+        let tabFlavor = spanTarget.attr('id');
+
+        $(`#${tabFlavor}Content`).show();
+        console.log('flavor is: ', tabFlavor);
+        console.log('setup is: ', gLists[tabFlavor].setup);
+        gLists[tabFlavor].setup();
     }
-    tabs.removeAttr(ariaCurr);
-    tabs.removeClass('active');
-
-    spanTarget.attr(ariaCurr, 'page');
-    spanTarget.addClass('active');
-
-    let tabFlavor = spanTarget.attr('id');
-
-    $(`#${tabFlavor}content`).show();
-    console.log('flavor is: ', tabFlavor);
-    console.log('setup is: ', gLists[tabFlavor].setup);
-    gLists[tabFlavor].setup();
 }
 
+function noPeopleOnList(target) {
+    target.append($(`<div class="mt-2 bold d-none" id="noPeople">
+                        You currently have no people in your list.
+                    </div>`))
+}
 function parseManageTabData(people) {
-    if ( ! gCommon.numPersons) {
-        $('#noPeople').removeClass('d-none');
-    } else {
-        parseSomePeople(people);
-    }
-}
-function parseSomePeople(people) {
-    $('#somePeople').removeClass('d-none');
     let target = $('#somePeople');
-    emitTopOfPersonTable(people, target);
-    emitPersonRowsAndButtons(people, target);
+    if (people.length == 0) {
+        noPeopleOnList(target);
+    }
+    else {
+        $('#somePeople').removeClass('d-none');
+        emitTopOfPersonTable(people, target);
+        emitPersonRowsAndButtons(people, target);
+    }
 }
 
 function setupListPagination(itemsTarget, people, pageSizes, pagingTarget) {

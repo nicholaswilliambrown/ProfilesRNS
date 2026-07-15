@@ -71,17 +71,16 @@ namespace Profiles.Lists
             if (len > 3) {
                 // b/c of split() behavior, non-trivial content is 1 based
                 restTask = restSegments[3];
+                string listId = session.ListID;
                 string result = "{result: '" + restTask + "' does not compute}";
 
                 if (restTask == "ClearList") {
-                    string ListID = session.ListID;
-                    ClearList(ListID);
+                    ClearList(listId);
 
-                    string expect = $"Expect 0 list-size for {ListID}: {session.ListSize}";
+                    string expect = $"Expect 0 list-size for {listId}: {session.ListSize}";
                     result = "{result: '" + expect + "' }";
                 }
                 else if (restTask == "DeleteSelected") {
-                    string listId = Request.Form["listId"].ToString();
                     string personIds = Request.Form["personIds"].ToString();
 
                     string newSize = DeleteSelected(listId, personIds);
@@ -93,6 +92,9 @@ namespace Profiles.Lists
                 else if (restTask == "ReplaceWithCoauthors") {
                     RemoveCoauthors(); // amounts to RemoveAndReplaceWith
                }
+                else if (restTask == "Map") {
+                    Map(listId, "myName");
+                }
 
                 var serializer = new JavaScriptSerializer();
                 result = serializer.Serialize(result);
@@ -140,6 +142,15 @@ namespace Profiles.Lists
         public static void RemoveCoauthors() // better name would be RemoveAndReplaceWithCoauthors
         {
             Lists.Utilities.DataIO.AddRemoveCoAuthors("Replace");
+        }
+
+        [System.Web.Services.WebMethod]
+        public static void Map(string listId, string name)
+        {
+//            string sessionId = sessionManagement.Session().SessionID;
+//            SqlDataReader GetGMapList(string listid, string which, string sessionid)
+//            SqlDataReader reader0 = Profiles.Lists.Utilities.DataIO.GetGMapList(listId, "0", sessionId);
+//            SqlDataReader reader1 = Profiles.Lists.Utilities.DataIO.GetGMapList(listId, "1", sessionId);
         }
 
         //AddUpdateList Proc

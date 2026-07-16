@@ -1,34 +1,35 @@
 gLists.map = {
-    setup: async () => {
+    setup: () => {
         console.log('setting up for map!');
 
         if (!gLists.map.done) {
-            await parseMapTabData((gLists.manage.people));
+            parseMapTabData(gLists.manage.people);
             gLists.map.done = true;
         }
-
-
     }
 };
 
-async function parseMapTabData(people) {
+function parseMapTabData(people) {
     let target = $('#mapContent');
     if (people.length == 0) {
         noPeopleOnList(target);
-    }
-    else {
+    } else {
         target.append("<div>Here comes the map</div>");
 
         let firstNodeId = people[0].NodeID;
         let predicateForListMap = 963;
-        let url = `${g.profilesRootURL}/ProfileJsonSvc.aspx/getdata?s=${firstNodeId}&p=${predicateForListMap}&t=map`;
-        await jQuery.getJSON(jsonURL, function (json2) {
-            for (let j2=0; j2<json2.length; j2++) {
-                let jsonJ2 = json2[j2];
-                jsonTmp.push(jsonJ2)
-            }
-            g.pageJSON = jsonTmp;
-        });
+        let jsonTmp = [];
+        let url = `${g.profilesRootURL}/Lists/Default.aspx/Map`;
 
+        jQuery.getJSON(url, function (jsData) {
+            console.log(jsData);
+            gLists.map.data = jsData;
+        })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.error("Request failed!");
+                console.error("Status: " + textStatus); // Common outputs: "error", "timeout", "parsererror"
+                console.error("Error Thrown: " + errorThrown); // Common outputs: "Not Found", "Internal Server Error"
+                console.error("HTTP Status Code: " + jqXHR.status); // e.g., 404, 500;
+            });
     }
 }

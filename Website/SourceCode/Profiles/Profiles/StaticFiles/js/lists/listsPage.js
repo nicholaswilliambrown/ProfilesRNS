@@ -229,7 +229,7 @@ function emitPersonRowsAndButtons(people, outerTarget) {
 
 async function removeSelectedPersons(e) {
     e.preventDefault();
-    let url = '/Lists/Default.aspx/DeleteSelected'
+    let url = `${g.profilesRootURL}/Lists/Default.aspx/DeleteSelected`
     let selected = $(`.removalCheck:checked`);
     let selectedPids = [];
     selected.each(function () {
@@ -256,7 +256,7 @@ async function removeSelectedPersons(e) {
 async function removeAllPersons(e) {
     e.preventDefault();
 
-    let url = '/Lists/Default.aspx/ClearList'
+    let url = `${g.profilesRootURL}/Lists/Default.aspx/ClearList`
 
     await $.get(url, function (result) {
             console.log('Result: ', JSON.parse(result));
@@ -266,7 +266,7 @@ async function removeAllPersons(e) {
 async function addCoauthors(e) {
     e.preventDefault();
 
-    let url = '/Lists/Default.aspx/AddCoauthors'
+    let url = `${g.profilesRootURL}/Lists/Default.aspx/AddCoauthors`
 
     await $.get(url);
     window.location.reload();
@@ -274,7 +274,7 @@ async function addCoauthors(e) {
 async function replaceWithCoauthors(e) {
     e.preventDefault();
 
-    let url = '/Lists/Default.aspx/ReplaceWithCoauthors'
+    let url = `${g.profilesRootURL}/Lists/Default.aspx/ReplaceWithCoauthors`
 
     await $.get(url);
     window.location.reload();

@@ -7,6 +7,8 @@ using System.Web.UI.WebControls;
 using System.Xml;
 using Profiles.Framework.Utilities;
 using System.Web.Script.Serialization;
+using System.Data.SqlClient;
+using System.Text;
 
 namespace Profiles.Lists
 {
@@ -14,7 +16,7 @@ namespace Profiles.Lists
     {
         SessionManagement sessionManagement;
 
-        private void myLog(string message) {
+        private static void myLog(string message) {
             message = $"------------myLog--------------->> {message} <<----------";
             System.Diagnostics.Debug.WriteLine(message);
         }
@@ -73,6 +75,7 @@ namespace Profiles.Lists
 
             string[] restSegments = Request.Url.AbsolutePath.Split('/');
             int len = restSegments.Length;
+            var serializer = new JavaScriptSerializer();
 
             string restTask = null;
             if (len > 3) {
@@ -85,13 +88,13 @@ namespace Profiles.Lists
                     ClearList(listId);
 
                     string expect = $"Expect 0 list-size for {listId}: {session.ListSize}";
-                    result = "{result: '" + expect + "' }";
+                    result = serializer.Serialize("{result: '" + expect + "' }");
                 }
                 else if (restTask == "DeleteSelected") {
                     string personIds = Request.Form["personIds"].ToString();
 
                     string newSize = DeleteSelected(listId, personIds);
-                    result = "{newListSize: '" + newSize + "' }";
+                    result = serializer.Serialize("{newListSize: '" + newSize + "' }");
                }
                 else if (restTask == "AddCoauthors") {
                     AddCoauthors();
@@ -100,11 +103,8 @@ namespace Profiles.Lists
                     RemoveCoauthors(); // amounts to RemoveAndReplaceWith
                }
                 else if (restTask == "Map") {
-                    Map(listId, "myName");
+                    result = GetMapJson(listId, session.SessionID.ToString());
                 }
-
-                var serializer = new JavaScriptSerializer();
-                result = serializer.Serialize(result);
 
                 Response.Write(result);
                 Response.End(); // nuke the page lifecycle additions
@@ -152,12 +152,63 @@ namespace Profiles.Lists
         }
 
         [System.Web.Services.WebMethod]
-        public static void Map(string listId, string name)
+        public static string GetMapJson(string listId, string sessionId)
         {
-//            string sessionId = sessionManagement.Session().SessionID;
-//            SqlDataReader GetGMapList(string listid, string which, string sessionid)
-//            SqlDataReader reader0 = Profiles.Lists.Utilities.DataIO.GetGMapList(listId, "0", sessionId);
-//            SqlDataReader reader1 = Profiles.Lists.Utilities.DataIO.GetGMapList(listId, "1", sessionId);
+            SqlDataReader reader1 = Profiles.Lists.Utilities.DataIO.GetGMapList(listId, "1", sessionId);
+            SqlDataReader reader0 = Profiles.Lists.Utilities.DataIO.GetGMapList(listId, "0", sessionId);
+
+            var jsonBuilder = new StringBuilder();
+
+            jsonBuilder.Append("{");
+            jsonBuilder.Append("\"connections\": [");
+
+            if (reader1.HasRows) {
+                while (reader1.Read())
+                {
+                    // a and b are person ids. u1 and u2 are display urls built from node ids
+                    jsonBuilder.Append(   "{" +
+                                            $"\"x1\":\"{reader1["x1"].ToString()}\", \"y1\":\"{reader1["y1"].ToString()}\" ," +
+                                            $"\"x2\":\"{reader1["x2"].ToString()}\", \"y2\":\"{reader1["y2"].ToString()}\" ," +
+                                            $"\"u1\":\"{reader1["u1"].ToString()}\", \"u2\":\"{reader1["u2"].ToString()}\" ," +
+                                            $" \"a\":\"{reader1["a"]. ToString()}\",  \"b\":\"{reader1["b"].ToString()}\"  " +
+                                          "}," );
+                }
+                // non for-loop way to manage nuking the final comma
+                string jsonPart1 = jsonBuilder.ToString();
+                jsonPart1 = jsonPart1.Remove(jsonPart1.Length - 1);
+                jsonBuilder.Clear();
+                jsonBuilder.Append(jsonPart1);
+            }
+
+            jsonBuilder.Append("],");
+
+
+            jsonBuilder.Append("\"people\": [");
+
+            if (reader0.HasRows) {
+                while (reader0.Read())
+                {
+                    jsonBuilder.Append(   "{" +
+                                            $"\"address1\":       \"{reader0["address1"]    .ToString().Replace("'", "\\'")}\"  ," +
+                                            $"\"address2\":       \"{reader0["address2"]    .ToString().Replace("'", "\\'")}\"  ," +
+                                            $"\"display_name\":   \"{reader0["display_name"].ToString().Replace("'", "\\'")}\"  ," +
+                                            $"\"latitude\":       \"{reader0["latitude"]    .ToString()}\"  ," +
+                                            $"\"longitude\":      \"{reader0["longitude"]   .ToString()}\"  ," +
+                                            $" \"URI\":            \"{reader0["URI"]        .ToString()}\"   " +
+                                          "},");
+                }
+                string jsonPart2 = jsonBuilder.ToString();
+                jsonPart2 = jsonPart2.Remove(jsonPart2.Length - 1);
+                jsonBuilder.Clear();
+                jsonBuilder.Append(jsonPart2);
+            }
+
+            jsonBuilder.Append("]");
+            jsonBuilder.Append("}");
+
+            string result = jsonBuilder.ToString();
+            myLog(result);
+            return result;
         }
 
         //AddUpdateList Proc

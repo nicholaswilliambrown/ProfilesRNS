@@ -37,9 +37,11 @@ gMapTab.commonHtml = `
 </div>
 `;
 
-async function mapParse(moduleJson, indicatedLabel) {
-    let topLhsDiv = $('#topLhsDiv');
-    topLhsDiv.append(gMapTab.commonHtml);
+async function mapParse(moduleJson, indicatedLabel, target) {
+    if (!target) {
+        target = $('#topLhsDiv');
+    }
+    target.append(gMapTab.commonHtml);
 
     if (indicatedLabel) {
         $('#mapRedBoldIndicated').html(indicatedLabel);
@@ -220,44 +222,50 @@ function parseTextVersion(moduleJson) {
     let jsonData = gMapTab.people;
     let target = $('#mapTextInner');
 
-    let colspecs = [
-        newColumnSpec(`${gCommon.cols7or12} alignMiddle bordE`),
-        newColumnSpec(`${gCommon.cols1or12} alignMiddle bordE d-flex justify-content-center`),
-        newColumnSpec(`${gCommon.cols1or12} alignMiddle bordE d-flex justify-content-center`),
-        newColumnSpec(`${gCommon.cols3or12} alignMiddle bordE d-flex justify-content-center`)
-    ];
+    if (!jsonData || !jsonData.length) {
+        target.append('<div class="bold">No (mappable) people to display</div>');
+    }
+    else {
 
-    let rowId = `mapTextTable`;
-    let row = makeRowWithColumns(target, rowId, colspecs, "borderOneSolid tableHeaderPagingRow");
+        let colspecs = [
+            newColumnSpec(`${gCommon.cols7or12} alignMiddle bordE`),
+            newColumnSpec(`${gCommon.cols1or12} alignMiddle bordE d-flex justify-content-center`),
+            newColumnSpec(`${gCommon.cols1or12} alignMiddle bordE d-flex justify-content-center`),
+            newColumnSpec(`${gCommon.cols3or12} alignMiddle bordE d-flex justify-content-center`)
+        ];
 
-    row.find(`#${rowId}Col0`).html('<strong>Address</strong>');
-    row.find(`#${rowId}Col1`).html('<strong>Latitude</strong>');
-    row.find(`#${rowId}Col2`).html('<strong>Longitude</strong>');
-    row.find(`#${rowId}Col3`).html('<strong>Names</strong>');
+        let rowId = `mapTextTable`;
+        let row = makeRowWithColumns(target, rowId, colspecs, "borderOneSolid tableHeaderPagingRow");
 
-    let numItems = jsonData.length;
-    for (let i=0; i<numItems; i++) {
-        let conn = jsonData[i];
-        let stripeClass = (i % 2 == 1) ? "tableOddRowColor" : "";
+        row.find(`#${rowId}Col0`).html('<strong>Address</strong>');
+        row.find(`#${rowId}Col1`).html('<strong>Latitude</strong>');
+        row.find(`#${rowId}Col2`).html('<strong>Longitude</strong>');
+        row.find(`#${rowId}Col3`).html('<strong>Names</strong>');
 
-        let address = $('<div class="align-left"></div>');
-        address.append($(`<div>${conn.address1}</div>`));
-        address.append($(`<div>${conn.address2}</div>`));
+        let numItems = jsonData.length;
+        for (let i = 0; i < numItems; i++) {
+            let conn = jsonData[i];
+            let stripeClass = (i % 2 == 1) ? "tableOddRowColor" : "";
 
-        let latitude = Number(conn.latitude).toFixed(5);
-        let longitude = Number(conn.longitude).toFixed(5);
+            let address = $('<div class="align-left"></div>');
+            address.append($(`<div>${conn.address1}</div>`));
+            address.append($(`<div>${conn.address2}</div>`));
 
-        let url = conn.URI;
-        let name = conn.display_name;
-        let nameUrl = createAnchorElement(name, url);
+            let latitude = Number(conn.latitude).toFixed(5);
+            let longitude = Number(conn.longitude).toFixed(5);
 
-        let rowId = `details-${i}`;
-        row = makeRowWithColumns(target, rowId, colspecs, `ms-1 borderOneSolid ${stripeClass}`);
+            let url = conn.URI;
+            let name = conn.display_name;
+            let nameUrl = createAnchorElement(name, url);
 
-        row.find(`#${rowId}Col0`).append(address);
-        row.find(`#${rowId}Col1`).html(latitude);
-        row.find(`#${rowId}Col2`).html(longitude);
-        row.find(`#${rowId}Col3`).append(nameUrl);
+            let rowId = `details-${i}`;
+            row = makeRowWithColumns(target, rowId, colspecs, `ms-1 borderOneSolid ${stripeClass}`);
+
+            row.find(`#${rowId}Col0`).append(address);
+            row.find(`#${rowId}Col1`).html(latitude);
+            row.find(`#${rowId}Col2`).html(longitude);
+            row.find(`#${rowId}Col3`).append(nameUrl);
+        }
     }
 }
 

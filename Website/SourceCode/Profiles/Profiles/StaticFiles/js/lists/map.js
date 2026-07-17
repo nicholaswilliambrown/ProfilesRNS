@@ -13,18 +13,15 @@ function parseMapTabData(people) {
     let target = $('#mapContent');
     if (people.length == 0) {
         noPeopleOnList(target);
-    } else {
-        target.append("<div>Here comes the map</div>");
-
-        let firstNodeId = people[0].NodeID;
-        let predicateForListMap = 963;
-        let jsonTmp = [];
+    }
+    else {
         let url = `${g.profilesRootURL}/Lists/Default.aspx/Map`;
 
         jQuery.getJSON(url, function (jsData) {
             console.log(jsData);
             gLists.map.data = jsData;
-            mapParse(gLists.map.data, "listed people");
+
+            mapParse(gLists.map.data, "listed people", $('#mapContent'));
         })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 console.error("Request failed!");

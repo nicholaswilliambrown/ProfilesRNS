@@ -176,8 +176,7 @@ namespace Profiles.Lists
                 // non for-loop way to manage nuking the final comma
                 string jsonPart1 = jsonBuilder.ToString();
                 jsonPart1 = jsonPart1.Remove(jsonPart1.Length - 1);
-                jsonBuilder.Clear();
-                jsonBuilder.Append(jsonPart1);
+                jsonBuilder.Clear().Append(jsonPart1);
             }
 
             jsonBuilder.Append("],");
@@ -194,20 +193,18 @@ namespace Profiles.Lists
                                             $"\"display_name\":   \"{reader0["display_name"].ToString().Replace("'", "\\'")}\"  ," +
                                             $"\"latitude\":       \"{reader0["latitude"]    .ToString()}\"  ," +
                                             $"\"longitude\":      \"{reader0["longitude"]   .ToString()}\"  ," +
-                                            $" \"URI\":            \"{reader0["URI"]        .ToString()}\"   " +
+                                            $" \"URI\":           \"{reader0["URI"]         .ToString()}\"   " +
                                           "},");
                 }
                 string jsonPart2 = jsonBuilder.ToString();
                 jsonPart2 = jsonPart2.Remove(jsonPart2.Length - 1);
-                jsonBuilder.Clear();
-                jsonBuilder.Append(jsonPart2);
+                jsonBuilder.Clear().Append(jsonPart2);
             }
 
             jsonBuilder.Append("]");
             jsonBuilder.Append("}");
 
             string result = jsonBuilder.ToString();
-            myLog(result);
             return result;
         }
 

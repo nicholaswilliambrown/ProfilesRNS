@@ -24,6 +24,7 @@ function parseMapTabData(people) {
         jQuery.getJSON(url, function (jsData) {
             console.log(jsData);
             gLists.map.data = jsData;
+            mapParse(gLists.map.data, "listed people");
         })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 console.error("Request failed!");

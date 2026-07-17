@@ -265,7 +265,11 @@ async function captchavate(captchaSuccessFn) {
     }
     return; // good for breakpoint
 }
-function arrayAverage(array) {
-    let result = array.reduce((a, b) => a + b) / array.length;
+function arrayAverage(array, longwoodDefault) {
+    let result = longwoodDefault;
+
+    if (array && Array.isArray(array) && array.length) {
+        result = array.reduce((a, b) => Number(a) + Number(b)) / array.length;
+    }
     return result;
 }

@@ -70,17 +70,17 @@ function adjustTab(e) {
 }
 
 function noPeopleOnList(target) {
-    target.append($(`<div class="mt-2 bold d-none" id="noPeople">
+    target.html($(`<div class="mt-2 bold" id="noPeople">
                         You currently have no people in your list.
                     </div>`))
 }
 function parseManageTabData(people) {
-    let target = $('#somePeople');
+    let target = $('#peopleDiv');
+
     if (people.length == 0) {
         noPeopleOnList(target);
     }
     else {
-        $('#somePeople').removeClass('d-none');
         emitTopOfPersonTable(people, target);
         emitPersonRowsAndButtons(people, target);
     }

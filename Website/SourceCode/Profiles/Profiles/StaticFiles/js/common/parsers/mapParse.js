@@ -110,7 +110,6 @@ async function initPage(moduleJson) {
     gMapTab.connections = dataContainer.connections;
 
     let mainPersonUri = getPersonUriFromLabel();
-
     let centralPerson = gMapTab.people.find(p => p.URI == mainPersonUri);
 
     let centerLatLong;
@@ -121,8 +120,10 @@ async function initPage(moduleJson) {
         let averageLatArray = gMapTab.people.map(p => p.latitude);
         let averageLongArray = gMapTab.people.map(p => p.longitude);
 
-        centerLatLong = {lat: arrayAverage(averageLatArray),
-                        long: arrayAverage(averageLongArray)};
+        let averageLat = arrayAverage(averageLatArray, 42.33735);
+        let averageLong = arrayAverage(averageLongArray, -71.10335);
+        centerLatLong = {lat: averageLat,
+                        long: averageLong};
     }
 
     gMapTab.initialZoom = 13;
@@ -243,8 +244,8 @@ function parseTextVersion(moduleJson) {
         address.append($(`<div>${conn.address1}</div>`));
         address.append($(`<div>${conn.address2}</div>`));
 
-        let latitude = conn.latitude;
-        let longitude = conn.longitude;
+        let latitude = Number(conn.latitude).toFixed(5);
+        let longitude = Number(conn.longitude).toFixed(5);
 
         let url = conn.URI;
         let name = conn.display_name;

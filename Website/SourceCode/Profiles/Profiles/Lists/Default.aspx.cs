@@ -105,6 +105,9 @@ namespace Profiles.Lists
                 else if (restTask == "Map") {
                     result = GetMapJson(listId, session.SessionID.ToString());
                 }
+                else if (restTask == "Cluster") {
+                    result = GetCluster(listId);
+                }
 
                 Response.Write(result);
                 Response.End(); // nuke the page lifecycle additions
@@ -155,6 +158,12 @@ namespace Profiles.Lists
         public static string GetMapJson(string listId, string sessionId)
         {
             return Lists.Utilities.DataIO.GetMapJson(listId, sessionId);
+        }
+
+        [System.Web.Services.WebMethod]
+        public static string GetCluster(string listId)
+        {
+            return Lists.Utilities.DataIO.GetNetworkRadialCoAuthors(listId);
         }
 
         //AddUpdateList Proc

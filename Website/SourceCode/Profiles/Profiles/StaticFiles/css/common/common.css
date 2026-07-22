@@ -568,4 +568,12 @@ span.nav-link.active {
 .bordCcc {
     border: 1px solid #ccc;
 }
-
+#dcgName {
+    margin-top: 8px;
+    font-weight: bold;
+    color: #BD2F3C;
+    border-bottom: none;
+    width: 100%;
+    height: 20px;
+    text-align: center;
+}

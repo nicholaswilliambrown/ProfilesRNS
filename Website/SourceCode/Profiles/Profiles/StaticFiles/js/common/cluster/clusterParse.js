@@ -1,4 +1,4 @@
-async function clusterParse(moduleJson, forGroups) {
+async function clusterParse(moduleJson, forGroups, target) {
 
     $('.personDisplayName').html(getPersonFirstLastName());
 

@@ -14,7 +14,7 @@ function parseReportsTabData(people) {
         noPeopleOnList(target);
     }
     else {
-        let summaryType = 'institution';
+        let summaryType = 'Institution';
         let url = `${g.profilesRootURL}/Lists/Default.aspx/Reports?summaryType=${summaryType}`;
 
         console.log('reports URL:', url);
@@ -53,11 +53,11 @@ function reportsParse(jsonData, summaryType) {
     populateDataTable(dataTable, jsonData);
     let colors = jsonData.colors.replace(/[\[\]]/g, "").split(',');
 
-    $('#a-' + summaryType).css('cursor', 'default');
-    $('#a-' + summaryType).css('text-decoration', 'none');
-    $('#a-' + summaryType).css('font-weight', 'bold');
-    $('#a-' + summaryType).css('color', '#000000');
-    colorArray = ['#4E79A7', '#F28E2B', '#E15759', '#76B7B2', '#59A14F', '#EDC948', '#B07AA1', '#FF9DA7', '#9C755F', '#BAB0AC'];
+    // $('#a-' + summaryType).css('cursor', 'default');
+    // $('#a-' + summaryType).css('text-decoration', 'none');
+    // $('#a-' + summaryType).css('font-weight', 'bold');
+    // $('#a-' + summaryType).css('color', '#000000');
+
     // Instantiate and draw our chart, passing in some options.
     let chart = new google.visualization.PieChart(document.getElementById("pieChart"));
     chart.draw(dataTable, {
@@ -69,4 +69,40 @@ function reportsParse(jsonData, summaryType) {
         chartArea: { left: 20, top: 20, width: '90%', height: '90%' },
         tooltip: { text: 'percentage' }
     });
+
+    populateDataRows(jsonData.rows, summaryType);
+}
+function populateDataRows(dataRows, summaryType) {
+    let headerColSpecs = [
+        newColumnSpec(`${gCommon.cols8or12} alignMiddle bordE d-flex justify-content-center`,
+            summaryType),
+        newColumnSpec(`${gCommon.cols2or12} alignMiddle bordE d-flex justify-content-center`,
+            'People'),
+        newColumnSpec(`${gCommon.cols2or12} alignMiddle bordE d-flex justify-content-center`,
+            'Percent'),
+    ];
+
+    let target = $('#pieChart');
+    let rowId = `pieTable`;
+    makeRowWithColumns(target, rowId, headerColSpecs, "borderOneSolid mt-3");
+
+    let numRows
+    for (let i=0; i<dataRows.length; i++) {
+        let dataRow = dataRows[i];
+        let [name, count] = [dataRow.c[0].v, dataRow.c[1].v];
+
+        let rowColSpecs = [
+            newColumnSpec(`${gCommon.cols8or12} alignMiddle bordE`,
+                name),
+            newColumnSpec(`${gCommon.cols2or12} alignMiddle bordE d-flex justify-content-center`,
+                count),
+            newColumnSpec(`${gCommon.cols2or12} alignMiddle bordE d-flex justify-content-center`,
+                toPercent(Number(count) / gLists.manage.people.length)),
+        ];
+        makeRowWithColumns(target, rowId+i, rowColSpecs, "borderOneSolid");
+    }
+}
+function toPercent(floatValue) {
+    let percentString = (floatValue * 100).toFixed(2) + '%';
+    return percentString;
 }

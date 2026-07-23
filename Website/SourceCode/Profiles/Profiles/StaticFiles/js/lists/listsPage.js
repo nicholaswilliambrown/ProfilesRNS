@@ -4,6 +4,8 @@ let gLists = {};
 gLists.noRank = '--';
 gLists.manage = {
     setup: async () => {
+        $('.modalupdate').hide();
+
         console.log('manage');
 
         if (!gLists.manage.done) {

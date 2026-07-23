@@ -1,34 +1,54 @@
 gLists.reports = {
     setup: () => {
         console.log('reports');
-        if (!gLists.reports.done) {
-            parseReportsTabData(gLists.manage.people);
-            gLists.reports.done = true;
+
+        if (!gLists.reports.summaryType) {
+            gLists.reports.summaryType = 'Institution';
         }
+
+        if (!gLists.reports.listeners) {
+            $('.typeSubTab').on('click', function (e) {
+                let target = $(e.target);
+                gLists.reports.summaryType = target.attr('summaryType');
+                gLists.reports.setup();
+            })
+            gLists.reports.listeners = true;
+        }
+
+        let summaryType = gLists.reports.summaryType; // nickname
+        if (!gLists.bakedPies) {
+            gLists.bakedPies = {};
+        }
+
+        parseReportsTabData(gLists.manage.people, summaryType);
     }
 };
 
-function parseReportsTabData(people) {
+async function parseReportsTabData(people, summaryType) {
     let target = $('#reportsContent');
     if (people.length == 0) {
         noPeopleOnList(target);
     }
     else {
-        let summaryType = 'Institution';
-        let url = `${g.profilesRootURL}/Lists/Default.aspx/Reports?summaryType=${summaryType}`;
+        if (!gLists.bakedPies[summaryType]) {
+            let url = `${g.profilesRootURL}/Lists/Default.aspx/Reports?summaryType=${summaryType}`;
 
-        console.log('reports URL:', url);
-        jQuery.getJSON(url, function (jsData) {
-            console.log('reports data:', jsData);
-            gLists.reports.data = jsData;
-
-            google.charts.load('current', {'packages':['corechart']});
-            google.charts.setOnLoadCallback(function() {
+            console.log('reports URL:', url);
+            $('.modalupdate').show();
+            await jQuery.getJSON(url, function (jsData) {
+                console.log('reports data:', jsData);
+                gLists.bakedPies[summaryType] = jsData;
+            })
+            .fail(xhrFail);
+            $('.modalupdate').hide();
+        }
+        if (gLists.bakedPies[summaryType]) {
+            google.charts.load('current', {'packages': ['corechart']});
+            google.charts.setOnLoadCallback(function () {
                 // reports data assumed to be moduleFoo[0]
-                reportsParse(gLists.reports.data, summaryType);
+                reportsParse(gLists.bakedPies[summaryType], summaryType);
             });
-        })
-        .fail(xhrFail);
+        }
     }
 }
 
@@ -53,10 +73,11 @@ function reportsParse(jsonData, summaryType) {
     populateDataTable(dataTable, jsonData);
     let colors = jsonData.colors.replace(/[\[\]]/g, "").split(',');
 
-    // $('#a-' + summaryType).css('cursor', 'default');
-    // $('#a-' + summaryType).css('text-decoration', 'none');
-    // $('#a-' + summaryType).css('font-weight', 'bold');
-    // $('#a-' + summaryType).css('color', '#000000');
+    let subTab = $(`#s${summaryType}`);
+    $('.typeSubTab').removeClass('currentSummarySubTab');
+    $('.typeSubTab').addClass('link-ish');
+    subTab.removeClass('link-ish');
+    subTab.addClass('currentSummarySubTab')
 
     // Instantiate and draw our chart, passing in some options.
     let chart = new google.visualization.PieChart(document.getElementById("pieChart"));

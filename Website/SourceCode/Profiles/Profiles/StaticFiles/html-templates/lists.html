@@ -85,6 +85,13 @@
 
 {TrackingCode}
 <main>
+    <div class="modalupdate">
+        <div class="modalcenter">
+            <img alt="Updating..." src="{profilesPath}/StaticFiles/js/lists/loader.gif" /><br />
+            <i>Updating...</i>
+        </div>
+    </div>
+
     <div id="mainTabs">
         <ul class="nav bordBottom">
             <li class="nav-item mainTabItem">
@@ -154,6 +161,15 @@
                 </div>
             </div>
             <div class="mainTabsContent" id="reportsContent">
+                <div class="mt-2 mb-0">
+                    The reports below provide aggregate summaries of the institutions, departments, and faculty ranks of the people in your list.
+                    <hr/>
+                </div>
+                <div id="typeSubTabsDiv">
+                    <span class="typeSubTab" id="sInstitution" summaryType="Institution">Institution Summary></span> |
+                    <span class="typeSubTab" id="sDepartment"  summaryType="Department">Department Summary></span> |
+                    <span class="typeSubTab" id="sFacultyRank" summaryType="FacultyRank">Faculty Rank Summary></span>
+                </div>
                 <div id="pieChart"></div>
             </div>
             <div class="mainTabsContent" id="exportContent"></div>

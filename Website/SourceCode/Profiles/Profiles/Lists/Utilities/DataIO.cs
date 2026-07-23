@@ -132,7 +132,8 @@ namespace Profiles.Lists.Utilities
                 using (SqlDataReader dbreader = dbcommand.ExecuteReader(CommandBehavior.CloseConnection))
                 {
                     while (dbreader.Read())
-                        rawitems.Add(new SummaryItem { Variable = dbreader["Variable"].ToString(), Value = dbreader["Value"].ToString().Replace("'", "\\'"), n = Convert.ToInt32(dbreader["n"]), color = "" });
+                        // historical note: no need to double or escape single quotes, eg boston's kids hospital
+                        rawitems.Add(new SummaryItem { Variable = dbreader["Variable"].ToString(), Value = dbreader["Value"].ToString(), n = Convert.ToInt32(dbreader["n"]), color = "" });
 
                     if (!dbreader.IsClosed)
                         dbreader.Close();

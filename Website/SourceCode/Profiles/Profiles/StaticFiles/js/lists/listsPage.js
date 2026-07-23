@@ -283,3 +283,9 @@ function specialHandling() {
     $("#deleteAllFromListA").off('click');
     $("#deleteAllFromListA").on("click", removeAllPersons);
 }
+function xhrFail (jqXHR, textStatus, errorThrown) {
+    console.error("Request failed!");
+    console.error("Status: " + textStatus); // Common outputs: "error", "timeout", "parsererror"
+    console.error("Error Thrown: " + errorThrown); // Common outputs: "Not Found", "Internal Server Error"
+    console.error("HTTP Status Code: " + jqXHR.status); // e.g., 404, 500;
+}

@@ -23,11 +23,6 @@ function parseClusterTabData(people) {
             // cluster data assumed to be moduleFoo[0]
             clusterParse([gLists.cluster.data], false, $('#mapContent'));
         })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                console.error("Request failed!");
-                console.error("Status: " + textStatus); // Common outputs: "error", "timeout", "parsererror"
-                console.error("Error Thrown: " + errorThrown); // Common outputs: "Not Found", "Internal Server Error"
-                console.error("HTTP Status Code: " + jqXHR.status); // e.g., 404, 500;
-            });
+        .fail(xhrFail);
     }
 }

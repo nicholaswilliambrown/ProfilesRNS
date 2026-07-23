@@ -108,6 +108,13 @@ namespace Profiles.Lists
                 else if (restTask == "Cluster") {
                     result = GetCluster(listId);
                 }
+                else if (restTask == "Reports") {
+                    string summaryType = "institution";
+                    if (!string.IsNullOrEmpty(Request.QueryString["summaryType"]))
+                        summaryType = Request.QueryString["summaryType"];
+
+                    result = GetReports(listId, summaryType);
+                }
 
                 Response.Write(result);
                 Response.End(); // nuke the page lifecycle additions
@@ -164,6 +171,12 @@ namespace Profiles.Lists
         public static string GetCluster(string listId)
         {
             return Lists.Utilities.DataIO.GetNetworkRadialCoAuthors(listId);
+        }
+
+        [System.Web.Services.WebMethod]
+        public static string GetReports(string listId, string summaryType)
+        {
+            return Profiles.Lists.Utilities.DataIO.GetSummary(listId, summaryType);
         }
 
         //AddUpdateList Proc

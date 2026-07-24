@@ -108,6 +108,10 @@ namespace Profiles.Lists
                 else if (restTask == "Cluster") {
                     result = GetCluster(listId);
                 }
+                else if (restTask == "Export" && len > 4) {
+                    string flavor = restSegments[4];
+                    Export(listId, flavor);
+                }
                 else if (restTask == "Reports") {
                     string summaryType = "institution";
                     if (!string.IsNullOrEmpty(Request.QueryString["summaryType"]))
@@ -171,6 +175,23 @@ namespace Profiles.Lists
         public static string GetCluster(string listId)
         {
             return Lists.Utilities.DataIO.GetNetworkRadialCoAuthors(listId);
+        }
+
+        [System.Web.Services.WebMethod]
+        public static void Export(string listId, string flavor)
+        {
+            switch (flavor)
+            {
+                case "People":
+                    Profiles.Lists.Utilities.DataIO.GetPersons(listId);
+                    break;
+                case "Publications":
+                    Profiles.Lists.Utilities.DataIO.GetPublications(listId);
+                    break;
+                case "Connections":
+                    Profiles.Lists.Utilities.DataIO.GetCoauthorConnections(listId);
+                    break;
+            }
         }
 
         [System.Web.Services.WebMethod]

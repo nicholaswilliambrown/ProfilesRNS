@@ -548,7 +548,6 @@ namespace Profiles.Lists.Utilities
             {
                 if (!string.IsNullOrEmpty(data))
                 {
-
                     HttpContext.Current.Response.Clear();
                     HttpContext.Current.Response.Buffer = true;
                     HttpContext.Current.Response.ContentType = "text/csv";

@@ -249,9 +249,7 @@ async function removeSelectedPersons(e) {
         .done(function (result) {
             console.log(`Result: ${result}`);
         })
-        .fail(function(xhr, status, error) {
-            console.log(xhr, status, error);
-        })
+        .fail(xhrFail);
 
     window.location.reload();
 }

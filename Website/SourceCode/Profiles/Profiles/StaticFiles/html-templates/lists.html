@@ -93,9 +93,18 @@
     </div>
 
     <div id="mainTabs">
-        <ul class="nav bordBottom">
+        <div id="listsGeneralHeader">
+            <div id="headerTitle" class="bigTitle">My Person List (<span id="numPersonsSpan"></span>)</div>
+            <div class="mt-2 mb-2">
+                My Person List is a feature of this website that lets you select a custom group of faculty,
+                explore the list using various reports and data visualizations, and export data.
+                You can add or remove people from your list by going to the "My Person List" menu
+                from either a person's profile page or from a Search Results page.
+            </div>
+        </div>
+        <ul id="tabsUl" class="nav bordBottom">
             <li class="nav-item mainTabItem">
-                <span id="manage" class="nav-link tab tabTopHat active" aria-current="page">Manage List</span>
+                <span id="manage" class="nav-link tab tabTopHat">Manage List</span>
             </li>
             <li class="nav-item mainTabItem">
                 <span id="map" class="nav-link tab tabTopHat">Map View</span>
@@ -173,9 +182,19 @@
                 <div id="pieChart"></div>
             </div>
             <div class="mainTabsContent" id="exportContent">
+                <div class="mt-2 mb-2">
+                    Download data about the people in your list as comma separated text files (*.csv),
+                    which you can open in Microsoft Excel and other programs.
+                </div>
                 <div id="exportTable"></div>
             </div>
-            <div class="mainTabsContent" id="savedListsContent"></div>
+            <div class="mainTabsContent" id="savedListsContent">
+                <div class="mt-2 mb-2">
+                On this page you can save your person list, view previously saved person lists,
+                and combine person lists in different ways.
+                </div>
+                <div id="savedDisplaySelected"></div>
+            </div>
         </div> <!-- mainTabsContent -->
     </div> <!-- mainTabs -->
 </main>

@@ -26,6 +26,8 @@ async function prepareManagePage() {
         gLists.manage.numPeople = gCommon.numPersons = gLists.manage.people.length;
         gLists.manage.institutions = manageTabData.Institutions;
         gLists.manage.facultyRanks = manageTabData.FacultyRanks;
+
+        $('#numPersonsSpan').html(gLists.manage.numPeople);
     }
 
     await commonSetup();
@@ -42,29 +44,42 @@ async function prepareManagePage() {
     $('#replaceWithCoauthors').on('click', replaceWithCoauthors);
     $('#addCoauthors').on('click', addCoauthors);
 
-    parseManageTabData(gLists.manage.people);
+    let target = $('#peopleDiv');
+
+    hideAllTabContent();
+    showThisTabContent($('#manage'));
+    parsePersonListData(gLists.manage.people, target);
 }
 
+function hideAllTabContent() {
+    let inactives = $('#tabsUl').find('span');
+    inactives.removeClass('active');
+    inactives.removeAttr('aria-current');
+    inactives.each(function(index, elt) {
+        let tabFlavor = $(elt).attr('id');
+        $(`#${tabFlavor}Content`).hide();
+    });
+}
+function showThisTabContent(spanTarget) {
+    spanTarget.attr('aria-current', 'page');
+    spanTarget.addClass('active');
+
+    let tabFlavor = spanTarget.attr('id');
+    $(`#${tabFlavor}Content`).show();
+
+    return tabFlavor;
+}
 function adjustTab(e) {
     let target = $(e.target);
     let spanTarget = target.find('span');
     if (!spanTarget.length) { // presumably b/c target is a span and find() looks at children, not self
         spanTarget = target;
     }
+
     if ( ! spanTarget.hasClass('active')) { // click on current tab should be no-op
-        let ariaCurr = 'aria-current';
-        let tabs = $('.mainTabItem').find('.tab');
-        $('.mainTabsContent').hide();
+        hideAllTabContent();
+        let tabFlavor = showThisTabContent(spanTarget);
 
-        tabs.removeAttr(ariaCurr);
-        tabs.removeClass('active');
-
-        spanTarget.attr(ariaCurr, 'page');
-        spanTarget.addClass('active');
-
-        let tabFlavor = spanTarget.attr('id');
-
-        $(`#${tabFlavor}Content`).show();
         console.log('flavor is: ', tabFlavor);
         console.log('setup is: ', gLists[tabFlavor].setup);
         gLists[tabFlavor].setup();
@@ -76,9 +91,7 @@ function noPeopleOnList(target) {
                         You currently have no people in your list.
                     </div>`))
 }
-function parseManageTabData(people) {
-    let target = $('#peopleDiv');
-
+function parsePersonListData(people, target) {
     if (people.length == 0) {
         noPeopleOnList(target);
     }
@@ -254,14 +267,15 @@ async function removeSelectedPersons(e) {
     window.location.reload();
 }
 async function removeAllPersons(e) {
-    e.preventDefault();
+    localOnlyEvent(e);
+    if (confirm('Are you sure you want to remove all people from your list?')) {
 
-    let url = `${g.profilesRootURL}/Lists/Default.aspx/ClearList`
-
-    await $.get(url, function (result) {
+        let url = `${g.profilesRootURL}/Lists/Default.aspx/ClearList`
+        await $.get(url, function (result) {
             console.log('Result: ', JSON.parse(result));
         });
-    window.location.reload();
+        window.location.reload();
+    }
 }
 async function addCoauthors(e) {
     e.preventDefault();

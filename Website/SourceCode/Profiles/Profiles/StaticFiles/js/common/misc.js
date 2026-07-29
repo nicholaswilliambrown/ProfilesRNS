@@ -273,3 +273,7 @@ function arrayAverage(array, longwoodDefault) {
     }
     return result;
 }
+function localOnlyEvent(e) {
+    e.preventDefault();
+    e.stopPropagation();
+}

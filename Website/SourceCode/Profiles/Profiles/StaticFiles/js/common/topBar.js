@@ -254,16 +254,22 @@ function adjustMyPersonList() {
     $("#removeMatchingPeopleA").on("click", listsDeleteSearch);
     
 }
-function listsDeleteAll() {
-    let listsUrl = g.listsApiPath + "?action=deleteall";
-    var data = {};
-    listsPost(listsUrl, data);
+function listsDeleteAll(e) {
+    localOnlyEvent(e);
+    if (confirm('Are you very sure you want to remove all people from your list?')) {
+        let listsUrl = g.listsApiPath + "?action=deleteall";
+        var data = {};
+        listsPost(listsUrl, data);
+    }
 }
-function listsDeletePerson() {
-    let listsUrl = g.listsApiPath + "?action=deleteperson";
-    var data = {};
-    data.SubjectPersonID = g.pageJSON.find(x => x.DisplayModule == 'Person.Label').ModuleData[0].PersonID;
-    listsPost(listsUrl, data);
+function listsDeletePerson(e) {
+    localOnlyEvent(e);
+    if (confirm('Are you sure you want to remove this person from your list?')) {
+        let listsUrl = g.listsApiPath + "?action=deleteperson";
+        var data = {};
+        data.SubjectPersonID = g.pageJSON.find(x => x.DisplayModule == 'Person.Label').ModuleData[0].PersonID;
+        listsPost(listsUrl, data);
+    }
 }
 function listsDeleteSearch() {
     let listsUrl = g.listsApiPath + "?action=deletesearch";

@@ -75,7 +75,7 @@
 <script>
         
         function ClearList(listid) {
-            if (confirm('Are you sure you want to remove all people from your list?')) {
+            if (confirm('Are you really sure you want to remove all people from your list?')) {
                 jQuery.ajax({
                     type: "POST",
                     url: "<%=ResolveUrl(Profiles.Framework.Utilities.Root.Domain + "/Lists/Default.aspx/ClearList")%>",

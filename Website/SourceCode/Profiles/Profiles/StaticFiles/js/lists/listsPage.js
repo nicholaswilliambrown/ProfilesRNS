@@ -230,7 +230,9 @@ function emitPersonRowsAndButtons(people, outerTarget) {
     if (debug) {
         for (let i=0; i<people.length; i++) {
             let person = people[i];
-            person.DisplayName = String(i+1) + ". " + person.DisplayName;
+            if (!person.DisplayName.match(/^\d+\./)) {
+                person.DisplayName = String(i+1) + ". " + person.DisplayName;
+            }
         }
     }
 

@@ -4,6 +4,7 @@ gLists.savedLists = {
         $('.modalupdate').show();
 
         let target = $('#savedDisplaySelected');
+        target.empty();
         parsePersonListData(gLists.manage.people, target);
 
         $('.modalupdate').hide();

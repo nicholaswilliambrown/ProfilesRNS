@@ -1,6 +1,7 @@
 gLists.export = {
     setup: () => {
         console.log('setting up for export!');
+        gLists.currentTab = 'export';
 
         if (!gLists.export.done) {
             gLists.export.urlInitial = `${g.profilesRootURL}/Lists/Default.aspx/Export/`;

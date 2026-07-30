@@ -1,6 +1,8 @@
 gLists.savedLists = {
     setup: async () => {
         console.log('savedLists');
+        gLists.currentTab = 'savedLists';
+
         $('.modalupdate').show();
 
         let target = $('#savedDisplaySelected');

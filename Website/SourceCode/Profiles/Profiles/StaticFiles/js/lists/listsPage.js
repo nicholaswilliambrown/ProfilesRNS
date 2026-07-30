@@ -7,6 +7,7 @@ gLists.manage = {
         $('.modalupdate').hide();
 
         console.log('manage');
+        gLists.currentTab = 'manage';
 
         if (!gLists.manage.done) {
             await prepareManagePage();
@@ -26,9 +27,15 @@ async function prepareManagePage() {
     if ( ! gLists.manage.people) {
 
         let manageTabData;
-        await $.get(gCommon.viewMyListUrl + '/GetList', function(result) {
-            manageTabData = JSON.parse(result);
-        });
+        let url = new URL(window.location.href);
+        await $.get(url.origin +
+                        url.pathname.replace(/.GetList/,'') +
+                        '/GetList' +
+                        url.search,
+                    function(result) {
+                        manageTabData = JSON.parse(result);
+                    }
+        );
 
         console.log('Manage Tab, aka preLoad, data: ', manageTabData);
         gLists.manage.people = manageTabData.ListItems;
@@ -148,8 +155,8 @@ function filterSelects(people, target) {
     row.find(`#${rowId}Col0`).append(institutionSelect);
     row.find(`#${rowId}Col1`).append(facultySelect);
 
-    let institutionQp = tryMatchUrlParam(/institution=(.*?)(&|$)/);
-    let facultyQp = tryMatchUrlParam(/facultyrank=(.*?)(&|$)/);
+    let institutionQp = trySearchUrlParam('institution');
+    let facultyQp = trySearchUrlParam('facultyrank');
 
     for (let i=0; i<gLists.manage.institutions.length; i++) {
         let institution = gLists.manage.institutions[i];
@@ -184,12 +191,13 @@ function instOrFacChange(e) {
     let institutionSelect = $('#institutionSelect');
     let facultySelect = $('#facultySelect');
 
-    keys = keys.concat(['institution', 'facultyrank']);
+    keys = keys.concat(['institution', 'facultyrank', 'tab']);
 
-    let instVal = institutionSelect.val();
-    let facVal = facultySelect.val();
+    let instVal = decodeURIComponent(institutionSelect.val());
+    let facVal = decodeURIComponent(facultySelect.val());
+    let tabVal = gLists.currentTab;
 
-    vals = vals.concat([instVal, facVal]);
+    vals = vals.concat([instVal, facVal, tabVal]);
 
     filterPersonList(keys, vals);
 }
@@ -207,10 +215,7 @@ function filterPersonList(keys, vals) {
     }
     let newUrlString = encodeURI(newUrl.toString());
     if (currentUrlString != newUrlString) {
-        $.get(newUrlString, function(newList) {
-            console.log(newList);
-            result = newList;
-        })
+        window.location.href = newUrlString;
     }
     return result;
 }

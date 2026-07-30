@@ -1,6 +1,7 @@
 gLists.reports = {
     setup: () => {
         console.log('reports');
+        gLists.currentTab = 'reports';
 
         if (!gLists.reports.summaryType) {
             gLists.reports.summaryType = 'Institution';

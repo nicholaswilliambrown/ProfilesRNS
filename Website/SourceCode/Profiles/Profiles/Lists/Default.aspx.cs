@@ -9,6 +9,7 @@ using Profiles.Framework.Utilities;
 using System.Web.Script.Serialization;
 using System.Data.SqlClient;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Profiles.Lists
 {
@@ -30,7 +31,12 @@ namespace Profiles.Lists
             }
 
             string institution = (string.IsNullOrEmpty(Request.QueryString["institution"]) ? "" : Request.QueryString["institution"].ToString());
+            institution = Uri.UnescapeDataString(institution);
+            //institution = Regex.Replace(institution, @"'", "''");
+
             string facultyRank = (string.IsNullOrEmpty(Request.QueryString["facultyrank"]) ? "" : Request.QueryString["facultyrank"].ToString());
+            facultyRank = Uri.UnescapeDataString(facultyRank);
+            //facultyRank = Regex.Replace(facultyRank, @"'", "''");
 
             Utilities.DataIO.ProfilesList profilesList =
                 Profiles.Lists.Utilities.DataIO.GetPeople(institution, facultyRank);
@@ -52,14 +58,12 @@ namespace Profiles.Lists
             sessionManagement = new SessionManagement();
             Framework.Utilities.Session session = sessionManagement.Session();
 
-            string peopleJson = getListPeople();
-
             string editPropertyParams = "{}";
 
             string sessionInfo = ConfigurationHelper.GetSessionInfoJavascriptObject(session);
             string g = ConfigurationHelper.GlobalJavascriptVariablesProfilePage
                 .Replace("{tab}", "")
-                .Replace("{preLoad}", peopleJson);
+                .Replace("{preLoad}", "");
 
             string HTML = System.IO.File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "/StaticFiles/html-templates/lists.html");
             HTML = HTML.Replace("{profilesPath}", ConfigurationHelper.ProfilesRootRelativePath)

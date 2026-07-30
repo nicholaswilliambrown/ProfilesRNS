@@ -7,6 +7,11 @@ function getPersonUriFromLabel() {
     }
     return result;
 }
+function trySearchUrlParam(key) {
+    let url = new URL(window.location.href);
+    let result = decodeURIComponent(url.searchParams.get(key));
+    return result;
+}
 function tryMatchUrlParam(regex) {
     // returns $1 from regex, so make sure to set up for $1
     let wSearch = window.location.search;
@@ -16,6 +21,7 @@ function tryMatchUrlParam(regex) {
     return result;
 }
 function tryMatchPathParam(regex) {
+    // todo: use tryMatchUrlParam instead!!!
     // returns $1 from regex, so make sure to set up for $1
     let wSearch = window.location.href;
     let match = wSearch.match(regex);

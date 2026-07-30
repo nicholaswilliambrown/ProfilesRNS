@@ -1,6 +1,7 @@
 gLists.map = {
     setup: () => {
         console.log('setting up for map!');
+        gLists.currentTab = 'map';
 
         if (!gLists.map.done) {
             parseMapTabData(gLists.manage.people);

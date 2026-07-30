@@ -121,9 +121,7 @@ g.mapProviderOptions.googleLoadingDelay = 500;
 gCommon.schemaPlaceholder = "%%FOO%%";
 gCommon.schemaPlaceholder2 = "%%FOO2%%";
 
-// catalyst logout is probably closer to the following:
-// gCommon.logoutUrl = `${g.profilesPath}/profiles/logout.aspx`;
-
+if (!g.profilesPath) g.profilesPath = g.profilesRootURL;
 gCommon.loginUrlSchema = `${g.profilesPath}/Login/default.aspx?method=login&redirectto=${gCommon.schemaPlaceholder}&sessionid=`;
 gCommon.seeAllPagesAUrl = `${g.profilesPath}/history`;
 gCommon.logoutUrl = `${g.profilesPath}/login/default.aspx?method=logout&redirectto=${encodeURIComponent(g.profilesRootURL)}`;

@@ -119,7 +119,9 @@ namespace Profiles.Lists
 
                     result = GetReports(listId, summaryType);
                 }
-
+                else if (restTask == "GetList"){
+                    result = getListPeople();
+                }
                 Response.Write(result);
                 Response.End(); // nuke the page lifecycle additions
             }

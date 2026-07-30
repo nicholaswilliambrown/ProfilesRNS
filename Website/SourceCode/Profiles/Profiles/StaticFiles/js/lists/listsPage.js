@@ -25,7 +25,10 @@ async function prepareManagePage() {
 
     if ( ! gLists.manage.people) {
 
-        let manageTabData = JSON.parse(g.preLoad);
+        let manageTabData;
+        await $.get(gCommon.viewMyListUrl + '/GetList', function(result) {
+            manageTabData = JSON.parse(result);
+        });
 
         console.log('Manage Tab, aka preLoad, data: ', manageTabData);
         gLists.manage.people = manageTabData.ListItems;
@@ -188,19 +191,28 @@ function instOrFacChange(e) {
 
     vals = vals.concat([instVal, facVal]);
 
-    updateUrlMaybeReload(keys, vals);
+    filterPersonList(keys, vals);
 }
-function updateUrlMaybeReload(keys, vals) {
-    let url = new URL(window.location.href);
-    let currentUrlString = url.toString();
+function filterPersonList(keys, vals) {
+    let result = null;
 
+    let currentUrl = new URL(window.location.href);
+    let currentUrlString = encodeURI(currentUrl.toString());
+
+    let newUrl = new URL(gCommon.viewMyListUrl)
     for (let i=0; i<keys.length; i++) {
-        url.searchParams.set(keys[i], vals[i]);
+        if (String(vals[i]) != '') {
+            newUrl.searchParams.set(keys[i], vals[i]);
+        }
     }
-    let newUrlString = encodeURI(url.toString());
+    let newUrlString = encodeURI(newUrl.toString());
     if (currentUrlString != newUrlString) {
-        window.location.href = newUrlString;
+        $.get(newUrlString, function(newList) {
+            console.log(newList);
+            result = newList;
+        })
     }
+    return result;
 }
 function emitPersonRows(people, target) {
     target.empty();

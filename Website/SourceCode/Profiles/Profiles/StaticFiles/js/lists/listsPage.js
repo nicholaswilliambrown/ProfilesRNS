@@ -17,6 +17,12 @@ gLists.manage = {
 };
 
 async function prepareManagePage() {
+    // must be logged in to see lists page
+    if (!sessionInfo.userID) {
+        alert('You must be logged in to visit Lists pages.');
+        window.location.href = `${g.profilesRootURL}/Search`;
+    }
+
     if ( ! gLists.manage.people) {
 
         let manageTabData = JSON.parse(g.preLoad);
@@ -48,7 +54,7 @@ async function prepareManagePage() {
 
     hideAllTabContent();
     showThisTabContent($('#manage'));
-    parsePersonListData(gLists.manage.people, target);
+    parsePersonListData(gLists.manage.people, target, true);
 }
 
 function hideAllTabContent() {
@@ -91,9 +97,11 @@ function noPeopleOnList(target) {
                         You currently have no people in your list.
                     </div>`))
 }
-function parsePersonListData(people, target) {
+function parsePersonListData(people, target, isManage) {
+    gLists.isManage = isManage ? isManage : false;
+    let noPeople = isManage ? "manageContent" : "savedListsContent";
     if (people.length == 0) {
-        noPeopleOnList(target);
+        noPeopleOnList($(`#${noPeople}`));
     }
     else {
         emitTopOfPersonTable(people, target);
@@ -118,8 +126,10 @@ function emitTopOfPersonTable(people, target) {
 
     let colSpecs = [newColumnSpec(`${gCommon.cols4} bordE p-1`, 'Name'),
                     newColumnSpec(`${gCommon.cols4} bordE p-1`, 'Institution'),
-                    newColumnSpec(`${gCommon.cols3} bordE p-1`, 'Faculty Rank'),
-                    newColumnSpec(`${gCommon.cols1} p-1`, 'Remove')];
+                    newColumnSpec(`${gLists.isManage ? gCommon.cols3 : gCommon.cols4} bordE p-1`, 'Faculty Rank')];
+    if (gLists.isManage) {
+        colSpecs.push(newColumnSpec(`${gCommon.cols1} p-1`, 'Remove'));
+    }
     makeRowWithColumns(target, 'ListHeader', colSpecs, 'personTableHeader bord9');
 }
 function filterSelects(people, target) {
@@ -207,8 +217,10 @@ function emitPersonRows(people, target) {
 
         let colSpecs = [newColumnSpec(`${gCommon.cols4} linked bordE`, person.DisplayName),
                         newColumnSpec(`${gCommon.cols4} linked bordE`, person.InstitutionName),
-                        newColumnSpec(`${gCommon.cols3} linked bordE`, person.FacultyRank),
-                        newColumnSpec(`${gCommon.cols1} d-flex justify-content-center p-1`, removalCheckbox)];
+                        newColumnSpec(`${gLists.isManage ? gCommon.cols3 : gCommon.cols4} linked bordE`, person.FacultyRank)];
+        if (gLists.isManage) {
+            colSpecs.push(newColumnSpec(`${gCommon.cols1} d-flex justify-content-center p-1`, removalCheckbox));
+        }
 
         let row = makeRowWithColumns(target, rowId, colSpecs, 'bord9_3 personRow');
 
@@ -238,10 +250,12 @@ function emitPersonRowsAndButtons(people, outerTarget) {
 
     setupListPagination(peopleRows, people, [15, 25, 50, 100], pagingRow);
 
-    let button = $('<button class="btn gradientLists" id="removalButton">Remove Selected People</button>');
-    button.on('click', removeSelectedPersons);
-    let colSpecs2 = [newColumnSpec(`${gCommon.cols12} d-flex justify-content-end pe-0`, button)];
-    makeRowWithColumns(outerTarget, 'removalRow', colSpecs2, 'mt-1')
+    if (gLists.isManage) {
+        let button = $('<button class="btn gradientLists" id="removalButton">Remove Selected People</button>');
+        button.on('click', removeSelectedPersons);
+        let colSpecs2 = [newColumnSpec(`${gCommon.cols12} d-flex justify-content-end pe-0`, button)];
+        makeRowWithColumns(outerTarget, 'removalRow', colSpecs2, 'mt-1');
+    }
 }
 
 async function removeSelectedPersons(e) {

@@ -48,13 +48,14 @@ function setupTopNav() {
     $(`#topNav2White`).addClass(`${gCommon.cols3or12}`);
 
     //if person does not have a profile they will not see the following menu items
-    if (!sessionInfo.personNodeID>0) {
-        $("#topNav2Edit").remove();        
+    if (sessionInfo.personNodeID>0) {
+        adjustMyPersonList();
+    }
+    else {
+        $("#topNav2Edit").remove();
         $("#topNav2View").remove();
         $("#topNav2Dashboard").remove();
     }
-
-    adjustMyPersonList();
 
     topNavbar.find('div.dropdown').on("mouseenter", function (e) {
         showVsHideNavDropdown(e, true);

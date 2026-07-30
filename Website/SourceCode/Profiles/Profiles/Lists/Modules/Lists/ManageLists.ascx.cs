@@ -163,14 +163,14 @@ namespace Profiles.Lists.Modules.Lists
                             {
 
                                 case "persons":
-                                    Profiles.Lists.Utilities.DataIO.GetPersons(ListID);
+                                    Profiles.Lists.Utilities.DataIO.GetPersonsCsv(ListID);
                                     break;
 
                                 case "publications":
-                                    Profiles.Lists.Utilities.DataIO.GetPublications(ListID);
+                                    Profiles.Lists.Utilities.DataIO.GetPublicationsCsv(ListID);
                                     break;
                                 case "coconnections":
-                                    Profiles.Lists.Utilities.DataIO.GetCoauthorConnections(ListID);
+                                    Profiles.Lists.Utilities.DataIO.GetCoauthorConnectionsCsv(ListID);
                                     break;
                             }
 

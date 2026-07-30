@@ -183,13 +183,13 @@ namespace Profiles.Lists
             switch (flavor)
             {
                 case "People":
-                    Profiles.Lists.Utilities.DataIO.GetPersons(listId);
+                    Profiles.Lists.Utilities.DataIO.GetPersonsCsv(listId);
                     break;
                 case "Publications":
-                    Profiles.Lists.Utilities.DataIO.GetPublications(listId);
+                    Profiles.Lists.Utilities.DataIO.GetPublicationsCsv(listId);
                     break;
                 case "Connections":
-                    Profiles.Lists.Utilities.DataIO.GetCoauthorConnections(listId);
+                    Profiles.Lists.Utilities.DataIO.GetCoauthorConnectionsCsv(listId);
                     break;
             }
         }

@@ -564,7 +564,7 @@ namespace Profiles.Lists.Utilities
 
             }
         }
-        public static void GetPersons(string listid)
+        public static void GetPersonsCsv(string listid)
         {
             StringBuilder data = new StringBuilder();
             Framework.Utilities.DataIO dataio = new Framework.Utilities.DataIO();
@@ -602,7 +602,7 @@ namespace Profiles.Lists.Utilities
             }
 
         }
-        public static void GetPublications(string listid)
+        public static void GetPublicationsCsv(string listid)
         {
             StringBuilder data = new StringBuilder();
             Framework.Utilities.DataIO dataio = new Framework.Utilities.DataIO();
@@ -640,7 +640,7 @@ namespace Profiles.Lists.Utilities
             }
 
         }
-        public static void GetCoauthorConnections(string listid)
+        public static void GetCoauthorConnectionsCsv(string listid)
         {
             StringBuilder data = new StringBuilder();
             Framework.Utilities.DataIO dataio = new Framework.Utilities.DataIO();

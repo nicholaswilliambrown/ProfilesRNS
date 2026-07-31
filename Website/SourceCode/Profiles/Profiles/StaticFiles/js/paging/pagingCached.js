@@ -1,6 +1,6 @@
 
 // es5 style. If es6 widespread enough, could use nicer 'class' syntax
-function PagingCached(allTheItems, sizes, displayFn, itemsTarget, pagingTarget) {
+function PagingCached(allTheItems, sizes, displayFn, itemsTarget, pagingTarget, label) {
     this.allTheItems = allTheItems;
     this.currentPageSize = sizes[0];
     this.currentOffset = 0;
@@ -8,6 +8,7 @@ function PagingCached(allTheItems, sizes, displayFn, itemsTarget, pagingTarget) 
     this.displayFn = displayFn;
     this.itemsTarget = itemsTarget;
     this.pagingTarget = pagingTarget;
+    this.label = label;
 }
 PagingCached.prototype.gotoPage = function(pageNum) {
     this.currentOffset = (pageNum - 1) * this.currentPageSize;
@@ -26,7 +27,7 @@ PagingCached.prototype.emitPagingRow = function() {
         newColumnSpec(`${gCommon.cols5or12} pt-1 ps-4 ms-3`)
     ];
 
-    let rowIdPrefix = `paging`;
+    let rowIdPrefix = `paging`+this.label;
     $(`#${rowIdPrefix}Row`).remove();
 
     let row = makeRowWithColumns(this.pagingTarget, rowIdPrefix, colspecs);
@@ -47,7 +48,7 @@ PagingCached.prototype.emitPerPageDropdown = function(columnTarget) {
     let that = this;
 
     let label = $('<label for="pageSizeSelect" class="mt-1">Per Page </label>');
-    let pageSizeSelect = $('<select class="ms-1 mb-1" id="pageSizeSelect"></select>');
+    let pageSizeSelect = $(`<select class="ms-1 mb-1" id="pageSizeSelect-${this.label}"></select>`);
 
     columnTarget.append(label);
     columnTarget.append(pageSizeSelect);
@@ -99,7 +100,7 @@ PagingCached.prototype.emitPageOfAndTotalPages = function(pageOfColumn, currentP
     let that = this; // for embedded fns
 
     let labelB4 = $('<label for="pageNum" class="mt-1">Page </label>')
-    let input = $('<input class="ms-1 me-1 mb-1 pageNumInput" id="pageNum"/>');
+    let input = $(`<input class="ms-1 me-1 mb-1 pageNumInput" id="pageNum-${this.label}"/>`);
     let labelF2 = $('<label for="pageNum" class="mt-1"> of </label>');
 
     let numPages = this.getNumPages();
@@ -127,28 +128,28 @@ PagingCached.prototype.emitPageOfAndTotalPages = function(pageOfColumn, currentP
 PagingCached.prototype.emitPrevNext = function(columnTarget) {
     let that = this; // for embedded functions
 
-    let prevLabel = $(`<span id="prevLabel">
+    let prevLabel = $(`<span id="prevLabel-${this.label}">
                             <span class="ms-2 link-ish prevNext mt-1 tableHeaderPagingRow">Prev</span>
                             <span class="ms-2 disablePageNav prevNext mt-1">Prev</span>
                     </span>`);
-    let nextLabel = $(`<span id="nextLabel">
+    let nextLabel = $(`<span id="nextLabel-${this.label}">
                             <span class="ms-2 link-ish prevNext mt-1 tableHeaderPagingRow">Next</span>
                             <span class="ms-2 disablePageNav prevNext mt-1">Next</span>
                     </span>`);
 
-    let first = $(`<span id="first">
+    let first = $(`<span id="first-${this.label}">
                     <img alt="arrowFirst" class="link-ish prevNext tableHeaderPagingRow" src="${gBrandingConstants.jsPagingImageFiles}arrow_first.gif">
                     <img alt="arrowFirst" class="disablePageNav prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_first_d.gif">
                 </span>`);
-    let last =  $(`<span id="last">
+    let last =  $(`<span id="last-${this.label}">
                     <img alt="arrowLast" class="ms-2 link-ish prevNext tableHeaderPagingRow" src="${gBrandingConstants.jsPagingImageFiles}arrow_last.gif">
                     <img alt="arrowLast" class="ms-2 disablePageNav prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_last_d.gif">
                 </span>`);
-    let prev =  $(`<span id="prev">
+    let prev =  $(`<span id="prev-${this.label}">
                     <img alt="arrowPrevious" class="ms-2 link-ish prevNext tableHeaderPagingRow" src="${gBrandingConstants.jsPagingImageFiles}arrow_prev.gif">
                     <img alt="arrowPrevious" class="ms-2 disablePageNav prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_prev_d.gif">
                 </span>`);
-    let next =  $(`<span id="next">
+    let next =  $(`<span id="next-${this.label}">
                     <img alt="arrowNext" class="ms-2 link-ish prevNext tableHeaderPagingRow" src="${gBrandingConstants.jsPagingImageFiles}arrow_next.gif">
                     <img alt="arrowNext" class="ms-2 disablePageNav prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_next_d.gif">
                 </span>`);

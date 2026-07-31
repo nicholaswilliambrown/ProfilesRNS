@@ -118,18 +118,17 @@ function parsePersonListData(people, target, isManage) {
         noPeopleOnList($(`#${noPeopleTarget}`));
     }
     else {
-        let label = isManage ? 'manage' : 'saved';
-        emitTopOfPersonTable(people, target, label);
-        emitPersonRowsAndButtons(people, target, label);
+        emitTopOfPersonTable(people, target, isManage);
+        emitPersonRowsAndButtons(people, target, isManage);
     }
 }
 
-function setupListPagination(itemsTarget, people, pageSizes, pagingTarget) {
-    let pagination = new PagingCached(people, pageSizes, emitPersonRows, itemsTarget, pagingTarget);
+function setupListPagination(itemsTarget, people, pageSizes, pagingTarget, label) {
+    let pagination = new PagingCached(people, pageSizes, emitPersonRows, itemsTarget, pagingTarget, label);
     pagination.display(itemsTarget);
     pagination.emitPagingRow(pagingTarget);
 }
-function emitTopOfPersonTable(people, target, label) {
+function  emitTopOfPersonTable(people, target, isManage) {
     if (gCommon.numPersons != 1) { // == 1 is default html
         let currentNumText = `are currently <span class="redBold">${gCommon.numPersons}</span> people`;
         let allPeopleShownText = `all ${gCommon.numPersons} people shown`
@@ -137,26 +136,30 @@ function emitTopOfPersonTable(people, target, label) {
         $('#currentNum').html(currentNumText);
         $('#allPeopleShown').html(allPeopleShownText);
     }
-    filterSelects(people, target, label);
+
+    if (isManage) {
+        filterSelects(people, target, isManage);
+    }
 
     let colSpecs = [newColumnSpec(`${gCommon.cols4} bordE p-1`, 'Name'),
-                    newColumnSpec(`${gCommon.cols4} bordE p-1`, 'Institution'),
-                    newColumnSpec(`${gLists.isManage ? gCommon.cols3 : gCommon.cols4} bordE p-1`, 'Faculty Rank')];
-    if (gLists.isManage) {
+            newColumnSpec(`${gCommon.cols4} bordE p-1`, 'Institution'),
+            newColumnSpec(`${isManage ? gCommon.cols3 : gCommon.cols4} bordE p-1`, 'Faculty Rank')];
+    if (isManage) {
         colSpecs.push(newColumnSpec(`${gCommon.cols1} p-1`, 'Remove'));
     }
-    makeRowWithColumns(target, 'ListHeader'+label, colSpecs, 'personTableHeader bord9');
+
+    makeRowWithColumns(target, 'ListHeader', colSpecs, 'personTableHeader bord9');
 }
-function filterSelects(people, target, label) {
+function filterSelects(people, target) {
     let colSpecs0 = [   newColumnSpec(`${gCommon.cols6}`, 'Institution'),
                         newColumnSpec(`${gCommon.cols4}`, 'Faculty Rank'),
                         newColumnSpec(`${gCommon.cols2}`, '')];
 
-    let rowId = 'filterSelects'+label;
+    let rowId = 'filterSelects';
     let row = makeRowWithColumns(target, rowId, colSpecs0, 'bold mb-2');
 
-    let institutionSelect = $(`<select id="institutionSelect${label}" class="ms-1"><option value="">(all institutions)</option></select>`);
-    let facultySelect = $(`<select id="facultySelect${label}" class="ms-1"><option value="">(all faculty ranks)</option></select>`);
+    let institutionSelect = $(`<select id="institutionSelect" class="ms-1"><option value="">(all institutions)</option></select>`);
+    let facultySelect = $(`<select id="facultySelect" class="ms-1"><option value="">(all faculty ranks)</option></select>`);
     row.find(`#${rowId}Col0`).append(institutionSelect);
     row.find(`#${rowId}Col1`).append(facultySelect);
 
@@ -233,7 +236,7 @@ function emitPersonRows(people, target) {
             person.FacultyRank = gLists.noRank;
         }
 
-        let rowId = 'person' + i + gLists.currentTab; // gLists is alternative to passing label as param
+        let rowId = 'person' + i;
         let checkboxId = `${rowId}-removalCheck`;
         let removalCheckbox = $(`<input type="checkbox" pid="${person.PersonID}" class="removalCheck" id="${checkboxId}"/>`);
 
@@ -253,12 +256,12 @@ function emitPersonRows(people, target) {
         row.find(`.linked`).on('click', linkFn);
     }
 }
-function emitPersonRowsAndButtons(people, outerTarget, label) {
-    let peopleRows = $(`<div id="peopleRows${label}"></div>`);
+function emitPersonRowsAndButtons(people, outerTarget, isManage) {
+    let peopleRows = $(`<div id="peopleRows"></div>`);
     outerTarget.append(peopleRows);
 
     let colSpecs = [newColumnSpec(`${gCommon.cols12} d-flex justify-content-center`)];
-    let pagingRow = makeRowWithColumns(outerTarget, 'pagingRow'+label, colSpecs, 'bord9_3 pt-1 pb-1');
+    let pagingRow = makeRowWithColumns(outerTarget, 'pagingRow', colSpecs, 'bord9_3 pt-1 pb-1');
 
     let debug = 1;
     if (debug) {
@@ -270,9 +273,9 @@ function emitPersonRowsAndButtons(people, outerTarget, label) {
         }
     }
 
-    setupListPagination(peopleRows, people, [15, 25, 50, 100], pagingRow);
+    setupListPagination(peopleRows, people, [15, 25, 50, 100], pagingRow, gLists.currentTab);
 
-    if (gLists.isManage) {
+    if (isManage) {
         let button = $('<button class="btn gradientLists" id="removalButton">Remove Selected People</button>');
         button.on('click', removeSelectedPersons);
         let colSpecs2 = [newColumnSpec(`${gCommon.cols12} d-flex justify-content-end pe-0`, button)];

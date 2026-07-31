@@ -5,9 +5,12 @@ gLists.savedLists = {
 
         $('.modalupdate').show();
 
-        let target = $('#savedDisplaySelected');
-        target.empty();
-        parsePersonListData(gLists.manage.people, target);
+        if (!gLists.savedLists.done) {
+            let target = $('#savedDisplaySelected');
+            target.empty();
+            parsePersonListData(gLists.manage.people, target);
+            gLists.savedLists.done = true;
+        }
 
         $('.modalupdate').hide();
     }

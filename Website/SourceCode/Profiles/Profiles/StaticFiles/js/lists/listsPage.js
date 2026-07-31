@@ -4,6 +4,8 @@ let gLists = {};
 gLists.noRank = '--';
 gLists.manage = {
     setup: async () => {
+        await loginGuard();
+
         $('.modalupdate').hide();
 
         console.log('manage');
@@ -16,13 +18,15 @@ gLists.manage = {
         }
     }
 };
-
-async function prepareManagePage() {
+async function loginGuard() {
     // must be logged in to see lists page
     if (!sessionInfo.userID) {
-        alert('You must be logged in to visit Lists pages.');
+        await $('body').empty();
+        console.log('You must be logged in to visit Lists pages.');
         window.location.href = `${g.profilesRootURL}/Search`;
     }
+}
+async function prepareManagePage() {
 
     if ( ! gLists.manage.people) {
 
@@ -109,13 +113,14 @@ function noPeopleOnList(target) {
 }
 function parsePersonListData(people, target, isManage) {
     gLists.isManage = isManage ? isManage : false;
-    let noPeople = isManage ? "manageContent" : "savedListsContent";
+    let noPeopleTarget = isManage ? "manageContent" : "savedListsContent";
     if (people.length == 0) {
-        noPeopleOnList($(`#${noPeople}`));
+        noPeopleOnList($(`#${noPeopleTarget}`));
     }
     else {
-        emitTopOfPersonTable(people, target);
-        emitPersonRowsAndButtons(people, target);
+        let label = isManage ? 'manage' : 'saved';
+        emitTopOfPersonTable(people, target, label);
+        emitPersonRowsAndButtons(people, target, label);
     }
 }
 
@@ -124,7 +129,7 @@ function setupListPagination(itemsTarget, people, pageSizes, pagingTarget) {
     pagination.display(itemsTarget);
     pagination.emitPagingRow(pagingTarget);
 }
-function emitTopOfPersonTable(people, target) {
+function emitTopOfPersonTable(people, target, label) {
     if (gCommon.numPersons != 1) { // == 1 is default html
         let currentNumText = `are currently <span class="redBold">${gCommon.numPersons}</span> people`;
         let allPeopleShownText = `all ${gCommon.numPersons} people shown`
@@ -132,7 +137,7 @@ function emitTopOfPersonTable(people, target) {
         $('#currentNum').html(currentNumText);
         $('#allPeopleShown').html(allPeopleShownText);
     }
-    filterSelects(people, target);
+    filterSelects(people, target, label);
 
     let colSpecs = [newColumnSpec(`${gCommon.cols4} bordE p-1`, 'Name'),
                     newColumnSpec(`${gCommon.cols4} bordE p-1`, 'Institution'),
@@ -140,18 +145,18 @@ function emitTopOfPersonTable(people, target) {
     if (gLists.isManage) {
         colSpecs.push(newColumnSpec(`${gCommon.cols1} p-1`, 'Remove'));
     }
-    makeRowWithColumns(target, 'ListHeader', colSpecs, 'personTableHeader bord9');
+    makeRowWithColumns(target, 'ListHeader'+label, colSpecs, 'personTableHeader bord9');
 }
-function filterSelects(people, target) {
+function filterSelects(people, target, label) {
     let colSpecs0 = [   newColumnSpec(`${gCommon.cols6}`, 'Institution'),
                         newColumnSpec(`${gCommon.cols4}`, 'Faculty Rank'),
                         newColumnSpec(`${gCommon.cols2}`, '')];
 
-    let rowId = 'filterSelects';
+    let rowId = 'filterSelects'+label;
     let row = makeRowWithColumns(target, rowId, colSpecs0, 'bold mb-2');
 
-    let institutionSelect = $('<select id="institutionSelect" class="ms-1"><option value="">(all institutions)</option></select>');
-    let facultySelect = $('<select id="facultySelect" class="ms-1"><option value="">(all faculty ranks)</option></select>');
+    let institutionSelect = $(`<select id="institutionSelect${label}" class="ms-1"><option value="">(all institutions)</option></select>`);
+    let facultySelect = $(`<select id="facultySelect${label}" class="ms-1"><option value="">(all faculty ranks)</option></select>`);
     row.find(`#${rowId}Col0`).append(institutionSelect);
     row.find(`#${rowId}Col1`).append(facultySelect);
 
@@ -228,7 +233,7 @@ function emitPersonRows(people, target) {
             person.FacultyRank = gLists.noRank;
         }
 
-        let rowId = 'person' + i;
+        let rowId = 'person' + i + gLists.currentTab; // gLists is alternative to passing label as param
         let checkboxId = `${rowId}-removalCheck`;
         let removalCheckbox = $(`<input type="checkbox" pid="${person.PersonID}" class="removalCheck" id="${checkboxId}"/>`);
 
@@ -248,12 +253,12 @@ function emitPersonRows(people, target) {
         row.find(`.linked`).on('click', linkFn);
     }
 }
-function emitPersonRowsAndButtons(people, outerTarget) {
-    let peopleRows = $('<div id="peopleRows"></div>');
+function emitPersonRowsAndButtons(people, outerTarget, label) {
+    let peopleRows = $(`<div id="peopleRows${label}"></div>`);
     outerTarget.append(peopleRows);
 
     let colSpecs = [newColumnSpec(`${gCommon.cols12} d-flex justify-content-center`)];
-    let pagingRow = makeRowWithColumns(outerTarget, 'pagingRow', colSpecs, 'bord9_3 pt-1 pb-1');
+    let pagingRow = makeRowWithColumns(outerTarget, 'pagingRow'+label, colSpecs, 'bord9_3 pt-1 pb-1');
 
     let debug = 1;
     if (debug) {

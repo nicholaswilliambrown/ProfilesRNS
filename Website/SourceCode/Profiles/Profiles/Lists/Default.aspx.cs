@@ -100,6 +100,12 @@ namespace Profiles.Lists
                     string newSize = DeleteSelected(listId, personIds);
                     result = serializer.Serialize("{newListSize: '" + newSize + "' }");
                }
+                else if (restTask == "Save") {
+                    string name = Request.QueryString["name"].ToString();
+                    if ( ! string.IsNullOrEmpty(name)) {
+                        Save(listId, name);
+                    }
+               }
                 else if (restTask == "AddCoauthors") {
                     AddCoauthors();
                }
@@ -111,6 +117,16 @@ namespace Profiles.Lists
                 }
                 else if (restTask == "Cluster") {
                     result = GetCluster(listId);
+                }
+                else if (restTask == "SavedLists") {
+                    if (len > 4) {
+                        string flavor = restSegments[4];
+                        //SavedListsTask(listId, flavor);
+                    }
+                    else {
+                        List<Profiles.Lists.Utilities.DataIO.ProfilesList> lists = GetSavedLists();
+                        result = serializer.Serialize(lists);
+                    }
                 }
                 else if (restTask == "Export" && len > 4) {
                     string flavor = restSegments[4];
@@ -201,6 +217,12 @@ namespace Profiles.Lists
         }
 
         [System.Web.Services.WebMethod]
+        public static List<Profiles.Lists.Utilities.DataIO.ProfilesList> GetSavedLists()
+        {
+            return Profiles.Lists.Utilities.DataIO.GetLists();
+        }
+
+        [System.Web.Services.WebMethod]
         public static string GetReports(string listId, string summaryType)
         {
             return Profiles.Lists.Utilities.DataIO.GetSummary(listId, summaryType);
@@ -208,9 +230,9 @@ namespace Profiles.Lists
 
         //AddUpdateList Proc
         [System.Web.Services.WebMethod]
-        public static void Save(string listid, string name)
+        public static void Save(string listId, string name)
         {
-            Profiles.Lists.Utilities.DataIO.AddUpdateList("Save", listid, name);
+            Profiles.Lists.Utilities.DataIO.AddUpdateList("Save", listId, name);
         }
 
         [System.Web.Services.WebMethod]

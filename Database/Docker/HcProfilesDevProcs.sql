@@ -1,3 +1,6 @@
+USE HCProfileOpenSource_Localhost;
+GO
+
 CREATE PROCEDURE [Profile.Data].[List.AddRemove.CoAuthors]
 	@UserID int,
 	@Action varchar(55),

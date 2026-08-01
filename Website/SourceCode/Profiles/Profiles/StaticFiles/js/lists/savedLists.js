@@ -12,8 +12,8 @@ gLists.savedLists = {
 
             let url = `${g.profilesRootURL}/Lists/Default.aspx/SavedLists`;
             await $.get(url, function(result) {
-                gLists.savedLists.data = result;
-                console.log('Saved Lists: ', result);
+                gLists.savedLists.data = JSON.parse(result);
+                console.log('Saved Lists: ', gLists.savedLists.data);
             });
 
             $('#saveButton').on('click', function() {

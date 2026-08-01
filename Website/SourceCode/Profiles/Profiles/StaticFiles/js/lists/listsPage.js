@@ -31,15 +31,13 @@ async function prepareManagePage() {
     if ( ! gLists.manage.people) {
 
         let manageTabData;
-        let url = new URL(window.location.href);
-        await $.get(url.origin +
-                        url.pathname.replace(/.GetList/,'') +
-                        '/GetList' +
-                        url.search,
-                    function(result) {
-                        manageTabData = JSON.parse(result);
-                    }
-        );
+        let currentUrl = new URL(window.location.href);
+        let listUrl = new URL(`${g.profilesRootURL}/Lists/Default.aspx/GetList`);
+        listUrl.search = currentUrl.search;
+
+        await $.get(listUrl.toString(), function(result) {
+            manageTabData = JSON.parse(result);
+        });
 
         console.log('Manage Tab, aka preLoad, data: ', manageTabData);
         gLists.manage.people = manageTabData.ListItems;

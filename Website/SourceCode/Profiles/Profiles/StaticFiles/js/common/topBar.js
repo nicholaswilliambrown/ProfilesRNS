@@ -200,8 +200,19 @@ function populateHistoryDropdown() {
     let dropdownHeader = ul.closest('.nav-item').find('.nav-link');
     dropdownHeader.html(historyHtml);
 }
+async function getCurrentListSize() {
+    let num = gCommon.numPersons;
+    let listUrl = new URL(`${g.profilesRootURL}/Lists/Default.aspx/GetList`);
+    await $.get(listUrl.toString(), function(result) {
+        let listData = JSON.parse(result);
+        num = listData.ListItems.length;
+    });
+    return num;
+}
 // for logged-in topBars
-function adjustMyPersonList() {
+async function adjustMyPersonList() {
+    gCommon.numPersons = await getCurrentListSize();
+
     $('#nav2Persons1').html(`My Person List (${gCommon.numPersons})`);
 
     // todo: we might have more granular semantics based on 'this person'

@@ -98,7 +98,7 @@ function makeAccordionDiv(accordionId, buttonText, nestingOption) {
     return { outerDiv: accordionOuterDiv, payload: accordionBody };
 }
 function makeAccordionHeaderRow(target, accordionHeader, idLabel) {
-    colSpecs = [
+    let colSpecs = [
         newColumnSpec(`${gCommon.cols6}`),
         newColumnSpec(`${gCommon.cols5}`),
         newColumnSpec(`${gCommon.cols1} d-flex justify-content-end`)

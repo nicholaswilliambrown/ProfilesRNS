@@ -100,6 +100,14 @@ namespace Profiles.Lists
                     string newSize = DeleteSelected(listId, personIds);
                     result = serializer.Serialize("{newListSize: '" + newSize + "' }");
                }
+                else if (restTask == "DeleteSelectedSaved") {
+                    string listIdString = Request.Form["lids"].ToString();
+                    List<string> listIds = listIdString.Split(',').ToList();
+
+                    foreach (string lid in listIds) {
+                        Lists.Utilities.DataIO.AddUpdateList("Delete", lid, "");
+                    }
+               }
                 else if (restTask == "Save") {
                     string name = Request.QueryString["name"].ToString();
                     if ( ! string.IsNullOrEmpty(name)) {

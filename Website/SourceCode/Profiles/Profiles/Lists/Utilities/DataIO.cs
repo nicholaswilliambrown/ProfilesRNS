@@ -165,8 +165,6 @@ namespace Profiles.Lists.Utilities
 
         }
 
-
-        //replace this method so the 
         public static string GetListCount()
         {
             SessionManagement sm = new SessionManagement();
@@ -925,7 +923,7 @@ namespace Profiles.Lists.Utilities
                 name = "New Person List (" + DateTime.Now.ToShortDateString() + ")";
 
             SessionManagement sm = new SessionManagement();
-
+            int userId = sm.Session().UserID;
 
             Framework.Utilities.DataIO dataio = new Framework.Utilities.DataIO();
             using (SqlConnection sqlconnection = new SqlConnection(dataio.GetConnectionString()))
@@ -943,7 +941,7 @@ namespace Profiles.Lists.Utilities
                 cmd.Parameters.Add(parm);
                 parm = new SqlParameter("@UserID", SqlDbType.Int);
                 parm.Direction = ParameterDirection.Input;
-                parm.Value = sm.Session().UserID;
+                parm.Value = userId;
                 cmd.Parameters.Add(parm);
                 parm = new SqlParameter("@Name", SqlDbType.VarChar);
                 parm.Direction = ParameterDirection.Input;

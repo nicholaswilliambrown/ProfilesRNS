@@ -57,7 +57,7 @@ async function prepareManagePage() {
     let tabs = $('#mainTabs');
     moveContentTo(tabs, main);
 
-    $('.nav-item').on('click', adjustTab);
+    $('.nav-item').on('click', adjustToClickedTab);
     $('#removeAll').on('click', removeAllPersons);
     $('#replaceWithCoauthors').on('click', replaceWithCoauthors);
     $('#addCoauthors').on('click', addCoauthors);
@@ -67,6 +67,11 @@ async function prepareManagePage() {
     hideAllTabContent();
     showThisTabContent($('#manage'));
     parsePersonListData(gLists.manage.people, target, true);
+
+    let tab = trySearchUrlParam('tab');
+    if (tab) {
+        $(`#${tab}`).click();
+    }
 }
 
 function hideAllTabContent() {
@@ -87,7 +92,7 @@ function showThisTabContent(spanTarget) {
 
     return tabFlavor;
 }
-function adjustTab(e) {
+function adjustToClickedTab(e) {
     let target = $(e.target);
     let spanTarget = target.find('span');
     if (!spanTarget.length) { // presumably b/c target is a span and find() looks at children, not self
@@ -121,7 +126,7 @@ function parsePersonListData(people, target, isManage) {
     }
 }
 
-function setupListPagination(itemsTarget, people, pageSizes, pagingTarget, label) {
+function setupListAndPagination(itemsTarget, people, pageSizes, pagingTarget, label) {
     let pagination = new PagingCached(people, pageSizes, emitPersonRows, itemsTarget, pagingTarget, label);
     pagination.display(itemsTarget);
     pagination.emitPagingRow(pagingTarget);
@@ -271,10 +276,10 @@ function emitPersonRowsAndButtons(people, outerTarget, isManage) {
         }
     }
 
-    setupListPagination(peopleRows, people, [15, 25, 50, 100], pagingRow, gLists.currentTab);
+    setupListAndPagination(peopleRows, people, [15, 25, 50, 100], pagingRow, gLists.currentTab);
 
     if (isManage) {
-        let button = $('<button class="btn gradientLists" id="removalButton">Remove Selected People</button>');
+        let button = $(`<button class="btn gradientLists" id="removalButton">Remove Selected People</button>`);
         button.on('click', removeSelectedPersons);
         let colSpecs2 = [newColumnSpec(`${gCommon.cols12} d-flex justify-content-end pe-0`, button)];
         makeRowWithColumns(outerTarget, 'removalRow', colSpecs2, 'mt-1');

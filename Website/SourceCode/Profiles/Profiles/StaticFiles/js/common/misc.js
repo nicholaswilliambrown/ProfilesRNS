@@ -10,6 +10,10 @@ function getPersonUriFromLabel() {
 function trySearchUrlParam(key) {
     let url = new URL(window.location.href);
     let result = decodeURIComponent(url.searchParams.get(key));
+
+    // um...
+    if (result == 'null') result = '';
+
     return result;
 }
 function tryMatchUrlParam(regex) {

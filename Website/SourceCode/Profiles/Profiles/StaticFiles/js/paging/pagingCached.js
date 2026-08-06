@@ -30,7 +30,7 @@ PagingCached.prototype.emitPagingRow = function() {
     let rowIdPrefix = `paging`+this.label;
     $(`#${rowIdPrefix}Row`).remove();
 
-    let row = makeRowWithColumns(this.pagingTarget, rowIdPrefix, colspecs);
+    let row = makeRowWithColumns(this.pagingTarget, rowIdPrefix, colspecs, " myMs-0");
     let col1 = row.find(`#${rowIdPrefix}Col0`);
     let col2 = row.find(`#${rowIdPrefix}Col1`);
     let col3 = row.find(`#${rowIdPrefix}Col2`);

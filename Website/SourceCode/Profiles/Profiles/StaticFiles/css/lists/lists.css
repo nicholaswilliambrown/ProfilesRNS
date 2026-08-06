@@ -5,7 +5,7 @@
 .bordBottom {
     border-bottom: 1px solid lightgrey !important;
 }
-.personTableHeader {
+.listsTableHeader {
     background-color: #EEEBE5;
     font-weight: bold;
 }
@@ -30,7 +30,7 @@
 .pageNumInput {
     width: 23px;
 }
-.personRow:hover {
+.highlightHover:hover {
     background-color: #14274f;
     color: white;
 }
@@ -73,4 +73,7 @@
     height: 128px;
     width: 128px;
     margin-bottom:18px;
+}
+.myMs-0 {
+    margin-left: 0 !important;
 }

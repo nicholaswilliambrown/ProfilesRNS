@@ -14,11 +14,7 @@ gLists.savedLists = {
                 console.log('Saved Lists: ', gLists.savedLists.data);
             });
 
-            emitSavedListQuasiButtons(target);
             parseSavedListData(target);
-
-            target.append($('<hr/>'));
-
             parsePersonListData(gLists.manage.people, target);
 
             $('#saveButton').on('click', saveCurrentList);
@@ -29,45 +25,35 @@ gLists.savedLists = {
         $('.modalupdate').hide();
     }
 };
-function saveCurrentList() {
-    let name = $('#saveName').val();
-    let url = `${g.profilesRootURL}/Lists/Default.aspx/Save?name=${name}`;
-    $.get(url, function() {
-        console.log('List: ', name, ' saved');
-        refreshToCurrentTab();
-    })
-}
-function emitSavedListQuasiButtons(target) {
-    let quasiButtonsDiv = $('<div id="quasiButtonsDiv"></div>');
-    let spanDelete = $('<span id ="spanDelete" class="link-ish">Delete Selected</span>');
-    spanDelete.on('click', removeSelectedLists);
-    quasiButtonsDiv.append(spanDelete);
-    target.append(quasiButtonsDiv);
-}
 function parseSavedListData(target) {
     let saves = gLists.savedLists.data;
-    let vals =
-        [   'Person List',
-            'People',
-            'Created Date',
-            'Updated Date',
-            'Select' ];
-    let colSpecs = makeColSpecsSaves(vals);
-    makeRowWithColumns(target, 'SavedListsHeader', colSpecs, 'personTableHeader bord9');
+    let numSaves = saves.length;
+    if (numSaves) {
+        emitSavedListQuasiButtons(target);
+        let vals =
+            ['Person List',
+                'People',
+                'Created Date',
+                'Updated Date',
+                'Select'];
+        let colSpecs = makeColSpecsSaves(vals);
+        makeRowWithColumns(target, 'SavedListsHeader', colSpecs, 'listsTableHeader bord9 myMs-0');
 
-    for (let i=0; i<saves.length; i++) {
-        let s = saves[i];
-        let id = 'savedList' + i;
+        for (let i = 0; i < saves.length; i++) {
+            let s = saves[i];
+            let id = 'savedList' + i;
 
-        let removalCheckbox = $(`<input type="checkbox" lid="${s.ListID}" class="saveRemovalCheck"/>`);
+            let removalCheckbox = $(`<input type="checkbox" lid="${s.ListID}" class="listSelectlCheck"/>`);
 
-        vals = [    `${s.ListName} (${s.ListID})`,
+            vals = [s.ListName,
                     s.Size,
                     s.CreateDate,
                     s.UpdatedDate,
                     removalCheckbox];
-        colSpecs = makeColSpecsSaves(vals);
-        makeRowWithColumns(target, id, colSpecs, 'personTableHeader bord9');
+            colSpecs = makeColSpecsSaves(vals);
+            makeRowWithColumns(target, id, colSpecs, 'bord9 highlightHover myMs-0');
+        }
+        target.append($('<hr/>'));
     }
 }
 function makeColSpecsSaves(vals) {
@@ -78,31 +64,4 @@ function makeColSpecsSaves(vals) {
         newColumnSpec(`${gCommon.cols1} p-1`,                   vals[4])
     ];
     return colSpecs;
-}
-async function removeSelectedLists(e) {
-    e.preventDefault();
-    let url = `${g.profilesRootURL}/Lists/Default.aspx/DeleteSelectedSaved`
-    let selected = $(`.saveRemovalCheck:checked`);
-    let selectedLids = [];
-    selected.each(function () {
-        let lid = $(this).attr('lid');
-        selectedLids.push(lid);
-    });
-    let stringLids = selectedLids.join(',');
-    console.log(`Want to remove: `, stringLids);
-
-    let dataObject = {
-        lids: stringLids,
-    };
-
-    await $.post(url, dataObject)
-        .fail(xhrFail);
-
-    refreshToCurrentTab();
-}
-function refreshToCurrentTab() {
-    let refreshUrl = new URL(window.location.href);
-    refreshUrl.searchParams.set('tab', gLists.currentTab);
-
-    window.location.href = refreshUrl.toString();
 }

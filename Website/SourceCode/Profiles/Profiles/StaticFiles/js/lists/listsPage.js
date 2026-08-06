@@ -121,6 +121,10 @@ function parsePersonListData(people, target, isManage) {
         noPeopleOnList($(`#${noPeopleTarget}`));
     }
     else {
+        if (!isManage) {
+            target.append($('<div class="bold ps-0 ms-0">My Current List</div>'));
+        }
+
         emitTopOfPersonTable(people, target, isManage);
         emitPersonRowsAndButtons(people, target, isManage);
     }
@@ -151,7 +155,7 @@ function  emitTopOfPersonTable(people, target, isManage) {
         colSpecs.push(newColumnSpec(`${gCommon.cols1} p-1`, 'Remove'));
     }
 
-    makeRowWithColumns(target, 'ListHeader', colSpecs, 'personTableHeader bord9');
+    makeRowWithColumns(target, 'ListHeader', colSpecs, 'listsTableHeader bord9 myMs-0');
 }
 function filterSelects(people, target) {
     let colSpecs0 = [   newColumnSpec(`${gCommon.cols6}`, 'Institution'),
@@ -159,7 +163,7 @@ function filterSelects(people, target) {
                         newColumnSpec(`${gCommon.cols2}`, '')];
 
     let rowId = 'filterSelects';
-    let row = makeRowWithColumns(target, rowId, colSpecs0, 'bold mb-2');
+    let row = makeRowWithColumns(target, rowId, colSpecs0, 'bold mb-2 myMs-0');
 
     let institutionSelect = $(`<select id="institutionSelect" class="ms-1"><option value="">(all institutions)</option></select>`);
     let facultySelect = $(`<select id="facultySelect" class="ms-1"><option value="">(all faculty ranks)</option></select>`);
@@ -250,7 +254,7 @@ function emitPersonRows(people, target) {
             colSpecs.push(newColumnSpec(`${gCommon.cols1} d-flex justify-content-center p-1`, removalCheckbox));
         }
 
-        let row = makeRowWithColumns(target, rowId, colSpecs, 'bord9_3 personRow');
+        let row = makeRowWithColumns(target, rowId, colSpecs, 'bord9_3 highlightHover myMs-0');
 
         let profileLink = `${g.profilesRootURL}/display/${person.NodeID}`;
         let linkFn = () => {
@@ -264,7 +268,7 @@ function emitPersonRowsAndButtons(people, outerTarget, isManage) {
     outerTarget.append(peopleRows);
 
     let colSpecs = [newColumnSpec(`${gCommon.cols12} d-flex justify-content-center`)];
-    let pagingRow = makeRowWithColumns(outerTarget, 'pagingRow', colSpecs, 'bord9_3 pt-1 pb-1');
+    let pagingRow = makeRowWithColumns(outerTarget, 'pagingRow', colSpecs, 'bord9_3 pt-1 pb-1 myMs-0');
 
     let debug = 1;
     if (debug) {
@@ -282,7 +286,7 @@ function emitPersonRowsAndButtons(people, outerTarget, isManage) {
         let button = $(`<button class="btn gradientLists" id="removalButton">Remove Selected People</button>`);
         button.on('click', removeSelectedPersons);
         let colSpecs2 = [newColumnSpec(`${gCommon.cols12} d-flex justify-content-end pe-0`, button)];
-        makeRowWithColumns(outerTarget, 'removalRow', colSpecs2, 'mt-1');
+        makeRowWithColumns(outerTarget, 'removalRow', colSpecs2, 'mt-1 myMs-0');
     }
 }
 
@@ -346,4 +350,10 @@ function xhrFail (jqXHR, textStatus, errorThrown) {
     console.error("Status: " + textStatus); // Common outputs: "error", "timeout", "parsererror"
     console.error("Error Thrown: " + errorThrown); // Common outputs: "Not Found", "Internal Server Error"
     console.error("HTTP Status Code: " + jqXHR.status); // e.g., 404, 500;
+}
+function refreshToCurrentTab() {
+    let refreshUrl = new URL(window.location.href);
+    refreshUrl.searchParams.set('tab', gLists.currentTab);
+
+    window.location.href = refreshUrl.toString();
 }

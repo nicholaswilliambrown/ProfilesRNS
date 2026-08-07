@@ -120,10 +120,10 @@ function parsePersonListData(people, target, isManage) {
         target.append($('<div id="currentListPeople" class="bold ps-0 ms-0">My Current List</div>'));
     }
 
-    let peopleRows = $(`<div id="peopleRows"></div>`);
-    target.append(peopleRows);
+    let currentPeopleTable = $(`<div id="currentPeopleTable"></div>`);
+    target.append(currentPeopleTable);
 
-    let noPeopleTarget = isManage ? $("#manageContent") : $("#peopleRows");
+    let noPeopleTarget = isManage ? $("#manageContent") : $("#currentPeopleTable");
     if (people.length == 0) {
         noPeopleOnList($(noPeopleTarget));
     }
@@ -267,6 +267,9 @@ function emitPersonRows(people, target) {
     }
 }
 function emitPersonRowsAndButtons(people, outerTarget, isManage) {
+    let peopleRows = $(`<div id="peopleRows"></div>`);
+    outerTarget.append(peopleRows);
+
     let colSpecs = [newColumnSpec(`${gCommon.cols12} d-flex justify-content-center`)];
     let pagingRow = makeRowWithColumns(outerTarget, 'pagingRow', colSpecs, 'bord9_3 pt-1 pb-1 myMs-0');
 

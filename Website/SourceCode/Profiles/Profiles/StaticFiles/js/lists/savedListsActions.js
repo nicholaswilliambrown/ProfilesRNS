@@ -51,7 +51,46 @@ function populateActionsRhs(rhs) {
 function populateActionsLhs(lhs) {
     populateSideHelper(lhs);
 
-    actionHelper(lhs, 'divActionReplaceMy', 'Replace my person list with the people in the selected list(s)', actionStub);
+    actionHelper(lhs, 'divActionReplaceMy', 'Replace my person list with the people in the selected list(s)',
+        (e) => modifyActiveListWrapper(e, 'Replace'));
+}
+async function modifyActiveListWrapper(e, action) {
+    let selectedLids = requireSelection();
+    if (selectedLids.length) {
+        e.preventDefault();
+        await modifyActiveList(action, listIds.join(','));
+    }
+}
+async function modifyActiveList(action, listIds) {
+    let url = `${g.profilesRootURL}/Lists/Default.aspx/ModifyActiveList`;
+    console.log(`Posting ${action} to ${url}`);
+
+    let dataObject = {
+        action: action,
+        listids: listIds
+    };
+
+    await $.post(url, dataObject)
+        .done(function (result) {
+            console.log(`Result: ${result}`);
+        })
+        .fail(xhrFail);
+
+    refreshToCurrentTab();
+
+    // jQuery.ajax({
+    //     type: "POST",
+    //     url: "<%=Profiles.Framework.Utilities.Root.Domain%>/Lists/Default.aspx/ModifyActiveList",
+    //     data: "{action: '" + action + "',listids: '" + listIds + "'}",
+    //     contentType: "application/json; charset=utf-8",
+    //     dataType: "json",
+    //     success: OnSaveSuccess,
+    //     failure: function (response) {
+    //         $("input:checkbox").prop('checked', false);
+    //         // alert(response.d + " " + check_text + " " + obj.checked);
+    //         document.location.href = "<%= Profiles.Framework.Utilities.Root.Domain%>/lists/default.aspx?type=saved";
+    //     }
+    // });
 }
 function actionStub() {
 
@@ -62,11 +101,11 @@ function populateSideHelper(side) {
 }
 
 async function removeSelectedLists(e) {
-    e.preventDefault();
-    let url = `${g.profilesRootURL}/Lists/Default.aspx/DeleteSelectedSaved`
-    
     let selectedLids = requireSelection();
     if (selectedLids.length) {
+        e.preventDefault();
+        let url = `${g.profilesRootURL}/Lists/Default.aspx/DeleteSelectedSaved`;
+
         selected.each(function () {
             let lid = $(this).attr('lid');
             selectedLids.push(lid);

@@ -116,15 +116,18 @@ function noPeopleOnList(target) {
 }
 function parsePersonListData(people, target, isManage) {
     gLists.isManage = isManage ? isManage : false;
-    let noPeopleTarget = isManage ? "manageContent" : "savedListsContent";
+    if (!isManage) {
+        target.append($('<div id="currentListPeople" class="bold ps-0 ms-0">My Current List</div>'));
+    }
+
+    let peopleRows = $(`<div id="peopleRows"></div>`);
+    target.append(peopleRows);
+
+    let noPeopleTarget = isManage ? $("#manageContent") : $("#peopleRows");
     if (people.length == 0) {
-        noPeopleOnList($(`#${noPeopleTarget}`));
+        noPeopleOnList($(noPeopleTarget));
     }
     else {
-        if (!isManage) {
-            target.append($('<div class="bold ps-0 ms-0">My Current List</div>'));
-        }
-
         emitTopOfPersonTable(people, target, isManage);
         emitPersonRowsAndButtons(people, target, isManage);
     }
@@ -264,9 +267,6 @@ function emitPersonRows(people, target) {
     }
 }
 function emitPersonRowsAndButtons(people, outerTarget, isManage) {
-    let peopleRows = $(`<div id="peopleRows"></div>`);
-    outerTarget.append(peopleRows);
-
     let colSpecs = [newColumnSpec(`${gCommon.cols12} d-flex justify-content-center`)];
     let pagingRow = makeRowWithColumns(outerTarget, 'pagingRow', colSpecs, 'bord9_3 pt-1 pb-1 myMs-0');
 

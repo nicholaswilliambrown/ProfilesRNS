@@ -15,7 +15,10 @@ gLists.savedLists = {
             });
 
             parseSavedListData(target);
-            parsePersonListData(gLists.manage.people, target);
+
+            let personListDiv = $('<div id="personListDiv"></div>');
+            target.append(personListDiv);
+            parsePersonListData(gLists.manage.people, personListDiv);
 
             $('#saveButton').on('click', saveCurrentList);
 

@@ -153,10 +153,11 @@ function  emitTopOfPersonTable(people, target, isManage) {
 
     let colSpecs = [newColumnSpec(`${gCommon.cols4} bordE p-1`, 'Name'),
             newColumnSpec(`${gCommon.cols4} bordE p-1`, 'Institution'),
-            newColumnSpec(`${isManage ? gCommon.cols3 : gCommon.cols4} bordE p-1`, 'Faculty Rank')];
-    if (isManage) {
+            //newColumnSpec(`${isManage ? gCommon.cols3 : gCommon.cols4} bordE p-1`, 'Faculty Rank')];
+            newColumnSpec(`${gCommon.cols3} bordE p-1`, 'Faculty Rank')];
+    //if (isManage) {
         colSpecs.push(newColumnSpec(`${gCommon.cols1} p-1`, 'Remove'));
-    }
+    //}
 
     makeRowWithColumns(target, 'ListHeader', colSpecs, 'listsTableHeader bord9 myMs-0');
 }
@@ -252,10 +253,11 @@ function emitPersonRows(people, target) {
 
         let colSpecs = [newColumnSpec(`${gCommon.cols4} linked bordE`, person.DisplayName),
                         newColumnSpec(`${gCommon.cols4} linked bordE`, person.InstitutionName),
-                        newColumnSpec(`${gLists.isManage ? gCommon.cols3 : gCommon.cols4} linked bordE`, person.FacultyRank)];
-        if (gLists.isManage) {
+                        //newColumnSpec(`${gLists.isManage ? gCommon.cols3 : gCommon.cols4} linked bordE`, person.FacultyRank)];
+                        newColumnSpec(`${gCommon.cols3} linked bordE`, person.FacultyRank)];
+        //if (gLists.isManage) {
             colSpecs.push(newColumnSpec(`${gCommon.cols1} d-flex justify-content-center p-1`, removalCheckbox));
-        }
+        //}
 
         let row = makeRowWithColumns(target, rowId, colSpecs, 'bord9_3 highlightHover myMs-0');
 
@@ -285,12 +287,12 @@ function emitPersonRowsAndButtons(people, outerTarget, isManage) {
 
     setupListAndPagination(peopleRows, people, [15, 25, 50, 100], pagingRow, gLists.currentTab);
 
-    if (isManage) {
-        let button = $(`<button class="btn gradientLists" id="removalButton">Remove Selected People</button>`);
+    //if (isManage) {
+        let button = $(`<button class="btn gradientLists" id="removalButton${gLists.currentTab}">Remove Selected People</button>`);
         button.on('click', removeSelectedPersons);
         let colSpecs2 = [newColumnSpec(`${gCommon.cols12} d-flex justify-content-end pe-0`, button)];
-        makeRowWithColumns(outerTarget, 'removalRow', colSpecs2, 'mt-1 myMs-0');
-    }
+        makeRowWithColumns(outerTarget, 'removalRow${gLists.currentTab}', colSpecs2, 'mt-1 myMs-0');
+    //}
 }
 
 async function removeSelectedPersons(e) {

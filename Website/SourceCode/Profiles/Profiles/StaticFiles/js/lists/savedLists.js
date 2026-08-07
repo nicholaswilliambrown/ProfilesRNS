@@ -60,11 +60,11 @@ function parseSavedListData(target) {
     }
 }
 function makeColSpecsSaves(vals) {
-    let colSpecs = [newColumnSpec(`${gCommon.cols4} bordE p-1`, vals[0]),
-        newColumnSpec(`${gCommon.cols1} bordE p-1`,             vals[1]),
-        newColumnSpec(`${gCommon.cols3} bordE p-1`,             vals[2]),
-        newColumnSpec(`${gCommon.cols3} bordE p-1`,             vals[3]),
-        newColumnSpec(`${gCommon.cols1} p-1`,                   vals[4])
+    let colSpecs = [newColumnSpec(`${gCommon.cols4} bordE p-1`,             vals[0]),
+        newColumnSpec(`${gCommon.cols1} bordE p-1`,                         vals[1]),
+        newColumnSpec(`${gCommon.cols3} bordE p-1`,                         vals[2]),
+        newColumnSpec(`${gCommon.cols3} bordE p-1`,                         vals[3]),
+        newColumnSpec(`${gCommon.cols1} p-1 d-flex justify-content-center`, vals[4])
     ];
     return colSpecs;
 }

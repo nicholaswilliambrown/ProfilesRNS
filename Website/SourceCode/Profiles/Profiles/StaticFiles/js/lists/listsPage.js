@@ -156,7 +156,7 @@ function  emitTopOfPersonTable(people, target, isManage) {
             //newColumnSpec(`${isManage ? gCommon.cols3 : gCommon.cols4} bordE p-1`, 'Faculty Rank')];
             newColumnSpec(`${gCommon.cols3} bordE p-1`, 'Faculty Rank')];
     //if (isManage) {
-        colSpecs.push(newColumnSpec(`${gCommon.cols1} p-1`, 'Remove'));
+        colSpecs.push(newColumnSpec(`${gCommon.cols1} p-1 d-flex justify-content-center`, 'Remove'));
     //}
 
     makeRowWithColumns(target, 'ListHeader', colSpecs, 'listsTableHeader bord9 myMs-0');

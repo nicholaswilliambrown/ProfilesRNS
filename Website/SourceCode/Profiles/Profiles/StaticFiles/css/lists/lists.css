@@ -77,3 +77,18 @@
 .myMs-0 {
     margin-left: 0 !important;
 }
+#nameOverlay {
+    display: none; /* Hidden by default */
+    position: fixed; /* Fixed/sticky position */
+    top: 400px; /* Place the button near the top of the page */
+    right: 300px; /* Place the button 30px from the right */
+    z-index: 1000; /* Make sure it shows up */
+    border: 2px solid #AC1B30;
+    outline: none; /* Remove outline */
+    background-color: #ccc; /* Set a background color */
+    color: black; /* Text color */
+    cursor: pointer; /* Add a mouse pointer on hover */
+    padding: 10px; /* Some padding */
+    border-radius: 10px; /* Rounded corners */
+    font-size: 13px;
+}

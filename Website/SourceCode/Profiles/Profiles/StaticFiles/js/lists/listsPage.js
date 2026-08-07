@@ -354,9 +354,12 @@ function xhrFail (jqXHR, textStatus, errorThrown) {
     console.error("Error Thrown: " + errorThrown); // Common outputs: "Not Found", "Internal Server Error"
     console.error("HTTP Status Code: " + jqXHR.status); // e.g., 404, 500;
 }
-function refreshToCurrentTab() {
+function refreshToTab(tab) {
+    if (!tab) {
+        tab = gLists.currentTab
+    }
     let refreshUrl = new URL(window.location.href);
-    //refreshUrl.searchParams.set('tab', gLists.currentTab);
+    refreshUrl.searchParams.set('tab', tab);
 
     window.location.href = refreshUrl.toString();
 }

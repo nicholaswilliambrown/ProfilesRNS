@@ -100,19 +100,18 @@ namespace Profiles.Lists
 
                     ModifyActiveList(action, listIds);
                }
+                else if (restTask == "AddUpdateList") {
+                    string action = Request.Form["action"].ToString();
+                    string listIds = Request.Form["listIds"].ToString();
+                    string name = Request.Form["name"].ToString();
+
+                    AddUpdateList(action, listIds, name);
+               }
                 else if (restTask == "DeleteSelected") {
                     string personIds = Request.Form["personIds"].ToString();
 
                     string newSize = DeleteSelected(listId, personIds);
                     result = serializer.Serialize("{newListSize: '" + newSize + "' }");
-               }
-                else if (restTask == "DeleteSelectedSaved") {
-                    string listIdString = Request.Form["lids"].ToString();
-                    List<string> listIds = listIdString.Split(',').ToList();
-
-                    foreach (string lid in listIds) {
-                        Lists.Utilities.DataIO.AddUpdateList("Delete", lid, "");
-                    }
                }
                 else if (restTask == "Save") {
                     string name = Request.QueryString["name"].ToString();
@@ -250,16 +249,17 @@ namespace Profiles.Lists
         }
 
         [System.Web.Services.WebMethod]
-        public static void AddUpdateList(string action,string listid)
+        public static void AddUpdateList(string action, string listid, string name)
         {
             List<string> listids = listid.Split(',').ToList();
             if (action == "Delete")
                 foreach (string lid in listids)
                 {
+                    // name irrelevant for deletes
                     Lists.Utilities.DataIO.AddUpdateList(action, lid, "");
                 }
             else
-                Lists.Utilities.DataIO.AddUpdateList(action,listid , "");
+                Lists.Utilities.DataIO.AddUpdateList(action, listid , name);
         }
         [System.Web.Services.WebMethod]
         public static void RenameList(string listid, string name)

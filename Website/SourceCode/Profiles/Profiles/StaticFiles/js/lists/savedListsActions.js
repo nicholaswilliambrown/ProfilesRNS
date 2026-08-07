@@ -4,7 +4,7 @@ function saveCurrentList() {
     let url = `${g.profilesRootURL}/Lists/Default.aspx/Save?name=${name}`;
     $.get(url, function() {
         console.log('List: ', name, ' saved');
-        refreshToCurrentTab();
+        refreshToTab();
     })
 }
 
@@ -36,12 +36,15 @@ function actionHelper(side, id, text, onClick) {
 
     side.append(actionDiv);
 }
-function requireSelection() {
+function requireSelection(onlyOne) {
     let selectionString = '';
 
     let selected = $(`.listSelectlCheck:checked`);
     if (selected.length == 0) {
         alert('Please select a list from the table.')
+    }
+    else if (selected.length > 1 && onlyOne) {
+        alert('Please select only one item from table for rename action.')
     }
     else {
         let selectedVals = [];
@@ -56,29 +59,70 @@ function requireSelection() {
 }
 function populateActionsRhs(rhs) {
     populateSideHelper(rhs);
+    let restApi = 'AddUpdateList';
 
-    actionHelper(rhs, 'divActionDelete', 'Delete Selected', removeSelectedLists);
+    actionHelper(rhs, 'divActionReplace',
+        'Replace the selected list with the people in my person list',
+        (e) => backendActionWrapper(e, restApi, 'Replace'));
+    actionHelper(rhs, 'divActionRename',
+        'Rename the selected list',
+        harvestNameAndApplyToList);
+    actionHelper(rhs, 'divActionDelete',
+        'Delete the selected list(s)',
+        (e) => backendActionWrapper(e, restApi, 'Delete'));
+}
+function harvestNameAndApplyToList() {
+    let selectedLid = requireSelection(true);
+    if (selectedLid) {
+        $('#nameOverlay').show();
+        $('#newListName').val('');
+        $('#saveNewListName').on('click', (e) => {
+            let name = $('#newListName').val();
+            if (name) {
+                backendAction('Rename', selectedLid, 'AddUpdateList', name);
+            }
+            $('#nameOverlay').hide();
+        });
+    }
 }
 function populateActionsLhs(lhs) {
     populateSideHelper(lhs);
+    let restApi = 'ModifyActiveList';
 
-    actionHelper(lhs, 'divActionReplaceMy', 'Replace my person list with the people in the selected list(s)',
-        (e) => modifyActiveListWrapper(e, 'Replace'));
+    actionHelper(lhs, 'divActionReplace',
+    'Replace my person list with the people in the selected list(s)',
+        (e) => backendActionWrapper(e, restApi, 'Replace'));
+    actionHelper(lhs, 'divActionAdd',
+    'Add the people in the selected list(s) to my person list',
+        (e) => backendActionWrapper(e, restApi, 'Add'));
+    actionHelper(lhs, 'divActionRemove',
+    'Remove the people in the selected list(s) from my person list',
+        (e) => backendActionWrapper(e, restApi, 'Remove'));
+    actionHelper(lhs, 'divActionRemoveNotInAll',
+    'Remove the people who are not in all of the selected list(s) from my person list',
+        (e) => backendActionWrapper(e, restApi, 'RemoveNotInAll'));
+    actionHelper(lhs, 'divActionRemoveNotInAny',
+    'Remove the people who are not in at least one of the selected list(s) from my person list',
+        (e) => backendActionWrapper(e, restApi, 'RemoveNotInAny'));
 }
-async function modifyActiveListWrapper(e, action) {
+async function backendActionWrapper(e, restApi, action, oneListOnly, name) {
     let selectedLids = requireSelection();
     if (selectedLids) {
+        if (!name) name = '';
         e.preventDefault();
-        await modifyActiveList(action, selectedLids);
+        await backendAction(action, selectedLids, restApi, name);
     }
 }
-async function modifyActiveList(action, listIds) {
-    let url = `${g.profilesRootURL}/Lists/Default.aspx/ModifyActiveList`;
+async function backendAction(action, listIds, restApi, name) {
+    if (!name) name = '';
+
+    let url = `${g.profilesRootURL}/Lists/Default.aspx/${restApi}`;
     console.log(`Posting ${action} to ${url}`);
 
     let dataObject = {
         action: action,
-        listIds: listIds
+        listIds: listIds,
+        name: name
     };
 
     await $.post(url, dataObject)
@@ -87,45 +131,9 @@ async function modifyActiveList(action, listIds) {
         })
         .fail(xhrFail);
 
-    refreshToCurrentTab();
-
-    // jQuery.ajax({
-    //     type: "POST",
-    //     url: "<%=Profiles.Framework.Utilities.Root.Domain%>/Lists/Default.aspx/ModifyActiveList",
-    //     data: "{action: '" + action + "',listids: '" + listIds + "'}",
-    //     contentType: "application/json; charset=utf-8",
-    //     dataType: "json",
-    //     success: OnSaveSuccess,
-    //     failure: function (response) {
-    //         $("input:checkbox").prop('checked', false);
-    //         // alert(response.d + " " + check_text + " " + obj.checked);
-    //         document.location.href = "<%= Profiles.Framework.Utilities.Root.Domain%>/lists/default.aspx?type=saved";
-    //     }
-    // });
-}
-function actionStub() {
-
+    refreshToTab();
 }
 function populateSideHelper(side) {
     side.removeClass('bold');
     side.empty();
-}
-
-async function removeSelectedLists(e) {
-    let selectedLids = requireSelection();
-    if (selectedLids) {
-        e.preventDefault();
-        let url = `${g.profilesRootURL}/Lists/Default.aspx/DeleteSelectedSaved`;
-
-        console.log(`Want to remove: `, selectedLids);
-
-        let dataObject = {
-            lids: selectedLids,
-        };
-
-        await $.post(url, dataObject)
-            .fail(xhrFail);
-
-        refreshToCurrentTab();
-    }
 }

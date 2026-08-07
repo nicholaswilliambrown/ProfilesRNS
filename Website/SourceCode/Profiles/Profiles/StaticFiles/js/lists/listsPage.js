@@ -356,7 +356,7 @@ function xhrFail (jqXHR, textStatus, errorThrown) {
 }
 function refreshToCurrentTab() {
     let refreshUrl = new URL(window.location.href);
-    refreshUrl.searchParams.set('tab', gLists.currentTab);
+    //refreshUrl.searchParams.set('tab', gLists.currentTab);
 
     window.location.href = refreshUrl.toString();
 }

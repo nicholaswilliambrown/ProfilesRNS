@@ -94,6 +94,12 @@ namespace Profiles.Lists
                     string expect = $"Expect 0 list-size for {listId}: {session.ListSize}";
                     result = serializer.Serialize("{result: '" + expect + "' }");
                 }
+                else if (restTask == "ModifyActiveList") {
+                    string action = Request.Form["action"].ToString();
+                    string listIds = Request.Form["listIds"].ToString();
+
+                    ModifyActiveList(action, listIds);
+               }
                 else if (restTask == "DeleteSelected") {
                     string personIds = Request.Form["personIds"].ToString();
 

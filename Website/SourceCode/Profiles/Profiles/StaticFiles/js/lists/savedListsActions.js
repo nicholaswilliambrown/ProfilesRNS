@@ -37,11 +37,22 @@ function actionHelper(side, id, text, onClick) {
     side.append(actionDiv);
 }
 function requireSelection() {
+    let selectionString = '';
+
     let selected = $(`.listSelectlCheck:checked`);
     if (selected.length == 0) {
         alert('Please select a list from the table.')
     }
-    return selected;
+    else {
+        let selectedVals = [];
+        selected.each(function () {
+            let lid = $(this).attr('lid');
+            selectedVals.push(lid);
+        });
+        selectionString = selectedVals.join(',');
+    }
+
+    return selectionString;
 }
 function populateActionsRhs(rhs) {
     populateSideHelper(rhs);
@@ -56,9 +67,9 @@ function populateActionsLhs(lhs) {
 }
 async function modifyActiveListWrapper(e, action) {
     let selectedLids = requireSelection();
-    if (selectedLids.length) {
+    if (selectedLids) {
         e.preventDefault();
-        await modifyActiveList(action, listIds.join(','));
+        await modifyActiveList(action, selectedLids);
     }
 }
 async function modifyActiveList(action, listIds) {
@@ -67,7 +78,7 @@ async function modifyActiveList(action, listIds) {
 
     let dataObject = {
         action: action,
-        listids: listIds
+        listIds: listIds
     };
 
     await $.post(url, dataObject)
@@ -102,19 +113,14 @@ function populateSideHelper(side) {
 
 async function removeSelectedLists(e) {
     let selectedLids = requireSelection();
-    if (selectedLids.length) {
+    if (selectedLids) {
         e.preventDefault();
         let url = `${g.profilesRootURL}/Lists/Default.aspx/DeleteSelectedSaved`;
 
-        selected.each(function () {
-            let lid = $(this).attr('lid');
-            selectedLids.push(lid);
-        });
-        let stringLids = selectedLids.join(',');
-        console.log(`Want to remove: `, stringLids);
+        console.log(`Want to remove: `, selectedLids);
 
         let dataObject = {
-            lids: stringLids,
+            lids: selectedLids,
         };
 
         await $.post(url, dataObject)

@@ -247,8 +247,8 @@ function emitPersonRows(people, target) {
             person.FacultyRank = gLists.noRank;
         }
 
-        let rowId = 'person' + i;
-        let checkboxId = `${rowId}-removalCheck`;
+        let rowId = `person-${gLists.currentTab}` + i;
+        let checkboxId = `${rowId}-${gLists.currentTab}-removalCheck`;
         let removalCheckbox = $(`<input type="checkbox" pid="${person.PersonID}" class="removalCheck" id="${checkboxId}"/>`);
 
         let colSpecs = [newColumnSpec(`${gCommon.cols4} linked bordE`, person.DisplayName),
@@ -288,10 +288,10 @@ function emitPersonRowsAndButtons(people, outerTarget, isManage) {
     setupListAndPagination(peopleRows, people, [15, 25, 50, 100], pagingRow, gLists.currentTab);
 
     //if (isManage) {
-        let button = $(`<button class="btn gradientLists" id="removalButton${gLists.currentTab}">Remove Selected People</button>`);
+        let button = $(`<button class="btn gradientLists" id="removalButton-${gLists.currentTab}">Remove Selected People</button>`);
         button.on('click', removeSelectedPersons);
         let colSpecs2 = [newColumnSpec(`${gCommon.cols12} d-flex justify-content-end pe-0`, button)];
-        makeRowWithColumns(outerTarget, 'removalRow${gLists.currentTab}', colSpecs2, 'mt-1 myMs-0');
+        makeRowWithColumns(outerTarget, 'removalRow-${gLists.currentTab}', colSpecs2, 'mt-1 myMs-0');
     //}
 }
 

@@ -1,6 +1,8 @@
 
 function setupLeafletMap(centerLat, centerLong, zoom) {
-    gMapTab.lMap = L.map('map_canvas').setView([centerLat, centerLong], zoom);
+    if (!gMapTab.lMap) {
+        gMapTab.lMap = L.map('map_canvas').setView([centerLat, centerLong], zoom);
+    }
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,

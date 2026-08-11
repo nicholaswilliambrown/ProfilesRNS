@@ -1,12 +1,11 @@
 gLists.cluster = {
-    setup: () => {
+    setup: async () => {
+        await getPeopleListInfo();
+
         console.log('cluster');
         gLists.currentTab = 'cluster';
 
-        if (!gLists.cluster.done) {
-            parseClusterTabData(gLists.manage.people);
-            gLists.cluster.done = true;
-        }
+        parseClusterTabData(gLists.manage.people);
     }
 };
 

@@ -1,5 +1,7 @@
 gLists.reports = {
-    setup: () => {
+    setup: async () => {
+        await getPeopleListInfo();
+
         console.log('reports');
         gLists.currentTab = 'reports';
 

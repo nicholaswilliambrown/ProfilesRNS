@@ -1,13 +1,12 @@
 gLists.export = {
-    setup: () => {
+    setup: async () => {
+        await getPeopleListInfo();
+
         console.log('setting up for export!');
         gLists.currentTab = 'export';
 
-        if (!gLists.export.done) {
-            gLists.export.urlInitial = `${g.profilesRootURL}/Lists/Default.aspx/Export/`;
-            exportData(gLists.manage.people);
-            gLists.export.done = true;
-        }
+        gLists.export.urlInitial = `${g.profilesRootURL}/Lists/Default.aspx/Export/`;
+        exportData(gLists.manage.people);
     }
 };
 

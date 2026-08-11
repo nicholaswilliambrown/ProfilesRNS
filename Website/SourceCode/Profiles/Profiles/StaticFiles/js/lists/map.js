@@ -1,12 +1,11 @@
 gLists.map = {
-    setup: () => {
+    setup: async () => {
+        await getPeopleListInfo();
+
         console.log('setting up for map!');
         gLists.currentTab = 'map';
 
-        if (!gLists.map.done) {
-            parseMapTabData(gLists.manage.people);
-            gLists.map.done = true;
-        }
+        parseMapTabData(gLists.manage.people);
     }
 };
 

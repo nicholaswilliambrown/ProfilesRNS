@@ -4,50 +4,18 @@ let gLists = {};
 gLists.noRank = '--';
 gLists.manage = {
     setup: async () => {
-        await loginGuard();
+        await getPeopleListInfo();
 
         $('.modalupdate').hide();
 
         console.log('manage');
         gLists.currentTab = 'manage';
 
-        if (!gLists.manage.done) {
-            await prepareManagePage();
-            specialHandling();
-            gLists.manage.done = true;
-        }
+        specialHandling();
+        prepareManagePage();
     }
 };
-async function loginGuard() {
-    // must be logged in to see lists page
-    if (!sessionInfo.userID) {
-        await $('body').empty();
-        console.log('You must be logged in to visit Lists pages.');
-        window.location.href = `${g.profilesRootURL}/Search`;
-    }
-}
 async function prepareManagePage() {
-
-    if ( ! gLists.manage.people) {
-
-        let manageTabData;
-        let currentUrl = new URL(window.location.href);
-        let listUrl = new URL(`${g.profilesRootURL}/Lists/Default.aspx/GetList`);
-        listUrl.search = currentUrl.search;
-
-        await $.get(listUrl.toString(), function(result) {
-            manageTabData = JSON.parse(result);
-        });
-
-        console.log('Manage Tab, aka preLoad, data: ', manageTabData);
-        gLists.manage.people = manageTabData.ListItems;
-        gLists.manage.numPeople = gCommon.numPersons = gLists.manage.people.length;
-        gLists.manage.institutions = manageTabData.Institutions;
-        gLists.manage.facultyRanks = manageTabData.FacultyRanks;
-
-        $('#numPersonsSpan').html(gLists.manage.numPeople);
-    }
-
     await commonSetup();
 
     setTabTitleAndOrFavicon(`My Person List (${gLists.manage.numPeople})`);

@@ -76,6 +76,12 @@ namespace Profiles.Lists
          }
        protected void Page_Load(object sender, EventArgs e) {
             Framework.Utilities.Session session = sessionManagement.Session();
+            if (session.PersonID <= 0) {
+                myLog("************************** zero-Person, time to login again");
+                Response.Write("logout");
+                //Response.Redirect(Root.Domain + "/login/default.aspx?method=logout&redirectto=" + Root.Domain);
+                Response.End(); // is this reachable?
+            }
 
             string[] restSegments = Request.Url.AbsolutePath.Split('/');
             int len = restSegments.Length;

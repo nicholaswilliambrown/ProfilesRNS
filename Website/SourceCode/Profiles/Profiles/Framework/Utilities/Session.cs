@@ -139,6 +139,10 @@ namespace Profiles.Framework.Utilities
         }
         public void SessionDestroy()
         {
+                        System.Diagnostics.StackTrace trace = new System.Diagnostics.StackTrace(true);
+                        System.Diagnostics.Debug.WriteLine("**********************************SessionDestroy() called: ");
+                        System.Diagnostics.Debug.WriteLine(trace.ToString());
+
             HttpContext.Current.Session["PROFILES_SESSION"] = null;
             HttpContext.Current.Session.Abandon();
         }

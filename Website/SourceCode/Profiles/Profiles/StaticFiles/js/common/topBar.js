@@ -200,14 +200,40 @@ function populateHistoryDropdown() {
     let dropdownHeader = ul.closest('.nav-item').find('.nav-link');
     dropdownHeader.html(historyHtml);
 }
-async function getCurrentListSize() {
-    let num = gCommon.numPersons;
+async function getPeopleListInfo() {
+    let currentUrl = new URL(window.location.href);
     let listUrl = new URL(`${g.profilesRootURL}/Lists/Default.aspx/GetList`);
+    listUrl.search = currentUrl.search;
+
+    let manageTabData;
+    let rawResult = '';
     await $.get(listUrl.toString(), function(result) {
-        let listData = JSON.parse(result);
-        num = listData.ListItems.length;
+        try {
+            rawResult = result;
+            if (rawResult == "logout") {
+                window.location.href = `${g.profilesRootURL}/login/default.aspx?method=logout&redirectto=${g.profilesRootURL}`;
+            }
+            manageTabData = JSON.parse(rawResult);
+        }
+        catch (e) {
+            console.log('************** cannot parse listData: ', )
+        }
     });
-    return num;
+
+    console.log('PeopleList, data: ', manageTabData);
+    if (typeof gLists === 'undefined') { // used extensively in lists/*.js
+        gLists = { manage: {}};
+    }
+    gLists.manage.people = manageTabData.ListItems;
+    gLists.manage.numPeople = gCommon.numPersons = gLists.manage.people.length;
+    gLists.manage.institutions = manageTabData.Institutions;
+    gLists.manage.facultyRanks = manageTabData.FacultyRanks;
+
+    $('#numPersonsSpan').html(gLists.manage.numPeople);
+}
+async function getCurrentListSize() {
+    await getPeopleListInfo();
+    return gCommon.numPersons;
 }
 // for logged-in topBars
 async function adjustMyPersonList() {

@@ -23,7 +23,7 @@ gLists.reports = {
             gLists.bakedPies = {};
         }
 
-        parseReportsTabData(gLists.manage.people, summaryType);
+        parseReportsTabData(gLists.people, summaryType);
     }
 };
 
@@ -121,7 +121,7 @@ function populateDataRows(dataRows, summaryType) {
             newColumnSpec(`${gCommon.cols2or12} alignMiddle bordE d-flex justify-content-center`,
                 count),
             newColumnSpec(`${gCommon.cols2or12} alignMiddle bordE d-flex justify-content-center`,
-                toPercent(Number(count) / gLists.manage.people.length)),
+                toPercent(Number(count) / gLists.people.length)),
         ];
         makeRowWithColumns(target, rowId+i, rowColSpecs, "borderOneSolid");
     }

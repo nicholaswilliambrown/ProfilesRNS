@@ -210,7 +210,7 @@ async function getPeopleListInfo() {
     await $.get(listUrl.toString(), function(result) {
         try {
             rawResult = result;
-            if (rawResult == "logout") {
+            if (rawResult && rawResult.match("logout")) {
                 window.location.href = `${g.profilesRootURL}/login/default.aspx?method=logout&redirectto=${g.profilesRootURL}`;
             }
             manageTabData = JSON.parse(rawResult);
@@ -221,15 +221,12 @@ async function getPeopleListInfo() {
     });
 
     console.log('PeopleList, data: ', manageTabData);
-    if (typeof gLists === 'undefined') { // used extensively in lists/*.js
-        gLists = { manage: {}};
-    }
-    gLists.manage.people = manageTabData.ListItems;
-    gLists.manage.numPeople = gCommon.numPersons = gLists.manage.people.length;
-    gLists.manage.institutions = manageTabData.Institutions;
-    gLists.manage.facultyRanks = manageTabData.FacultyRanks;
+    gLists.people = manageTabData.ListItems;
+    gLists.numPeople = gCommon.numPersons = gLists.people.length;
+    gLists.institutions = manageTabData.Institutions;
+    gLists.facultyRanks = manageTabData.FacultyRanks;
 
-    $('#numPersonsSpan').html(gLists.manage.numPeople);
+    $('#numPersonsSpan').html(gLists.numPeople);
 }
 async function getCurrentListSize() {
     await getPeopleListInfo();

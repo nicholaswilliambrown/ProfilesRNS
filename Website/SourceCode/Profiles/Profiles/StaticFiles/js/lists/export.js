@@ -6,7 +6,7 @@ gLists.export = {
         gLists.currentTab = 'export';
 
         gLists.export.urlInitial = `${g.profilesRootURL}/Lists/Default.aspx/Export/`;
-        exportData(gLists.manage.people);
+        exportData(gLists.people);
     }
 };
 

@@ -5,7 +5,7 @@ gLists.cluster = {
         console.log('cluster');
         gLists.currentTab = 'cluster';
 
-        parseClusterTabData(gLists.manage.people);
+        parseClusterTabData(gLists.people);
     }
 };
 

@@ -1,6 +1,4 @@
 // this JS should load before the other tab-JS, so they can use gLists
-let gLists = {};
-
 gLists.noRank = '--';
 gLists.manage = {
     setup: async () => {
@@ -18,7 +16,7 @@ gLists.manage = {
 async function prepareManagePage() {
     await commonSetup();
 
-    setTabTitleAndOrFavicon(`My Person List (${gLists.manage.numPeople})`);
+    setTabTitleAndOrFavicon(`My Person List (${gLists.numPeople})`);
     setupScrolling();
 
     let main = $('#mainDiv');
@@ -34,7 +32,7 @@ async function prepareManagePage() {
 
     hideAllTabContent();
     showThisTabContent($('#manage'));
-    parsePersonListData(gLists.manage.people, target, true);
+    parsePersonListData(gLists.people, target, true);
 
     let tab = trySearchUrlParam('tab');
     if (tab) {
@@ -145,8 +143,8 @@ function filterSelects(people, target) {
     let institutionQp = trySearchUrlParam('institution');
     let facultyQp = trySearchUrlParam('facultyrank');
 
-    for (let i=0; i<gLists.manage.institutions.length; i++) {
-        let institution = gLists.manage.institutions[i];
+    for (let i=0; i<gLists.institutions.length; i++) {
+        let institution = gLists.institutions[i];
         let text = institution.Text;
         let option = $(`<option value="${text}">${text}</option>`);
         if (text == institutionQp) {
@@ -154,8 +152,8 @@ function filterSelects(people, target) {
         }
         institutionSelect.append(option);
     }
-    for (let i=0; i<gLists.manage.facultyRanks.length; i++) {
-        let rank = gLists.manage.facultyRanks[i];
+    for (let i=0; i<gLists.facultyRanks.length; i++) {
+        let rank = gLists.facultyRanks[i];
         let text = rank.Text;
         if (text == '') {
             text = '--';

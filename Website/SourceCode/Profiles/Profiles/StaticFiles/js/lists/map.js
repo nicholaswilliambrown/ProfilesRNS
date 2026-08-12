@@ -5,7 +5,7 @@ gLists.map = {
         console.log('setting up for map!');
         gLists.currentTab = 'map';
 
-        parseMapTabData(gLists.manage.people);
+        parseMapTabData(gLists.people);
     }
 };
 

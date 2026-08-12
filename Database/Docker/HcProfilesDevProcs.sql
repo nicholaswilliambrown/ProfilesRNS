@@ -1,7 +1,7 @@
 USE HCProfileOpenSource_Localhost;
 GO
 
-CREATE PROCEDURE [Profile.Data].[List.AddRemove.CoAuthors]
+CREATE OR ALTER PROCEDURE [Profile.Data].[List.AddRemove.CoAuthors]
 	@UserID int,
 	@Action varchar(55),
 	@Size int output
@@ -42,7 +42,7 @@ BEGIN
 	END	
 END;
 GO
-CREATE PROCEDURE [Profile.Data].[List.SavedLists.AddUpdateList]
+CREATE OR ALTER PROCEDURE [Profile.Data].[List.SavedLists.AddUpdateList]
 	@ListID [int] = -1,
 	@Action varchar(55),
 	@UserID [int] = -1,
@@ -99,7 +99,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE [Profile.Data].[List.SavedLists.GetLists]
+CREATE OR ALTER PROCEDURE [Profile.Data].[List.SavedLists.GetLists]
 	@UserID int,
 	@ListIDs varchar(max) = null
 AS
@@ -126,7 +126,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE [Profile.Data].[List.SavedLists.ModifyActiveList]
+CREATE OR ALTER PROCEDURE [Profile.Data].[List.SavedLists.ModifyActiveList]
 	@ListID [int] = 0,
 	@ListIDs varchar(max) = '',
 	@UserID [int],

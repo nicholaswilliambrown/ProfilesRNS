@@ -283,8 +283,9 @@ async function removeSelectedPersons(e) {
         })
         .fail(xhrFail);
 
-    window.location.reload();
+    refreshToTab(gLists.currentTab);
 }
+
 async function removeAllPersons(e) {
     localOnlyEvent(e);
     if (confirm('Are you sure you want to remove all people from your list?')) {

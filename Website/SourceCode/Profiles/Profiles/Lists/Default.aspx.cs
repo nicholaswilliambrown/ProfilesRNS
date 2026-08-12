@@ -75,7 +75,7 @@ namespace Profiles.Lists
             litText.Text = HTML;
          }
        protected void Page_Load(object sender, EventArgs e) {
-            Response.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate");
+            Response.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate, max-age=0");
             Response.Headers.Add("Pragma", "no-cache");
             Response.Headers.Add("Expires", "0");
 

@@ -75,6 +75,10 @@ namespace Profiles.Lists
             litText.Text = HTML;
          }
        protected void Page_Load(object sender, EventArgs e) {
+            Response.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate");
+            Response.Headers.Add("Pragma", "no-cache");
+            Response.Headers.Add("Expires", "0");
+
             Framework.Utilities.Session session = sessionManagement.Session();
             if (session.PersonID <= 0) {
                 string redirectUrl = Root.Domain + "/login/default.aspx?method=logout&redirectto=" + Root.Domain;
@@ -161,9 +165,6 @@ namespace Profiles.Lists
                 else if (restTask == "GetList"){
                     result = getListPeople();
                 }
-                Response.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate");
-                Response.Headers.Add("Pragma", "no-cache");
-                Response.Headers.Add("Expires", "0");
                 Response.Write(result);
                 Response.End(); // nuke the page lifecycle additions
             }

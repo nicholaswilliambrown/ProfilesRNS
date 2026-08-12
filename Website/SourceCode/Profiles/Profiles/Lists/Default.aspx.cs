@@ -161,6 +161,9 @@ namespace Profiles.Lists
                 else if (restTask == "GetList"){
                     result = getListPeople();
                 }
+                Response.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate");
+                Response.Headers.Add("Pragma", "no-cache");
+                Response.Headers.Add("Expires", "0");
                 Response.Write(result);
                 Response.End(); // nuke the page lifecycle additions
             }

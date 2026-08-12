@@ -70,6 +70,22 @@ function populateActionsRhs(rhs) {
     actionHelper(rhs, 'divActionDelete',
         'Delete the selected list(s)',
         (e) => backendActionWrapper(e, restApi, 'Delete'));
+
+    rhs.append('<div class="mt-3"></div>');
+
+    actionHelper(rhs, 'divActionVisualize',
+        'Create a cluster view of the selected list(s)',
+        activateVisualizeTab);
+}
+function activateVisualizeTab() {
+    $('#visualizeLists').show();
+    $('#visualizeLists').addClass('active');
+    $('#visualizeLists').attr('aria-current', true)
+
+    $('#savedLists').removeClass('active');
+    $('#savedLists').removeAttr('aria-current')
+
+    gLists.currentTab = 'visualizeLists';
 }
 function harvestNameAndApplyToList() {
     let selectedLid = requireSelection(true);

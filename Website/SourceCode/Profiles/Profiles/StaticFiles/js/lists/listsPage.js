@@ -30,7 +30,8 @@ async function prepareManagePage() {
 
     let target = $('#peopleDiv');
 
-    hideAllTabContent();
+    hideAllTabContent(true);
+
     showThisTabContent($('#manage'));
     parsePersonListData(gLists.people, target, true);
 
@@ -40,7 +41,16 @@ async function prepareManagePage() {
     }
 }
 
-function hideAllTabContent() {
+function hideAllTabContent(hideVisualize) {
+    if (hideVisualize) {
+        $(`#visualizeLists`).hide();
+    }
+    if (gLists.currentTab == 'visualizeLists') {
+        // special treatment for transient visualize tab
+        $(`#visualizeListsContent`).empty();
+        $(`#visualizeLists`).hide();
+    }
+
     let inactives = $('#tabsUl').find('span');
     inactives.removeClass('active');
     inactives.removeAttr('aria-current');

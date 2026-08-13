@@ -57,35 +57,26 @@ function requireSelection(onlyOne) {
 
     return selectionString;
 }
-function populateActionsRhs(rhs) {
-    populateSideHelper(rhs);
-    let restApi = 'AddUpdateList';
-
-    actionHelper(rhs, 'divActionReplace',
-        'Replace the selected list with the people in my person list',
-        (e) => backendActionWrapper(e, restApi, 'Replace'));
-    actionHelper(rhs, 'divActionRename',
-        'Rename the selected list',
-        harvestNameAndApplyToList);
-    actionHelper(rhs, 'divActionDelete',
-        'Delete the selected list(s)',
-        (e) => backendActionWrapper(e, restApi, 'Delete'));
-
-    rhs.append('<div class="mt-3"></div>');
-
-    actionHelper(rhs, 'divActionVisualize',
-        'Create a cluster view of the selected list(s)',
-        activateVisualizeTab);
-}
 function activateVisualizeTab() {
+    hideTabsContent();
+
     $('#visualizeLists').show();
     $('#visualizeLists').addClass('active');
-    $('#visualizeLists').attr('aria-current', true)
+    $('#visualizeLists').attr('aria-current', true);
 
-    $('#savedLists').removeClass('active');
-    $('#savedLists').removeAttr('aria-current')
+    $('#visualizeListsContent').show();
 
     gLists.currentTab = 'visualizeLists';
+
+    populateVisualizeContent();
+}
+function populateVisualizeContent() {
+    let target = $('#visualizeListsContent');
+    target.empty();
+
+    backendActionWrapper(null, 'AddUpdateList', 'Replace');
+
+    target.append('<div>I can visualize great things</div>');
 }
 function harvestNameAndApplyToList() {
     let selectedLid = requireSelection(true);
@@ -121,11 +112,33 @@ function populateActionsLhs(lhs) {
     'Remove the people who are not in at least one of the selected list(s) from my person list',
         (e) => backendActionWrapper(e, restApi, 'RemoveNotInAny'));
 }
+function populateActionsRhs(rhs) {
+    populateSideHelper(rhs);
+    let restApi = 'AddUpdateList';
+
+    actionHelper(rhs, 'divActionReplace',
+        'Replace the selected list with the people in my person list',
+        (e) => backendActionWrapper(e, restApi, 'Replace'));
+    actionHelper(rhs, 'divActionRename',
+        'Rename the selected list',
+        harvestNameAndApplyToList);
+    actionHelper(rhs, 'divActionDelete',
+        'Delete the selected list(s)',
+        (e) => backendActionWrapper(e, restApi, 'Delete'));
+
+    rhs.append('<div class="mt-3"></div>');
+
+    actionHelper(rhs, 'divActionVisualize',
+        'Create a cluster view of the selected list(s)',
+        activateVisualizeTab);
+}
+
 async function backendActionWrapper(e, restApi, action, oneListOnly, name) {
+    if (e) { e.preventDefault(); }
+
     let selectedLids = requireSelection();
     if (selectedLids) {
         if (!name) name = '';
-        e.preventDefault();
         await backendAction(action, selectedLids, restApi, name);
     }
 }

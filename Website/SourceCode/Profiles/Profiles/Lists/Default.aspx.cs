@@ -293,5 +293,33 @@ namespace Profiles.Lists
 
         public XmlDocument PresentationXML { get; set; }
 
+        private string handleViz() {
+            string listids = Request.QueryString["listids"];
+
+            var profilesListGraphs = Utilities.DataIO.GetSelectedSavedLists(listids);
+
+            List<string> graphColors = Utilities.DataIO.GetGraphColors(profilesListGraphs.Count);
+
+            //init all the colors and defaults before loading the grid.
+            for (int i = 0; i < graphColors.Count; i++)
+            {
+                profilesListGraphs[i].GraphColor = graphColors[i];
+            }
+
+            gridViz.DataSource = profilesListGraphs;
+            gridViz.DataBind();
+
+            string json = "[";
+            int i2 = 0;
+            foreach (Utilities.DataIO.ProfilesListGraph g in profilesListGraphs)
+            {
+                if (i2 != 0) { json += ", "; }
+                i2++;
+                json += g.toJSON();
+            }
+            json += "]";
+
+            return json;
+        }
     }
 }

@@ -42,7 +42,20 @@ namespace Profiles.Lists.Utilities
             public string FacultyRank { get; set; }
             public string DepartmentName { get; set; }
         }
+        public class ProfilesListGraph
+        {
+            public string ListName { get; set; }
+            public string ListID { get; set; }
+            public string GraphColor { get; set; }
+            public string GroupingLevel { get; set; }
+            public Boolean InternalConnection { get; set; }
+            public Boolean ExternalConnection { get; set; }
 
+            public string toJSON()
+            {
+                return $"{{ \"ListName\":\"{ListName}\", \"ListID\":{ListID},\"GraphColor\":\"{GraphColor}\", \"GroupingLevel\":\"{GroupingLevel}\", \"InternalConnection\":{InternalConnection.ToString().ToLower()},\"ExternalConnection\":{ExternalConnection.ToString().ToLower()}}}";
+            }
+        }
 
         public class SummaryChart
         {
@@ -1094,9 +1107,92 @@ namespace Profiles.Lists.Utilities
                 }
             }
         }
+
+       public static List<ProfilesListGraph> GetSelectedSavedLists(string ListIDs) {
+            List<ProfilesListGraph> savedlists = new List<ProfilesListGraph>();
+
+            SessionManagement sm = new SessionManagement();
+            Framework.Utilities.DataIO dataio = new Framework.Utilities.DataIO();
+            try
+            {
+                using (SqlConnection sqlconnection = new SqlConnection(dataio.GetConnectionString()))
+                {
+                    SqlCommand cmd = new SqlCommand("[Profile.Data].[List.SavedLists.GetLists]", sqlconnection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@UserID", sm.Session().UserID));
+                    cmd.Parameters.Add(new SqlParameter("@ListIDs", ListIDs));
+                    sqlconnection.Open();
+                    using (SqlDataReader dbreader = cmd.ExecuteReader())
+                    {
+                        while (dbreader.Read())
+                        {
+                            savedlists.Add(new ProfilesListGraph
+                            {
+                                ListID = dbreader["ListID"].ToString(),
+                                ListName = dbreader["Name"].ToString(),
+                                ExternalConnection = true,
+                                InternalConnection = true,
+                                GroupingLevel = "Person"
+                            }
+                            );
+                        }
+                        if (!dbreader.IsClosed)
+                            dbreader.Close();
+
+                        if (sqlconnection.State == ConnectionState.Open)
+                            sqlconnection.Close();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            return savedlists;
+        }
+        public static List<string> GetGraphColors(int cnt)
+        {
+            List<string> colors = new List<string>();
+            Framework.Utilities.DataIO dataio = new Framework.Utilities.DataIO();
+            try
+            {
+                using (SqlConnection sqlconnection = new SqlConnection(dataio.GetConnectionString()))
+                {
+
+                    SqlCommand cmd = new SqlCommand("[Profile.Module].[GetDisplayColors]", sqlconnection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlParameter parm = new SqlParameter("@Count", SqlDbType.Int);
+                    parm.Direction = ParameterDirection.Input;
+                    parm.Value = cnt;
+                    cmd.Parameters.Add(parm);
+
+                    sqlconnection.Open();
+                    using (SqlDataReader dbreader = cmd.ExecuteReader())
+                    {
+                        while (dbreader.Read())
+                        {
+                            colors.Add(dbreader["color"].ToString());
+                        }
+
+                        if (!dbreader.IsClosed)
+                            dbreader.Close();
+
+
+                        if (sqlconnection.State == ConnectionState.Open)
+                            sqlconnection.Close();
+
+                        colors.Reverse();
+                    }
+
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            return colors;
+
+        }
     }
-
-
-
-
 }

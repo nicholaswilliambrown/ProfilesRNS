@@ -30,7 +30,7 @@ async function prepareManagePage() {
 
     let target = $('#peopleDiv');
 
-    hideAllTabContent(true);
+    hideTabsContent();
 
     showThisTabContent($('#manage'));
     parsePersonListData(gLists.people, target, true);
@@ -41,20 +41,13 @@ async function prepareManagePage() {
     }
 }
 
-function hideAllTabContent(hideVisualize) {
-    if (hideVisualize) {
-        $(`#visualizeLists`).hide();
-    }
-    if (gLists.currentTab == 'visualizeLists') {
-        // special treatment for transient visualize tab
-        $(`#visualizeListsContent`).empty();
-        $(`#visualizeLists`).hide();
-    }
+function hideTabsContent() {
+    $(`#visualizeLists`).hide();
 
-    let inactives = $('#tabsUl').find('span');
-    inactives.removeClass('active');
-    inactives.removeAttr('aria-current');
-    inactives.each(function(index, elt) {
+    let tabs = $('#tabsUl').find('span');
+    tabs.removeClass('active');
+    tabs.removeAttr('aria-current');
+    tabs.each(function(index, elt) {
         let tabFlavor = $(elt).attr('id');
         $(`#${tabFlavor}Content`).hide();
     });
@@ -76,7 +69,7 @@ function adjustToClickedTab(e) {
     }
 
     if ( ! spanTarget.hasClass('active')) { // click on current tab should be no-op
-        hideAllTabContent();
+        hideTabsContent();
         let tabFlavor = showThisTabContent(spanTarget);
 
         console.log('flavor is: ', tabFlavor);

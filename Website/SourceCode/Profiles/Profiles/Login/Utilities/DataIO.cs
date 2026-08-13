@@ -21,14 +21,8 @@ namespace Profiles.Login.Utilities
 {
     public class DataIO : Framework.Utilities.DataIO
     {
-
         #region "USER MANAGEMENT"
 
-        /// <summary>
-        /// For User Authentication 
-        /// </summary>
-        /// <param name="user"></param>
-        /// <param name="session"></param>
         public bool UserLogin(ref User user)
         {
             bool loginsuccess = false;
@@ -151,11 +145,6 @@ namespace Profiles.Login.Utilities
             return loginsuccess;
         }
 
-        /// <summary>
-        /// For User Authentication 
-        /// </summary>
-        /// <param name="user"></param>
-        /// <param name="session"></param>
         public void UserLogout()
         {
 
@@ -163,13 +152,6 @@ namespace Profiles.Login.Utilities
             sm.SessionLogout();
 
         }
-
-
-
-
-
         #endregion
-
-
     }
 }

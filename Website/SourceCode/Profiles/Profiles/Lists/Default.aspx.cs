@@ -165,6 +165,9 @@ namespace Profiles.Lists
                 else if (restTask == "GetList"){
                     result = getListPeople();
                 }
+                else if (restTask == "VisualizeLists"){
+                    result = handleViz();
+                }
                 Response.Write(result);
                 Response.End(); // nuke the page lifecycle additions
             }
@@ -294,9 +297,9 @@ namespace Profiles.Lists
         public XmlDocument PresentationXML { get; set; }
 
         private string handleViz() {
-            string listids = Request.QueryString["listids"];
+            string listIds = Request.QueryString["listIds"];
 
-            var profilesListGraphs = Utilities.DataIO.GetSelectedSavedLists(listids);
+            var profilesListGraphs = Utilities.DataIO.GetSelectedSavedLists(listIds);
 
             List<string> graphColors = Utilities.DataIO.GetGraphColors(profilesListGraphs.Count);
 

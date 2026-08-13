@@ -58,23 +58,26 @@ function requireSelection(onlyOne) {
     return selectionString;
 }
 function activateVisualizeTab() {
-    hideTabsContent();
+    let selectedLids = requireSelection();
+    if (selectedLids) {
+        hideTabsContent();
 
-    $('#visualizeLists').show();
-    $('#visualizeLists').addClass('active');
-    $('#visualizeLists').attr('aria-current', true);
+        $('#visualizeLists').show();
+        $('#visualizeLists').addClass('active');
+        $('#visualizeLists').attr('aria-current', true);
 
-    $('#visualizeListsContent').show();
+        $('#visualizeListsContent').show();
 
-    gLists.currentTab = 'visualizeLists';
+        gLists.currentTab = 'visualizeLists';
 
-    populateVisualizeContent();
+        populateVisualizeContent();
+    }
 }
 function populateVisualizeContent() {
     let target = $('#visualizeListsContent');
     target.empty();
 
-    backendActionWrapper(null, 'AddUpdateList', 'Replace');
+    backendActionWrapper(null, 'VisualizeLists', '');
 
     target.append('<div>I can visualize great things</div>');
 }

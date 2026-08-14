@@ -330,8 +330,10 @@ function refreshToTab(tab) {
     if (!tab) {
         tab = gLists.currentTab
     }
-    let refreshUrl = new URL(window.location.href);
-    refreshUrl.searchParams.set('tab', tab);
+    if (tab != 'visualizeLists') { // we don't reload the dynamically created tab
+        let refreshUrl = new URL(window.location.href);
+        refreshUrl.searchParams.set('tab', tab);
 
-    window.location.href = refreshUrl.toString();
+        window.location.href = refreshUrl.toString();
+    }
 }

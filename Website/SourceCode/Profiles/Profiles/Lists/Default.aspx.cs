@@ -297,7 +297,7 @@ namespace Profiles.Lists
         public XmlDocument PresentationXML { get; set; }
 
         private string handleViz() {
-            string listIds = Request.QueryString["listIds"];
+            string listIds = Request.Form["listIds"].ToString();
 
             var profilesListGraphs = Utilities.DataIO.GetSelectedSavedLists(listIds);
 
@@ -309,20 +309,9 @@ namespace Profiles.Lists
                 profilesListGraphs[i].GraphColor = graphColors[i];
             }
 
-            gridViz.DataSource = profilesListGraphs;
-            gridViz.DataBind();
-
-            string json = "[";
-            int i2 = 0;
-            foreach (Utilities.DataIO.ProfilesListGraph g in profilesListGraphs)
-            {
-                if (i2 != 0) { json += ", "; }
-                i2++;
-                json += g.toJSON();
-            }
-            json += "]";
-
-            return json;
+            var serializer = new JavaScriptSerializer();
+            string result = serializer.Serialize(profilesListGraphs);
+            return result;
         }
     }
 }

@@ -1,6 +1,30 @@
 USE HCProfileOpenSource_Localhost;
 GO
 
+CREATE OR ALTER PROCEDURE [Profile.Module].[GetDisplayColors]
+	@Count INT=NULL
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+create table #colors(sortOrder int, color varchar(20))
+
+    insert into #colors (sortORder, color) values (0, '#4E79A7')
+	insert into #colors (sortORder, color) values (1, '#F28E2B')
+	insert into #colors (sortORder, color) values (2, '#E15759')
+	insert into #colors (sortORder, color) values (3, '#76B7B2')
+	insert into #colors (sortORder, color) values (4, '#59A14F')
+	insert into #colors (sortORder, color) values (5, '#EDC948')
+	insert into #colors (sortORder, color) values (6, '#B07AA1')
+	insert into #colors (sortORder, color) values (7, '#FF9DA7')
+	insert into #colors (sortORder, color) values (8, '#9C755F')
+	insert into #colors (sortORder, color) values (9, '#BAB0AC')
+
+
+select color from #colors where sortOrder < @count
+END;
+GO
+
 CREATE OR ALTER PROCEDURE [Profile.Data].[List.AddRemove.CoAuthors]
 	@UserID int,
 	@Action varchar(55),

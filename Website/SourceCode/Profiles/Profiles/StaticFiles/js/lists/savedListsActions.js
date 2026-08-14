@@ -73,11 +73,11 @@ function activateVisualizeTab() {
         populateVisualizeContent();
     }
 }
-function populateVisualizeContent() {
+async function populateVisualizeContent() {
     let target = $('#visualizeListsContent');
     target.empty();
 
-    backendActionWrapper(null, 'VisualizeLists', '');
+    await backendActionWrapper(null, 'VisualizeLists', '');
 
     target.append('<div>I can visualize great things</div>');
 }
@@ -136,34 +136,36 @@ function populateActionsRhs(rhs) {
         activateVisualizeTab);
 }
 
-async function backendActionWrapper(e, restApi, action, oneListOnly, name) {
+async function backendActionWrapper(e, restApi, mutationAction, oneListOnly, name) {
     if (e) { e.preventDefault(); }
 
     let selectedLids = requireSelection();
     if (selectedLids) {
         if (!name) name = '';
-        await backendAction(action, selectedLids, restApi, name);
+        await backendAction(mutationAction, selectedLids, restApi, name);
     }
 }
-async function backendAction(action, listIds, restApi, name) {
+async function backendAction(mutationAction, listIds, restApi, name) {
     if (!name) name = '';
 
     let url = `${g.profilesRootURL}/Lists/Default.aspx/${restApi}`;
-    console.log(`Posting ${action} to ${url}`);
+    console.log(`Posting ${mutationAction} to ${url}`);
 
     let dataObject = {
-        action: action,
+        action: mutationAction,
         listIds: listIds,
         name: name
     };
 
     await $.post(url, dataObject)
         .done(function (result) {
-            console.log(`Result: ${result}`);
+            console.log(`===============Result: ${result}`);
         })
         .fail(xhrFail);
 
-    refreshButComeBackToSaved();
+    if (mutationAction) {
+        refreshButComeBackToSaved();
+    }
 }
 function populateSideHelper(side) {
     side.removeClass('bold');

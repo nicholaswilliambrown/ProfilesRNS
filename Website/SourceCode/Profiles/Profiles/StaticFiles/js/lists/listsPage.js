@@ -1,8 +1,8 @@
 // this JS should load before the other tab-JS, so they can use gLists
 gLists.noRank = '--';
+gLists.toSaved = 'toSaved';
 gLists.manage = {
     setup: async () => {
-
         $('.modalupdate').hide();
 
         specialHandling();
@@ -27,9 +27,9 @@ async function prepareManagePage() {
     let target = $('#peopleDiv');
     target.empty();
 
-    let tab = trySearchUrlParam('tab');
-    if (tab && tab != 'manage') {
-        $(`#${tab}`).click();
+    if (sessionStorage.getItem(gLists.toSaved)) {
+        sessionStorage.removeItem(gLists.toSaved);
+        $(`#savedLists`).click();
     }
     else {
         console.log('manage');
@@ -289,7 +289,7 @@ async function removeSelectedPersons(e) {
         })
         .fail(xhrFail);
 
-    refreshToTab(gLists.currentTab);
+    refreshButComeBackToSaved(gLists.currentTab);
 }
 
 async function removeAllPersons(e) {
@@ -329,14 +329,7 @@ function xhrFail (jqXHR, textStatus, errorThrown) {
     console.error("Error Thrown: " + errorThrown); // Common outputs: "Not Found", "Internal Server Error"
     console.error("HTTP Status Code: " + jqXHR.status); // e.g., 404, 500;
 }
-function refreshToTab(tab) {
-    if (!tab) {
-        tab = gLists.currentTab
-    }
-    if (tab != 'visualizeLists') { // we don't reload the dynamically created tab
-        let refreshUrl = new URL(window.location.href);
-        refreshUrl.searchParams.set('tab', tab);
-
-        window.location.href = refreshUrl.toString();
-    }
+function refreshButComeBackToSaved() {
+    sessionStorage.setItem(gLists.toSaved, true);
+    window.location.reload();
 }

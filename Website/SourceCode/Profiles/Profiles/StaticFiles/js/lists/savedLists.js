@@ -4,6 +4,7 @@ gLists.savedLists = {
 
         console.log('savedLists');
         gLists.currentTab = 'savedLists';
+        sessionStorage.removeItem(gLists.toSaved);
 
         $('.modalupdate').show();
 

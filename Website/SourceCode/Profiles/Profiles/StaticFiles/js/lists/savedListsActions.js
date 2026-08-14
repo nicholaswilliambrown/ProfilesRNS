@@ -4,7 +4,7 @@ function saveCurrentList() {
     let url = `${g.profilesRootURL}/Lists/Default.aspx/Save?name=${name}`;
     $.get(url, function() {
         console.log('List: ', name, ' saved');
-        refreshToTab();
+        refreshButComeBackToSaved();
     })
 }
 
@@ -163,7 +163,7 @@ async function backendAction(action, listIds, restApi, name) {
         })
         .fail(xhrFail);
 
-    refreshToTab();
+    refreshButComeBackToSaved();
 }
 function populateSideHelper(side) {
     side.removeClass('bold');

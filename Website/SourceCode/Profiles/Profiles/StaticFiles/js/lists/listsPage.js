@@ -2,12 +2,8 @@
 gLists.noRank = '--';
 gLists.manage = {
     setup: async () => {
-        await getPeopleListInfo();
 
         $('.modalupdate').hide();
-
-        console.log('manage');
-        gLists.currentTab = 'manage';
 
         specialHandling();
         prepareManagePage();
@@ -29,15 +25,21 @@ async function prepareManagePage() {
     $('#addCoauthors').on('click', addCoauthors);
 
     let target = $('#peopleDiv');
-
-    hideTabsContent();
-
-    showThisTabContent($('#manage'));
-    parsePersonListData(gLists.people, target, true);
+    target.empty();
 
     let tab = trySearchUrlParam('tab');
-    if (tab) {
+    if (tab && tab != 'manage') {
         $(`#${tab}`).click();
+    }
+    else {
+        console.log('manage');
+        gLists.currentTab = 'manage';
+
+        await getPeopleListInfo();
+        hideTabsContent();
+
+        showThisTabContent($('#manage'));
+        parsePersonListData(gLists.people, target, true);
     }
 }
 
@@ -86,19 +88,20 @@ function noPeopleOnList(target) {
 function parsePersonListData(people, target, isManage) {
     gLists.isManage = isManage ? isManage : false;
     if (!isManage) {
-        target.append($('<div id="currentListPeople" class="bold ps-0 ms-0">My Current List</div>'));
+        let peopleTableSuperHeader = $('<div id="currentListPeople" class="bold ps-0 ms-0">My Current List</div>');
+        target.append(peopleTableSuperHeader);
     }
 
     let currentPeopleTable = $(`<div id="currentPeopleTable"></div>`);
     target.append(currentPeopleTable);
 
-    let noPeopleTarget = isManage ? $("#manageContent") : $("#currentPeopleTable");
+    let noPeopleTarget = isManage ? $("#manageContent") : currentPeopleTable;
     if (people.length == 0) {
         noPeopleOnList($(noPeopleTarget));
     }
     else {
-        emitTopOfPersonTable(people, target, isManage);
-        emitPersonRowsAndButtons(people, target, isManage);
+        emitTopOfPersonTable(people, currentPeopleTable, isManage);
+        emitPersonRowsAndButtons(people, currentPeopleTable, isManage);
     }
 }
 

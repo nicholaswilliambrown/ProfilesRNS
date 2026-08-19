@@ -84,8 +84,6 @@ namespace Profiles.Lists
                 string redirectUrl = Root.Domain + "/login/default.aspx?method=logout&redirectto=" + Root.Domain;
                 myLog("************************** zero-Person, time to login again");
                 Response.Redirect(redirectUrl);
-//                Response.Write("Please recycle your session in order to refresh a stale People list. Use: <a href='" + redirectUrl + "'>Logout</a>");
-//                Response.End();
             }
 
             string[] restSegments = Request.Url.AbsolutePath.Split('/');

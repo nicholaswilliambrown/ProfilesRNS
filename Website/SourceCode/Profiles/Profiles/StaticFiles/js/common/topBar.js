@@ -210,9 +210,6 @@ async function getPeopleListInfo() {
     await $.get(listUrl.toString(), function(result) {
         try {
             rawResult = result;
-            // if (rawResult && rawResult.match(/recycle your session/)) {
-            //     window.location.href = `${g.profilesRootURL}/login/default.aspx?method=logout&redirectto=${g.profilesRootURL}`;
-            // }
             manageTabData = JSON.parse(rawResult);
 
             console.log('PeopleList, data: ', manageTabData);

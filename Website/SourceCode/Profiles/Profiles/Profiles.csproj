@@ -335,6 +335,7 @@
     <Content Include="StaticFiles\html-templates\default.html" />
     <Content Include="StaticFiles\html-templates\EditProperty.html" />
     <Content Include="StaticFiles\html-templates\lists.html" />
+    <Content Include="StaticFiles\html-templates\listsCluster.html" />
     <Content Include="StaticFiles\html-templates\group.html" />
     <Content Include="StaticFiles\html-templates\groupRole.html" />
     <Content Include="StaticFiles\html-templates\groupRoleByRole.html" />

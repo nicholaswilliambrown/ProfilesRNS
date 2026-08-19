@@ -70,16 +70,30 @@ function activateVisualizeTab() {
 
         gLists.currentTab = 'visualizeLists';
 
-        populateVisualizeContent();
+        populateInitialVisualizeContent();
     }
 }
-async function populateVisualizeContent() {
+async function populateInitialVisualizeContent() {
     let target = $('#visualizeListsContent');
     target.empty();
 
     await backendActionWrapper(null, 'VisualizeLists', '');
 
-    target.append('<div>I can visualize great things</div>');
+    // need iFrame to avoid name-collisions with graph stuff from StaticFiles that helped display the public pages
+    //
+    // let iFrame = $(`<iframe id="clusterVizFrame" src="${g.profilesRootURL}/StaticFiles/html-templates/listsCluster.html" title="cluster for saved lists"></iframe>`);
+    // target.append(iFrame);
+    //
+    // iFrame.on('click', () => {
+    //     console.log('---------------- parent notices click in iframe!');
+    // });
+
+    /////////////document.getElementById('myIframe').contentDocument.getElementById('inner-element')
+    target.append($('<h1>Viz Cluster: Away we go!</h1>'));
+    console.log("=============== Viz Data: ", gLists.resultData);
+}
+function createListCluster() {
+
 }
 function harvestNameAndApplyToList() {
     let selectedLid = requireSelection(true);
@@ -157,14 +171,18 @@ async function backendAction(mutationAction, listIds, restApi, name) {
         name: name
     };
 
+    let resultData;
     await $.post(url, dataObject)
         .done(function (result) {
-            console.log(`===============Result: ${result}`);
+            resultData = result;
         })
         .fail(xhrFail);
 
     if (mutationAction) {
         refreshButComeBackToSaved();
+    }
+    else {
+        gLists.resultData = resultData;
     }
 }
 function populateSideHelper(side) {

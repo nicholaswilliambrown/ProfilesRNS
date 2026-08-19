@@ -210,23 +210,26 @@ async function getPeopleListInfo() {
     await $.get(listUrl.toString(), function(result) {
         try {
             rawResult = result;
-            if (rawResult && rawResult.match("logout")) {
-                window.location.href = `${g.profilesRootURL}/login/default.aspx?method=logout&redirectto=${g.profilesRootURL}`;
-            }
+            // if (rawResult && rawResult.match(/recycle your session/)) {
+            //     window.location.href = `${g.profilesRootURL}/login/default.aspx?method=logout&redirectto=${g.profilesRootURL}`;
+            // }
             manageTabData = JSON.parse(rawResult);
+
+            console.log('PeopleList, data: ', manageTabData);
+            gLists.people = manageTabData.ListItems;
+            gLists.numPeople = gCommon.numPersons = gLists.people.length;
+            gLists.institutions = manageTabData.Institutions;
+            gLists.facultyRanks = manageTabData.FacultyRanks;
+
+            $('#numPersonsSpan').html(gLists.numPeople);
+            $('#currentListSize').html(gLists.numPeople);
         }
         catch (e) {
             console.log('************** cannot parse listData: ', )
+            $('#numPersonsSpan').html("N/A");
+            $('#currentListSize').html("N/A");
         }
     });
-
-    console.log('PeopleList, data: ', manageTabData);
-    gLists.people = manageTabData.ListItems;
-    gLists.numPeople = gCommon.numPersons = gLists.people.length;
-    gLists.institutions = manageTabData.Institutions;
-    gLists.facultyRanks = manageTabData.FacultyRanks;
-
-    $('#numPersonsSpan').html(gLists.numPeople);
 }
 async function getCurrentListSize() {
     await getPeopleListInfo();

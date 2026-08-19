@@ -39,7 +39,6 @@
     <!-- todo: probably do not need charts on most pages -- remove and smoke all pages -->
     <script src="https://www.gstatic.com/charts/loader.js"></script>
 
-
     {globalVariables}
 
     {SessionInfo}
@@ -76,6 +75,18 @@
     <script src="{profilesPath}/StaticFiles/js/lists/savedLists.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/js/lists/savedListsActions.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/js/paging/pagingCached.js" type="text/javascript"></script>
+
+    <!-- ======== all these intended to support savedLists cluster =======-->
+    <link href="{profilesPath}/lists/CSS/search.css" rel="stylesheet" type="text/css" media="all">
+    <link href="{profilesPath}/lists/CSS/lists.css" rel="stylesheet" type="text/css" media = "all">
+    <link href="{profilesPath}/lists/CSS/colorpicker.css" rel="stylesheet" type="text/css" media = "all">
+    <link href="{profilesPath}/Lists/modules/NetworkClusterList/CSS/NetworkBrowser.css" rel="stylesheet" type="text/css" media = "all">
+
+    <script src="{profilesPath}/lists/JavaScript/colorpicker.js" type="text/javascript"></script>
+    <script src="{profilesPath}/lists/JavaScript/ClusterGraphHelper.js" type="text/javascript"></script>
+    <script src="{profilesPath}/lists/JavaScript/GenClusterViz.js" type="text/javascript"></script>
+    <script src="{profilesPath}/lists/JavaScript/GenClusterViz.js" type="text/javascript"></script>
+    <!-- ======== all these intended to support savedLists cluster =======-->
 
     <script type="text/javascript">
         $(document).ready(gLists.manage.setup);

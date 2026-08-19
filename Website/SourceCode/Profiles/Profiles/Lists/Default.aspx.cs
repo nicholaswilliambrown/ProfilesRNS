@@ -83,8 +83,9 @@ namespace Profiles.Lists
             if (session.PersonID <= 0) {
                 string redirectUrl = Root.Domain + "/login/default.aspx?method=logout&redirectto=" + Root.Domain;
                 myLog("************************** zero-Person, time to login again");
-                Response.Write("logout. Use: " + redirectUrl);
-                Response.End();
+                Response.Redirect(redirectUrl);
+//                Response.Write("Please recycle your session in order to refresh a stale People list. Use: <a href='" + redirectUrl + "'>Logout</a>");
+//                Response.End();
             }
 
             string[] restSegments = Request.Url.AbsolutePath.Split('/');
@@ -167,6 +168,11 @@ namespace Profiles.Lists
                 }
                 else if (restTask == "VisualizeLists"){
                     result = handleViz();
+                }
+                else if (restTask == "VisualizeListsCluster"){
+                    string listIds = Request.QueryString["s"].ToString();
+
+                    result = Profiles.Lists.Utilities.DataIO.GetNetworkRadialCoAuthors(listIds);
                 }
                 Response.Write(result);
                 Response.End(); // nuke the page lifecycle additions
@@ -297,6 +303,23 @@ namespace Profiles.Lists
         public XmlDocument PresentationXML { get; set; }
 
         private string handleViz() {
+            string listIds = Request.Form["listIds"].ToString();
+
+            var profilesListGraphs = Utilities.DataIO.GetSelectedSavedLists(listIds);
+
+            List<string> graphColors = Utilities.DataIO.GetGraphColors(profilesListGraphs.Count);
+
+            //init all the colors and defaults before loading the grid.
+            for (int i = 0; i < graphColors.Count; i++)
+            {
+                profilesListGraphs[i].GraphColor = graphColors[i];
+            }
+
+            var serializer = new JavaScriptSerializer();
+            string result = serializer.Serialize(profilesListGraphs);
+            return result;
+        }
+        private string handleVizCluster() {
             string listIds = Request.Form["listIds"].ToString();
 
             var profilesListGraphs = Utilities.DataIO.GetSelectedSavedLists(listIds);

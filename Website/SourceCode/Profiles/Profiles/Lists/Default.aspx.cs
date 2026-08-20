@@ -168,9 +168,7 @@ namespace Profiles.Lists
                     result = handleViz();
                 }
                 else if (restTask == "VisualizeListsCluster"){
-                    string listIds = Request.QueryString["s"].ToString();
-
-                    result = Profiles.Lists.Utilities.DataIO.GetNetworkRadialCoAuthors(listIds);
+                    result = handleVizCluster();
                 }
                 Response.Write(result);
                 Response.End(); // nuke the page lifecycle additions
@@ -320,18 +318,8 @@ namespace Profiles.Lists
         private string handleVizCluster() {
             string listIds = Request.Form["listIds"].ToString();
 
-            var profilesListGraphs = Utilities.DataIO.GetSelectedSavedLists(listIds);
+            string result = Profiles.Lists.Utilities.DataIO.GetCoAuthorsForSavedLists(listIds);
 
-            List<string> graphColors = Utilities.DataIO.GetGraphColors(profilesListGraphs.Count);
-
-            //init all the colors and defaults before loading the grid.
-            for (int i = 0; i < graphColors.Count; i++)
-            {
-                profilesListGraphs[i].GraphColor = graphColors[i];
-            }
-
-            var serializer = new JavaScriptSerializer();
-            string result = serializer.Serialize(profilesListGraphs);
             return result;
         }
     }

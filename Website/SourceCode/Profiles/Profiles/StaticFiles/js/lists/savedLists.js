@@ -6,6 +6,9 @@ gLists.savedLists = {
         gLists.currentTab = 'savedLists';
         sessionStorage.removeItem(gLists.toSaved);
 
+        gLists.vizData = [];
+        gLists.vizClusterData = [];
+
         $('.modalupdate').show();
 
         let target = $('#savedDynamicDisplay');

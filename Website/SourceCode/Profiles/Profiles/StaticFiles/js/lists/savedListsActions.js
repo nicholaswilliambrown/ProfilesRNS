@@ -79,7 +79,7 @@ async function populateInitialVisualizeContent() {
 
     await backendActionWrapper(null, 'VisualizeLists', '');
 
-    // need iFrame to avoid name-collisions with graph stuff from StaticFiles that helped display the public pages
+    // may need iFrame to avoid name-collisions with graph stuff from StaticFiles that helped display the public pages
     //
     // let iFrame = $(`<iframe id="clusterVizFrame" src="${g.profilesRootURL}/StaticFiles/html-templates/listsCluster.html" title="cluster for saved lists"></iframe>`);
     // target.append(iFrame);
@@ -89,11 +89,19 @@ async function populateInitialVisualizeContent() {
     // });
 
     /////////////document.getElementById('myIframe').contentDocument.getElementById('inner-element')
-    target.append($('<h1>Viz Cluster: Away we go!</h1>'));
-    console.log("=============== Viz Data: ", gLists.resultData);
-}
-function createListCluster() {
 
+    console.log("=============== Viz Data: ", gLists.resultData);
+
+    gLists.vizData = JSON.parse(gLists.resultData);
+    let listCodes = `${gLists.vizData[0].ListID}p1`;
+    createListCluster(listCodes);
+
+    clusterHtml(target);
+}
+async function createListCluster(listCodes) {
+    await backendAction('', listCodes, "VisualizeListsCluster", '');
+    gLists.vizClusterData = JSON.parse(gLists.resultData);
+    console.log("=============== Viz Cluster Data: ", gLists.vizClusterData);
 }
 function harvestNameAndApplyToList() {
     let selectedLid = requireSelection(true);
@@ -189,3 +197,4 @@ function populateSideHelper(side) {
     side.removeClass('bold');
     side.empty();
 }
+/////////////////////////////////////////////////////////////////

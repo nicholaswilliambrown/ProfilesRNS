@@ -17,10 +17,10 @@ function setupClusters() {
     }
 
     $("[id^=chkInternalConnection]").change(function (evt) {
-        json_graph_data.find(el => el.ListID == $(this).attr('data-id')).InternalConnection = this.checked;
+        gLists.vizClusterData.find(el => el.ListID == $(this).attr('data-id')).InternalConnection = this.checked;
     });
     $('[id^="chkExternalConnection"]').change(function (evt) {
-        json_graph_data.find(el => el.ListID == $(this).attr('data-id')).ExternalConnection = this.checked;
+        gLists.vizClusterData.find(el => el.ListID == $(this).attr('data-id')).ExternalConnection = this.checked;
 
     })
     $('#download-options').change(function (evt) {
@@ -46,7 +46,7 @@ function setupClusters() {
     });
 
     $('.grouping-level').change(function (evt) {
-        json_graph_data.find(el => el.ListID == $(this).attr('data-id')).GroupingLevel = $(this.options[this.selectedIndex]).val();
+        gLists.vizClusterData.find(el => el.ListID == $(this).attr('data-id')).GroupingLevel = $(this.options[this.selectedIndex]).val();
     });
 }
 
@@ -57,9 +57,9 @@ function GenGraph(val) {
     }
 
 
-    network_browser.render(json_graph_data, $("#chkIncludeLegand").prop("checked"));
+    network_browser.render(gLists.vizClusterData, $("#chkIncludeLegand").prop("checked"));
 
-    if (val == '') {
+    if (! val) {
         $("#btnGenerateView").html("Regenerate Cluster View");
         $("#generated-graph-area").slideDown();
         $('#btnGenerateView').off('click').on('click', function () {
@@ -80,9 +80,9 @@ $('#btnGenerateView').on('click', function () {
     return false;
 });
 
-function setupColorPicker () {
-    $('#colorSelector<%#Eval("ListID")%>').ColorPicker({
-        color: '<%#Eval("GraphColor")%>',
+function setupColorPicker (target, data, i) {
+    target.ColorPicker({
+        color: data.GraphColor,
         onShow: function (colpkr) {
             $(colpkr).fadeIn(500);
             return false;
@@ -92,13 +92,29 @@ function setupColorPicker () {
             return false;
         },
         onChange: function (hsb, hex, rgb) {
-
-            $('#colorSelector<%#Eval("ListID")%> div').css('backgroundColor', '#' + hex);
-            json_graph_data.find(el => el.ListID == '<%#Eval("ListID")%>').GraphColor = '#' + hex;
+            $(`#colorPicker-${i} div`).css('backgroundColor', '#' + hex);
+            gLists.vizClusterData.find(el => el.ListID == data.ListID).GraphColor = '#' + hex;
         }
     });
+    target.show();
+
+    $('#colorSelector').ColorPicker({
+        color: '#0000ff',
+        onShow: function (colpkr) {
+            $(colpkr).fadeIn(500);
+            return false;
+        },
+        onHide: function (colpkr) {
+            $(colpkr).fadeOut(500);
+            return false;
+        },
+        onChange: function (hsb, hex, rgb) {
+            $('#colorSelector div').css('backgroundColor', '#' + hex);
+        }
+    });
+    console.log('hello rainbow world');
 }
-async function clusterHtml(target) {
+async function loadClusterHtml(target) {
     let content = $(`
         <div
         style="float: left; margin-top: 16px; width: 100%; font-size: 12px; line-height: 16px; border-bottom: 1px dotted #999; padding-bottom: 12px; margin-bottom: 10px;">
@@ -177,6 +193,9 @@ async function clusterHtml(target) {
             </button>
         </div>
     </div>
+    <h1>Color Selector Test</h1>
+    <div class="colorSelector" id="colorSelector"><div></div></div>
+    <hr/>
     <div id="generated-graph-area">
         <div style="display: table-row">
             <div id="graph-render-area" style="border: 1px solid gray; margin-bottom: 16px; margin-top: 16px;"></div>
@@ -190,7 +209,8 @@ async function clusterHtml(target) {
     </div>
     `);
     await target.append(content);
-
+}
+function setupHtml(target) {
     let clusterCriteria = target.find('#clusterCriteria');
     let colSpecs = makeColSpecsViz([
         'Person List',
@@ -202,25 +222,49 @@ async function clusterHtml(target) {
 
     makeRowWithColumns(clusterCriteria, 'CriteriaHeader', colSpecs, 'listsTableHeader bord9 myMs-0');
 
+    emitCriteriaRows(clusterCriteria);
+
+    setupClusters();
+    GenGraph();
+}
+function emitCriteriaRows(target) {
     for (let i=0; i<gLists.vizData.length; i++) {
-        let data = gLists.vizData[i];
+        let data = gLists.vizData[0];
+
+        let listId = data.ListID;
+        let groupSelect = $(`<select id="groupSelect-${i}"></select>`);
+        groupSelect.append($(`<option value="${listId}p" selected="true">Person</option>`));
+        groupSelect.append($(`<option value="${listId}d">Department</option>`));
+        groupSelect.append($(`<option value="${listId}i">Institution</option>`));
+
+        let colorPickerOuterDiv = $(`<div></div>`);
+        colorPickerOuterDiv.append($(`<div class="colorSelector" id="colorPicker-${i}"></div>`));
+        setupColorPicker (colorPickerOuterDiv, data, i);
+
+        let internalCheckbox = $(`<input type="checkbox" 
+                    ${data.InternalConnection ? 'checked' : ''} id="internalCheckbox-${i}">`);
+        let externalCheckbox = $(`<input type="checkbox"  
+                    ${data.ExternalConnection ? 'checked' : ''} id="externalCheckbox-${i}">`);
+
         let rowColSpecs = makeColSpecsViz([
             data.ListName,
-            data.GroupingLevel,
-            data.GraphColor,
-            data.InternalConnection,
-            data.ExternalConnection
+            groupSelect,
+            colorPickerOuterDiv,
+            internalCheckbox,
+            externalCheckbox
         ]);
-        makeRowWithColumns(clusterCriteria, 'CriteriaRow'+i, rowColSpecs, 'odd bord9 myMs-0');
+        makeRowWithColumns(target, 'CriteriaRow'+i, rowColSpecs, 'odd bord9 myMs-0');
     }
+}
+function emitCriteriaListCode() {
 
 }
 function makeColSpecsViz(vals) {
-    let colSpecs = [newColumnSpec(`${gCommon.cols3} bordE p-1`,                                 vals[0]),
-                    newColumnSpec(`${gCommon.cols2} bordE p-1 d-flex justify-content-center`,   vals[1]),
-                    newColumnSpec(`${gCommon.cols2} bordE p-1 d-flex justify-content-center`,   vals[2]),
-                    newColumnSpec(`${gCommon.cols2} bordE p-1 d-flex justify-content-center`,   vals[3]),
-                    newColumnSpec(`${gCommon.cols3} p-1 d-flex justify-content-center`,         vals[4])
+    let colSpecs = [newColumnSpec(`${gCommon.cols3or12} bordE p-1`,                                 vals[0]),
+                    newColumnSpec(`${gCommon.cols2or12} bordE p-1 d-flex justify-content-center`,   vals[1]),
+                    newColumnSpec(`${gCommon.cols2or12} bordE p-1 d-flex justify-content-center`,   vals[2]),
+                    newColumnSpec(`${gCommon.cols2or12} bordE p-1 d-flex justify-content-center`,   vals[3]),
+                    newColumnSpec(`${gCommon.cols3or12} p-1 d-flex justify-content-center`,         vals[4])
     ];
     return colSpecs;
 }

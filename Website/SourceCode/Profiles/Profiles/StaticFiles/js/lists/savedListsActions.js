@@ -94,9 +94,10 @@ async function populateInitialVisualizeContent() {
 
     gLists.vizData = JSON.parse(gLists.resultData);
     let listCodes = `${gLists.vizData[0].ListID}p1`;
-    createListCluster(listCodes);
+    await createListCluster(listCodes);
 
-    clusterHtml(target);
+    await loadClusterHtml(target);
+    setupHtml(target);
 }
 async function createListCluster(listCodes) {
     await backendAction('', listCodes, "VisualizeListsCluster", '');

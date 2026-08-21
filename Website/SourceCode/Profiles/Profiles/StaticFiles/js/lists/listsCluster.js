@@ -1,10 +1,3 @@
-// function setupListsCluster() {
-//     console.log("------------iframe is loaded");
-//     $('body').on('click', () => {
-//         console.log('---------------- iframe itself notices click!')
-//     });
-// }
-
 
 function setupClusters() {
     $('#download-options').hide();
@@ -92,8 +85,13 @@ function setupColorPicker (target, data, i) {
             return false;
         },
         onChange: function (hsb, hex, rgb) {
+            // 1. Update the outer wrapper background
+            $(`#colorPicker-${i}`).css('backgroundColor', '#' + hex);
+
+            // 2. Update the inner block background so it doesn't stay the original color
             $(`#colorPicker-${i} div`).css('backgroundColor', '#' + hex);
-            gLists.vizClusterData.find(el => el.ListID == data.ListID).GraphColor = '#' + hex;
+
+            gLists.vizData.find(row => row.ListID == data.ListID).GraphColor = '#' + hex;
         }
     });
     target.css('background-color', data.GraphColor);
@@ -113,7 +111,6 @@ function setupColorPicker (target, data, i) {
             $('#colorSelector div').css('backgroundColor', '#' + hex);
         }
     });
-    console.log('hello rainbow world');
 }
 async function loadClusterHtml(target) {
     let content = $(`
@@ -138,49 +135,12 @@ async function loadClusterHtml(target) {
     </div>
     <div id="list-viz-table">
         <div id="clusterCriteria" class="w-100">
-<!--            <RowStyle class="oddRow"/>-->
-<!--            <AlternatingRowStyle class="evenRow"/>-->
-<!--            <HeaderStyle class="topRow"/>-->
-<!--            <Columns>-->
-<!--                <div class="BoundField editLeftPaddedCol"-->
-<!--                                DataField="ListName" HeaderText="Person List" NullDisplayText="&#45;&#45;"/>-->
-<!--                <div class="TemplateField" HeaderText="Grouping Level">-->
-<!--                    <div class="ItemTemplate">-->
-<!--                        <select class="DropDownList" ID="ddlGroupingLevel" data-id='<%#Eval("ListID")%>'-->
-<!--                                          class='grouping-level'>-->
-<!--                            <option Text="Person" Value="Person" Selected="True"></option>-->
-<!--                            <option Text="Department" Value="Department"></option>-->
-<!--                            <option Text="Institution" Value="Institution"></option>-->
-<!--                        </select>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="TemplateField" HeaderText="Select Color">-->
-<!--                    <div class="ItemTemplate">-->
-<!--                        <div id='colorSelector<%#Eval("ListID")%>' data-id='<%#Eval("ListID")%>'-->
-<!--                             class="colorSelector">-->
-<!--                            <div style='background-color: <%#Eval("GraphColor")%>'></div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="TemplateField" HeaderText="Internal Connection">-->
-<!--                    <div class="ItemTemplate">-->
-<!--                        <input type="checkbox" id='chkInternalConnection<%#Eval("ListID")%>'-->
-<!--                               data-id='<%#Eval("ListID")%>' checked/>-->
-<!--                    </div>-->
-<!--                <div>-->
-<!--                <div class="TemplateField" HeaderText="External Connection">-->
-<!--                    <div class="ItemTemplate">-->
-<!--                        <input type="checkbox" id='chkExternalConnection<%#Eval("ListID")%>'-->
-<!--                               data-id='<%#Eval("ListID")%>' checked/>-->
-<!--                    </div>-->
-<!--                <div>-->
-<!--            </Columns>-->
         </div>
 
         <div style="margin-top: 5px;">
             <input type="CheckBox" ClientIDMode="Static" ID="chkIncludeLegand" Checked="true"/>
-            <label class="form-label" style="position: relative; top: -1px;" htmlFor="chkIncludeLegand">Include
-                legend in graph</label>
+            <label class="form-label bold" style="position: relative; top: -1px;" htmlFor="chkIncludeLegand">
+            Include legend in graph</label>
             <select id="download-options" style="position: relative; top: 3px;"
                     class="form-select mb-3 selectpicker">
                 <option disabled selected="selected" value="">Download size</option>
@@ -222,8 +182,8 @@ function setupHtml(target) {
 
     emitCriteriaRows(clusterCriteria);
 
-    setupClusters();
-    GenGraph();
+    // setupClusters();
+    // GenGraph();
 }
 function emitCriteriaRows(target) {
     for (let i=0; i<gLists.vizData.length; i++) {
@@ -235,9 +195,9 @@ function emitCriteriaRows(target) {
         groupSelect.append($(`<option value="${listId}d">Department</option>`));
         groupSelect.append($(`<option value="${listId}i">Institution</option>`));
 
-        let colorPickerOuterDiv = $(`<div></div>`);
-        colorPickerOuterDiv.append($(`<div class="colorSelector" id="colorPicker-${i}"></div>`));
-        setupColorPicker (colorPickerOuterDiv, data, i);
+        let colorPickerOuterDiv = $(`<div class="colorSelector" id="colorPicker-${i}"></div>`);
+        colorPickerOuterDiv.append($(`<div></div>`));
+        setupColorPicker(colorPickerOuterDiv, data, i);
 
         let internalCheckbox = $(`<input type="checkbox" 
                     ${data.InternalConnection ? 'checked' : ''} id="internalCheckbox-${i}">`);
@@ -255,7 +215,15 @@ function emitCriteriaRows(target) {
     }
 }
 function emitCriteriaListCode() {
-
+    for (let i=0; i<gLists.vizData.length; i++) {
+        let row = $(`#CriteriaRow${i}`);
+        let idAndGroup = $(`#groupSelect-${i}`).val();
+        let color = $(`#colorPicker-${i}`).css('background-color');
+        let internal = $(`#internalCheckbox-${i}`).is(":checked");
+        let external = $(`#externalCheckbox-${i}`).is(":checked");
+        let code = `${idAndGroup} ${color} ${internal} ${external}`;
+        console.log(code);
+    }
 }
 function makeColSpecsViz(vals) {
     let colSpecs = [newColumnSpec(`${gCommon.cols3or12} bordE p-1`,                                 vals[0]),

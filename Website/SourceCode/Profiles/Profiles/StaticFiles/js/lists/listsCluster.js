@@ -96,7 +96,8 @@ function setupColorPicker (target, data, i) {
             gLists.vizClusterData.find(el => el.ListID == data.ListID).GraphColor = '#' + hex;
         }
     });
-    target.show();
+    target.css('background-color', data.GraphColor);
+    target.css('font-weight', 'bold');
 
     $('#colorSelector').ColorPicker({
         color: '#0000ff',
@@ -193,9 +194,6 @@ async function loadClusterHtml(target) {
             </button>
         </div>
     </div>
-    <h1>Color Selector Test</h1>
-    <div class="colorSelector" id="colorSelector"><div></div></div>
-    <hr/>
     <div id="generated-graph-area">
         <div style="display: table-row">
             <div id="graph-render-area" style="border: 1px solid gray; margin-bottom: 16px; margin-top: 16px;"></div>
@@ -229,7 +227,7 @@ function setupHtml(target) {
 }
 function emitCriteriaRows(target) {
     for (let i=0; i<gLists.vizData.length; i++) {
-        let data = gLists.vizData[0];
+        let data = gLists.vizData[i];
 
         let listId = data.ListID;
         let groupSelect = $(`<select id="groupSelect-${i}"></select>`);

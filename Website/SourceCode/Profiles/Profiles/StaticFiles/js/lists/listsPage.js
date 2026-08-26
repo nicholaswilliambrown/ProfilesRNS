@@ -12,7 +12,6 @@ gLists.manage = {
 async function prepareManagePage() {
     await commonSetup();
 
-    setTabTitleAndOrFavicon(`My Person List (${gLists.numPeople})`);
     setupScrolling();
 
     let main = $('#mainDiv');
@@ -27,6 +26,9 @@ async function prepareManagePage() {
     let target = $('#peopleDiv');
     target.empty();
 
+    await getPeopleListInfo();
+    setTabTitleAndOrFavicon(`My Person List (${gLists.numPeople})`);
+
     if (sessionStorage.getItem(gLists.toSaved)) {
         sessionStorage.removeItem(gLists.toSaved);
         $(`#savedLists`).click();
@@ -35,7 +37,6 @@ async function prepareManagePage() {
         console.log('manage');
         gLists.currentTab = 'manage';
 
-        await getPeopleListInfo();
         hideTabsContent();
 
         showThisTabContent($('#manage'));

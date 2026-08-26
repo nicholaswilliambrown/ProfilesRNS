@@ -34,7 +34,6 @@ function setupClusters() {
                 break;
         }
 
-
         $('#download-options')[0].selectedIndex = 0;
     });
 
@@ -43,31 +42,18 @@ function setupClusters() {
     });
 }
 
-async function GenGraph(val) {
-    network_browser.Init(`${g.profilesPath}/Lists/Modules/NetworkClusterList/NetworkClusterListSvc.aspx?s=`,
-        '#graph-render-area', '.modalupdate');
+async function GenGraph() {
+    $('.modalupdate').show();
+    $('#graph-render-area').empty();
+
+    setupNetworkBrowser();
+    network_browser.Init(false,'#graph-render-area', '.modalupdate');
 
     let listIdsCode = emitCriteriaListCode();
     gLists.vizClusterData = await createListCluster(listIdsCode);
-
-    if ($('#graph-render-area').text().length > 0) {
-        $('#graph-render-area svg').remove();
-    }
-
     network_browser.render(gLists.vizClusterData, $("#chkIncludeLegand").prop("checked"));
 
-    // cluster data assumed to be moduleFoo[0]
-    //await clusterParse([gLists.vizClusterData], false);
-
-
-    // if (! val) {
-    //     $("#btnGenerateView").html("Regenerate Cluster View");
-    //     $("#generated-graph-area").slideDown();
-    //     $('#btnGenerateView').off('click').on('click', async function () {
-    //         GenGraph(gLists.vizClusterData.length);
-    //         return false;
-    //     });
-    // }
+    $('.modalupdate').hide();
 }
 
 function setupColorPicker (target, data, i) {
@@ -172,7 +158,7 @@ function setupHtml(target) {
                                         $("#btnGenerateView").css("margin-left", "5px");
                                         $("#download-options").css("margin-left", "487px");
                                         $("#download-options").show();
-                                        await GenGraph('');
+                                        await GenGraph();
                                         return false;
                                     });
 

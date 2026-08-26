@@ -25,7 +25,7 @@ network_browser = {
         targetEl: false,
         baseURL: false
     },
-    Init: function (endpoint_URL, elSelector,modal_obj) {
+    Init: function (endpoint_URL, elSelector, modal_obj) {
         if (!endpoint_URL) endpoint_URL = '';
         let el = document.querySelector(elSelector);
         if (el === null) return false;
@@ -65,7 +65,7 @@ network_browser = {
         //     return ret;
         // }).join(',');
         // create the groups nodes from the render settings
-        const extractedGroups = renderSettings.map((e) => { return {name: e.ListName, fill: e.GraphColor, border:"#999999"} });
+        let extractedGroups = gLists.vizData.map((row) => { return {name: row.ListName, fill: row.GraphColor, border:"#999999"} });
 
 
         // dynamically add the styling elements if it does not already exist

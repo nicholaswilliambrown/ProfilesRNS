@@ -43,35 +43,32 @@ function setupClusters() {
     });
 }
 
-function GenGraph(val) {
+async function GenGraph(val) {
+    network_browser.Init(`${g.profilesPath}/Lists/Modules/NetworkClusterList/NetworkClusterListSvc.aspx?s=`,
+        '#graph-render-area', '.modalupdate');
+
+    let listIdsCode = emitCriteriaListCode();
+    gLists.vizClusterData = await createListCluster(listIdsCode);
 
     if ($('#graph-render-area').text().length > 0) {
         $('#graph-render-area svg').remove();
     }
 
-
     network_browser.render(gLists.vizClusterData, $("#chkIncludeLegand").prop("checked"));
 
-    if (! val) {
-        $("#btnGenerateView").html("Regenerate Cluster View");
-        $("#generated-graph-area").slideDown();
-        $('#btnGenerateView').off('click').on('click', function () {
-            GenGraph('1');
-            return false;
-        });
-    }
+    // cluster data assumed to be moduleFoo[0]
+    //await clusterParse([gLists.vizClusterData], false);
+
+
+    // if (! val) {
+    //     $("#btnGenerateView").html("Regenerate Cluster View");
+    //     $("#generated-graph-area").slideDown();
+    //     $('#btnGenerateView').off('click').on('click', async function () {
+    //         GenGraph(gLists.vizClusterData.length);
+    //         return false;
+    //     });
+    // }
 }
-
-network_browser.Init(' < %= Profiles.Framework.Utilities.Root.Domain % > / lists / modules / NetworkClusterList / NetworkClusterListsvc.aspx ? s = ',
-    '#graph-render-area', '.modalupdate');
-
-$('#btnGenerateView').on('click', function () {
-    $("#btnGenerateView").css("margin-left", "5px");
-    $("#download-options").css("margin-left", "487px");
-    $("#download-options").show();
-    GenGraph('');
-    return false;
-});
 
 function setupColorPicker (target, data, i) {
     target.ColorPicker({
@@ -149,12 +146,13 @@ async function loadClusterHtml(target) {
                 <option value="png-large">Large PNG</option>
                 <option value="svg">SVG</option>
             </select>
+            </button>
             <button style="margin-left: 655px; height: 29px; position: relative; top: 2px;"
                     id="btnGenerateView">Generate Cluster View
             </button>
         </div>
     </div>
-    <div id="generated-graph-area">
+    <div class="clusterView" id="generated-graph-area">
         <div style="display: table-row">
             <div id="graph-render-area" style="border: 1px solid gray; margin-bottom: 16px; margin-top: 16px;"></div>
         </div>
@@ -169,6 +167,15 @@ async function loadClusterHtml(target) {
     await target.append(content);
 }
 function setupHtml(target) {
+    console.log('button available? ', $('#btnGenerateView'));
+    $('#btnGenerateView').on('click', async function () {
+                                        $("#btnGenerateView").css("margin-left", "5px");
+                                        $("#download-options").css("margin-left", "487px");
+                                        $("#download-options").show();
+                                        await GenGraph('');
+                                        return false;
+                                    });
+
     let clusterCriteria = target.find('#clusterCriteria');
     let colSpecs = makeColSpecsViz([
         'Person List',
@@ -182,8 +189,7 @@ function setupHtml(target) {
 
     emitCriteriaRows(clusterCriteria);
 
-    // setupClusters();
-    // GenGraph();
+    setupClusters();
 }
 function emitCriteriaRows(target) {
     for (let i=0; i<gLists.vizData.length; i++) {
@@ -215,15 +221,30 @@ function emitCriteriaRows(target) {
     }
 }
 function emitCriteriaListCode() {
+    let codes = [];
     for (let i=0; i<gLists.vizData.length; i++) {
-        let row = $(`#CriteriaRow${i}`);
         let idAndGroup = $(`#groupSelect-${i}`).val();
-        let color = $(`#colorPicker-${i}`).css('background-color');
+        //let color = $(`#colorPicker-${i}`).css('background-color');
+
         let internal = $(`#internalCheckbox-${i}`).is(":checked");
         let external = $(`#externalCheckbox-${i}`).is(":checked");
-        let code = `${idAndGroup} ${color} ${internal} ${external}`;
-        console.log(code);
+
+        let exInCode = 0;
+        if (internal && external) {
+            exInCode = 3;
+        }
+        else if (internal) {
+            exInCode = 2;
+        }
+        else if (external) {
+            exInCode = 1;
+        }
+
+        codes.push(`${idAndGroup}${exInCode}`);
     }
+    let result = codes.join(',');
+    console.log('listIdsCode', result);
+    return result;
 }
 function makeColSpecsViz(vals) {
     let colSpecs = [newColumnSpec(`${gCommon.cols3or12} bordE p-1`,                                 vals[0]),

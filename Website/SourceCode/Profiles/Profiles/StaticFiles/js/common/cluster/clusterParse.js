@@ -1,4 +1,4 @@
-async function clusterParse(moduleJson, forGroups, target) {
+async function clusterParse(moduleJson, textFn) {
 
     $('.personDisplayName').html(getPersonFirstLastName());
 
@@ -8,24 +8,21 @@ async function clusterParse(moduleJson, forGroups, target) {
 
     let jsonData = moduleJson.ModuleData ? moduleJson.ModuleData[0] : moduleJson[0];
 
-    displayClusterTab(jsonData, forGroups);
+    displayClusterTab(jsonData, textFn);
 
     $(window).resize(function(){
-        displayClusterTab(jsonData, forGroups);
+        displayClusterTab(jsonData, textFn);
     });
 }
-function displayClusterTab(jsonData, forGroups) {
+function displayClusterTab(jsonData, textFn) {
     $('.clusterView').empty();
 
     let jsonCopy = JSON.parse(JSON.stringify(jsonData));
     emitClusterGraph(jsonCopy);
 
-    let textDiv = $('#cgTextDiv');
-    if (forGroups) {
-        emitGroupClusterText(jsonCopy, textDiv)
-    }
-    else {
-        emitClusterText(jsonCopy, textDiv);
+    if (textFn) {
+        let textDiv = $('#cgTextDiv');
+        textFn(jsonCopy, textDiv);
     }
 
     setupClusterGraphTextFlips();

@@ -131,7 +131,7 @@ async function mainParse(coauthJson, lhsModules, rhsModules) {
             await detailsParse(target, lhsModuleJson);
             break;
         case CoauthorTab.Cluster:
-            await clusterParse(lhsModuleJson);
+            await clusterParse(lhsModuleJson, emitClusterText);
             break;
         case CoauthorTab.Radial:
             await radialParse(target, lhsModuleJson);

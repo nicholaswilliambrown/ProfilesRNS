@@ -93,16 +93,15 @@ async function populateInitialVisualizeContent() {
     console.log("=============== Viz Data: ", gLists.resultData);
 
     gLists.vizData = JSON.parse(gLists.resultData);
-    let listCodes = `${gLists.vizData[0].ListID}p1`;
-    await createListCluster(listCodes);
 
     await loadClusterHtml(target);
     setupHtml(target);
 }
 async function createListCluster(listCodes) {
     await backendAction('', listCodes, "VisualizeListsCluster", '');
-    gLists.vizClusterData = JSON.parse(gLists.resultData);
-    console.log("=============== Viz Cluster Data: ", gLists.vizClusterData);
+    let result = JSON.parse(gLists.resultData);
+    console.log("=============== Viz Cluster Data: ", result);
+    return result;
 }
 function harvestNameAndApplyToList() {
     let selectedLid = requireSelection(true);

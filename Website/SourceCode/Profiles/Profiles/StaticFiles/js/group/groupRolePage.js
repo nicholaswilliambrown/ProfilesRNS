@@ -124,7 +124,7 @@ function mainParse(modules) {
         case GroupTab.Coauthors:
             moveContentByIdTo('moveableContentDiv', target);
             module = findModuleDataByName(modules, 'Group.Cluster');
-            clusterParse(module, true); // true 'for groups'
+            clusterParse(module, emitGroupClusterText); // true 'for groups'
             break;
     }
 }

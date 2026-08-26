@@ -5,11 +5,11 @@ gLists.cluster = {
         console.log('cluster');
         gLists.currentTab = 'cluster';
 
-        parseClusterTabData(gLists.people);
+        await parseClusterTabData(gLists.people);
     }
 };
 
-function parseClusterTabData(people) {
+async function parseClusterTabData(people) {
     let target = $('#clusterContent');
     if (people.length == 0) {
         noPeopleOnList(target);
@@ -17,12 +17,12 @@ function parseClusterTabData(people) {
     else {
         let url = `${g.profilesRootURL}/Lists/Default.aspx/Cluster`;
 
-        jQuery.getJSON(url, function (jsData) {
+        await jQuery.getJSON(url, function (jsData) {
             console.log('cluster data:', jsData);
             gLists.cluster.data = jsData;
 
             // cluster data assumed to be moduleFoo[0]
-            clusterParse([gLists.cluster.data], false, $('#mapContent'));
+            clusterParse([gLists.cluster.data], emitClusterText);
         })
         .fail(xhrFail);
     }

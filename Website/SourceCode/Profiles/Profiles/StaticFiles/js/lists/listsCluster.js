@@ -154,11 +154,12 @@ async function loadClusterHtml(target) {
 }
 function setupHtml(target) {
     console.log('button available? ', $('#btnGenerateView'));
-    $('#btnGenerateView').on('click', async function () {
+    $('#btnGenerateView').on('click', async function (e) {
                                         $("#btnGenerateView").css("margin-left", "5px");
                                         $("#download-options").css("margin-left", "487px");
                                         $("#download-options").show();
                                         await GenGraph();
+                                        $(e.target).html('Regenerate Cluster View');
                                         return false;
                                     });
 

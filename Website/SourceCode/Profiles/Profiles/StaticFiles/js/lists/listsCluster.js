@@ -1,24 +1,59 @@
 
-function setupClusters() {
-    $('#download-options').hide();
+function setupForCluster(target) {
+    let legendSpan = $(`
+                    <span>
+                    <input class="mt-1" type="CheckBox" id="chkIncludeLegand" checked="true"/>
+                    <label class="form-label bold" style="position: relative; top: -1px;" htmlFor="chkIncludeLegand">
+                    Include legend in graph</label>
+            `);
+    let safariDisabled = (!!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/)) ?
+                            'disabled="disabled"' : '';
+    let dlSizeSelect = $(`
+                <button class="headerColor">
+                    <select id="download-options" class="mt-1"
+                            class="mb-2">
+                        <option disabled selected="selected" value="">Download size</option>
+                        <option ${safariDisabled} value="png-small">Small PNG</option>
+                        <option ${safariDisabled} value="png-medium">Medium PNG</option>
+                        <option ${safariDisabled} value="png-large">Large PNG</option>
+                        <option value="svg">SVG</option>
+                    </select>
+                </button>
+            `);
+
+    let generateClusterBtn = $(`<button class="headerColor" id="btnGenerateView">Generate Cluster View</button>`);
+
+    generateClusterBtn.on('click', async function (e) {
+        $("#download-options").show();
+        await GenGraph();
+        dlSizeSelect.show();
+        $(e.target).html('Regenerate Cluster View');
+        return false;
+    });
+
+    let colSpecs = makeColSpecsViz([
+        legendSpan,
+        '',
+        '',
+        dlSizeSelect,
+        generateClusterBtn
+    ], true);
+    makeRowWithColumns(target, 'clusterControls', colSpecs, 'ms-0 ps-0');
+
+    // $('.grouping-level').change(function (evt) {
+    //     gLists.vizClusterData.find(el => el.ListID == $(this).attr('data-id')).GroupingLevel = $(this.options[this.selectedIndex]).val();
+    // });
+
     $('[data-toggle="tooltip"]').tooltip();
-    //currently not supported in Safari
-    if (!!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/)) {
-        $("#download-options option[value='png-small']").attr('disabled', 'disabled');
-        $("#download-options option[value='png-medium']").attr('disabled', 'disabled');
-        $("#download-options option[value='png-large']").attr('disabled', 'disabled');
-    }
 
     $("[id^=chkInternalConnection]").change(function (evt) {
         gLists.vizClusterData.find(el => el.ListID == $(this).attr('data-id')).InternalConnection = this.checked;
     });
     $('[id^="chkExternalConnection"]').change(function (evt) {
         gLists.vizClusterData.find(el => el.ListID == $(this).attr('data-id')).ExternalConnection = this.checked;
-
     })
-    $('#download-options').change(function (evt) {
-
-        var value = $('#download-options').val();
+    dlSizeSelect.change(function () {
+        let value = dlSizeSelect.val();
         switch (value) {
             case "svg":
                 network_browser._clusterEngine_ref.save();
@@ -34,12 +69,9 @@ function setupClusters() {
                 break;
         }
 
-        $('#download-options')[0].selectedIndex = 0;
+        dlSizeSelect[0].selectedIndex = 0;
     });
-
-    $('.grouping-level').change(function (evt) {
-        gLists.vizClusterData.find(el => el.ListID == $(this).attr('data-id')).GroupingLevel = $(this.options[this.selectedIndex]).val();
-    });
+    dlSizeSelect.hide();
 }
 
 async function GenGraph() {
@@ -119,24 +151,6 @@ async function loadClusterHtml(target) {
     <div id="list-viz-table">
         <div id="clusterCriteria" class="w-100">
         </div>
-
-        <div style="margin-top: 5px;">
-            <input type="CheckBox" ClientIDMode="Static" ID="chkIncludeLegand" Checked="true"/>
-            <label class="form-label bold" style="position: relative; top: -1px;" htmlFor="chkIncludeLegand">
-            Include legend in graph</label>
-            <select id="download-options" style="position: relative; top: 3px;"
-                    class="form-select mb-3 selectpicker">
-                <option disabled selected="selected" value="">Download size</option>
-                <option value="png-small">Small PNG</option>
-                <option value="png-medium">Medium PNG</option>
-                <option value="png-large">Large PNG</option>
-                <option value="svg">SVG</option>
-            </select>
-            </button>
-            <button style="margin-left: 655px; height: 29px; position: relative; top: 2px;"
-                    id="btnGenerateView">Generate Cluster View
-            </button>
-        </div>
     </div>
     <div class="clusterView" id="generated-graph-area">
         <div style="display: table-row">
@@ -153,16 +167,6 @@ async function loadClusterHtml(target) {
     await target.append(content);
 }
 function setupHtml(target) {
-    console.log('button available? ', $('#btnGenerateView'));
-    $('#btnGenerateView').on('click', async function (e) {
-                                        $("#btnGenerateView").css("margin-left", "5px");
-                                        $("#download-options").css("margin-left", "487px");
-                                        $("#download-options").show();
-                                        await GenGraph();
-                                        $(e.target).html('Regenerate Cluster View');
-                                        return false;
-                                    });
-
     let clusterCriteria = target.find('#clusterCriteria');
     let colSpecs = makeColSpecsViz([
         'Person List',
@@ -176,19 +180,19 @@ function setupHtml(target) {
 
     emitCriteriaRows(clusterCriteria);
 
-    setupClusters();
+    setupForCluster(clusterCriteria);
 }
 function emitCriteriaRows(target) {
     for (let i=0; i<gLists.vizData.length; i++) {
         let data = gLists.vizData[i];
 
         let listId = data.ListID;
-        let groupSelect = $(`<select id="groupSelect-${i}"></select>`);
+        let groupSelect = $(`<select class=" d-flex align-items-center groupSelect" id="groupSelect-${i}"></select>`);
         groupSelect.append($(`<option value="${listId}p" selected="true">Person</option>`));
         groupSelect.append($(`<option value="${listId}d">Department</option>`));
         groupSelect.append($(`<option value="${listId}i">Institution</option>`));
 
-        let colorPickerOuterDiv = $(`<div class="colorSelector" id="colorPicker-${i}"></div>`);
+        let colorPickerOuterDiv = $(`<div class="mt-1 mb-1 myColorSelector" id="colorPicker-${i}"></div>`);
         colorPickerOuterDiv.append($(`<div></div>`));
         setupColorPicker(colorPickerOuterDiv, data, i);
 
@@ -233,12 +237,13 @@ function emitCriteriaListCode() {
     console.log('listIdsCode', result);
     return result;
 }
-function makeColSpecsViz(vals) {
-    let colSpecs = [newColumnSpec(`${gCommon.cols3or12} bordE p-1`,                                 vals[0]),
-                    newColumnSpec(`${gCommon.cols2or12} bordE p-1 d-flex justify-content-center`,   vals[1]),
-                    newColumnSpec(`${gCommon.cols2or12} bordE p-1 d-flex justify-content-center`,   vals[2]),
-                    newColumnSpec(`${gCommon.cols2or12} bordE p-1 d-flex justify-content-center`,   vals[3]),
-                    newColumnSpec(`${gCommon.cols3or12} p-1 d-flex justify-content-center`,         vals[4])
+function makeColSpecsViz(vals, noColBorders) {
+    let colBorders = noColBorders ? '' : 'bordE';
+    let colSpecs = [newColumnSpec(`${gCommon.cols3or12} ${colBorders} p-1 d-flex align-items-center `,                            vals[0]),
+                    newColumnSpec(`${gCommon.cols2or12} ${colBorders} p-1 d-flex align-items-center justify-content-center`,   vals[1]),
+                    newColumnSpec(`${gCommon.cols2or12} ${colBorders} d-flex justify-content-center`,   vals[2]),
+                    newColumnSpec(`${gCommon.cols2or12} ${colBorders} p-1 d-flex justify-content-center`,   vals[3]),
+                    newColumnSpec(`${gCommon.cols3or12} p-1 d-flex justify-content-center`,                 vals[4])
     ];
     return colSpecs;
 }

@@ -78,18 +78,6 @@ async function populateInitialVisualizeContent() {
     target.empty();
 
     await backendActionWrapper(null, 'VisualizeLists', '');
-
-    // may need iFrame to avoid name-collisions with graph stuff from StaticFiles that helped display the public pages
-    //
-    // let iFrame = $(`<iframe id="clusterVizFrame" src="${g.profilesRootURL}/StaticFiles/html-templates/listsCluster.html" title="cluster for saved lists"></iframe>`);
-    // target.append(iFrame);
-    //
-    // iFrame.on('click', () => {
-    //     console.log('---------------- parent notices click in iframe!');
-    // });
-
-    /////////////document.getElementById('myIframe').contentDocument.getElementById('inner-element')
-
     console.log("=============== Viz Data: ", gLists.resultData);
 
     gLists.vizData = JSON.parse(gLists.resultData);

@@ -92,3 +92,16 @@
     border-radius: 10px; /* Rounded corners */
     font-size: 13px;
 }
+#download-options {
+    border: none;
+}
+.headerColor {
+    background-color: #EEEBE5;
+}
+.groupSelect {
+    height: 17px;
+}
+.myColorSelector {
+    width: 30px;
+    height: 30px;
+}

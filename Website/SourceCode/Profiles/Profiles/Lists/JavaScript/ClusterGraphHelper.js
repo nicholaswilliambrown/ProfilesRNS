@@ -41,6 +41,28 @@ function setupNetworkBrowser() {
             network_browser._clusterEngine_ref.registerCallback(network_browser._EventHandler);
         },
         render: function (renderSettings, includeLegend) {
+            if (!network_browser.styleSheet) {
+                let injectedSS = document.createElement("style");
+                network_browser.styleSheet = injectedSS;
+                document.head.appendChild(injectedSS);
+                injectedSS.sheet.insertRule(`
+            ${network_browser._cfg.elSelector} svg .gnode {
+                cursor: move;
+                font-family: sans-serif;
+                font-size: 10px
+            }`);
+                injectedSS.sheet.insertRule(`
+            ${network_browser._cfg.elSelector} svg .base {
+                stroke: #000;
+                stroke-width: 1px
+                fill-opacity: 0.5;
+            }`);
+                injectedSS.sheet.insertRule(`
+            ${network_browser._cfg.elSelector} svg .edge {
+                stroke: rgb(187, 187, 187);
+                stroke-opacity: 0.45;
+            }`);
+            }
 
             // create the groups nodes from the render settings
             let extractedGroups = gLists.vizData.map((row) => {

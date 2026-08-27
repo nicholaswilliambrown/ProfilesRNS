@@ -9,24 +9,27 @@ function setupForCluster(target) {
     let safariDisabled = (!!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/)) ?
                             'disabled="disabled"' : '';
     let dlSizeSelect = $(`
+                <select id="download-options" class="mt-1"
+                        class="mb-2">
+                    <option disabled selected="selected" value="">Download size</option>
+                    <option ${safariDisabled} value="png-small">Small PNG</option>
+                    <option ${safariDisabled} value="png-medium">Medium PNG</option>
+                    <option ${safariDisabled} value="png-large">Large PNG</option>
+                    <option value="svg">SVG</option>
+                </select>
+            `)
+    let dlSizeSelectButton = $(`
                 <button class="headerColor">
-                    <select id="download-options" class="mt-1"
-                            class="mb-2">
-                        <option disabled selected="selected" value="">Download size</option>
-                        <option ${safariDisabled} value="png-small">Small PNG</option>
-                        <option ${safariDisabled} value="png-medium">Medium PNG</option>
-                        <option ${safariDisabled} value="png-large">Large PNG</option>
-                        <option value="svg">SVG</option>
-                    </select>
                 </button>
             `);
+    dlSizeSelectButton.append(dlSizeSelect);
 
     let generateClusterBtn = $(`<button class="headerColor" id="btnGenerateView">Generate Cluster View</button>`);
 
     generateClusterBtn.on('click', async function (e) {
         $("#download-options").show();
         await GenGraph();
-        dlSizeSelect.show();
+        dlSizeSelectButton.show();
         $(e.target).html('Regenerate Cluster View');
         return false;
     });
@@ -35,7 +38,7 @@ function setupForCluster(target) {
         legendSpan,
         '',
         '',
-        dlSizeSelect,
+        dlSizeSelectButton,
         generateClusterBtn
     ], true);
     makeRowWithColumns(target, 'clusterControls', colSpecs, 'ms-0 ps-0');
@@ -46,12 +49,6 @@ function setupForCluster(target) {
 
     $('[data-toggle="tooltip"]').tooltip();
 
-    $("[id^=chkInternalConnection]").change(function (evt) {
-        gLists.vizClusterData.find(el => el.ListID == $(this).attr('data-id')).InternalConnection = this.checked;
-    });
-    $('[id^="chkExternalConnection"]').change(function (evt) {
-        gLists.vizClusterData.find(el => el.ListID == $(this).attr('data-id')).ExternalConnection = this.checked;
-    })
     dlSizeSelect.change(function () {
         let value = dlSizeSelect.val();
         switch (value) {
@@ -69,9 +66,9 @@ function setupForCluster(target) {
                 break;
         }
 
-        dlSizeSelect[0].selectedIndex = 0;
+        dlSizeSelectButton[0].selectedIndex = 0;
     });
-    dlSizeSelect.hide();
+    dlSizeSelectButton.hide();
 }
 
 async function GenGraph() {

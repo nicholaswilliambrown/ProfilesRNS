@@ -23,7 +23,7 @@ async function prepareManagePage() {
     $('#replaceWithCoauthors').on('click', replaceWithCoauthors);
     $('#addCoauthors').on('click', addCoauthors);
 
-    let target = $('#peopleDiv');
+    let target = $('#peopleDivTable');
     target.empty();
 
     await getPeopleListInfo();

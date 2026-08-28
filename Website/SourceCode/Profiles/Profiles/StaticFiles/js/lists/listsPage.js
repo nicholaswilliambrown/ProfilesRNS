@@ -142,8 +142,8 @@ function filterSelects(people, target) {
     let rowId = 'filterSelects';
     let row = makeRowWithColumns(target, rowId, colSpecs0, 'bold mb-2 myMs-0');
 
-    let institutionSelect = $(`<select id="institutionSelect" class="ms-1"><option value="">(all institutions)</option></select>`);
-    let facultySelect = $(`<select id="facultySelect" class="ms-1"><option value="">(all faculty ranks)</option></select>`);
+    let institutionSelect = $(`<select id="institutionSelect" class="ms-1 w-100"><option value="">(all institutions)</option></select>`);
+    let facultySelect = $(`<select id="facultySelect" class="ms-1 w-100"><option value="">(all faculty ranks)</option></select>`);
     row.find(`#${rowId}Col0`).append(institutionSelect);
     row.find(`#${rowId}Col1`).append(facultySelect);
 

@@ -99,8 +99,8 @@ function reportsParse(jsonData, summaryType) {
     $('#pieChartNarrow').addClass(gCommon.showXsSmallHideOthers);
     let chartNarrow = new google.visualization.PieChart(document.getElementById("pieChartNarrow"));
     chartNarrow.draw(dataTable, {
-        width: 680,
-        height: 850,
+        width: 350,
+        height: 500,
         fontSize: 12,
         colors: colors,
         legend: { position: 'bottom' },
@@ -135,7 +135,7 @@ function populateDataRows(dataRows, summaryType, wideVsNarrow) {
         let dataRow = dataRows[i];
         let [name, count] = [dataRow.c[0].v, dataRow.c[1].v];
         let percentVal = toPercent(Number(count) / gLists.people.length);
-        let combinedValue = `${count} people (${percentVal}%)`;
+        let combinedValue = `${count} ${count==1 ? 'person' : 'people'} (${percentVal}%)`;
         let rowColSpecs = wideVsNarrow ?
             [
                 newColumnSpec(`${gCommon.cols8or12} alignMiddle bordE`,

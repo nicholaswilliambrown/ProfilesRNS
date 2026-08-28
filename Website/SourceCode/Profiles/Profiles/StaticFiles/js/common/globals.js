@@ -22,6 +22,8 @@ const AccordionNestingOption = Object.freeze({
 ///////////////////////////////////////
 
 let gCommon = {};
+gCommon.twitter = 'X_formerlyKnownAsTwitter';
+
 gCommon.historyKey = 'profilesNavHistory';
 gCommon.undefined = 'undefined';
 

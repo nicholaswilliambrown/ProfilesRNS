@@ -130,11 +130,11 @@ function whichParserInfo(moduleTitle, defaultTarget) {
             parentContainerName = "Featured Content";
             misc.bannerText = "videos";
             break;
-        case "Twitter":
+        case gCommon.twitter:
             parser = twitterParser;
             sort = 151;
             parentContainerName = "Featured Content";
-            misc.bannerText = "twitter";
+            misc.bannerText = gCommon.twitter;
             break;
         case "AuthorInAuthorship":
             parser = authorshipParser;

@@ -82,9 +82,10 @@ function reportsParse(jsonData, summaryType) {
     subTab.removeClass('link-ish');
     subTab.addClass('currentSummarySubTab')
 
-    // Instantiate and draw our chart, passing in some options.
-    let chart = new google.visualization.PieChart(document.getElementById("pieChart"));
-    chart.draw(dataTable, {
+    $('#pieChartWide').addClass(gCommon.hideXsSmallShowOthers);
+    // Instantiate and draw our WIDE chart, passing in some options.
+    let chartWide = new google.visualization.PieChart(document.getElementById("pieChartWide"));
+    chartWide.draw(dataTable, {
         width: 680,
         height: 300,
         fontSize: 12,
@@ -94,35 +95,61 @@ function reportsParse(jsonData, summaryType) {
         tooltip: { text: 'percentage' }
     });
 
-    populateDataRows(jsonData.rows, summaryType);
-}
-function populateDataRows(dataRows, summaryType) {
-    let headerColSpecs = [
-        newColumnSpec(`${gCommon.cols8or12} alignMiddle bordE d-flex justify-content-center`,
-            summaryType),
-        newColumnSpec(`${gCommon.cols2or12} alignMiddle bordE d-flex justify-content-center`,
-            'People'),
-        newColumnSpec(`${gCommon.cols2or12} alignMiddle bordE d-flex justify-content-center`,
-            'Percent'),
-    ];
+    // Instantiate and draw our NARROW chart, passing in some options.
+    $('#pieChartNarrow').addClass(gCommon.showXsSmallHideOthers);
+    let chartNarrow = new google.visualization.PieChart(document.getElementById("pieChartNarrow"));
+    chartNarrow.draw(dataTable, {
+        width: 680,
+        height: 850,
+        fontSize: 12,
+        colors: colors,
+        legend: { position: 'bottom' },
+        chartArea: { left: 20, top: 20, width: '90%', height: '90%' },
+        tooltip: { text: 'percentage' }
+    });
 
-    let target = $('#pieChart');
-    let rowId = `pieTable`;
+    populateDataRows(jsonData.rows, summaryType, true);
+    populateDataRows(jsonData.rows, summaryType, false);
+}
+function populateDataRows(dataRows, summaryType, wideVsNarrow) {
+    let widthFlavor = wideVsNarrow ? 'Wide' : 'Narrow';
+    let target = $(`#pieChart${widthFlavor}`);
+    let rowId = `pieTable${widthFlavor}`;
+
+    let headerColSpecs = wideVsNarrow ?
+            [
+                newColumnSpec(`${gCommon.cols8or12} alignMiddle bordE d-flex justify-content-center`,
+                    summaryType),
+                newColumnSpec(`${gCommon.cols2or12} alignMiddle bordE d-flex justify-content-center`,
+                    'People'),
+                newColumnSpec(`${gCommon.cols2or12} alignMiddle bordE d-flex justify-content-center`,
+                    'Percent')
+            ] :
+            [
+                newColumnSpec(`${gCommon.cols12} alignMiddle bordE d-flex justify-content-center`,
+                    `People per ${summaryType}`)
+            ]
     makeRowWithColumns(target, rowId, headerColSpecs, "borderOneSolid mt-3");
 
-    let numRows
     for (let i=0; i<dataRows.length; i++) {
         let dataRow = dataRows[i];
         let [name, count] = [dataRow.c[0].v, dataRow.c[1].v];
+        let percentVal = toPercent(Number(count) / gLists.people.length);
+        let combinedValue = `${count} people (${percentVal}%)`;
+        let rowColSpecs = wideVsNarrow ?
+            [
+                newColumnSpec(`${gCommon.cols8or12} alignMiddle bordE`,
+                    name),
+                newColumnSpec(`${gCommon.cols2or12} alignMiddle bordE d-flex justify-content-center`,
+                    count),
+                newColumnSpec(`${gCommon.cols2or12} alignMiddle bordE d-flex justify-content-center`,
+                    toPercent(Number(count) / gLists.people.length))
+            ] :
+            [
+                newColumnSpec(`${gCommon.cols6or12} alignMiddle bordE bold`, name),
+                newColumnSpec(`${gCommon.cols6or12} alignMiddle bordE`, combinedValue),
+            ];
 
-        let rowColSpecs = [
-            newColumnSpec(`${gCommon.cols8or12} alignMiddle bordE`,
-                name),
-            newColumnSpec(`${gCommon.cols2or12} alignMiddle bordE d-flex justify-content-center`,
-                count),
-            newColumnSpec(`${gCommon.cols2or12} alignMiddle bordE d-flex justify-content-center`,
-                toPercent(Number(count) / gLists.people.length)),
-        ];
         makeRowWithColumns(target, rowId+i, rowColSpecs, "borderOneSolid");
     }
 }

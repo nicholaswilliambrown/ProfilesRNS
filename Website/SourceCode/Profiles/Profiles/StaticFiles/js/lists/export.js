@@ -69,7 +69,7 @@ function narrowExport(target, blurbs) {
     makeRowWithColumns(target, rowId, headerColSpecs, `borderOneSolid mt-3`);
 
     for (let flavor of ['People', 'Publications', 'Connections']) {
-        let flavorSpan = $(`<span flavor="${flavor}" class="link-ish">${flavor}</span>`);
+        let flavorSpan = $(`<span flavor="${flavor}" class="link-ish bold">${flavor}:</span>`);
         flavorSpan.on('click', function() {
             $('.modalupdate').show();
             flavoredExport(flavor);
@@ -77,7 +77,7 @@ function narrowExport(target, blurbs) {
         });
 
         let valueDiv = $('<div></div>');
-        valueDiv.append(flavorSpan).append(`: ${blurbs[flavor]}`);
+        valueDiv.append(flavorSpan).append(` ${blurbs[flavor]}`);
         let rowColSpecs = [newColumnSpec(`${gCommon.cols12} alignMiddle bordE`, valueDiv)];
         makeRowWithColumns(target, rowId + '-' + flavor, rowColSpecs, `borderOneSolid`);
     }

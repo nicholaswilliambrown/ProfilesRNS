@@ -15,6 +15,8 @@ function exportData(people) {
     if (people.length == 0) {
         noPeopleOnList(target);
     } else {
+        target = $('#exportTable');
+        target.empty();
         let headerColSpecs = [
             newColumnSpec(`${gCommon.cols2or12} alignMiddle bordE d-flex justify-content-center bold`,
                 'File'),
@@ -22,7 +24,6 @@ function exportData(people) {
                 'Description'),
         ];
 
-        let target = $('#exportTable');
         let rowId = `exportTable`;
         makeRowWithColumns(target, rowId, headerColSpecs, "borderOneSolid mt-3");
 

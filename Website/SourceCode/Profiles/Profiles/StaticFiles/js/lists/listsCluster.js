@@ -2,14 +2,15 @@
 function setupForCluster(target) {
     let legendSpan = $(`
                     <span>
-                    <input class="mt-1" type="CheckBox" id="chkIncludeLegand" checked="true"/>
-                    <label class="form-label bold" style="position: relative; top: -1px;" for="chkIncludeLegand">
-                    Include legend in graph</label>
+                        <input class="mt-1" type="CheckBox" id="chkIncludeLegand" checked="true"/>
+                        <label class="form-label bold" style="position: relative; top: -1px;" for="chkIncludeLegand">
+                            Include legend in graph</label>
+                    </span>
             `);
     let safariDisabled = (!!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/)) ?
                             'disabled="disabled"' : '';
     let dlSizeSelect = $(`
-                <select id="download-options" class="headerColor" aria-label="Download size">
+                <select id="download-options" class="headerColor link-ishB" aria-label="Download size">
                     <option disabled selected="selected" value="">Download size</option>
                     <option ${safariDisabled} value="png-small">Small PNG</option>
                     <option ${safariDisabled} value="png-medium">Medium PNG</option>
@@ -18,7 +19,7 @@ function setupForCluster(target) {
                 </select>
             `)
 
-    let generateClusterBtn = $(`<button class="headerColor" id="btnGenerateView">Generate Cluster View</button>`);
+    let generateClusterBtn = $(`<button class="headerColor link-ishB" id="btnGenerateView">Generate Cluster View</button>`);
 
     generateClusterBtn.on('click', async function (e) {
         dlSizeSelect.show();

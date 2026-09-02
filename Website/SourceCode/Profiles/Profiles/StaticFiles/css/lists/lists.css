@@ -91,9 +91,6 @@
     border-radius: 10px; /* Rounded corners */
     font-size: 13px;
 }
-#download-options {
-    border: none;
-}
 .headerColor {
     background-color: #EEEBE5;
     border: 1.6px solid black !important;

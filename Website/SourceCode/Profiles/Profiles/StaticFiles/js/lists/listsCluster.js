@@ -3,14 +3,13 @@ function setupForCluster(target) {
     let legendSpan = $(`
                     <span>
                     <input class="mt-1" type="CheckBox" id="chkIncludeLegand" checked="true"/>
-                    <label class="form-label bold" style="position: relative; top: -1px;" htmlFor="chkIncludeLegand">
+                    <label class="form-label bold" style="position: relative; top: -1px;" for="chkIncludeLegand">
                     Include legend in graph</label>
             `);
     let safariDisabled = (!!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/)) ?
                             'disabled="disabled"' : '';
     let dlSizeSelect = $(`
-                <select id="download-options" class="mt-1"
-                        class="mb-2">
+                <select id="download-options" class="headerColor" aria-label="Download size">
                     <option disabled selected="selected" value="">Download size</option>
                     <option ${safariDisabled} value="png-small">Small PNG</option>
                     <option ${safariDisabled} value="png-medium">Medium PNG</option>
@@ -18,18 +17,12 @@ function setupForCluster(target) {
                     <option value="svg">SVG</option>
                 </select>
             `)
-    let dlSizeSelectButton = $(`
-                <button class="headerColor">
-                </button>
-            `);
-    dlSizeSelectButton.append(dlSizeSelect);
 
     let generateClusterBtn = $(`<button class="headerColor" id="btnGenerateView">Generate Cluster View</button>`);
 
     generateClusterBtn.on('click', async function (e) {
-        $("#download-options").show();
+        dlSizeSelect.show();
         await GenGraph();
-        dlSizeSelectButton.show();
         $(e.target).html('Regenerate Cluster View');
         return false;
     });
@@ -38,7 +31,7 @@ function setupForCluster(target) {
         legendSpan,
         '',
         '',
-        dlSizeSelectButton,
+        dlSizeSelect,
         generateClusterBtn
     ], true);
     makeRowWithColumns(target, 'clusterControls', colSpecs, 'ms-0 ps-0');
@@ -66,9 +59,9 @@ function setupForCluster(target) {
                 break;
         }
 
-        dlSizeSelectButton[0].selectedIndex = 0;
+        dlSizeSelect[0].selectedIndex = 0;
     });
-    dlSizeSelectButton.hide();
+    dlSizeSelect.hide();
 }
 
 async function GenGraph() {

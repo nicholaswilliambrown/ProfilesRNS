@@ -47,7 +47,7 @@ PagingCached.prototype.emitPagingRow = function() {
 PagingCached.prototype.emitPerPageDropdown = function(columnTarget) {
     let that = this;
 
-    let label = $('<label for="pageSizeSelect" class="mt-1">Per Page </label>');
+    let label = $(`<label for="pageSizeSelect-${this.label}" class="mt-1">Per Page </label>`);
     let pageSizeSelect = $(`<select class="ms-1 mb-1" id="pageSizeSelect-${this.label}"></select>`);
 
     columnTarget.append(label);
@@ -99,9 +99,9 @@ PagingCached.prototype.getCurrentSlice = function() {
 PagingCached.prototype.emitPageOfAndTotalPages = function(pageOfColumn, currentPageNum) {
     let that = this; // for embedded fns
 
-    let labelB4 = $('<label for="pageNum" class="mt-1">Page </label>')
+    let labelB4 = $(`<label for="pageNum-${this.label}" class="mt-1">Page </label>`)
     let input = $(`<input class="ms-1 me-1 mb-1 pageNumInput" id="pageNum-${this.label}"/>`);
-    let labelF2 = $('<label for="pageNum" class="mt-1"> of </label>');
+    let labelF2 = $('<span class="mt-1"> of </span>');
 
     let numPages = this.getNumPages();
     let total = spanify(numPages, "ms-1 mt-1");

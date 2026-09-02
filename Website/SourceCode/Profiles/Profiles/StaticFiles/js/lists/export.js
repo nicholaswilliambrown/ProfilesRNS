@@ -18,7 +18,7 @@ function exportData(people) {
         let exportTable = $('#exportTable');
         exportTable.empty();
         let wideTable = $(`<div id="exportTableWide" class="${gCommon.hideXsSmallShowOthers}"></div>`);
-        let narrowTable = $(`<div id="exportTableWide" class="${gCommon.showXsSmallHideOthers}"></div>`);
+        let narrowTable = $(`<div id="exportTableNarrow" class="${gCommon.showXsSmallHideOthers}"></div>`);
         exportTable.append(wideTable);
         exportTable.append(narrowTable);
 

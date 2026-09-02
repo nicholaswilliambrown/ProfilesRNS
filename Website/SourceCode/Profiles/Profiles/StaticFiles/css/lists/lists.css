@@ -84,7 +84,6 @@
     right: 300px; /* Place the button 30px from the right */
     z-index: 1000; /* Make sure it shows up */
     border: 2px solid #AC1B30;
-    outline: none; /* Remove outline */
     background-color: #ccc; /* Set a background color */
     color: black; /* Text color */
     cursor: pointer; /* Add a mouse pointer on hover */
@@ -97,6 +96,7 @@
 }
 .headerColor {
     background-color: #EEEBE5;
+    border: 1.6px solid black !important;
 }
 .groupSelect {
     height: 17px;

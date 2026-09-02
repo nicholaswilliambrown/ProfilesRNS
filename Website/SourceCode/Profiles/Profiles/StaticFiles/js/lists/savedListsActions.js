@@ -96,7 +96,7 @@ function harvestNameAndApplyToList() {
     if (selectedLid) {
         $('#nameOverlay').show();
         $('#newListName').val('');
-        $('#saveNewListName').on('click', (e) => {
+        $('#saveNewListName').off('click').on('click', (e) => {
             let name = $('#newListName').val();
             if (name) {
                 backendAction('Rename', selectedLid, 'AddUpdateList', name);

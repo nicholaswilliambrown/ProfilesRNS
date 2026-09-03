@@ -110,31 +110,38 @@
                 from either a person's profile page or from a Search Results page.
             </div>
         </div>
-        <ul id="tabsUl" class="nav bordBottom">
-            <li class="nav-item mainTabItem">
-                <span id="manage" class="nav-link tab tabTopHat">Manage List</span>
+        <ul id="tabsUl" class="nav bordBottom" aria-label="Person list views">
+            <li class="nav-item mainTabItem" role="presentation">
+                <button id="manage" class="nav-link tab tabTopHat"
+                        role="tab" aria-selected="true" aria-controls="manageContent">Manage List</button>
             </li>
-            <li class="nav-item mainTabItem">
-                <span id="map" class="nav-link tab tabTopHat">Map View</span>
+            <li class="nav-item mainTabItem" role="presentation">
+                <button type="button" id="map" class="nav-link tab tabTopHat"
+                        role="tab" aria-selected="false" aria-controls="mapContent">Map View</button>
             </li>
-            <li class="nav-item mainTabItem">
-                <span id="cluster" class="nav-link tab tabTopHat">Cluster View</span>
+            <li class="nav-item mainTabItem" role="presentation">
+                <button type="button" id="cluster" class="nav-link tab tabTopHat"
+                        role="tab" aria-selected="false" aria-controls="clusterContent">Cluster View</button>
             </li>
-            <li class="nav-item mainTabItem">
-                <span id="reports" class="nav-link tab tabTopHat">Reports</span>
+            <li class="nav-item mainTabItem" role="presentation">
+                <button type="button" id="reports" class="nav-link tab tabTopHat"
+                        role="tab" aria-selected="false" aria-controls="reportsContent">Reports</button>
             </li>
-            <li class="nav-item mainTabItem">
-                <span id="export" class="nav-link tab tabTopHat">Export Data</span>
+            <li class="nav-item mainTabItem" role="presentation">
+                <button type="button" id="export" class="nav-link tab tabTopHat"
+                        role="tab" aria-selected="false" aria-controls="exportContent">Export Data</button>
             </li>
-            <li class="nav-item mainTabItem">
-                <span id="savedLists" class="nav-link tab tabTopHat">Saved Lists</span>
+            <li class="nav-item mainTabItem" role="presentation">
+                <button type="button" id="savedLists" class="nav-link tab tabTopHat"
+                        role="tab" aria-selected="false" aria-controls="savedListsContent">Saved Lists</button>
             </li>
-            <li class="nav-item mainTabItem">
-                <span id="visualizeLists" class="nav-link tab tabTopHat">Visualize Lists</span>
+            <li class="nav-item mainTabItem" role="presentation">
+                <button type="button" id="visualizeLists" class="nav-link tab tabTopHat"
+                        role="tab" aria-selected="false" aria-controls="visualizeListsContent">Visualize Lists</button>
             </li>
         </ul>
         <div>
-            <div class="mainTabsContent" id="manageContent">
+            <div class="mainTabsContent" id="manageContent" role="tabpanel" aria-labelledby="manage" tabindex="0">
                 <div class="mt-2" id="peopleDiv">
                     <div class="pb-2 mb-2 bordBottom">
                         There <span id="currentNum">is currently 1 person</span> in your list. Filter the list by
@@ -150,8 +157,8 @@
                 </div>
                 <div class="mt-1" id="peopleDivTable"></div>
             </div>
-            <div class="mainTabsContent" id="mapContent"></div>
-            <div class="mainTabsContent" id="clusterContent">
+            <div class="mainTabsContent" id="mapContent" role="tabpanel" aria-labelledby="map" tabindex="1"></div>
+            <div class="mainTabsContent" id="clusterContent" role="tabpanel" aria-labelledby="cluster" tabindex="2">
                 <div id="clusterInfoBlurb" class="mt-3">
                     This cluster graph shows the coauthor relationships among people in this list.
                     The size of a circle is proportional to the number of publications that author has.
@@ -181,7 +188,7 @@
                     and each time you view the page the graph might look slightly different.
                 </div>
             </div>
-            <div class="mainTabsContent" id="reportsContent">
+            <div class="mainTabsContent" id="reportsContent" role="tabpanel" aria-labelledby="reports" tabindex="3">
                 <div class="mt-2 mb-0">
                     The reports below provide aggregate summaries of the institutions, departments, and faculty ranks of the people in your list.
                     <hr/>
@@ -194,14 +201,14 @@
                 <div id="pieChartWide"></div>
                 <div id="pieChartNarrow"></div>
             </div>
-            <div class="mainTabsContent" id="exportContent">
+            <div class="mainTabsContent" id="exportContent" role="tabpanel" aria-labelledby="export" tabindex="4">
                 <div class="mt-2 mb-2">
                     Download data about the people in your list as comma separated text files (*.csv),
                     which you can open in Microsoft Excel and other programs.
                 </div>
                 <div id="exportTable"></div>
             </div>
-            <div class="mainTabsContent" id="savedListsContent">
+            <div class="mainTabsContent" id="savedListsContent" role="tabpanel" aria-labelledby="savedLists" tabindex="5">
                 <div class="mt-2 mb-2">
                 On this page you can save your person list, view previously saved person lists,
                 and combine person lists in different ways.
@@ -215,8 +222,7 @@
                 <hr/>
                 <div id="savedDynamicDisplay"></div>
             </div>
-            <div class="mainTabsContent" id="visualizeListsContent">
-
+            <div class="mainTabsContent" id="visualizeListsContent" role="tabpanel" aria-labelledby="visualizeLists" tabindex="6">
             </div>
         </div> <!-- mainTabsContent -->
     </div> <!-- mainTabs -->

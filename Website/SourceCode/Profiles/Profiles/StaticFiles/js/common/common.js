@@ -67,7 +67,7 @@ function addTitleFromPreLoad() {
         if (g.preLoad) {
             let preLoad = JSON.parse(g.preLoad);
             if (Array.isArray(preLoad)) { // lists might hijack it for other data
-                preLoad = preload.filter(m => m.DisplayModule.match(/Person.Label$/));
+                preLoad = preLoad.filter(m => m.DisplayModule.match(/Person.Label$/));
                 let moduleData = preLoad[0].ModuleData[0];
                 preLoadTitle = orNaProperty(moduleData, 'DisplayName',
                     `DisplayName in? ${JSON.stringify(moduleData)}`);

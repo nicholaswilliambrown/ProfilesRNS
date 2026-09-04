@@ -65,11 +65,11 @@ function setupNetworkBrowser() {
             }
 
             // create the groups nodes from the render settings
-            let extractedGroups = gLists.vizData.map((row) => {
+            let extractedGroups = gLists.visualizeLists.vizData.map((row) => {
                 return {name: row.ListName, fill: row.GraphColor, border: "#999999"}
             });
 
-            let results = gLists.vizClusterData;
+            let results = gLists.visualizeLists.vizClusterData;
             let renderData = {
                 Groups: extractedGroups,
                 Nodes: [],

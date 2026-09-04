@@ -38,7 +38,7 @@ function setupForCluster(target) {
     makeRowWithColumns(target, 'clusterControls', colSpecs, 'ms-0 ps-0');
 
     // $('.grouping-level').change(function (evt) {
-    //     gLists.vizClusterData.find(el => el.ListID == $(this).attr('data-id')).GroupingLevel = $(this.options[this.selectedIndex]).val();
+    //     gLists.visualizeLists.vizClusterData.find(el => el.ListID == $(this).attr('data-id')).GroupingLevel = $(this.options[this.selectedIndex]).val();
     // });
 
     $('[data-toggle="tooltip"]').tooltip();
@@ -73,8 +73,8 @@ async function GenGraph() {
     network_browser.Init(false,'#graph-render-area', '.modalupdate');
 
     let listIdsCode = emitCriteriaListCode();
-    gLists.vizClusterData = await createListCluster(listIdsCode);
-    network_browser.render(gLists.vizClusterData, $("#chkIncludeLegand").prop("checked"));
+    gLists.visualizeLists.vizClusterData = await createListCluster(listIdsCode);
+    network_browser.render(gLists.visualizeLists.vizClusterData, $("#chkIncludeLegand").prop("checked"));
 
     $('.modalupdate').hide();
 }
@@ -97,7 +97,7 @@ function setupColorPicker (target, data, i) {
             // 2. Update the inner block background so it doesn't stay the original color
             $(`#colorPicker-${i} div`).css('backgroundColor', '#' + hex);
 
-            gLists.vizData.find(row => row.ListID == data.ListID).GraphColor = '#' + hex;
+            gLists.visualizeLists.vizData.find(row => row.ListID == data.ListID).GraphColor = '#' + hex;
         }
     });
     target.css('background-color', data.GraphColor);
@@ -174,8 +174,8 @@ function setupHtml(target) {
     setupForCluster(clusterCriteria);
 }
 function emitCriteriaRows(target) {
-    for (let i=0; i<gLists.vizData.length; i++) {
-        let data = gLists.vizData[i];
+    for (let i=0; i<gLists.visualizeLists.vizData.length; i++) {
+        let data = gLists.visualizeLists.vizData[i];
 
         let listId = data.ListID;
         let groupSelect = $(`<select class=" d-flex align-items-center groupSelect" id="groupSelect-${i}"></select>`);
@@ -204,7 +204,7 @@ function emitCriteriaRows(target) {
 }
 function emitCriteriaListCode() {
     let codes = [];
-    for (let i=0; i<gLists.vizData.length; i++) {
+    for (let i=0; i<gLists.visualizeLists.vizData.length; i++) {
         let idAndGroup = $(`#groupSelect-${i}`).val();
         //let color = $(`#colorPicker-${i}`).css('background-color');
 

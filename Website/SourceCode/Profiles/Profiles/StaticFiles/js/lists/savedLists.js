@@ -4,10 +4,9 @@ gLists.savedLists = {
 
         console.log('savedLists');
         gLists.currentTab = 'savedLists';
-        sessionStorage.removeItem(gLists.toSaved);
+        sessionStorage.removeItem(gLists.savedTab);
 
-        gLists.vizData = [];
-        gLists.vizClusterData = [];
+        gLists.visualizeLists = { vizData: [], vizClusterData: []};
 
         $('.modalupdate').show();
 

@@ -1,6 +1,6 @@
 // this JS should load before the other tab-JS, so they can use gLists
 gLists.noRank = '--';
-gLists.toSaved = 'toSaved';
+gLists.savedTab = 'savedTab';
 gLists.manage = {
     setup: async () => {
         $('.modalupdate').hide();
@@ -10,6 +10,8 @@ gLists.manage = {
     }
 };
 async function prepareManagePage() {
+    gLists.currentTab = 'manage'; // unless we find a saved tab in the following
+
     await commonSetup();
 
     setupScrolling();
@@ -18,10 +20,12 @@ async function prepareManagePage() {
     let tabs = $('#mainTabs');
     moveContentTo(tabs, main);
 
-    $('.nav-item').on('click', adjustToClickedTab);
+    $('.nav-link').on('click', clickTab);
     $('#removeAll').on('click', removeAllPersons);
     $('#replaceWithCoauthors').on('click', replaceWithCoauthors);
     $('#addCoauthors').on('click', addCoauthors);
+
+    setupTabKeyboardNaviagation();
 
     let target = $('#peopleDivTable');
     target.empty();
@@ -29,58 +33,80 @@ async function prepareManagePage() {
     await getPeopleListInfo();
     setTabTitleAndOrFavicon(`My Person List (${gLists.numPeople})`);
 
-    if (sessionStorage.getItem(gLists.toSaved)) {
-        sessionStorage.removeItem(gLists.toSaved);
-        $(`#savedLists`).click();
+    let savedTab = sessionStorage.getItem(gLists.savedTab);
+    if (savedTab) {
+        sessionStorage.removeItem(gLists.savedTab);
+        gLists.currentTab = savedTab;
+    }
+
+    if (gLists.currentTab != 'manage') {
+        adjustToTab($(`#${savedTab}`));
     }
     else {
-        console.log('manage');
-        gLists.currentTab = 'manage';
-
         hideTabsContent();
 
         showThisTabContent($('#manage'));
         parsePersonListData(gLists.people, target, true);
     }
 }
-
-function hideTabsContent() {
-    $(`#visualizeLists`).hide();
-
-    let tabs = $('#tabsUl').find('span');
-    tabs.removeClass('active');
-    tabs.removeAttr('aria-current');
-    tabs.each(function(index, elt) {
-        let tabFlavor = $(elt).attr('id');
-        $(`#${tabFlavor}Content`).hide();
+function setupTabKeyboardNaviagation() {
+    $('#tabsUl').on('keydown', '[role="tab"]', function (e) {
+        const tabs = $('#tabsUl').find('[role="tab"]:visible'); // visualize tab starts out hidden
+        const numTabs = tabs.length;
+        const currentIndex = tabs.index(this);
+        const step = {ArrowRight: currentIndex+1, ArrowLeft: currentIndex-1, Home: 0, End: numTabs-1};
+        const theKey = e.key;
+        if (theKey in step) {
+            e.preventDefault();
+            const nextIndex = (step[theKey] + numTabs) % numTabs;
+            tabs.eq(nextIndex).trigger('click');
+        }
     });
 }
-function showThisTabContent(spanTarget) {
-    spanTarget.attr('aria-current', 'page');
-    spanTarget.addClass('active');
+function hideTabsContent() {
+    $(`#visualizeLists`).attr('hidden', true);
 
-    let tabFlavor = spanTarget.attr('id');
-    $(`#${tabFlavor}Content`).show();
+    let tabs = $('#tabsUl').find('[role="tab"]');
+    tabs.removeClass('active');
+    tabs.attr({'aria-selected': 'false', tabindex: '-1'});
+    tabs.each(function(index, elt) {
+        let tabFlavor = $(elt).attr('id');
+        $(`#${tabFlavor}Content`).attr('hidden', true);
+    });
+}
+function showThisTabContent(tab) {
+    tab.removeAttr('hidden');
+
+    tab.attr({'aria-selected': 'true', tabindex: '0'});
+    tab.addClass('active');
+
+    let tabFlavor = tab.attr('id');
+    $(`#${tabFlavor}Content`).removeAttr('hidden');
+    tab.trigger('focus')
+    announce(`${tab.text()} view`);
 
     return tabFlavor;
 }
-function adjustToClickedTab(e) {
-    let target = $(e.target);
-    let spanTarget = target.find('span');
-    if (!spanTarget.length) { // presumably b/c target is a span and find() looks at children, not self
-        spanTarget = target;
-    }
+function announce(x, y) {
 
-    if ( ! spanTarget.hasClass('active')) { // click on current tab should be no-op
-        hideTabsContent();
-        let tabFlavor = showThisTabContent(spanTarget);
+}
+function clickTab(e) {
+    let tab = $(e.target);
 
-        console.log('flavor is: ', tabFlavor);
-        console.log('setup is: ', gLists[tabFlavor].setup);
-        gLists[tabFlavor].setup();
+    if ( ! tab.hasClass('active')) { // click on current tab should be no-op
+        adjustToTab(tab);
     }
 }
+function adjustToTab(tab) {
+    hideTabsContent();
+    let tabFlavor = showThisTabContent(tab);
 
+    console.log('flavor is: ', tabFlavor);
+    let setup = gLists[tabFlavor].setup;
+    if (setup) {
+        setup();
+    }
+}
 function noPeopleOnList(target) {
     target.html($(`<div class="mt-2 bold" id="noPeople">
                         You currently have no people in your list.
@@ -331,6 +357,6 @@ function xhrFail (jqXHR, textStatus, errorThrown) {
     console.error("HTTP Status Code: " + jqXHR.status); // e.g., 404, 500;
 }
 function refreshButComeBackToSaved() {
-    sessionStorage.setItem(gLists.toSaved, true);
+    sessionStorage.setItem(gLists.savedTab, gLists.currentTab);
     window.location.reload();
 }

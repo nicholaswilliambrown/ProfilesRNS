@@ -10,10 +10,6 @@
     }
 }
 
-.tabTopHat {
-    color: #3366cc !important;
-}
-
 .outBlue {
     outline: 1px solid blue !important;
     border: 1px solid blue !important;
@@ -339,14 +335,16 @@ header._ci_shared_asset.tool-page.mayHelpResponsivenessSm {
 .tabChoices {
     padding-right: 0 !important;
     width: 100%;
-    border-bottom: 1px solid #ccc !important;
+    border-bottom: 2px solid #ccc !important;
     margin: 0;
     padding: 0;
 }
 
 .tabTopHat {
+    color: #3366cc !important;
     background-image: linear-gradient(rgb(237, 237, 237) 0%,rgb(255, 255, 255) 100%) !important;
     text-align: center;
+    border-bottom: none !important;
     border-top: 1px solid #ccc !important;
     border-left: 1px solid #ccc !important;
     border-right: 1px solid #ccc !important;

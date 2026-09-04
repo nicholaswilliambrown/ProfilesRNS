@@ -60,16 +60,7 @@ function requireSelection(onlyOne) {
 function activateVisualizeTab() {
     let selectedLids = requireSelection();
     if (selectedLids) {
-        hideTabsContent();
-
-        $('#visualizeLists').show();
-        $('#visualizeLists').addClass('active');
-        $('#visualizeLists').attr('aria-current', true);
-
-        $('#visualizeListsContent').show();
-
-        gLists.currentTab = 'visualizeLists';
-
+        adjustToTab($('#visualizeLists'));
         populateInitialVisualizeContent();
     }
 }
@@ -80,7 +71,7 @@ async function populateInitialVisualizeContent() {
     await backendActionWrapper(null, 'VisualizeLists', '');
     console.log("=============== Viz Data: ", gLists.resultData);
 
-    gLists.vizData = JSON.parse(gLists.resultData);
+    gLists.visualizeLists.vizData = JSON.parse(gLists.resultData);
 
     await loadClusterHtml(target);
     setupHtml(target);

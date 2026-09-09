@@ -44,8 +44,8 @@ function wideExport(target, blurbs) {
 
 
     for (let flavor of ['People', 'Publications', 'Connections']) {
-        let flavorSpan = $(`<span flavor="${flavor}" class="link-ish">${flavor}</span>`);
-        flavorSpan.on('click', function() {
+        let flavorButton = $(`<button flavor="${flavor}" class="link-ish">${flavor}</button>`);
+        flavorButton.on('click', function() {
             $('.modalupdate').show();
             flavoredExport(flavor);
             $('.modalupdate').hide();
@@ -53,7 +53,7 @@ function wideExport(target, blurbs) {
 
         let rowColSpecs = [
             newColumnSpec(`${gCommon.cols2or12} alignMiddle bordE`,
-                flavorSpan),
+                flavorButton),
             newColumnSpec(`${gCommon.cols10or12} alignMiddle bordE`,
                 blurbs[flavor]),
         ];
@@ -69,15 +69,15 @@ function narrowExport(target, blurbs) {
     makeRowWithColumns(target, rowId, headerColSpecs, `borderOneSolid mt-3`);
 
     for (let flavor of ['People', 'Publications', 'Connections']) {
-        let flavorSpan = $(`<span flavor="${flavor}" class="link-ish bold">${flavor}:</span>`);
-        flavorSpan.on('click', function() {
+        let flavorButton = $(`<button flavor="${flavor}" class="link-ish bold">${flavor}:</button>`);
+        flavorButton.on('click', function() {
             $('.modalupdate').show();
             flavoredExport(flavor);
             $('.modalupdate').hide();
         });
 
         let valueDiv = $('<div></div>');
-        valueDiv.append(flavorSpan).append(` ${blurbs[flavor]}`);
+        valueDiv.append(flavorButton).append(` ${blurbs[flavor]}`);
         let rowColSpecs = [newColumnSpec(`${gCommon.cols12} alignMiddle bordE`, valueDiv)];
         makeRowWithColumns(target, rowId + '-' + flavor, rowColSpecs, `borderOneSolid`);
     }

@@ -575,3 +575,6 @@ span.nav-link.active {
     height: 20px;
     text-align: center;
 }
+.noBorder {
+    border: none;
+}

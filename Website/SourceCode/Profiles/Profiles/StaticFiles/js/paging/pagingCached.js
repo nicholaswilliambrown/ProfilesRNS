@@ -128,55 +128,54 @@ PagingCached.prototype.emitPageOfAndTotalPages = function(pageOfColumn, currentP
 PagingCached.prototype.emitPrevNext = function(columnTarget) {
     let that = this; // for embedded functions
 
-    let prevLabel = $(`<span id="prevLabel-${this.label}">
-                            <span class="ms-2 link-ish prevNext mt-1 tableHeaderPagingRow">Prev</span>
-                            <span class="ms-2 disablePageNav prevNext mt-1">Prev</span>
-                    </span>`);
-    let nextLabel = $(`<span id="nextLabel-${this.label}">
-                            <span class="ms-2 link-ish prevNext mt-1 tableHeaderPagingRow">Next</span>
-                            <span class="ms-2 disablePageNav prevNext mt-1">Next</span>
-                    </span>`);
+    this.prevLabel = $(`<button class="link-ish" id="prevLabel-${this.label}">
+                         <span class="ms-2 enablePageNav prevNext mt-1 tableHeaderPagingRow">Prev</span>
+                         <span class="ms-2 disablePageNav prevNext mt-1">Prev</span>
+                        </button>`);
+    this.nextLabel = $(`<button class="link-ish" id="nextLabel-${this.label}">
+                         <span class="ms-2 enablePageNav prevNext mt-1 tableHeaderPagingRow">Next</span>
+                         <span class="ms-2 disablePageNav prevNext mt-1">Next</span>
+                        </button>`);
+    this.first =    $(`<button class="link-ish" id="first-${this.label}">
+                        <img alt="arrowFirst" class="enablePageNav prevNext tableHeaderPagingRow" src="${gBrandingConstants.jsPagingImageFiles}arrow_first.gif">
+                        <img alt="arrowFirst" class="disablePageNav prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_first_d.gif">
+                        </button>`);
+    this.last =     $(`<button class="link-ish" id="last-${this.label}">
+                        <img alt="arrowLast" class="ms-2 enablePageNav prevNext tableHeaderPagingRow" src="${gBrandingConstants.jsPagingImageFiles}arrow_last.gif">
+                        <img alt="arrowLast" class="ms-2 disablePageNav prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_last_d.gif">
+                        </button>`);
+    this.prev =     $(`<button class="link-ish" id="prev-${this.label}">
+                        <img alt="arrowPrevious" class="ms-2 enablePageNav prevNext tableHeaderPagingRow" src="${gBrandingConstants.jsPagingImageFiles}arrow_prev.gif">
+                        <img alt="arrowPrevious" class="ms-2 disablePageNav prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_prev_d.gif">
+                        </button>`);
+    this.next =     $(`<button class="link-ish" id="next-${this.label}">
+                        <img alt="arrowNext" class="ms-2 enablePageNav prevNext tableHeaderPagingRow" src="${gBrandingConstants.jsPagingImageFiles}arrow_next.gif">
+                        <img alt="arrowNext" class="ms-2 disablePageNav prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_next_d.gif">
+                    </button>`);
 
-    let first = $(`<span id="first-${this.label}">
-                    <img alt="arrowFirst" class="link-ish prevNext tableHeaderPagingRow" src="${gBrandingConstants.jsPagingImageFiles}arrow_first.gif">
-                    <img alt="arrowFirst" class="disablePageNav prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_first_d.gif">
-                </span>`);
-    let last =  $(`<span id="last-${this.label}">
-                    <img alt="arrowLast" class="ms-2 link-ish prevNext tableHeaderPagingRow" src="${gBrandingConstants.jsPagingImageFiles}arrow_last.gif">
-                    <img alt="arrowLast" class="ms-2 disablePageNav prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_last_d.gif">
-                </span>`);
-    let prev =  $(`<span id="prev-${this.label}">
-                    <img alt="arrowPrevious" class="ms-2 link-ish prevNext tableHeaderPagingRow" src="${gBrandingConstants.jsPagingImageFiles}arrow_prev.gif">
-                    <img alt="arrowPrevious" class="ms-2 disablePageNav prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_prev_d.gif">
-                </span>`);
-    let next =  $(`<span id="next-${this.label}">
-                    <img alt="arrowNext" class="ms-2 link-ish prevNext tableHeaderPagingRow" src="${gBrandingConstants.jsPagingImageFiles}arrow_next.gif">
-                    <img alt="arrowNext" class="ms-2 disablePageNav prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_next_d.gif">
-                </span>`);
+    columnTarget.append(this.first)
+                .append(this.prev)
+                .append(this.prevLabel)
+                .append(this.nextLabel)
+                .append(this.next)
+                .append(this.last);
 
-    columnTarget.append(first)
-        .append(prev)
-        .append(prevLabel)
-        .append(nextLabel)
-        .append(next)
-        .append(last);
-
-    first.on('click', function() {
+    this.first.on('click', function() {
         if (that.getCurrentPageNum() != 1) {
             that.gotoPage(1);
         }
     });
-    last.on('click', function() {
+    this.last.on('click', function() {
         let lastPage = that.getNumPages();
         if (that.getCurrentPageNum() != lastPage) {
             that.gotoPage(lastPage);
         }
     });
 
-    prev.on(        'click', function() {that.pageBefore();});
-    prevLabel.on(   'click', function() {that.pageBefore();});
-    nextLabel.on(   'click', function() {that.pageAfter ();});
-    next.on(        'click', function() {that.pageAfter ();});
+    this.prev.on(        'click', function() {that.pageBefore();});
+    this.prevLabel.on(   'click', function() {that.pageBefore();});
+    this.nextLabel.on(   'click', function() {that.pageAfter ();});
+    this.next.on(        'click', function() {that.pageAfter ();});
 }
 PagingCached.prototype.vetAndGotoPage = function(pageNum) {
     let numPages = this.getNumPages();
@@ -225,23 +224,23 @@ PagingCached.prototype.adjustNavigation = function(pageNum, numPages) {
         lastAndNextEnabled = false;
     }
 
-    this.ableElt($('#prev'), firstAndPrevEnabled);
-    this.ableElt($('#prevLabel'), firstAndPrevEnabled);
-    this.ableElt($('#first'), firstAndPrevEnabled);
+    this.ableElt(this.prev,         firstAndPrevEnabled);
+    this.ableElt(this.prevLabel,    firstAndPrevEnabled);
+    this.ableElt(this.first,        firstAndPrevEnabled);
 
-    this.ableElt($('#next'), lastAndNextEnabled);
-    this.ableElt($('#nextLabel'), lastAndNextEnabled);
-    this.ableElt($('#last'), lastAndNextEnabled);
+    this.ableElt(this.next,         lastAndNextEnabled);
+    this.ableElt(this.nextLabel,    lastAndNextEnabled);
+    this.ableElt(this.last,         lastAndNextEnabled);
 }
 PagingCached.prototype.ableElt = function(elt, which) {
     elt.prop("disabled", ! which);
     if (which) {
-        elt.find('.link-ish').show();
-        elt.find('.disablePageNav').hide();
+        elt.find('.enablePageNav').removeAttr('hidden');
+        elt.find('.disablePageNav').attr('hidden', true);
     }
     else {
-        elt.find('.link-ish').hide();
-        elt.find('.disablePageNav').show();
+        elt.find('.enablePageNav').attr('hidden', true);
+        elt.find('.disablePageNav').removeAttr('hidden');
     }
 }
 

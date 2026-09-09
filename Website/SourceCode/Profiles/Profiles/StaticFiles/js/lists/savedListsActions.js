@@ -31,7 +31,7 @@ function actionHelper(side, id, text, onClick) {
     let actionDiv = $(`<div id ="${id}"></div>`);
     actionDiv.append($(`<img class="pb-1" src="${g.profilesRootURL}/StaticFiles/img/search/icon_squareArrow.gif" 
                                     alt='Right Arrow'/>`));
-    actionDiv.append($(`<span class="ms-1 link-ish">${text}</span>`));
+    actionDiv.append($(`<button class="ms-1 link-ish">${text}</button>`));
     actionDiv.on('click', onClick);
 
     side.append(actionDiv);

@@ -78,8 +78,6 @@ function reportsParse(jsonData, summaryType) {
 
     let subTab = $(`#s${summaryType}`);
     $('.typeSubTab').removeClass('currentSummarySubTab');
-    $('.typeSubTab').addClass('link-ish');
-    subTab.removeClass('link-ish');
     subTab.addClass('currentSummarySubTab')
 
     $('#pieChartWide').addClass(gCommon.hideXsSmallShowOthers);

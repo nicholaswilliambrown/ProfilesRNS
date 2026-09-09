@@ -8,8 +8,9 @@
 .link-ish {
     cursor: pointer;
     text-decoration: none !important;
-    color: #36c !important;    
+    color: #36c !important;
     border: 0px !important;
+    padding-inline: 0 !important;
 }
 .link-ish:hover {
     text-decoration: underline !important;

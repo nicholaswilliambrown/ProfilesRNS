@@ -4,7 +4,7 @@ function saveCurrentList() {
     let url = `${g.profilesRootURL}/Lists/Default.aspx/Save?name=${name}`;
     $.get(url, function() {
         console.log('List: ', name, ' saved');
-        refreshButComeBackToSaved();
+        refreshButComeBackToCurrentTab();
     })
 }
 
@@ -166,7 +166,7 @@ async function backendAction(mutationAction, listIds, restApi, name) {
         .fail(xhrFail);
 
     if (mutationAction) {
-        refreshButComeBackToSaved();
+        refreshButComeBackToCurrentTab();
     }
     else {
         gLists.resultData = resultData;

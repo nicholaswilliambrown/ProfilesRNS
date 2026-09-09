@@ -4,7 +4,7 @@ gLists.savedLists = {
 
         console.log('savedLists');
         gLists.currentTab = 'savedLists';
-        sessionStorage.removeItem(gLists.savedTab);
+        sessionStorage.removeItem(gLists.rememberedTab);
 
         gLists.visualizeLists = { vizData: [], vizClusterData: []};
 

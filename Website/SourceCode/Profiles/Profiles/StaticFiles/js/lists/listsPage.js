@@ -1,6 +1,6 @@
 // this JS should load before the other tab-JS, so they can use gLists
 gLists.noRank = '--';
-gLists.savedTab = 'savedTab';
+gLists.rememberedTab = 'rememberedTab';
 gLists.manage = {
     setup: async () => {
         $('.modalupdate').hide();
@@ -25,7 +25,7 @@ async function prepareManagePage() {
     $('#replaceWithCoauthors').on('click', replaceWithCoauthors);
     $('#addCoauthors').on('click', addCoauthors);
 
-    setupTabKeyboardNaviagation();
+    setupTabKeyboardNavigation();
 
     let target = $('#peopleDivTable');
     target.empty();
@@ -33,23 +33,26 @@ async function prepareManagePage() {
     await getPeopleListInfo();
     setTabTitleAndOrFavicon(`My Person List (${gLists.numPeople})`);
 
-    let savedTab = sessionStorage.getItem(gLists.savedTab);
-    if (savedTab) {
-        sessionStorage.removeItem(gLists.savedTab);
-        gLists.currentTab = savedTab;
+    let rememberedTab = sessionStorage.getItem(gLists.rememberedTab);
+    if (rememberedTab) {
+        sessionStorage.removeItem(gLists.rememberedTab);
+        gLists.currentTab = rememberedTab;
     }
 
     if (gLists.currentTab != 'manage') {
-        adjustToTab($(`#${savedTab}`));
+        adjustToTab($(`#${rememberedTab}`));
     }
     else {
         hideTabsContent();
 
         showThisTabContent($('#manage'));
         parsePersonListData(gLists.people, target, true);
+        $('#saveCopy').on('click', () => {
+            adjustToTab($(`#savedLists`));
+        });
     }
 }
-function setupTabKeyboardNaviagation() {
+function setupTabKeyboardNavigation() {
     $('#tabsUl').on('keydown', '[role="tab"]', function (e) {
         const tabs = $('#tabsUl').find('[role="tab"]:visible'); // visualize tab starts out hidden
         const numTabs = tabs.length;
@@ -82,7 +85,7 @@ function showThisTabContent(tab) {
 
     let tabFlavor = tab.attr('id');
     $(`#${tabFlavor}Content`).removeAttr('hidden');
-    tab.trigger('focus')
+
     announce(`${tab.text()} view`);
 
     return tabFlavor;
@@ -100,6 +103,8 @@ function clickTab(e) {
 function adjustToTab(tab) {
     hideTabsContent();
     let tabFlavor = showThisTabContent(tab);
+
+    tab.trigger('focus');
 
     console.log('flavor is: ', tabFlavor);
     let setup = gLists[tabFlavor].setup;
@@ -316,7 +321,7 @@ async function removeSelectedPersons(e) {
         })
         .fail(xhrFail);
 
-    refreshButComeBackToSaved(gLists.currentTab);
+    refreshButComeBackToCurrentTab();
 }
 
 async function removeAllPersons(e) {
@@ -356,7 +361,7 @@ function xhrFail (jqXHR, textStatus, errorThrown) {
     console.error("Error Thrown: " + errorThrown); // Common outputs: "Not Found", "Internal Server Error"
     console.error("HTTP Status Code: " + jqXHR.status); // e.g., 404, 500;
 }
-function refreshButComeBackToSaved() {
-    sessionStorage.setItem(gLists.savedTab, gLists.currentTab);
+function refreshButComeBackToCurrentTab() {
+    sessionStorage.setItem(gLists.rememberedTab, gLists.currentTab);
     window.location.reload();
 }

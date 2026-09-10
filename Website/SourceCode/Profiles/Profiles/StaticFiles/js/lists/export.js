@@ -42,9 +42,9 @@ function wideExport(target, blurbs) {
     let rowId = `exportTableWide`;
     makeRowWithColumns(target, rowId, headerColSpecs, `borderOneSolid mt-3`);
 
-
     for (let flavor of ['People', 'Publications', 'Connections']) {
-        let flavorButton = $(`<button flavor="${flavor}" class="link-ish">${flavor}</button>`);
+        let blurb = `Download ${flavor} data as CSV`;
+        let flavorButton = $(`<button type="button" title="${blurb}" flavor="${flavor}" class="link-ish" aria-label="${blurb}">${flavor}</button>`);
         flavorButton.on('click', function() {
             $('.modalupdate').show();
             flavoredExport(flavor);
@@ -69,7 +69,7 @@ function narrowExport(target, blurbs) {
     makeRowWithColumns(target, rowId, headerColSpecs, `borderOneSolid mt-3`);
 
     for (let flavor of ['People', 'Publications', 'Connections']) {
-        let flavorButton = $(`<button flavor="${flavor}" class="link-ish bold">${flavor}:</button>`);
+        let flavorButton = $(`<button type="button" flavor="${flavor}" class="link-ish bold">${flavor}:</button>`);
         flavorButton.on('click', function() {
             $('.modalupdate').show();
             flavoredExport(flavor);

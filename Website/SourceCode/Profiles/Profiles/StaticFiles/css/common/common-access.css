@@ -1,8 +1,9 @@
 
-.link-ishB:hover {
-    box-shadow: 0 4px 2px -2px gray !important;
+.showFocusAndHover {
+    cursor: pointer;
 }
-.link-ishB:focus-visible {
+.showFocusAndHover:hover, .showFocusAndHover:focus-visible {
+    /*box-shadow: 0 4px 2px -2px gray !important;*/
     outline: 2px solid -webkit-focus-ring-color;
 }
 .link-ish {
@@ -23,3 +24,9 @@
     font-weight: 700;
 }
 [hidden] { display: none !important; }
+.link-disabled {
+    color: #999999;          /* Fades out the text color */
+    text-decoration: none;   /* Removes the underline */
+    cursor: default;         /* Prevents the pointer/hand cursor */
+    pointer-events: none;    /* Stops the link from being clickable */
+}

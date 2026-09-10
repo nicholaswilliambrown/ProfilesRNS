@@ -147,13 +147,13 @@
                     <div class="pb-2 mb-2 bordBottom">
                         There <span id="currentNum">is currently 1 person</span> in your list. Filter the list by
                         institution or faculty rank.
-                        <button class="link-ish" id="removeAll">Remove <span id="allPeopleShown">the 1 person shown</span></button>
+                        <button type="button" class="link-ish" id="removeAll">Remove <span id="allPeopleShown">the 1 person shown</span></button>
                         or just the selected people from your list.
-                        <button class="link-ish" id="saveCopy">Save a copy</button> of your list so you can view it later or
+                        <button type="button" class="link-ish" id="saveCopy">Save a copy</button> of your list so you can view it later or
                         combine it with other lists;
-                        <button class="link-ish" id="replaceWithCoauthors">replace the people</button> on your list with
+                        <button type="button" class="link-ish" id="replaceWithCoauthors">replace the people</button> on your list with
                         their coauthors; or,
-                        <button class="link-ish" id="addCoauthors">add their coauthors to your list</button>.
+                        <button type="button" class="link-ish" id="addCoauthors">add their coauthors to your list</button>.
                     </div>
                 </div>
                 <div class="mt-1" id="peopleDivTable"></div>
@@ -195,9 +195,9 @@
                     <hr/>
                 </div>
                 <div id="typeSubTabsDiv">
-                    <button class="link-ish typeSubTab" id="sInstitution" summaryType="Institution">Institution Summary</button> |
-                    <button class="link-ish typeSubTab" id="sDepartment"  summaryType="Department">Department Summary</button> |
-                    <button class="link-ish typeSubTab" id="sFacultyRank" summaryType="FacultyRank">Faculty Rank Summary</button>
+                    <button type="button" class="link-ish typeSubTab" id="sInstitution" summaryType="Institution">Institution Summary</button> |
+                    <button type="button" class="link-ish typeSubTab" id="sDepartment"  summaryType="Department">Department Summary</button> |
+                    <button type="button" class="link-ish typeSubTab" id="sFacultyRank" summaryType="FacultyRank">Faculty Rank Summary</button>
                 </div>
                 <div id="pieChartWide"></div>
                 <div id="pieChartNarrow"></div>
@@ -218,7 +218,7 @@
                 <div id="saveCurrent">
                     <span class="bold">Save my current person list as </span>
                     <input id="saveName" type="text" class="ms-2 me-4"/>
-                    <button id="saveButton">Save List</button>
+                    <button type="button" id="saveButton">Save List</button>
                 </div>
                 <hr/>
                 <div id="savedDynamicDisplay"></div>
@@ -229,7 +229,7 @@
     </div> <!-- mainTabs -->
     <div id="nameOverlay" class="bold">Rename selected person list as
         <input type="text" id="newListName" class="ms-2 me-2"/>
-        <button id="saveNewListName">Save List</button>
+        <button type="button" id="saveNewListName">Save List</button>
     </div>
 </main>
 </body>

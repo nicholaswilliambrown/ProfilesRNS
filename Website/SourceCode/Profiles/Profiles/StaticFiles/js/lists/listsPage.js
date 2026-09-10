@@ -3,54 +3,63 @@ gLists.noRank = '--';
 gLists.rememberedTab = 'rememberedTab';
 gLists.manage = {
     setup: async () => {
+        await getPeopleListInfo();
+        gCommon.pageTitle = await setTabTitleAndOrFavicon(`My Person List (${gLists.numPeople})`);
+
         $('.modalupdate').hide();
 
-        specialHandling();
-        prepareManagePage();
+        hideTabsContent();
+        let target = $('#peopleDivTable');
+        target.empty(); // fresh start
+        addManageTabContent(target); // even if blocked from prepare...()
+
+        await prepareManagePage(target);
     }
 };
-async function prepareManagePage() {
-    gLists.currentTab = 'manage'; // unless we find a saved tab in the following
+async function prepareManagePage(target) {
+    if (!gLists.avoidReentrance) {
+        gLists.avoidReentrance = true;
 
-    await commonSetup();
+        specialHandling();
 
-    setupScrolling();
+        gLists.currentTab = 'manage'; // unless we find a saved tab in the following
 
-    let main = $('#mainDiv');
-    let tabs = $('#mainTabs');
-    moveContentTo(tabs, main);
+        await commonSetup();
 
-    $('.nav-link').on('click', clickTab);
-    $('#removeAll').on('click', removeAllPersons);
-    $('#replaceWithCoauthors').on('click', replaceWithCoauthors);
-    $('#addCoauthors').on('click', addCoauthors);
+        setupScrolling();
 
-    setupTabKeyboardNavigation();
+        let main = $('#mainDiv');
+        let tabs = $('#mainTabs');
+        moveContentTo(tabs, main);
 
-    let target = $('#peopleDivTable');
-    target.empty();
+        $('#tabsUl').find('[role="tab"]').on('click', clickTab);
+        $('#removeAll').on('click', removeAllPersons);
+        $('#replaceWithCoauthors').on('click', replaceWithCoauthors);
+        $('#addCoauthors').on('click', addCoauthors);
 
-    await getPeopleListInfo();
-    setTabTitleAndOrFavicon(`My Person List (${gLists.numPeople})`);
+        setupTabKeyboardNavigation();
 
-    let rememberedTab = sessionStorage.getItem(gLists.rememberedTab);
-    if (rememberedTab) {
-        sessionStorage.removeItem(gLists.rememberedTab);
-        gLists.currentTab = rememberedTab;
+        let rememberedTab = sessionStorage.getItem(gLists.rememberedTab);
+        if (rememberedTab) {
+            sessionStorage.removeItem(gLists.rememberedTab);
+            gLists.currentTab = rememberedTab;
+        }
+        else {
+            target.removeAttr('hidden')
+        }
+
+
+        if (gLists.currentTab != 'manage') {
+            adjustToTab($(`#${rememberedTab}`));
+        }
     }
-
-    if (gLists.currentTab != 'manage') {
-        adjustToTab($(`#${rememberedTab}`));
-    }
-    else {
-        hideTabsContent();
-
-        showThisTabContent($('#manage'));
-        parsePersonListData(gLists.people, target, true);
-        $('#saveCopy').on('click', () => {
-            adjustToTab($(`#savedLists`));
-        });
-    }
+}
+function addManageTabContent(target) {
+    showThisTabContent($('#manage'));
+    parsePersonListData(gLists.people, target, true);
+    $('#saveCopy').on('click', () => {
+        adjustToTab($(`#savedLists`));
+    });
 }
 function setupTabKeyboardNavigation() {
     $('#tabsUl').on('keydown', '[role="tab"]', function (e) {
@@ -133,7 +142,7 @@ function parsePersonListData(people, target, isManage) {
     }
     else {
         emitTopOfPersonTable(people, currentPeopleTable, isManage);
-        emitPersonRowsAndButtons(people, currentPeopleTable, isManage);
+        emitPersonsAndPaging(people, currentPeopleTable);
     }
 }
 
@@ -156,12 +165,11 @@ function  emitTopOfPersonTable(people, target, isManage) {
     }
 
     let colSpecs = [newColumnSpec(`${gCommon.cols4} bordE p-1`, 'Name'),
-            newColumnSpec(`${gCommon.cols4} bordE p-1`, 'Institution'),
-            //newColumnSpec(`${isManage ? gCommon.cols3 : gCommon.cols4} bordE p-1`, 'Faculty Rank')];
-            newColumnSpec(`${gCommon.cols3} bordE p-1`, 'Faculty Rank')];
-    //if (isManage) {
-        colSpecs.push(newColumnSpec(`${gCommon.cols1} p-1 d-flex justify-content-center`, 'Remove'));
-    //}
+        newColumnSpec(`${gCommon.cols4} bordE p-1`, 'Institution'),
+        newColumnSpec(`${gCommon.cols3} bordE p-1`, 'Faculty Rank'),
+        newColumnSpec(`${gCommon.cols1} p-1 d-flex justify-content-center`, 'Remove')
+    ];
+    colSpecs.push();
 
     makeRowWithColumns(target, 'ListHeader', colSpecs, 'listsTableHeader bord9 myMs-0');
 }
@@ -272,12 +280,15 @@ function emitPersonRows(people, target) {
         row.find(`.linked`).on('click', linkFn);
     }
 }
-function emitPersonRowsAndButtons(people, outerTarget, isManage) {
+function emitPersonsAndPaging(people, outerTarget) {
     let peopleRows = $(`<div id="peopleRows"></div>`);
     outerTarget.append(peopleRows);
 
     let colSpecs = [newColumnSpec(`${gCommon.cols12} d-flex justify-content-center`)];
-    let pagingRow = makeRowWithColumns(outerTarget, 'pagingRow', colSpecs, 'bord9_3 pt-1 pb-1 myMs-0');
+
+    let navPagination = $('<nav aria-label="Pagination"></nav>')
+    outerTarget.append(navPagination);
+    let pagingRow = makeRowWithColumns(navPagination, 'pagingRow', colSpecs, 'bord9_3 pt-1 pb-1 myMs-0');
 
     let debug = 1;
     if (debug) {
@@ -291,12 +302,10 @@ function emitPersonRowsAndButtons(people, outerTarget, isManage) {
 
     setupListAndPagination(peopleRows, people, [15, 25, 50, 100], pagingRow, gLists.currentTab);
 
-    //if (isManage) {
-        let button = $(`<button class="btn gradientLists" id="removalButton-${gLists.currentTab}">Remove Selected People</button>`);
-        button.on('click', removeSelectedPersons);
-        let colSpecs2 = [newColumnSpec(`${gCommon.cols12} d-flex justify-content-end pe-0`, button)];
-        makeRowWithColumns(outerTarget, 'removalRow-${gLists.currentTab}', colSpecs2, 'mt-1 myMs-0');
-    //}
+    let button = $(`<button type="button" class="btn gradientLists" id="removalButton-${gLists.currentTab}">Remove Selected People</button>`);
+    button.on('click', removeSelectedPersons);
+    let colSpecs2 = [newColumnSpec(`${gCommon.cols12} d-flex justify-content-end pe-0`, button)];
+    makeRowWithColumns(outerTarget, 'removalRow-${gLists.currentTab}', colSpecs2, 'mt-1 myMs-0');
 }
 
 async function removeSelectedPersons(e) {

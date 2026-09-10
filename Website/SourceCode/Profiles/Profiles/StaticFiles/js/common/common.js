@@ -164,13 +164,16 @@ function topFunction(e) {
     return true;
 }
 
-function setTabTitleAndOrFavicon(title) {
+async function setTabTitleAndOrFavicon(title) {
     if (!title) {
         title = window.location.pathname
             .replace(/.*\//, "")
             .replace(".html", "");
     }
 
+    if (!gBrandingConstants.tabTitleSuffix) {
+        await loadBrandingConstants();
+    }
     document.title = title + gBrandingConstants.tabTitleSuffix;
 
     let faviconHref = `href="${gBrandingConstants.faviconUrl}"`;
@@ -179,6 +182,7 @@ function setTabTitleAndOrFavicon(title) {
         head.append(`<link rel="icon" type="image/x-icon" ${faviconHref}>`);
         head.append(`<link rel="shortcut icon" type="image/x-icon" ${faviconHref}>`);
     }
+    return title;
 }
 
 function setupMainStructure() {

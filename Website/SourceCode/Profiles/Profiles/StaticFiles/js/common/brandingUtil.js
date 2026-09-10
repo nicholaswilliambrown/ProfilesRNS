@@ -30,7 +30,9 @@ async function setupHeadIncludesAndTabTitle(title) {
         myBrandSetupHeadIncludesAndTabTitle();
     }
     else {
-        setTabTitleAndOrFavicon(title);
+        if (!gCommon.pageTitle) {
+            gCommon.pageTitle = setTabTitleAndOrFavicon(title);
+        }
     }
 }
 function unHideFooter() {

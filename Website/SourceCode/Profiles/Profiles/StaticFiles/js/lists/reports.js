@@ -78,7 +78,9 @@ function reportsParse(jsonData, summaryType) {
 
     let subTab = $(`#s${summaryType}`);
     $('.typeSubTab').removeClass('currentSummarySubTab');
-    subTab.addClass('currentSummarySubTab')
+    $('.typeSubTab').attr('aria-pressed', false);
+    subTab.addClass('currentSummarySubTab');
+    subTab.attr('aria-pressed', true);
 
     $('#pieChartWide').addClass(gCommon.hideXsSmallShowOthers);
     // Instantiate and draw our WIDE chart, passing in some options.

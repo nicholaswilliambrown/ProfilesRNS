@@ -46,8 +46,8 @@ async function addDimensionsBadgesAndCheckLabel() {
 
         // now that it has been generated, style the
         //    'inner' <a> of altmetric
-        $('a.altmetric-embed').find('a').addClass('link-ishB');
-        $('a.__dimensions_badge_embed__').find('a.__dimensions_Link').addClass('link-ishB');
+        $('a.altmetric-embed').find('a').addClass('showFocusAndHover');
+        $('a.__dimensions_badge_embed__').find('a.__dimensions_Link').addClass('showFocusAndHover');
         $('a.__dimensions_badge_embed__').find('.__cits__').addClass('wrap3');
         $('a.__dimensions_badge_embed__').find('.__db_score').addClass('wrap3');
         $('a.__dimensions_badge_embed__').find('.__dimensions_png').hide();
@@ -119,7 +119,7 @@ function addPmcAndRcrCitations(linkItems, pub) {
     let url = gPerson.pmcUrlCitedByTemplate + pmid;
 
     if (pmcCitations) {
-        let graphic = $(`<a target="_blank" href="${url}" class="link-ishB pmc_citation ms-0 me-2 pe-2">${pmcCitations}</a>`);
+        let graphic = $(`<a target="_blank" href="${url}" class="showFocusAndHover pmc_citation ms-0 me-2 pe-2">${pmcCitations}</a>`);
         graphic.css("background-image",
             `url("${gBrandingConstants.jsPersonImageFiles}PMC-citations.jpg")`);
 

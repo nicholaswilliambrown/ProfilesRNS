@@ -10,7 +10,7 @@ function setupForCluster(target) {
     let safariDisabled = (!!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/)) ?
                             'disabled="disabled"' : '';
     let dlSizeSelect = $(`
-                <select id="download-options" class="headerColor link-ishB" aria-label="Download size">
+                <select id="download-options" class="headerColor showFocusAndHover" aria-label="Download size">
                     <option disabled selected="selected" value="">Download size</option>
                     <option ${safariDisabled} value="png-small">Small PNG</option>
                     <option ${safariDisabled} value="png-medium">Medium PNG</option>
@@ -19,7 +19,7 @@ function setupForCluster(target) {
                 </select>
             `)
 
-    let generateClusterBtn = $(`<button class="headerColor link-ishB" id="btnGenerateView">Generate Cluster View</button>`);
+    let generateClusterBtn = $(`<button type="button" class="headerColor showFocusAndHover" id="btnGenerateView">Generate Cluster View</button>`);
 
     generateClusterBtn.on('click', async function (e) {
         dlSizeSelect.show();

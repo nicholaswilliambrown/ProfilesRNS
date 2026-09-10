@@ -28,13 +28,13 @@ function emitSavedListQuasiButtons(target) {
     target.append($('<hr/>'))
 }
 function actionHelper(side, id, text, onClick) {
-    let actionDiv = $(`<div id ="${id}"></div>`);
-    actionDiv.append($(`<img class="pb-1" src="${g.profilesRootURL}/StaticFiles/img/search/icon_squareArrow.gif" 
-                                    alt='Right Arrow'/>`));
-    actionDiv.append($(`<button class="ms-1 link-ish">${text}</button>`));
-    actionDiv.on('click', onClick);
+    side.append($('<br/>'));
+    let actionButton = $(`<button id ="${id}" type="button" class="ms-1 link-ish"></button>`);
+    actionButton.append($(`<img alt="" class="pb-1 me-2" src="${g.profilesRootURL}/StaticFiles/img/search/icon_squareArrow.gif"/>`));
+    actionButton.append($(`<span>${text}</span>`));
+    actionButton.on('click', onClick);
 
-    side.append(actionDiv);
+    side.append(actionButton);
 }
 function requireSelection(onlyOne) {
     let selectionString = '';
@@ -123,14 +123,16 @@ function populateActionsRhs(rhs) {
     actionHelper(rhs, 'divActionReplace',
         'Replace the selected list with the people in my person list',
         (e) => backendActionWrapper(e, restApi, 'Replace'));
+
     actionHelper(rhs, 'divActionRename',
         'Rename the selected list',
         harvestNameAndApplyToList);
+
     actionHelper(rhs, 'divActionDelete',
         'Delete the selected list(s)',
         (e) => backendActionWrapper(e, restApi, 'Delete'));
 
-    rhs.append('<div class="mt-3"></div>');
+    rhs.append('<div class="mt-1"></div>');
 
     actionHelper(rhs, 'divActionVisualize',
         'Create a cluster view of the selected list(s)',

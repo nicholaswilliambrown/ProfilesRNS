@@ -137,15 +137,15 @@ class PagingCached {
     emitPrev(columnTarget) {
         let that = this; // for embedded functions
 
-        this.prevLabel = $(`<button type="button" class="noBorder link-ish showFocusAndHover" id="prevLabel-${this.label}">
-                        <span class="enablePageNav link-ish prevNext mt-1 tableHeaderPagingRow">Prev</span>
-                        <span class="disablePageNav prevNext mt-1">Prev</span>
-                        <img alt="" class="ps-2 pe-0 enablePageNav prevNext tableHeaderPagingRow" src="${gBrandingConstants.jsPagingImageFiles}arrow_prev.gif">
-                        <img alt="" class="ps-2 pe-0 disablePageNav prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_prev_d.gif">
-                        </button>`);
-        this.first = $(`<button type="button" class="noBorder ps-0 pe-0 link-ish showFocusAndHover" id="first-${this.label}">
+        this.first = $(`<button type="button" class="noBorder link-ish showFocusAndHover me-2" title="first page" id="first-${this.label}">
                         <img alt="first page" class="enablePageNav prevNext tableHeaderPagingRow" src="${gBrandingConstants.jsPagingImageFiles}arrow_first.gif">
                         <img alt="first page" class="disablePageNav prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_first_d.gif">
+                        </button>`);
+        this.prevLabel = $(`<button type="button" class="noBorder link-ish showFocusAndHover" id="prevLabel-${this.label}">
+                        <img alt="" class="enablePageNav prevNext tableHeaderPagingRow" src="${gBrandingConstants.jsPagingImageFiles}arrow_prev.gif">
+                        <img alt="" class="disablePageNav prevNext me-1" src="${gBrandingConstants.jsPagingImageFiles}arrow_prev_d.gif">
+                        <span class="enablePageNav prevNext mt-1 tableHeaderPagingRow">Prev</span>
+                        <span class="disablePageNav prevNext mt-1">Prev</span>
                         </button>`);
 
         columnTarget.append(this.first)
@@ -154,13 +154,13 @@ class PagingCached {
     emitNext(columnTarget) {
         let that = this; // for embedded functions
 
-        this.nextLabel = $(`<button type="button" class="noBorder link-ish showFocusAndHover" id="nextLabel-${this.label}">
-                         <span class="enablePageNav prevNext mt-1 tableHeaderPagingRow link-ish">Next</span>
-                         <span class="disablePageNav prevNext mt-1">Next</span>
-                        <img alt="" class="ps-2 pe-0 enablePageNav prevNext tableHeaderPagingRow" src="${gBrandingConstants.jsPagingImageFiles}arrow_next.gif">
-                        <img alt="" class="ps-2 pe-0 disablePageNav prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_next_d.gif">
+        this.nextLabel = $(`<button type="button" class="noBorder link-ish showFocusAndHover me-1" id="nextLabel-${this.label}">
+                        <span class="enablePageNav prevNext mt-1 tableHeaderPagingRow">Next</span>
+                        <span class="disablePageNav prevNext mt-1">Next</span>
+                        <img alt="" class="pe-1 enablePageNav prevNext tableHeaderPagingRow" src="${gBrandingConstants.jsPagingImageFiles}arrow_next.gif">
+                        <img alt="" class="pe-1 disablePageNav prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_next_d.gif">
                         </button>`);
-        this.last = $(`<button type="button" class="noBorder ps-2 pe-0 link-ish showFocusAndHover" id="last-${this.label}">
+        this.last = $(`<button type="button" class="noBorder link-ish showFocusAndHover" title="last page" id="last-${this.label}">
                         <img alt="last page" class="enablePageNav prevNext tableHeaderPagingRow" src="${gBrandingConstants.jsPagingImageFiles}arrow_last.gif">
                         <img alt="last page" class="disablePageNav prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_last_d.gif">
                         </button>`);

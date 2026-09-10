@@ -2,8 +2,10 @@
 .showFocusAndHover {
     cursor: pointer;
 }
-.showFocusAndHover:hover, .showFocusAndHover:focus-visible {
-    /*box-shadow: 0 4px 2px -2px gray !important;*/
+.showFocusAndHover:hover:not(.link-ish) { /* since link-ish hover shows underline */
+    box-shadow: 0 4px 2px -2px gray !important;
+}
+.showFocusAndHover:focus-visible {
     outline: 2px solid -webkit-focus-ring-color;
 }
 .link-ish {
@@ -25,8 +27,9 @@
 }
 [hidden] { display: none !important; }
 .link-disabled {
-    color: #999999;          /* Fades out the text color */
+    /*color: #999999;          !* Fades out the text color *! */
     text-decoration: none;   /* Removes the underline */
     cursor: default;         /* Prevents the pointer/hand cursor */
     pointer-events: none;    /* Stops the link from being clickable */
+    opacity: 70%;
 }

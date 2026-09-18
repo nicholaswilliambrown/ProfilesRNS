@@ -813,5 +813,5 @@ type Edit.Module.Person.Mentoring.Overview.StoredProcedure.sql
 type Display.Module.Person.Mentoring.JobOpportunities.StoredProcedure.sql
 type Edit.Module.Person.Mentoring.JobOpportunities.StoredProcedure.sql
 type Edit.Module.Person.Mentoring.JobOpportunities.getData.StoredProcedure.sql
-type Profile.Data.Person.Filter.UpdateFilters.getData.StoredProcedure.sql
+type Profile.Data.Person.Filter.UpdateFilters.StoredProcedure.sql
 

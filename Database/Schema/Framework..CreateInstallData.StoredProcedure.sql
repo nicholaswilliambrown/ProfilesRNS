@@ -527,7 +527,8 @@ BEGIN
 											PersonFilterSort 'PersonFilterSort',
 											ETLProcedure 'ETLProcedure',
 											ETLParams 'ETLParams',
-											IsActive 'IsActive'
+											IsActive 'IsActive',
+											SearchDropdown 'SearchDropDown'
 									from [Profile.Data].[Person.Filter]
 									for xml path('Row'), type
 								) 'Table'

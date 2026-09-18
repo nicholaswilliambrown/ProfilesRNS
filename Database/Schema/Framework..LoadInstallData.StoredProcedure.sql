@@ -870,17 +870,19 @@ SELECT  Row_Number() OVER (ORDER BY (SELECT 1)),
 		   PersonFilterSort,
 		   ETLProcedure,
 		   ETLParams,
-		   IsActive
+		   IsActive,
+		   SearchDropdown
          )
 	SELECT  R.x.value('PersonFilter[1]', 'varchar(max)') ,
           R.x.value('PersonFilterCategory[1]', 'varchar(max)'),
           R.x.value('PersonFilterSort[1]', 'varchar(max)'),
 		  R.x.value('ETLProcedure[1]', 'varchar(max)') ,
           R.x.value('ETLParams[1]', 'varchar(max)'),
-          R.x.value('IsActive[1]', 'varchar(max)')
+          R.x.value('IsActive[1]', 'varchar(max)'),
+		  R.x.value('SearchDropdown[1]', 'varchar(max)')
 	FROM    ( SELECT
                       @x.query
-                      ('Import[1]/Table[@Name=''[Ontology.].[ClassGroup]'']')
+                      ('Import[1]/Table[@Name=''[Profile.Data].[Person.Filter]'']')
                       x
           ) t
 	CROSS APPLY x.nodes('//Row') AS R ( x ) 

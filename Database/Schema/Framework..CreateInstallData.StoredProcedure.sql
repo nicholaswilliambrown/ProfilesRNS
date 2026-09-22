@@ -528,8 +528,23 @@ BEGIN
 											ETLProcedure 'ETLProcedure',
 											ETLParams 'ETLParams',
 											IsActive 'IsActive',
-											SearchDropdown 'SearchDropDown'
+											SearchDropdown 'SearchDropdown'
 									from [Profile.Data].[Person.Filter]
+									for xml path('Row'), type
+								) 'Table'
+						for xml path(''), type
+					),
+					---------------------------------------------------------------
+					-- [Edit.Module].[EditClassProperty]
+					---------------------------------------------------------------
+					(
+						select	'[Edit.Module].[EditClassProperty]' 'Table/@Name',
+								(
+									select	Class 'Class',
+											Property 'Property',
+											AddUpdateStoredProcedure 'AddUpdateStoredProcedure',
+											GetDataStoredProcedure 'GetDataStoredProcedure'
+									from [Edit.Module].[EditClassProperty]
 									for xml path('Row'), type
 								) 'Table'
 						for xml path(''), type

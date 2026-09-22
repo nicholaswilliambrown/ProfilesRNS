@@ -36,4 +36,5 @@ type Display..ModuleMapping.xml
 type Display..Activity.Log.MethodDetails.xml
 type Display..SearchEverything.Filters.xml
 type Profile.Data.Person.Filter.xml
+type Edit.Module.EditClassProperty.xml
 echo ^</Import^>

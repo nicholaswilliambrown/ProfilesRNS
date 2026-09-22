@@ -5,7 +5,7 @@
     <PersonFilterSort>1</PersonFilterSort>
     <ETLProcedure>[Profile.Import].[LoadProfilesData]</ETLProcedure>
     <IsActive>1</IsActive>
-    <SearchDropDown>OtherOptions</SearchDropDown>
+    <SearchDropdown>OtherOptions</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Education and Training</PersonFilter>
@@ -13,7 +13,7 @@
     <PersonFilterSort>2</PersonFilterSort>
     <ETLProcedure>[Profile.Import].[LoadProfilesData]</ETLProcedure>
     <IsActive>1</IsActive>
-    <SearchDropDown>OtherOptions</SearchDropDown>
+    <SearchDropdown>OtherOptions</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Photo</PersonFilter>
@@ -21,7 +21,7 @@
     <PersonFilterSort>6</PersonFilterSort>
     <ETLProcedure>[Profile.Import].[LoadProfilesData]</ETLProcedure>
     <IsActive>1</IsActive>
-    <SearchDropDown>OtherOptions</SearchDropDown>
+    <SearchDropdown>OtherOptions</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Overview</PersonFilter>
@@ -29,7 +29,7 @@
     <PersonFilterSort>5</PersonFilterSort>
     <ETLProcedure>[Profile.Import].[LoadProfilesData]</ETLProcedure>
     <IsActive>1</IsActive>
-    <SearchDropDown>OtherOptions</SearchDropDown>
+    <SearchDropdown>OtherOptions</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Freetext Keywords</PersonFilter>
@@ -37,7 +37,7 @@
     <PersonFilterSort>3</PersonFilterSort>
     <ETLProcedure>[Profile.Import].[LoadProfilesData]</ETLProcedure>
     <IsActive>1</IsActive>
-    <SearchDropDown>OtherOptions</SearchDropDown>
+    <SearchDropdown>OtherOptions</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Research Activities and Funding</PersonFilter>
@@ -45,7 +45,7 @@
     <PersonFilterSort>7</PersonFilterSort>
     <ETLProcedure>[Profile.Import].[LoadProfilesData]</ETLProcedure>
     <IsActive>1</IsActive>
-    <SearchDropDown>OtherOptions</SearchDropDown>
+    <SearchDropdown>OtherOptions</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>ORCID</PersonFilter>
@@ -53,7 +53,7 @@
     <PersonFilterSort>4</PersonFilterSort>
     <ETLProcedure>[Profile.Import].[LoadProfilesData]</ETLProcedure>
     <IsActive>1</IsActive>
-    <SearchDropDown>OtherOptions</SearchDropDown>
+    <SearchDropdown>OtherOptions</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>0 Publications</PersonFilter>
@@ -61,7 +61,7 @@
     <PersonFilterSort>8</PersonFilterSort>
     <ETLProcedure>[Profile.Import].[LoadProfilesData]</ETLProcedure>
     <IsActive>1</IsActive>
-    <SearchDropDown>OtherOptions</SearchDropDown>
+    <SearchDropdown>OtherOptions</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>1-9 Publications</PersonFilter>
@@ -69,7 +69,7 @@
     <PersonFilterSort>9</PersonFilterSort>
     <ETLProcedure>[Profile.Import].[LoadProfilesData]</ETLProcedure>
     <IsActive>1</IsActive>
-    <SearchDropDown>OtherOptions</SearchDropDown>
+    <SearchDropdown>OtherOptions</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>10-49 Publications</PersonFilter>
@@ -77,7 +77,7 @@
     <PersonFilterSort>10</PersonFilterSort>
     <ETLProcedure>[Profile.Import].[LoadProfilesData]</ETLProcedure>
     <IsActive>1</IsActive>
-    <SearchDropDown>OtherOptions</SearchDropDown>
+    <SearchDropdown>OtherOptions</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>50-99 Publications</PersonFilter>
@@ -85,7 +85,7 @@
     <PersonFilterSort>11</PersonFilterSort>
     <ETLProcedure>[Profile.Import].[LoadProfilesData]</ETLProcedure>
     <IsActive>1</IsActive>
-    <SearchDropDown>OtherOptions</SearchDropDown>
+    <SearchDropdown>OtherOptions</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>100 or Greater Publications</PersonFilter>
@@ -93,7 +93,7 @@
     <PersonFilterSort>12</PersonFilterSort>
     <ETLProcedure>[Profile.Import].[LoadProfilesData]</ETLProcedure>
     <IsActive>1</IsActive>
-    <SearchDropDown>OtherOptions</SearchDropDown>
+    <SearchDropdown>OtherOptions</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Photo</PersonFilter>
@@ -102,7 +102,7 @@
     <ETLProcedure>[Profile.Data].[Person.Filter.UpdateFilters]/Sections</ETLProcedure>
     <ETLParams>http://profiles.catalyst.harvard.edu/ontology/prns#mainImage</ETLParams>
     <IsActive>1</IsActive>
-    <SearchDropDown>Sections</SearchDropDown>
+    <SearchDropdown>Sections</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Education and Training</PersonFilter>
@@ -111,7 +111,7 @@
     <ETLProcedure>[Profile.Data].[Person.Filter.UpdateFilters]/Sections</ETLProcedure>
     <ETLParams>http://vivoweb.org/ontology/core#educationalTraining</ETLParams>
     <IsActive>1</IsActive>
-    <SearchDropDown>Sections</SearchDropDown>
+    <SearchDropdown>Sections</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Awards and Honors</PersonFilter>
@@ -120,7 +120,7 @@
     <ETLProcedure>[Profile.Data].[Person.Filter.UpdateFilters]/Sections</ETLProcedure>
     <ETLParams>http://vivoweb.org/ontology/core#awardOrHonor</ETLParams>
     <IsActive>1</IsActive>
-    <SearchDropDown>Sections</SearchDropDown>
+    <SearchDropdown>Sections</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Overview</PersonFilter>
@@ -129,7 +129,7 @@
     <ETLProcedure>[Profile.Data].[Person.Filter.UpdateFilters]/Sections</ETLProcedure>
     <ETLParams>http://vivoweb.org/ontology/core#overview</ETLParams>
     <IsActive>1</IsActive>
-    <SearchDropDown>Sections</SearchDropDown>
+    <SearchDropdown>Sections</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Freetext Keywords</PersonFilter>
@@ -138,7 +138,7 @@
     <ETLProcedure>[Profile.Data].[Person.Filter.UpdateFilters]/Sections</ETLProcedure>
     <ETLParams>http://vivoweb.org/ontology/core#freetextKeyword</ETLParams>
     <IsActive>1</IsActive>
-    <SearchDropDown>Sections</SearchDropDown>
+    <SearchDropdown>Sections</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Webpage</PersonFilter>
@@ -147,7 +147,7 @@
     <ETLProcedure>[Profile.Data].[Person.Filter.UpdateFilters]/Sections</ETLProcedure>
     <ETLParams>http://vivoweb.org/ontology/core#webpage</ETLParams>
     <IsActive>1</IsActive>
-    <SearchDropDown>Sections</SearchDropDown>
+    <SearchDropdown>Sections</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Media Links</PersonFilter>
@@ -156,7 +156,7 @@
     <ETLProcedure>[Profile.Data].[Person.Filter.UpdateFilters]/Sections</ETLProcedure>
     <ETLParams>http://profiles.catalyst.harvard.edu/ontology/prns#mediaLinks</ETLParams>
     <IsActive>1</IsActive>
-    <SearchDropDown>Sections</SearchDropDown>
+    <SearchDropdown>Sections</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Available to Mentor - Students on Research</PersonFilter>
@@ -165,7 +165,7 @@
     <ETLProcedure>[Profile.Data].[Person.Filter.UpdateFilters]/MentoringOverview</ETLProcedure>
     <ETLParams>studentsOnResearch</ETLParams>
     <IsActive>1</IsActive>
-    <SearchDropDown>Sections</SearchDropDown>
+    <SearchDropdown>Sections</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Available to Mentor - Students on Career Development</PersonFilter>
@@ -174,7 +174,7 @@
     <ETLProcedure>[Profile.Data].[Person.Filter.UpdateFilters]/MentoringOverview</ETLProcedure>
     <ETLParams>studentsOnCareerDevelopment</ETLParams>
     <IsActive>1</IsActive>
-    <SearchDropDown>Sections</SearchDropDown>
+    <SearchDropdown>Sections</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Available to Mentor - Students on Work Life Balance</PersonFilter>
@@ -183,7 +183,7 @@
     <ETLProcedure>[Profile.Data].[Person.Filter.UpdateFilters]/MentoringOverview</ETLProcedure>
     <ETLParams>studentsOnWorkLifeBalance</ETLParams>
     <IsActive>1</IsActive>
-    <SearchDropDown>Sections</SearchDropDown>
+    <SearchDropdown>Sections</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Available to Mentor - Faculty on Research</PersonFilter>
@@ -192,7 +192,7 @@
     <ETLProcedure>[Profile.Data].[Person.Filter.UpdateFilters]/MentoringOverview</ETLProcedure>
     <ETLParams>facultyOnResearch</ETLParams>
     <IsActive>1</IsActive>
-    <SearchDropDown>Sections</SearchDropDown>
+    <SearchDropdown>Sections</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Available to Mentor - Faculty on Career Development</PersonFilter>
@@ -201,7 +201,7 @@
     <ETLProcedure>[Profile.Data].[Person.Filter.UpdateFilters]/MentoringOverview</ETLProcedure>
     <ETLParams>facultyOnCareerDevelopment</ETLParams>
     <IsActive>1</IsActive>
-    <SearchDropDown>Sections</SearchDropDown>
+    <SearchDropdown>Sections</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Available to Mentor - Faculty on Work Life Balance</PersonFilter>
@@ -210,7 +210,7 @@
     <ETLProcedure>[Profile.Data].[Person.Filter.UpdateFilters]/MentoringOverview</ETLProcedure>
     <ETLParams>facultyOnWorkLifeBalance</ETLParams>
     <IsActive>1</IsActive>
-    <SearchDropDown>Sections</SearchDropDown>
+    <SearchDropdown>Sections</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Available to Mentor - Residents and Fellows on Research</PersonFilter>
@@ -219,7 +219,7 @@
     <ETLProcedure>[Profile.Data].[Person.Filter.UpdateFilters]/MentoringOverview</ETLProcedure>
     <ETLParams>residentsAndFellowsOnResearch</ETLParams>
     <IsActive>1</IsActive>
-    <SearchDropDown>Sections</SearchDropDown>
+    <SearchDropdown>Sections</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Available to Mentor - Residents and Fellows on Career Development</PersonFilter>
@@ -228,7 +228,7 @@
     <ETLProcedure>[Profile.Data].[Person.Filter.UpdateFilters]/MentoringOverview</ETLProcedure>
     <ETLParams>residentsAndFellowsOnCareerDevelopment</ETLParams>
     <IsActive>1</IsActive>
-    <SearchDropDown>Sections</SearchDropDown>
+    <SearchDropdown>Sections</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Available to Mentor - Residents and Fellows on Work Life Balance</PersonFilter>
@@ -237,7 +237,7 @@
     <ETLProcedure>[Profile.Data].[Person.Filter.UpdateFilters]/MentoringOverview</ETLProcedure>
     <ETLParams>residentsAndFellowsOnWorkLifeBalance</ETLParams>
     <IsActive>1</IsActive>
-    <SearchDropDown>Sections</SearchDropDown>
+    <SearchDropdown>Sections</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Job Opportunities - Hiring Students</PersonFilter>
@@ -246,7 +246,7 @@
     <ETLProcedure>[Profile.Data].[Person.Filter.UpdateFilters]/Mentoring</ETLProcedure>
     <ETLParams>Students</ETLParams>
     <IsActive>1</IsActive>
-    <SearchDropDown>Sections</SearchDropDown>
+    <SearchDropdown>Sections</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Job Opportunities - Hiring Faculty</PersonFilter>
@@ -255,7 +255,7 @@
     <ETLProcedure>[Profile.Data].[Person.Filter.UpdateFilters]/Mentoring</ETLProcedure>
     <ETLParams>Faculty</ETLParams>
     <IsActive>1</IsActive>
-    <SearchDropDown>Sections</SearchDropDown>
+    <SearchDropdown>Sections</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Job Opportunities - Hiring Fellows and Postdocs</PersonFilter>
@@ -264,7 +264,7 @@
     <ETLProcedure>[Profile.Data].[Person.Filter.UpdateFilters]/Mentoring</ETLProcedure>
     <ETLParams>Fellows</ETLParams>
     <IsActive>1</IsActive>
-    <SearchDropDown>Sections</SearchDropDown>
+    <SearchDropdown>Sections</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Job Opportunities - Hiring Research Staff</PersonFilter>
@@ -273,7 +273,7 @@
     <ETLProcedure>[Profile.Data].[Person.Filter.UpdateFilters]/Mentoring</ETLProcedure>
     <ETLParams>Staff</ETLParams>
     <IsActive>1</IsActive>
-    <SearchDropDown>Sections</SearchDropDown>
+    <SearchDropdown>Sections</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Research Activities and Funding</PersonFilter>
@@ -282,7 +282,7 @@
     <ETLProcedure>[Profile.Data].[Person.Filter.UpdateFilters]/Sections</ETLProcedure>
     <ETLParams>http://vivoweb.org/ontology/core#hasResearcherRole</ETLParams>
     <IsActive>1</IsActive>
-    <SearchDropDown>Sections</SearchDropDown>
+    <SearchDropdown>Sections</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Featured Presentations</PersonFilter>
@@ -291,7 +291,7 @@
     <ETLProcedure>[Profile.Data].[Person.Filter.UpdateFilters]/Sections</ETLProcedure>
     <ETLParams>http://profiles.catalyst.harvard.edu/ontology/plugins#FeaturedPresentations</ETLParams>
     <IsActive>1</IsActive>
-    <SearchDropDown>Sections</SearchDropDown>
+    <SearchDropdown>Sections</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Featured Videos</PersonFilter>
@@ -300,7 +300,7 @@
     <ETLProcedure>[Profile.Data].[Person.Filter.UpdateFilters]/Sections</ETLProcedure>
     <ETLParams>http://profiles.catalyst.harvard.edu/ontology/plugins#FeaturedVideos</ETLParams>
     <IsActive>1</IsActive>
-    <SearchDropDown>Sections</SearchDropDown>
+    <SearchDropdown>Sections</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Twitter</PersonFilter>
@@ -309,7 +309,7 @@
     <ETLProcedure>[Profile.Data].[Person.Filter.UpdateFilters]/Sections</ETLProcedure>
     <ETLParams>http://profiles.catalyst.harvard.edu/ontology/plugins#Twitter</ETLParams>
     <IsActive>1</IsActive>
-    <SearchDropDown>Sections</SearchDropDown>
+    <SearchDropdown>Sections</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>Publications</PersonFilter>
@@ -318,7 +318,7 @@
     <ETLProcedure>[Person.Data].[Person.Filter.UpdateFilters]/Sections</ETLProcedure>
     <ETLParams>http://vivoweb.org/ontology/core#authorInAuthorship</ETLParams>
     <IsActive>1</IsActive>
-    <SearchDropDown>Sections</SearchDropDown>
+    <SearchDropdown>Sections</SearchDropdown>
   </Row>
   <Row>
     <PersonFilter>ORCID</PersonFilter>
@@ -327,6 +327,6 @@
     <ETLProcedure>[Profile.Data].[Person.Filter.UpdateFilters]/Sections</ETLProcedure>
     <ETLParams>http://vivoweb.org/ontology/core#orcidId</ETLParams>
     <IsActive>1</IsActive>
-    <SearchDropDown>Sections</SearchDropDown>
+    <SearchDropdown>Sections</SearchDropdown>
   </Row>
 </Table>

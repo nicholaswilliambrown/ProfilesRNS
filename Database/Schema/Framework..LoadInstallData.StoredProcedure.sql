@@ -886,6 +886,30 @@ SELECT  Row_Number() OVER (ORDER BY (SELECT 1)),
                       x
           ) t
 	CROSS APPLY x.nodes('//Row') AS R ( x ) 
+
+---------------------------------------------------------------
+-- [Edit.Module].[EditClassProperty]
+---------------------------------------------------------------
+	INSERT INTO [Edit.Module].[EditClassProperty]
+         ( Class,
+		   Property,
+		   AddUpdateStoredProcedure,
+		   GetDataStoredProcedure,
+		   _ClassNode,
+		   _PropertyNode
+         )
+	SELECT  R.x.value('Class[1]', 'varchar(max)') ,
+          R.x.value('Property[1]', 'varchar(max)'),
+          R.x.value('AddUpdateStoredProcedure[1]', 'varchar(max)'),
+		  R.x.value('GetDataStoredProcedure[1]', 'varchar(max)'),
+		  0,
+		  -1 * ROW_NUMBER() OVER(ORDER BY R.x)
+	FROM    ( SELECT
+                      @x.query
+                      ('Import[1]/Table[@Name=''[Edit.Module].[EditClassProperty]'']')
+                      x
+          ) t
+	CROSS APPLY x.nodes('//Row') AS R ( x ) 
 	
   
   -- Use to generate select lists for new tables

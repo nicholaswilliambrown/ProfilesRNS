@@ -47,7 +47,7 @@ function loadMentorOverviewDiv(target) {
                     </div>
                     
                     <div class="ms-1 mb-1">I'm available to mentor:</div>
-                    <div class="ms-2"><input type="checkbox" id="studentsOnResearchProjects" /> Students on Research</div>
+                    <div class="ms-2"><input type="checkbox" id="studentsOnResearch" /> Students on Research</div>
                     <div class="ms-2"><input type="checkbox" id="studentsOnCareerDevelopment" /> Students on Career Development</div>
                     <div class="ms-2"><input type="checkbox" id="studentsOnWorkLifeBalance" /> Students on Work/Life Balance</div>
                     <div class="ms-2"><input type="checkbox" id="facultyOnResearch" /> Faculty on Research</div>
@@ -204,7 +204,7 @@ function emitMentorOverviewEdit(mentoringOverview) {
     }
 
     $("#mentoringOverviewText").val(mentoringOverview.text);
-    $("#studentsOnResearchProjects").prop("checked", mentoringOverview.studentsOnResearchProjects);
+    $("#studentsOnResearch").prop("checked", mentoringOverview.studentsOnResearch);
     $("#studentsOnCareerDevelopment").prop("checked", mentoringOverview.studentsOnCareerDevelopment);
     $("#studentsOnWorkLifeBalance").prop("checked", mentoringOverview.studentsOnWorkLifeBalance);
     $("#facultyOnResearch").prop("checked", mentoringOverview.facultyOnResearch);
@@ -225,7 +225,7 @@ function confirmDeleteMentorOverview() {
 }
 function deleteMentorOverview() {
     $("#mentoringOverviewText").val("");
-    $("#studentsOnResearchProjects").prop("checked", false);
+    $("#studentsOnResearch").prop("checked", false);
     $("#studentsOnCareerDevelopment").prop("checked", false);
     $("#studentsOnWorkLifeBalance").prop("checked", false);
     $("#facultyOnResearch").prop("checked", false);
@@ -246,7 +246,7 @@ function saveMentorOverview() {
     let mentoringOverview = {};
 
     mentoringOverview.text = $("#mentoringOverviewText").val();
-    mentoringOverview.studentsOnResearchProjects = $("#studentsOnResearchProjects").prop("checked");
+    mentoringOverview.studentsOnResearch = $("#studentsOnResearch").prop("checked");
     mentoringOverview.studentsOnCareerDevelopment = $("#studentsOnCareerDevelopment").prop("checked");
     mentoringOverview.studentsOnWorkLifeBalance = $("#studentsOnWorkLifeBalance").prop("checked");
     mentoringOverview.facultyOnResearch = $("#facultyOnResearch").prop("checked");

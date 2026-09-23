@@ -1,10 +1,6 @@
 
 async function timelineParse(moduleJson, fields) {
 
-    gTimelineTab.colspecs = [
-        newColumnSpec(`${gCommon.cols7or12}`),
-        newColumnSpec(`${gCommon.cols5or12}`),
-    ];
 
     $('#toDivTimelineText').on("click", viewTimelineText);
     $('#toDivTimeline').on("click", viewTimelineGraph);

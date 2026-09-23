@@ -287,3 +287,143 @@ function localOnlyEvent(e) {
     e.preventDefault();
     e.stopPropagation();
 }
+
+class RowishTable {
+    constructor(target, id, label) {
+        this.id = id;
+        this.defaultRowClass = "d-block d-md-table-row mb-4"
+
+        this.table = $(`
+                <table id="${id}" class="table d-block d-md-table" role="grid" aria-label="${label}">
+                </table>`);
+        this.defaultHeaderClass = "d-none d-md-block d-md-table-row";
+                    // <thead class="d-block d-md-table-header-group">
+                    // <tr role="row" class="d-none d-md-block d-md-table-row">
+                    //     <!-- scope="col" remains active and valid for desktop view -->
+                    //     <th class="noBorder" scope="col" role="columnheader">Employee Name</th>
+                    //     <th class="noBorder" scope="col" role="columnheader">Role</th>
+                    //     <th class="noBorder" scope="col" role="columnheader">Department</th>
+                    // </tr>
+                    // </thead>
+                    //
+                    // <tbody class="d-block d-md-table-row-group">
+                    // <!-- Each row becomes a block container on mobile -->
+                    // <tr class="d-block d-md-table-row mb-4" role="row">
+                    //     <td class="d-block d-md-table-cell" role="gridcell" data-label="Name" tabindex="0">
+                    //         <strong class="d-inline d-md-none">Name: </strong>bbb Morgan
+                    //     </td>
+                    //     <td class="d-block d-md-table-cell" role="gridcell" data-label="Role" tabindex="-1">
+                    //         <strong class="d-inline d-md-none">Role: </strong>bbb Developer
+                    //     </td>
+                    //     <td class="d-block d-md-table-cell" role="gridcell" data-label="Department" tabindex="-1">
+                    //         <strong class="d-inline d-md-none">Department: </strong>bbbb Engineering
+                    //     </td>
+                    // </tr>
+                    // <tr class="d-block d-md-table-row mb-4" role="row">
+                    //     <td class="d-block d-md-table-cell" role="gridcell" data-label="Name" tabindex="0">
+                    //         <strong class="d-inline d-md-none">Name: </strong>Alex Morgan
+                    //     </td>
+                    //     <td class="d-block d-md-table-cell" role="gridcell" data-label="Role" tabindex="-1">
+                    //         <strong class="d-inline d-md-none">Role: </strong>Developer
+                    //     </td>
+                    //     <td class="d-block d-md-table-cell" role="gridcell" data-label="Department" tabindex="-1">
+                    //         <strong class="d-inline d-md-none">Department: </strong>Engineering
+                    //     </td>
+                    // </tr>
+                    // </tbody>
+        target.append(this.table);
+    }
+    emitHeader(columnSpecArray, rowClass) {
+        this.emitHelper(columnSpecArray, true, rowClass);
+    }
+    emitRow(columnSpecArray, rowClass) {
+
+    }
+    emitHelper(columnSpecArray, isHeader, rowClass) {
+        rowClass =  rowClass ?
+                    rowClass : '';
+        let classAttr = rowClass ? `class=${rowClass}` : '';
+        let tdOrTh =        isHeader ? 'th' : 'td';
+        let blockOrNone =   isHeader ? "d-none d-md-block" : "d-block";
+        let roleAttr =      isHeader ? 'role="columnheader"' : 'role="gridcell"';
+        let scopeAttr =     isHeader ? 'scope="col"' : "";
+
+        let row = $(`<tr id="${this.id}Row" ${classAttr} role="row"</tr>`);
+        <!-- Each row becomes a block container on mobile -->
+
+        for (let i = 0; i < columnSpecArray.length; i++) {
+            let colSpec = columnSpecArray[i];
+            let col = $(`<${tdOrTh} id="${this.id}Col${i}" class="${blockOrNone} ${colSpec.classes}" ${scopeAttr} ${roleAttr}></${tdOrTh}>`);
+            col.append(colSpec.value)
+            row.append(col);
+        }
+        let rowOrHead;
+        if (isHeader) {
+            rowOrHead = $(`<thead class="d-block d-md-table-header-group">
+                            </thead>`);
+            rowOrHead.append(row);
+        }
+        else {
+            rowOrHead = row;
+        }
+
+        this.table.append(rowOrHead);
+        return rowOrHead; // may be useful in caller
+    }
+    addListeners() {
+        const table = document.getElementById(this.id);
+        const cells = Array.from(table.querySelectorAll('td'));
+        const numCells = cells.length;
+        const numCols = Array.from(table.querySelectorAll('th')).length;
+        console.log('How many columns: ', numCols);
+        console.log('How many cells: ', numCells);
+
+        table.addEventListener('keydown', (event) => {
+            const active = document.activeElement;
+            if (!cells.includes(active)) return;
+
+            const currentIdx = cells.indexOf(active);
+            let targetCell = null;
+
+            switch (event.key) {
+                case 'Tab':
+                    if (event.shiftKey) {
+                        targetCell = cells[(currentIdx - 1 + numCells) % numCells];
+                    }
+                    else {
+                        targetCell = cells[(currentIdx + 1) % numCells];
+                    }
+                    break;
+                case 'ArrowRight':
+                    // Move to the next cell in the entire table, wrapping to the next row automatically
+                    targetCell = cells[(currentIdx + 1) % numCells];
+                    break;
+
+                case 'ArrowLeft':
+                    targetCell = cells[(currentIdx - 1 + numCells) % numCells];
+                    break;
+
+                case 'ArrowDown':
+                    targetCell = cells[(currentIdx + numCols) % numCells];
+                    break;
+
+                case 'ArrowUp':
+                    targetCell = cells[(currentIdx - numCols + numCells) % numCells];
+                    break;
+
+                default:
+                    return;
+            }
+
+            if (targetCell) {
+                event.preventDefault(); // Stop page from scrolling
+
+                // Roving tabindex update
+                active.setAttribute('tabindex', '-1');
+                targetCell.setAttribute('tabindex', '0');
+                targetCell.focus();
+            }
+        });
+
+    }
+}

@@ -47,11 +47,20 @@ async function editCommonReady() {
 
     setupScrolling();
 }
-function getLastFirstFromPreload() {
+function getLabelDataFromPreload() {
     let preLoad = JSON.parse(g.preLoad).filter(m => m.DisplayModule.match(/Person.Label$/));
     let moduleData = preLoad[0].ModuleData[0];
+    return moduleData;
+}
+function getLastFirstFromPreload() {
+    let moduleData = getLabelDataFromPreload();
     let lastFirst = moduleData.LastName + ', ' + moduleData.FirstName;
     return lastFirst;
+}
+function getPreferredPathFromPreload() {
+    let moduleData = getLabelDataFromPreload();
+    let result = moduleData.PreferredPath;
+    return result;
 }
 function loadVisibilityDiv(target) {
     let div = $(`
@@ -127,13 +136,14 @@ function setupVisibilityTable(target) {
 }
 
 function loadBreadcrumbs(title, target) {
+    let myProfileUrl = g.profilesRootURL + getPreferredPathFromPreload();
     let breadcrumbs = $(`<div class="row mb-2">
                         <div class='col-10 d-flex justify-content-start'>
                             <a class='editMenuLink' href='${g.profilesRootURL}/edit/default.aspx?subject=${getNodeId()}'>Edit Menu</a>
                             <span class='editMenuGT'>&nbsp;>&nbsp;</span><span><b>${title}</b></span>
                         </div>
                         <div class='col-2 d-flex justify-content-end'>
-                            <a href='${sessionInfo.personURI}'><img src='${g.profilesRootURL}/Framework/Images/arrowLeft.png' /> View Profile</a> 
+                            <a href='${myProfileUrl}'><img src='${g.profilesRootURL}/Framework/Images/arrowLeft.png' /> View Profile</a> 
                         </div>
                     </div>`);
     target.append(breadcrumbs);

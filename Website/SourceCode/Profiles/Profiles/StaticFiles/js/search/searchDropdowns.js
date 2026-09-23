@@ -224,6 +224,10 @@ function setupDropdowns() {
     }
     hideLiItems();
     dropdownVisibilityAdjustToOverlaps();
+
+    // tighten up selectDisplay box
+    $('#hasSectionsUlDiv').find('.gradient').addClass('mt-1 pt-0 pb-0');
+    $('#peopleBox').find('#dropbox4Row').addClass('mt-3');
 }
 function showSearchFilterSelections(dropdownPrefix, target) {
     let displayProperty = gSearch[dropdownPrefix].displayProperty;
@@ -238,6 +242,7 @@ function showSearchFilterSelections(dropdownPrefix, target) {
     let list = selectedIndices.map(i => items[i][displayProperty]);
     let howMuch = list.length;
     let result = gSearch.selectedSt;
+    let addEllipsis = false;
 
     if (howMuch == 0) {
         result = gSearch.noneSt + result;
@@ -246,10 +251,19 @@ function showSearchFilterSelections(dropdownPrefix, target) {
         result = howMuch + result;
     }
     else {
-        result = list.join(', ');
+        let truncateAt = 65;
+        let fullResult = list.join(', ');
+        let truncatedResult = fullResult.substring(0, truncateAt);
+        if (fullResult != truncatedResult) {
+            addEllipsis = true;
+        }
+        result = truncatedResult;
     }
 
     target.html(result);
+    if (addEllipsis) {
+        target.append($('<span class="bold">...</span>'))
+    }
 }
 function indicesToItems(items, indices) {
     let result = indices.map(i => items[i]);

@@ -860,7 +860,33 @@ SELECT  Row_Number() OVER (ORDER BY (SELECT 1)),
           ) t
   CROSS APPLY x.nodes('//Row') AS R ( x )
   
-  
+
+---------------------------------------------------------------
+-- [Profile.Data].[Person.Filter]
+---------------------------------------------------------------
+	INSERT INTO [Profile.Data].[Person.Filter]
+         ( PersonFilter,
+		   PersonFilterCategory,
+		   PersonFilterSort,
+		   ETLProcedure,
+		   ETLParams,
+		   IsActive,
+		   SearchDropdown
+         )
+	SELECT  R.x.value('PersonFilter[1]', 'varchar(max)') ,
+          R.x.value('PersonFilterCategory[1]', 'varchar(max)'),
+          R.x.value('PersonFilterSort[1]', 'varchar(max)'),
+		  R.x.value('ETLProcedure[1]', 'varchar(max)') ,
+          R.x.value('ETLParams[1]', 'varchar(max)'),
+          R.x.value('IsActive[1]', 'varchar(max)'),
+		  R.x.value('SearchDropdown[1]', 'varchar(max)')
+	FROM    ( SELECT
+                      @x.query
+                      ('Import[1]/Table[@Name=''[Profile.Data].[Person.Filter]'']')
+                      x
+          ) t
+	CROSS APPLY x.nodes('//Row') AS R ( x ) 
+	
   
   -- Use to generate select lists for new tables
   -- SELECT   'R.x.value(''' + c.name +  '[1]'',' + '''varchar(max)'')'+ ',' ,* 

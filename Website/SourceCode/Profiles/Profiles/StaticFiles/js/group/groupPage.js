@@ -144,11 +144,11 @@ function whichGroupMiscInfo(moduleTitle, target) {
             misc.bannerText = 'media links';
             break;
         case
-        "Twitter":
+        gCommon.twitter:
             parser = twitterParser;
             sort = 111;
             parentContainerName = "Featured Content";
-            misc.bannerText = 'twitter';
+            misc.bannerText = gCommon.twitter;
             break;
         case
         "AssociatedInformationResource":

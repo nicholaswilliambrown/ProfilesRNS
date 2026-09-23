@@ -333,9 +333,33 @@ function toggleEltVisibility(togglingDiv, andThen) {
     }
 }
 
+function getNodeId() {
+    let result = '';
+
+    try {
+        let preLoad = JSON.parse(g.preLoad);
+        let label = findModuleDataByName(preLoad, 'Label');
+        if (label) {
+            if (Array.isArray(label)) {
+                label = label[0];
+            }
+            result = label.NodeID;
+            if (!result) {
+                throw "no label NodeID";
+            }
+        }
+    }
+    catch (error) {
+        let sessionNI = sessionInfo.personNodeID;
+        if (sessionNI) {
+            result = sessionNI;
+        }
+    }
+    return result;
+}
 function findModuleByName(modulesJson, displayName) {
     let result = modulesJson
-            .find(m => m.DisplayModule == displayName);
+        .find(m => m.DisplayModule.match(displayName));
     if (!result) {
         result = findModuleByName(JSON.parse(g.preLoad), displayName);
     }

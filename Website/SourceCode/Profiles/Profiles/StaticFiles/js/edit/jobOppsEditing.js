@@ -46,18 +46,16 @@ function loadJobOpportunitiesDiv(target) {
         </div> <!-- jobOpportunitiesOuterDiv -->
     `);
     target.append(div);
-    div.find('.jobEditReq').on('change', validateNewJobOpp);
+    div.find('.jobEditReq').on('change', validateJobOpp);
 }
-function validateNewJobOpp() {
+function validateJobOpp() {
     let title =         $('#jobTitle').val()                       != '';
     let description =   $('#jobDescription').val()                  != '';
     let categories =    $('input[type="checkbox"]:checked').length  > 0;
 
     let valid = title && description && categories;
 
-    if (valid) {
-        $('#saveJobOpp').attr('disabled', false);
-    }
+    $('#saveJobOpp').attr('disabled', valid ? false : true);
 }
 function emitJobOpportunities(jobOpportunities) {
     let numJobs = 0;
@@ -331,13 +329,15 @@ function maybePushPrettyJobCategory(array, jobOpp) {
 }
 function editJobOpportunity(opportunityId) {
     closeJobOpportunityForm(); // eg, if in midst of creation
-    $("#jobOpportunityDetailsDiv").show();
+    let div = $("#jobOpportunityDetailsDiv")
+    div.show();
     let jobOpportunity = gEditProp.mentorJobOpportunities.find(x => x.opportunityId == opportunityId);
     console.log('++++++++++++++++++++++++++++++ save will UPDATE opp')
     $("#saveJobOpp").off('click').on('click', function() {
         saveJobOpportunity(opportunityId);
     });
     loadJobOpportunity(jobOpportunity);
+    validateJobOpp();
 }
 function deleteJobOpportunity(opportunityId) {
 

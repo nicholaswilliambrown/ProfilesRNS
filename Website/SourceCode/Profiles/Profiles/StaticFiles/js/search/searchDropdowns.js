@@ -251,8 +251,9 @@ function showSearchFilterSelections(dropdownPrefix, target) {
         result = howMuch + result;
     }
     else {
+        let joinStr = `<span class="bold"> ${(dropdownPrefix == 'facultyTypes' ? 'or ' : 'and ')}</span>`;
         let truncateAt = 65;
-        let fullResult = list.join(', ');
+        let fullResult = list.join(joinStr);
         let truncatedResult = fullResult.substring(0, truncateAt);
         if (fullResult != truncatedResult) {
             addEllipsis = true;

@@ -136,7 +136,7 @@ function setupVisibilityTable(target) {
 }
 
 function loadBreadcrumbs(title, target) {
-    let myProfileUrl = g.profilesRootURL + getPreferredPathFromPreload();
+    let myProfileUrl = getPreferredPathFromPreload();
     let breadcrumbs = $(`<div class="row mb-2">
                         <div class='col-10 d-flex justify-content-start'>
                             <a class='editMenuLink' href='${g.profilesRootURL}/edit/default.aspx?subject=${getNodeId()}'>Edit Menu</a>

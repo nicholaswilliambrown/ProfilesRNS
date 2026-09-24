@@ -4,7 +4,6 @@ gEditProp.rightArrow = `${g.profilesRootURL}/Edit/Images/icon_squareArrow.gif`;
 gEditProp.visPublic = -1 ;
 gEditProp.visNoBots = -10;
 gEditProp.visUsers  = -20;
-gEditProp.justUpdatedVisibility = 'justUpdatedVisibility';
 
 gEditProp.prettyVis = new Map();
 gEditProp.prettyVis.set(gEditProp.visPublic, 'Public'   );
@@ -114,27 +113,25 @@ function setupVisibilityTable(target) {
     console.log("======= visibility: --------", currentVisibility);
 
     let table = $('#tblVisibility');
-    if (! localStorage.getItem(gEditProp.justUpdatedVisibility)) {
-        table.hide();
-    }
-    else { // transient property
-        localStorage.removeItem(gEditProp.justUpdatedVisibility);
-    }
-    div.on('click', function() {
-        toggleEltVisibility(table);
-        toggleSrcIcon($("#visibilityMenuIcon"), gEditProp.rightArrow, gEditProp.downArrow);
-    });
+    table.hide();
+
+    div.on('click', toggleVisibilityTable);
+
     $('input[name="visibility"]').on('click', function() {
         let visibility = $('input[name="visibility"]:checked').val();
         gEditProp.visibility = visibility;
         let predicateURI = getSearchParam('predicateuri');
         let url = `${gEditProp.updateVisibilityPrefix}${subject}`
             + `&p=${predicateURI}&v=${visibility}`;
-        localStorage.setItem(gEditProp.justUpdatedVisibility, true);
+
         editSaveViaPost(url);
     });
 }
-
+function toggleVisibilityTable() {
+    let table = $('#tblVisibility');
+    toggleEltVisibility(table);
+    toggleSrcIcon($("#visibilityMenuIcon"), gEditProp.rightArrow, gEditProp.downArrow);
+}
 function loadBreadcrumbs(title, target) {
     let myProfileUrl = getPreferredPathFromPreload();
     let breadcrumbs = $(`<div class="row mb-2">

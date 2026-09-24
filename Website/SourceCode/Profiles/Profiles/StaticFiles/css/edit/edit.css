@@ -126,3 +126,6 @@ md_ebordE {
 .italics {
     font-style: italic;
 }
+.red {
+    color: red;
+}

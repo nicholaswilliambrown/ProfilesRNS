@@ -4,7 +4,6 @@ gEditProp.rightArrow = `${g.profilesRootURL}/Edit/Images/icon_squareArrow.gif`;
 gEditProp.visPublic = -1 ;
 gEditProp.visNoBots = -10;
 gEditProp.visUsers  = -20;
-gEditProp.justUpdatedVisibility = 'justUpdatedVisibility';
 
 gEditProp.prettyVis = new Map();
 gEditProp.prettyVis.set(gEditProp.visPublic, 'Public'   );
@@ -47,11 +46,20 @@ async function editCommonReady() {
 
     setupScrolling();
 }
-function getLastFirstFromPreload() {
+function getLabelDataFromPreload() {
     let preLoad = JSON.parse(g.preLoad).filter(m => m.DisplayModule.match(/Person.Label$/));
     let moduleData = preLoad[0].ModuleData[0];
+    return moduleData;
+}
+function getLastFirstFromPreload() {
+    let moduleData = getLabelDataFromPreload();
     let lastFirst = moduleData.LastName + ', ' + moduleData.FirstName;
     return lastFirst;
+}
+function getPreferredPathFromPreload() {
+    let moduleData = getLabelDataFromPreload();
+    let result = moduleData.PreferredPath;
+    return result;
 }
 function loadVisibilityDiv(target) {
     let div = $(`
@@ -105,35 +113,34 @@ function setupVisibilityTable(target) {
     console.log("======= visibility: --------", currentVisibility);
 
     let table = $('#tblVisibility');
-    if (! localStorage.getItem(gEditProp.justUpdatedVisibility)) {
-        table.hide();
-    }
-    else { // transient property
-        localStorage.removeItem(gEditProp.justUpdatedVisibility);
-    }
-    div.on('click', function() {
-        toggleEltVisibility(table);
-        toggleSrcIcon($("#visibilityMenuIcon"), gEditProp.rightArrow, gEditProp.downArrow);
-    });
+    table.hide();
+
+    div.on('click', toggleVisibilityTable);
+
     $('input[name="visibility"]').on('click', function() {
         let visibility = $('input[name="visibility"]:checked').val();
         gEditProp.visibility = visibility;
         let predicateURI = getSearchParam('predicateuri');
         let url = `${gEditProp.updateVisibilityPrefix}${subject}`
             + `&p=${predicateURI}&v=${visibility}`;
-        localStorage.setItem(gEditProp.justUpdatedVisibility, true);
+
         editSaveViaPost(url);
     });
 }
-
+function toggleVisibilityTable() {
+    let table = $('#tblVisibility');
+    toggleEltVisibility(table);
+    toggleSrcIcon($("#visibilityMenuIcon"), gEditProp.rightArrow, gEditProp.downArrow);
+}
 function loadBreadcrumbs(title, target) {
+    let myProfileUrl = getPreferredPathFromPreload();
     let breadcrumbs = $(`<div class="row mb-2">
                         <div class='col-10 d-flex justify-content-start'>
                             <a class='editMenuLink' href='${g.profilesRootURL}/edit/default.aspx?subject=${getNodeId()}'>Edit Menu</a>
                             <span class='editMenuGT'>&nbsp;>&nbsp;</span><span><b>${title}</b></span>
                         </div>
                         <div class='col-2 d-flex justify-content-end'>
-                            <a href='${sessionInfo.personURI}'><img src='${g.profilesRootURL}/Framework/Images/arrowLeft.png' /> View Profile</a> 
+                            <a href='${myProfileUrl}'><img src='${g.profilesRootURL}/Framework/Images/arrowLeft.png' /> View Profile</a> 
                         </div>
                     </div>`);
     target.append(breadcrumbs);

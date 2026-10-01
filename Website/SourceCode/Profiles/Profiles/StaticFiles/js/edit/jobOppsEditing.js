@@ -17,23 +17,24 @@ function loadJobOpportunitiesDiv(target) {
             </div>
             <div id="jobOpportunityDetailsDiv" class="editPanel mt-2">
                 <div class="moduleOptions">Enter the job opportunity information below:</div>
-                <div class="inputLabel">Job Title</div>
-                <div><input type="text" id="jobTitle" /></div>
-                <div class="inputLabel">Job Description</div>
-                <div><textarea rows="4" cols="40" id="jobDescription"></textarea></div>
+                <div class="inputLabel"><span class="red">*</span>Job Title</div>
+                <div><input type="text" id="jobTitle" class="jobEditReq" aria-required="true"/></div>
+                <div class="inputLabel"><span class="red">*</span>Job Description</div>
+                <div><textarea rows="4" cols="40" id="jobDescription" class="jobEditReq" aria-required="true"></textarea></div>
                 <div class="inputLabel">Job URL</div>
                 <div><input type="text" id="jobURL" /></div>
-                <div class="jobCategories mt-2">
-                    <span class="inputLabel">Job Category</span>
+                <div class="jobCategories mt-2" class="jobEditReq" aria-required="true">
+                    <span class="inputLabel"><span class="red">*</span>Job Category</span>
                     <div class="mt-2">
-                        <div class="ms-2"><input type="checkbox" id="students" /><span class="ms-1">Students</span></div>
-                        <div class="ms-2"><input type="checkbox" id="faculty" /><span class="ms-1">Faculty</span></div>
+                        <div class="ms-2"><input type="checkbox" id="students" class="jobEditReq" /><span class="ms-1">Students</span></div>
+                        <div class="ms-2"><input type="checkbox" id="faculty" class="jobEditReq" /><span class="ms-1">Faculty</span></div>
  
-                        <div class="ms-2"><input type="checkbox" id="fellowsAndPostDocs" /><span class="ms-1">Fellows and PostDocs</span></div>
-                        <div class="ms-2"><input type="checkbox" id="researchStaff" /><span class="ms-1">Research Staff</span></div>
+                        <div class="ms-2"><input type="checkbox" id="fellowsAndPostDocs" class="jobEditReq" /><span class="ms-1">Fellows and PostDocs</span></div>
+                        <div class="ms-2"><input type="checkbox" id="researchStaff" class="jobEditReq" /><span class="ms-1">Research Staff</span></div>
                     </div>
                 </div>
-                <div><button class="link-ish mt-2 ps-0" id="saveJobOpp">Save</button>
+                <div class="red mt-2"><span>*</span> indicates required field</div>
+                <div><button class="link-ish mt-2 ps-0" id="saveJobOpp" disabled="true">Save</button>
                     <span class="pipe">|</span>
                     <button class="link-ish" id="cancelJobOppEdit">Cancel</button>
                 </div>
@@ -45,6 +46,16 @@ function loadJobOpportunitiesDiv(target) {
         </div> <!-- jobOpportunitiesOuterDiv -->
     `);
     target.append(div);
+    div.find('.jobEditReq').on('input', validateJobOpp);
+}
+function validateJobOpp() {
+    let title =         $('#jobTitle').val()                       != '';
+    let description =   $('#jobDescription').val()                  != '';
+    let categories =    $('input[type="checkbox"]:checked').length  > 0;
+
+    let valid = title && description && categories;
+
+    $('#saveJobOpp').attr('disabled', valid ? false : true);
 }
 function emitJobOpportunities(jobOpportunities) {
     let numJobs = 0;
@@ -318,13 +329,15 @@ function maybePushPrettyJobCategory(array, jobOpp) {
 }
 function editJobOpportunity(opportunityId) {
     closeJobOpportunityForm(); // eg, if in midst of creation
-    $("#jobOpportunityDetailsDiv").show();
+    let div = $("#jobOpportunityDetailsDiv")
+    div.show();
     let jobOpportunity = gEditProp.mentorJobOpportunities.find(x => x.opportunityId == opportunityId);
     console.log('++++++++++++++++++++++++++++++ save will UPDATE opp')
     $("#saveJobOpp").off('click').on('click', function() {
         saveJobOpportunity(opportunityId);
     });
     loadJobOpportunity(jobOpportunity);
+    validateJobOpp();
 }
 function deleteJobOpportunity(opportunityId) {
 

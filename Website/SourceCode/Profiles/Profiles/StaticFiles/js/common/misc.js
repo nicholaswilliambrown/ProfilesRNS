@@ -296,55 +296,23 @@ class RowishTable {
         this.table = $(`
                 <table id="${id}" class="table d-block d-md-table" role="grid" aria-label="${label}">
                 </table>`);
-        this.defaultHeaderClass = "d-none d-md-block d-md-table-row";
-                    // <thead class="d-block d-md-table-header-group">
-                    // <tr role="row" class="d-none d-md-block d-md-table-row">
-                    //     <!-- scope="col" remains active and valid for desktop view -->
-                    //     <th class="noBorder" scope="col" role="columnheader">Employee Name</th>
-                    //     <th class="noBorder" scope="col" role="columnheader">Role</th>
-                    //     <th class="noBorder" scope="col" role="columnheader">Department</th>
-                    // </tr>
-                    // </thead>
-                    //
-                    // <tbody class="d-block d-md-table-row-group">
-                    // <!-- Each row becomes a block container on mobile -->
-                    // <tr class="d-block d-md-table-row mb-4" role="row">
-                    //     <td class="d-block d-md-table-cell" role="gridcell" data-label="Name" tabindex="0">
-                    //         <strong class="d-inline d-md-none">Name: </strong>bbb Morgan
-                    //     </td>
-                    //     <td class="d-block d-md-table-cell" role="gridcell" data-label="Role" tabindex="-1">
-                    //         <strong class="d-inline d-md-none">Role: </strong>bbb Developer
-                    //     </td>
-                    //     <td class="d-block d-md-table-cell" role="gridcell" data-label="Department" tabindex="-1">
-                    //         <strong class="d-inline d-md-none">Department: </strong>bbbb Engineering
-                    //     </td>
-                    // </tr>
-                    // <tr class="d-block d-md-table-row mb-4" role="row">
-                    //     <td class="d-block d-md-table-cell" role="gridcell" data-label="Name" tabindex="0">
-                    //         <strong class="d-inline d-md-none">Name: </strong>Alex Morgan
-                    //     </td>
-                    //     <td class="d-block d-md-table-cell" role="gridcell" data-label="Role" tabindex="-1">
-                    //         <strong class="d-inline d-md-none">Role: </strong>Developer
-                    //     </td>
-                    //     <td class="d-block d-md-table-cell" role="gridcell" data-label="Department" tabindex="-1">
-                    //         <strong class="d-inline d-md-none">Department: </strong>Engineering
-                    //     </td>
-                    // </tr>
-                    // </tbody>
+
         target.append(this.table);
+
+        this.defaultHeaderClass = "d-block d-md-block d-md-table-row";
     }
     emitHeader(columnSpecArray, rowClass) {
-        this.emitHelper(columnSpecArray, true, rowClass);
+        this.emitHelper(this.table, columnSpecArray, true, rowClass);
     }
     emitRow(columnSpecArray, rowClass) {
 
     }
-    emitHelper(columnSpecArray, isHeader, rowClass) {
+    emitHelper(target, columnSpecArray, isHeader, rowClass) {
         rowClass =  rowClass ?
                     rowClass : '';
-        let classAttr = rowClass ? `class=${rowClass}` : '';
+        let classAttr =     rowClass ? `class=${rowClass}` : '';
         let tdOrTh =        isHeader ? 'th' : 'td';
-        let blockOrNone =   isHeader ? "d-none d-md-block" : "d-block";
+        let blockOrNone =   isHeader ? "d-block d-md-block" : "d-block";
         let roleAttr =      isHeader ? 'role="columnheader"' : 'role="gridcell"';
         let scopeAttr =     isHeader ? 'scope="col"' : "";
 
@@ -367,11 +335,11 @@ class RowishTable {
             rowOrHead = row;
         }
 
-        this.table.append(rowOrHead);
+        target.append(rowOrHead);
         return rowOrHead; // may be useful in caller
     }
-    addListeners() {
-        const table = document.getElementById(this.id);
+    addListeners(tableId) {
+        const table = document.getElementById(tableId);
         const cells = Array.from(table.querySelectorAll('td'));
         const numCells = cells.length;
         const numCols = Array.from(table.querySelectorAll('th')).length;

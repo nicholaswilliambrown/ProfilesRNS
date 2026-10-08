@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Users</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+    <style>
+        /* md and up: fixed layout so the header widths control every column */
+        @media (min-width: 768px) {
+            .table-stack { table-layout: fixed; }
+        }
+        /* Narrow screens: one border per row (card) instead of one per cell */
+        @media (max-width: 767.98px) {
+            .table.table-stack > tbody { border-top-width: 0; }
+            .table-stack tbody td,
+            .table-stack tbody th { border-bottom-width: 0; }
+            .table-stack tbody tr { border-bottom: 2px solid #dee2e6; }
+            td { padding-top: 0px !important; padding-bottom: 0px !important; }
+        }
+        /* Visible focus ring on cells (inset so the fixed-layout table doesn't clip it) */
+        .table-stack td:focus-visible,
+        .table-stack th:focus-visible { outline: 2px solid #0d6efd; outline-offset: -2px; }
+    </style>
+    <script>
+        let gCommon = {};
+        gCommon.cols3or12 = " col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 col-xxl-3 ";
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <script src="../js/common/common.js" type="text/javascript"></script>
+    <script>
+        function setupScratch() {
+            function mergeClasses(some, others) {
+                if (!some) some = '';
+                if (!others) others = '';
+
+                let result = some + ' ' + others;
+                return result;
+            }
+            class RowishTable {
+                constructor(target, id, label, headerColSpecs, bodyColSpecs, tableClasses) {
+                    let netTableClasses = mergeClasses('table table-stack align-middle', tableClasses);
+
+                    this.id = id;
+                    this.headerColSpecs = headerColSpecs;
+                    this.bodyColSpecs = bodyColSpecs;
+
+                    this.table = $(`
+                    <table id="${id}" class="${netTableClasses}" role="table" aria-label="${label}">
+                    </table>`);
+                    this.thead = $('<thead></thead>');
+                    this.tbody = $('<tbody></tbody>');
+
+                    target.append(this.table);
+                    this.table.append(this.thead);
+                    this.table.append(this.tbody);
+
+                    this.rowStructureClasses = {
+                        <!-- Header distributed among cells on mobile -->
+                        header: "d-none d-md-table-row",
+                        body: "d-block d-md-table-row"
+                    };
+                    this.cellStructureClasses = {
+                        th:     '',     // th classes come from colSpecs
+                        td:     "d-flex d-md-table-cell",
+                        mobileDiv: "col-3 fw-bold d-md-none text-break",
+                        valueDiv: "col-9 col-md-auto text-break"
+                    };
+
+                    this.rowStructureMisc = {
+                        header: '',
+                        body:   'role="row"'
+                    };
+                    this.cellStructureMisc = {
+                        body:     'role="cell"',
+                        header:     'scope="column',
+                        mobileDiv: '',
+                        valueDiv: ''
+                    };
+                }
+
+                emitHeader(rowClass) {
+                    this.emitHelper(this.thead, true, 'Header', rowClass);
+                }
+
+                emitRow(rowIndex, rowClass) {
+                    this.emitHelper(this.tbody, false, rowIndex, rowClass);
+                }
+
+                emitHelper(target, isHeader, rowIndex, rowCustomClasses) {
+                    let rowType = isHeader ? 'header' : 'body';
+
+                    let rowNetClasses = `class="${mergeClasses(rowCustomClasses, this.rowStructureClasses[rowType])}"`;
+                    let rowStructureMisc = this.rowStructureMisc[rowType];
+
+                    let row = $(`<tr id="${this.id}${rowIndex}" ${rowNetClasses} ${rowStructureMisc}></tr>`);
+
+                    let tdOrTh = isHeader ? 'th' : 'td';
+
+                    for (let i = 0; i < this.headerColSpecs.length; i++) {
+                        let headerColSpec = this.headerColSpecs[i];
+                        let headerClasses = headerColSpec.classes;
+                        let value = (isHeader || i==0)  ? headerColSpec.value
+                                                        : this.bodyColSpecs[i].value;
+
+                        let cellNetClasses = isHeader ? headerClasses : mergeClasses(this.bodyColSpecs[i].classes);
+                        let cellStructureMisc = this.cellStructureMisc[rowType]
+
+                        let col = $(`<${tdOrTh} id="${this.id}Col${i}" class="${cellNetClasses}
+                                                                ${cellStructureMisc}></${tdOrTh}>`);
+                        col.append(value);
+                        row.append(col);
+                    }
+                    target.append(row);
+                    return row; // may be useful in caller
+                }
+
+                addListeners() {
+                    const bodyCells = this.tbody.find('td');
+                    const headCells = this.thead.find('th');
+                    bodyCells.attr('tabIndex', '0');
+
+                    const numCells = bodyCells.length;
+                    const numCols = headCells.length;
+                    console.log('How many columns: ', numCols);
+                    console.log('How many bodyCells: ', numCells);
+
+                    let that = this;
+
+                    this.tbody.on("keydown", (event) => {
+                        const active = $(document.activeElement);
+
+                        let activesIndex = bodyCells.index(active);
+                        if (activesIndex == -1) {
+                            return;
+                        }
+
+                        let targetCell = null;
+
+                        if (event.key == 'Tab') {
+                            if (event.shiftKey) {
+                                targetCell = bodyCells[(activesIndex - 1 + numCells) % numCells];
+                            } else {
+                                targetCell = bodyCells[(activesIndex + 1) % numCells];
+                            }
+                        } else {
+                            let steps = {ArrowLeft: -1, ArrowRight: 1, ArrowUp: -numCols, ArrowDown: numCols};
+                            let step = steps[event.key];
+                            if (step) {
+                                targetCell = bodyCells[(activesIndex + step + numCells) % numCells];
+                            }
+                        }
+
+                        //      w.r.        step/Abs(step), cf earlier version of fn
+                        if (targetCell) {
+                            event.preventDefault(); // Stop page from scrolling
+
+                            // Roving tabindex update
+                            active.attr('tabindex', '-1');
+                            $(targetCell).attr('tabindex', '0').focus();
+                        }
+                    });
+
+                }
+                addListeners2() {
+                    document.querySelectorAll('.table-stack tbody').forEach(function (tbody) {
+                        let cells = Array.prototype.slice.call(tbody.querySelectorAll('td'));
+                        let numCols = tbody.rows[0].cells.length;
+                        cells.forEach(function (c) {
+                            c.tabIndex = 0;
+                        });
+
+                        // Index step per key. Left/Right walk the cells in reading order; Up/Down jump a whole row.
+                        let steps = {ArrowLeft: -1, ArrowRight: 1, ArrowUp: -numCols, ArrowDown: numCols};
+                        tbody.addEventListener('keydown', function (e) {
+                            let cell = e.target.closest('td'), step = steps[e.key];
+                            if (!step || !cell) return;
+
+                            // Stacked layout has no columns, so every arrow just steps through the cells in reading order
+                            // Math.sign in effect divides a non-zero number by its absolute value, leading to 1 or -1
+
+                            // For d-md... the td's 'display' CSS-property is table-cell, vs flex
+                            if (getComputedStyle(cell).display !== 'table-cell') step = Math.sign(step);
+
+                            e.preventDefault();
+                            cells[(cells.indexOf(cell) + step + cells.length) % cells.length].focus();
+                        });
+                    });
+                }
+            }
+
+            $('body').append("<h1>Row-ish Table</h1>");
+            let headerColSpecs = [
+                newColumnSpec('col-4', "Name"),
+                newColumnSpec('col-4', "Role"),
+                newColumnSpec('col-4', "Dept")
+            ];
+            let bodyColSpecs = [
+                newColumnSpec('', 'one'),
+                newColumnSpec('', 'two'),
+                newColumnSpec('', 'three')
+            ];
+            let myTable = new RowishTable($('body'), 'employees', 'Employees', headerColSpecs, bodyColSpecs, 'mx-5 w-75');
+
+            myTable.emitHeader("bold");
+            myTable.emitRow(1, 'mx-5');
+            myTable.emitRow(2, 'mx-5');
+            myTable.addListeners();
+        }
+    </script>
+    <script>
+        // Make body cells focusable (Tab) and navigable with the arrow keys, wrapping around the whole table.
+    </script>
+    <script type="text/javascript">$(document).ready(() => {
+        console.log('calling setup');
+        setupScratch();
+    }) </script>
+
+</head>
+<body>
+<div class="container">
+    <!-- The explicit roles are for browsers that drop table semantics once display is changed to flex (below md) -->
+    <table class="table table-stack align-middle" role="table" aria-label="Users">
+        <thead>
+        <!-- Hidden on narrow screens; each cell carries its own label there -->
+        <tr class="d-none d-md-table-row table-dark">
+            <th scope="col" class="col-2">Number</th>
+            <th scope="col" class="col-4">Name</th>
+            <th scope="col" class="col-4">Email</th>
+            <th scope="col" class="col-2">Role</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Below md, each row is a block and each cell a flex "mini-row" (col-4 label | col-8 value) so values line up; at md+ they are table elements again. -->
+        <tr class="d-block d-md-table-row"                 role="row">
+            <td class="d-flex d-md-table-cell"             role="cell">
+                <div class="col-3 fw-bold d-md-none">Number</div>
+                <div class="col-9 col-md-auto">1</div></td>
+            <td class="d-flex d-md-table-cell"             role="cell">
+                <div class="col-3 fw-bold d-md-none">Name</div>
+                <div class="col-9 col-md-auto text-break">Jane Doe</div></td>
+            <td class="d-flex d-md-table-cell text-break"  role="cell">
+                <div class="col-3 fw-bold d-md-none">Email</div>
+                <div class="col-9 col-md-auto text-break">
+                    <a href="mailto:jane@example.com">jane@exampleeeevasdfasdfasdfasfdasfasfasfsdf.com</a></div></td>
+            <td class="d-flex d-md-table-cell"             role="cell">
+                <div class="col-3 fw-bold d-md-none">Role</div>
+                <div class="col-8 col-md-auto">Editor</div></td>
+        </tr>
+        <tr class="d-block d-md-table-row"                 role="row">
+            <td class="d-flex d-md-table-cell"             role="cell">
+                <div class="col-3 fw-bold d-md-none">Number</div>
+                <div class="col-9 col-md-auto">2</div></td>
+            <td class="d-flex d-md-table-cell"             role="cell">
+                <div class="col-3 fw-bold d-md-none">Name</div>
+                <div class="col-9 col-md-auto">John Doe</div></td>
+            <td class="d-flex d-md-table-cell text-break"  role="cell">
+                <div class="col-3 fw-bold d-md-none">Email</div>
+                <div class="col-9 col-md-auto">
+                    <a href="mailto:john@example.com">john@example.com</a></div></td>
+            <td class="d-flex d-md-table-cell"             role="cell">
+                <div class="col-3 fw-bold d-md-none">Role</div>
+                <div class="col-8 col-md-auto">Reporter</div></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

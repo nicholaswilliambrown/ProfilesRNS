@@ -79,21 +79,12 @@
                         body:   'role="row"'
                     };
                     this.cellStructureMisc = {
-                        body:     'role="cell"',
-                        header:     'scope="column',
-                        mobileDiv: '',
-                        valueDiv: ''
+                        body:       'role="cell"',
+                        header:     'scope="col"',
+                        mobileDiv:  '',
+                        valueDiv:   ''
                     };
                 }
-
-                emitHeader(rowClass) {
-                    this.emitHelper(this.thead, true, 'Header', rowClass);
-                }
-
-                emitRow(rowIndex, rowClass) {
-                    this.emitHelper(this.tbody, false, rowIndex, rowClass);
-                }
-
                 emitHelper(target, isHeader, rowIndex, rowCustomClasses) {
                     let rowType = isHeader ? 'header' : 'body';
 
@@ -110,16 +101,26 @@
                         let value = (isHeader || i==0)  ? headerColSpec.value
                                                         : this.bodyColSpecs[i].value;
 
-                        let cellNetClasses = isHeader ? headerClasses : mergeClasses(this.bodyColSpecs[i].classes);
-                        let cellStructureMisc = this.cellStructureMisc[rowType]
+                        let cellNetClasses = isHeader   ? headerClasses
+                                                        : mergeClasses(this.bodyColSpecs[i].classes,
+                                                                        this.cellStructureClasses.td);
+                        let cellStructureMisc = this.cellStructureMisc[rowType];
 
-                        let col = $(`<${tdOrTh} id="${this.id}Col${i}" class="${cellNetClasses}
-                                                                ${cellStructureMisc}></${tdOrTh}>`);
+                        let colDefStr = `<${tdOrTh} id="${this.id}${rowIndex}Col${i}" class="${cellNetClasses}" ${cellStructureMisc}></${tdOrTh}>`;
+                        let col = $(colDefStr);
                         col.append(value);
                         row.append(col);
                     }
                     target.append(row);
                     return row; // may be useful in caller
+                }
+
+                emitHeader(rowClass) {
+                    this.emitHelper(this.thead, true, 'Header', rowClass);
+                }
+
+                emitRow(rowIndex, rowClass) {
+                    this.emitHelper(this.tbody, false, rowIndex, rowClass);
                 }
 
                 addListeners() {
@@ -132,30 +133,22 @@
                     console.log('How many columns: ', numCols);
                     console.log('How many bodyCells: ', numCells);
 
-                    let that = this;
-
                     this.tbody.on("keydown", (event) => {
                         const active = $(document.activeElement);
 
                         let activesIndex = bodyCells.index(active);
-                        if (activesIndex == -1) {
+                        if (activesIndex == -1 || event.key == 'Tab') {
                             return;
                         }
 
                         let targetCell = null;
 
-                        if (event.key == 'Tab') {
-                            if (event.shiftKey) {
-                                targetCell = bodyCells[(activesIndex - 1 + numCells) % numCells];
-                            } else {
-                                targetCell = bodyCells[(activesIndex + 1) % numCells];
-                            }
-                        } else {
-                            let steps = {ArrowLeft: -1, ArrowRight: 1, ArrowUp: -numCols, ArrowDown: numCols};
-                            let step = steps[event.key];
-                            if (step) {
-                                targetCell = bodyCells[(activesIndex + step + numCells) % numCells];
-                            }
+                        let steps = {ArrowLeft: -1, ArrowRight: 1, ArrowUp: -numCols, ArrowDown: numCols};
+                        let step = steps[event.key];
+                        if (step) {
+                            // For d-md... the td's 'display' CSS-property is table-cell, vs flex
+                            if (active.css('display') !== 'table-cell') step = Math.sign(step);
+                            targetCell = bodyCells[(activesIndex + step + numCells) % numCells];
                         }
 
                         //      w.r.        step/Abs(step), cf earlier version of fn
@@ -168,31 +161,6 @@
                         }
                     });
 
-                }
-                addListeners2() {
-                    document.querySelectorAll('.table-stack tbody').forEach(function (tbody) {
-                        let cells = Array.prototype.slice.call(tbody.querySelectorAll('td'));
-                        let numCols = tbody.rows[0].cells.length;
-                        cells.forEach(function (c) {
-                            c.tabIndex = 0;
-                        });
-
-                        // Index step per key. Left/Right walk the cells in reading order; Up/Down jump a whole row.
-                        let steps = {ArrowLeft: -1, ArrowRight: 1, ArrowUp: -numCols, ArrowDown: numCols};
-                        tbody.addEventListener('keydown', function (e) {
-                            let cell = e.target.closest('td'), step = steps[e.key];
-                            if (!step || !cell) return;
-
-                            // Stacked layout has no columns, so every arrow just steps through the cells in reading order
-                            // Math.sign in effect divides a non-zero number by its absolute value, leading to 1 or -1
-
-                            // For d-md... the td's 'display' CSS-property is table-cell, vs flex
-                            if (getComputedStyle(cell).display !== 'table-cell') step = Math.sign(step);
-
-                            e.preventDefault();
-                            cells[(cells.indexOf(cell) + step + cells.length) % cells.length].focus();
-                        });
-                    });
                 }
             }
 

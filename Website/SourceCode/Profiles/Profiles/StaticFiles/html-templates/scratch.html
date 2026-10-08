@@ -24,6 +24,10 @@
         /* Visible focus ring on cells (inset so the fixed-layout table doesn't clip it) */
         .table-stack td:focus-visible,
         .table-stack th:focus-visible { outline: 2px solid #0d6efd; outline-offset: -2px; }
+        tr.rowish {
+            margin-left: 0;
+            margin-right: 0;
+        }
     </style>
     <script>
         let gCommon = {};
@@ -52,26 +56,27 @@
                     this.headerColSpecs = headerColSpecs;
                     this.bodyColSpecs = bodyColSpecs;
 
-                    this.table = $(`
-                    <table id="${id}" class="${netTableClasses}" role="table" aria-label="${label}">
-                    </table>`);
+                    let container = $(`<div class="container"></div>`);
+                    target.append(container);
+
+                    this.table = $(`<table id="${id}" class="${netTableClasses}" role="table" aria-label="${label}"></table>`);
                     this.thead = $('<thead></thead>');
                     this.tbody = $('<tbody></tbody>');
 
-                    target.append(this.table);
+                    container.append(this.table);
                     this.table.append(this.thead);
                     this.table.append(this.tbody);
 
                     this.rowStructureClasses = {
                         <!-- Header distributed among cells on mobile -->
-                        header: "d-none d-md-table-row",
-                        body: "d-block d-md-table-row"
+                        header: "d-none d-md-table-row rowish",
+                        body: "d-block d-md-table-row rowish"
                     };
                     this.cellStructureClasses = {
-                        th:     '',     // th classes come from colSpecs
-                        td:     "d-flex d-md-table-cell",
-                        mobileDiv: "col-3 fw-bold d-md-none text-break",
-                        valueDiv: "col-9 col-md-auto text-break"
+                        th:         '',     // th classes come from colSpecs
+                        td:         "d-flex d-md-table-cell",
+                        mobileHead: "col-3 fw-bold d-md-none text-break",
+                        value:      "col-9 col-md-auto text-break"
                     };
 
                     this.rowStructureMisc = {
@@ -81,11 +86,11 @@
                     this.cellStructureMisc = {
                         body:       'role="cell"',
                         header:     'scope="col"',
-                        mobileDiv:  '',
-                        valueDiv:   ''
+                        mobileHead:  '',
+                        value:   ''
                     };
                 }
-                emitHelper(target, isHeader, rowIndex, rowCustomClasses) {
+                emitHelper(target, isHeader, rowIndex, bodyColSpecs, rowCustomClasses) {
                     let rowType = isHeader ? 'header' : 'body';
 
                     let rowNetClasses = `class="${mergeClasses(rowCustomClasses, this.rowStructureClasses[rowType])}"`;
@@ -98,17 +103,25 @@
                     for (let i = 0; i < this.headerColSpecs.length; i++) {
                         let headerColSpec = this.headerColSpecs[i];
                         let headerClasses = headerColSpec.classes;
-                        let value = (isHeader || i==0)  ? headerColSpec.value
-                                                        : this.bodyColSpecs[i].value;
+                        let headerValue = headerColSpec.value;
+                        let value = isHeader    ? headerValue
+                                                : bodyColSpecs[i].value;
 
                         let cellNetClasses = isHeader   ? headerClasses
-                                                        : mergeClasses(this.bodyColSpecs[i].classes,
+                                                        : mergeClasses(bodyColSpecs[i].classes,
                                                                         this.cellStructureClasses.td);
                         let cellStructureMisc = this.cellStructureMisc[rowType];
 
                         let colDefStr = `<${tdOrTh} id="${this.id}${rowIndex}Col${i}" class="${cellNetClasses}" ${cellStructureMisc}></${tdOrTh}>`;
                         let col = $(colDefStr);
-                        col.append(value);
+
+                        if (! isHeader) {
+                            let mobileDiv = $(`<div class="${this.cellStructureClasses.mobileHead}">${headerValue}</div>`);
+                            col.append(mobileDiv);
+                        }
+                        let valueDiv = $(`<div class="${this.cellStructureClasses.value}"></div>`);
+                        valueDiv.append(value);
+                        col.append(valueDiv);
                         row.append(col);
                     }
                     target.append(row);
@@ -116,11 +129,24 @@
                 }
 
                 emitHeader(rowClass) {
-                    this.emitHelper(this.thead, true, 'Header', rowClass);
+                    this.emitHelper(this.thead, true, 'Header', null, rowClass);
                 }
 
-                emitRow(rowIndex, rowClass) {
-                    this.emitHelper(this.tbody, false, rowIndex, rowClass);
+                emitRow(rowIndex, vals, rowClass) {
+                    let colSpecs = this.updateBodyValues(vals);
+                    this.emitHelper(this.tbody, false, rowIndex, colSpecs, rowClass);
+                }
+
+                updateBodyValues(vals) {
+                    if (! Array.isArray(vals) || vals.length != this.bodyColSpecs.length) {
+                        alert(`Array of values must match number of columns (${this.bodyColSpecs.length})`);
+                        return;
+                    }
+                    let newColSpecs = JSON.parse(JSON.stringify(this.bodyColSpecs)); // new copy
+                    for (let i=0; i<vals.length; i++) {
+                        newColSpecs[i].value = vals[i];
+                    }
+                    return newColSpecs;
                 }
 
                 addListeners() {
@@ -165,21 +191,25 @@
             }
 
             $('body').append("<h1>Row-ish Table</h1>");
+
+            let anchorVal = createAnchorElement('jane@exampleeeevasdfasdfasddddddddddfasfdasfas', 'mailto:jane@exampleeeevasdfasdfasddddddddddfasfdasfas', 'fw-bold')
+            let anchorHeader = createAnchorElement('support@exampleeeevasdfasdfasddddddddddfasfdasfas', 'mailto:support@exampleeeevasdfasdfasddddddddddfasfdasfas', 'fw-bold')
             let headerColSpecs = [
-                newColumnSpec('col-4', "Name"),
-                newColumnSpec('col-4', "Role"),
+                newColumnSpec('col-3', anchorHeader),
+                newColumnSpec('col-5', "Role"),
                 newColumnSpec('col-4', "Dept")
             ];
             let bodyColSpecs = [
-                newColumnSpec('', 'one'),
-                newColumnSpec('', 'two'),
-                newColumnSpec('', 'three')
+                newColumnSpec('', ''),
+                newColumnSpec('', ''),
+                newColumnSpec('', '')
             ];
-            let myTable = new RowishTable($('body'), 'employees', 'Employees', headerColSpecs, bodyColSpecs, 'mx-5 w-75');
+            let myTable = new RowishTable($('body'), 'employees', 'Employees',
+                        headerColSpecs, bodyColSpecs, 'mx-1 w-100');
 
             myTable.emitHeader("bold");
-            myTable.emitRow(1, 'mx-5');
-            myTable.emitRow(2, 'mx-5');
+            myTable.emitRow(1, ['Jane Doe', 'jane@exampleeeevasdfasdfasddddddddddfasfdasfas', 'Editor'], '');
+            myTable.emitRow(1, ['John Doe', anchorVal, 'CEO'], '');
             myTable.addListeners();
         }
     </script>

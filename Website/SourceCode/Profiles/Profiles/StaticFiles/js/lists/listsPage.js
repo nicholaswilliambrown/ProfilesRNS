@@ -173,7 +173,7 @@ function  emitTopOfPersonTable(people, target, isManage) {
         newColumnSpec(`text-start bordE `,                         'NameOhName'),
         newColumnSpec(`text-start bordE `,                         'InstitutionOh'),
         newColumnSpec(`text-start bordE `,                         'Faculty Rank'),
-        newColumnSpec(`text-center `, 'Remove')
+        newColumnSpec(`text-md-center `, 'Remove')
     ];
 
     let rowish;

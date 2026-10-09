@@ -3,7 +3,7 @@ gLists.noRank = '--';
 gLists.rememberedTab = 'rememberedTab';
 gLists.manage = {
     setup: async () => {
-        let makeSample = true;
+        let makeSample = false;
         setupRowishSample(makeSample);
 
         await getPeopleListInfo();
@@ -163,24 +163,37 @@ function  emitTopOfPersonTable(people, target, isManage) {
         $('#allPeopleShown').html(allPeopleShownText);
     }
 
-    let colSpecsRowish = [
-        newColumnSpec(`col4 bordE p-1`,                         'Name'),
-        newColumnSpec(`col4 bordE p-1`,                         'Institution'),
-        newColumnSpec(`col3 bordE p-1`,                         'Faculty Rank'),
-        newColumnSpec(`col1 p-1 d-flex justify-content-center`, 'Remove')
+    let colSpecsRowishHeader = [
+        newColumnSpec(`col-4 bordE p-1 `,                         'NameOhName'),
+        newColumnSpec(`col-4 bordE p-1 `,                         'InstitutionOh'),
+        newColumnSpec(`col-3 bordE p-1 `,                         'Faculty Rank'),
+        newColumnSpec(`col-1 text-center `, 'Remove')
+    ];
+    let colSpecsRowishBody = [
+        newColumnSpec(`text-start bordE `,                         'NameOhName'),
+        newColumnSpec(`text-start bordE `,                         'InstitutionOh'),
+        newColumnSpec(`text-start bordE `,                         'Faculty Rank'),
+        newColumnSpec(`text-center `, 'Remove')
     ];
 
     let rowish;
+    let rowishTarget = $('#peopleDiv');
     if (isManage) {
         filterSelects(people, target, isManage);
-        rowish = gLists.peopleTableForManage = new RowishTable(target, 'mgmtTabCurrPeople', colSpecsRowish);
+        rowish = gLists.peopleTableForManage = new RowishTable(rowishTarget, 'mgmtTabCurrPeople',
+            colSpecsRowishHeader, colSpecsRowishBody,
+            'bord9 w-100 ');
     }
     else {
-        rowish = gLists.peopleTableForSaved = new RowishTable(target, 'saveTabCurrPeople', colSpecsRowish);
+        rowish = gLists.peopleTableForSaved = new RowishTable(rowishTarget, 'saveTabCurrPeople',
+            colSpecsRowishHeader, colSpecsRowishBody,
+            'bord9 w-100 ' );
     }
-    rowish.emitHeader();
+    rowish.emitHeader('listsTableHeader');
+    rowish.emitRow(1, [1,2,3,4], 'highLightHover');
 
-    let colSpecs = [newColumnSpec(`${gCommon.cols4} bordE p-1`, 'Name'),
+    let colSpecs = [
+        newColumnSpec(`${gCommon.cols4} bordE p-1`, 'Name'),
         newColumnSpec(`${gCommon.cols4} bordE p-1`, 'Institution'),
         newColumnSpec(`${gCommon.cols3} bordE p-1`, 'Faculty Rank'),
         newColumnSpec(`${gCommon.cols1} p-1 d-flex justify-content-center`, 'Remove')

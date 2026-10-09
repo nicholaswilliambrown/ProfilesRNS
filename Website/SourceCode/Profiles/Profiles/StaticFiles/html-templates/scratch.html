@@ -19,7 +19,7 @@
             .table-stack tbody td,
             .table-stack tbody th { border-bottom-width: 0; }
             .table-stack tbody tr { border-bottom: 2px solid #dee2e6; }
-            td { padding-top: 0px !important; padding-bottom: 0px !important; }
+            .table-stack td { padding-top: 0px !important; padding-bottom: 0px !important; }
         }
         /* Visible focus ring on cells (inset so the fixed-layout table doesn't clip it) */
         .table-stack td:focus-visible,
@@ -47,6 +47,13 @@
 
                 let result = some + ' ' + others;
                 return result;
+            }
+            function setColSpecContent(target, value, clone) {
+                if (value instanceof Node || value instanceof $) {
+                    target.append(clone ? $(value).clone() : value);
+                } else {
+                    target.text(value == null ? '' : value);
+                }
             }
             class RowishTable {
                 constructor(target, id, label, headerColSpecs, bodyColSpecs, tableClasses) {
@@ -116,11 +123,12 @@
                         let col = $(colDefStr);
 
                         if (! isHeader) {
-                            let mobileDiv = $(`<div class="${this.cellStructureClasses.mobileHead}">${headerValue}</div>`);
+                            let mobileDiv = $(`<div class="${this.cellStructureClasses.mobileHead}"></div>`);
+                            setColSpecContent(mobileDiv, headerValue, true)
                             col.append(mobileDiv);
                         }
                         let valueDiv = $(`<div class="${this.cellStructureClasses.value}"></div>`);
-                        valueDiv.append(value);
+                        setColSpecContent(valueDiv, value, true)
                         col.append(valueDiv);
                         row.append(col);
                     }
@@ -153,24 +161,26 @@
                     const bodyCells = this.tbody.find('td');
                     const headCells = this.thead.find('th');
                     bodyCells.attr('tabIndex', '0');
+                    headCells.attr('tabIndex', '0');
 
                     const numCells = bodyCells.length;
                     const numCols = headCells.length;
                     console.log('How many columns: ', numCols);
                     console.log('How many bodyCells: ', numCells);
+                    if (!numCells) return; // trivial table
 
-                    this.tbody.on("keydown", (event) => {
-                        const active = $(document.activeElement);
+                    this.tbody.on("keydown", (e) => {
+                        const active = $(document.activeElement).closest('td');
 
                         let activesIndex = bodyCells.index(active);
-                        if (activesIndex == -1 || event.key == 'Tab') {
+                        if (activesIndex == -1 || e.key == 'Tab') {
                             return;
                         }
 
                         let targetCell = null;
 
                         let steps = {ArrowLeft: -1, ArrowRight: 1, ArrowUp: -numCols, ArrowDown: numCols};
-                        let step = steps[event.key];
+                        let step = steps[e.key];
                         if (step) {
                             // For d-md... the td's 'display' CSS-property is table-cell, vs flex
                             if (active.css('display') !== 'table-cell') step = Math.sign(step);
@@ -179,11 +189,8 @@
 
                         //      w.r.        step/Abs(step), cf earlier version of fn
                         if (targetCell) {
-                            event.preventDefault(); // Stop page from scrolling
-
-                            // Roving tabindex update
-                            active.attr('tabindex', '-1');
-                            $(targetCell).attr('tabindex', '0').focus();
+                            e.preventDefault(); // Stop page from scrolling
+                            $(targetCell).focus();
                         }
                     });
 
@@ -205,11 +212,11 @@
                 newColumnSpec('', '')
             ];
             let myTable = new RowishTable($('body'), 'employees', 'Employees',
-                        headerColSpecs, bodyColSpecs, 'mx-1 w-100');
+                        headerColSpecs, bodyColSpecs, 'mx-1 w-75');
 
             myTable.emitHeader("bold");
             myTable.emitRow(1, ['Jane Doe', 'jane@exampleeeevasdfasdfasddddddddddfasfdasfas', 'Editor'], '');
-            myTable.emitRow(1, ['John Doe', anchorVal, 'CEO'], '');
+            myTable.emitRow(2, ['John Doe', anchorVal, 'CEO'], '');
             myTable.addListeners();
         }
     </script>
@@ -223,52 +230,5 @@
 
 </head>
 <body>
-<div class="container">
-    <!-- The explicit roles are for browsers that drop table semantics once display is changed to flex (below md) -->
-    <table class="table table-stack align-middle" role="table" aria-label="Users">
-        <thead>
-        <!-- Hidden on narrow screens; each cell carries its own label there -->
-        <tr class="d-none d-md-table-row table-dark">
-            <th scope="col" class="col-2">Number</th>
-            <th scope="col" class="col-4">Name</th>
-            <th scope="col" class="col-4">Email</th>
-            <th scope="col" class="col-2">Role</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- Below md, each row is a block and each cell a flex "mini-row" (col-4 label | col-8 value) so values line up; at md+ they are table elements again. -->
-        <tr class="d-block d-md-table-row"                 role="row">
-            <td class="d-flex d-md-table-cell"             role="cell">
-                <div class="col-3 fw-bold d-md-none">Number</div>
-                <div class="col-9 col-md-auto">1</div></td>
-            <td class="d-flex d-md-table-cell"             role="cell">
-                <div class="col-3 fw-bold d-md-none">Name</div>
-                <div class="col-9 col-md-auto text-break">Jane Doe</div></td>
-            <td class="d-flex d-md-table-cell text-break"  role="cell">
-                <div class="col-3 fw-bold d-md-none">Email</div>
-                <div class="col-9 col-md-auto text-break">
-                    <a href="mailto:jane@example.com">jane@exampleeeevasdfasdfasdfasfdasfasfasfsdf.com</a></div></td>
-            <td class="d-flex d-md-table-cell"             role="cell">
-                <div class="col-3 fw-bold d-md-none">Role</div>
-                <div class="col-8 col-md-auto">Editor</div></td>
-        </tr>
-        <tr class="d-block d-md-table-row"                 role="row">
-            <td class="d-flex d-md-table-cell"             role="cell">
-                <div class="col-3 fw-bold d-md-none">Number</div>
-                <div class="col-9 col-md-auto">2</div></td>
-            <td class="d-flex d-md-table-cell"             role="cell">
-                <div class="col-3 fw-bold d-md-none">Name</div>
-                <div class="col-9 col-md-auto">John Doe</div></td>
-            <td class="d-flex d-md-table-cell text-break"  role="cell">
-                <div class="col-3 fw-bold d-md-none">Email</div>
-                <div class="col-9 col-md-auto">
-                    <a href="mailto:john@example.com">john@example.com</a></div></td>
-            <td class="d-flex d-md-table-cell"             role="cell">
-                <div class="col-3 fw-bold d-md-none">Role</div>
-                <div class="col-8 col-md-auto">Reporter</div></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
 </body>
 </html>

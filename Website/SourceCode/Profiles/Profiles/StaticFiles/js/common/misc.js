@@ -292,18 +292,16 @@ function localOnlyEvent(e) {
 }
 
 class RowishTable {
-    constructor(target, id, headerColSpecs, tableClasses) {
+    constructor(target, id, headerColSpecs, bodyColSpecs, tableClasses) {
         let label = id;
-        let bodyColSpecs = headerColSpecs;
 
         let netTableClasses = mergeClasses('table table-stack align-middle', tableClasses);
 
         this.id = id;
         this.headerColSpecs = headerColSpecs;
-        this.bodyColSpecs = myClone(bodyColSpecs);
-        this.bodyColSpecs.forEach(cs => cs.classes = '');
+        this.bodyColSpecs = myClone(bodyColSpecs); // extra safe, a la scala
 
-        let container = $(`<div class="container"></div>`);
+        let container = $(`<div class="container px-0 mx-0"></div>`);
         target.append(container);
 
         this.table = $(`<table id="${id}" class="${netTableClasses}" role="table" aria-label="${label}"></table>`);
@@ -322,8 +320,8 @@ class RowishTable {
         this.cellStructureClasses = {
             th:         '',     // th classes come from colSpecs
             td:         "d-flex d-md-table-cell",
-            mobileHead: "col-3 fw-bold d-md-none text-break",
-            value:      "col-9 col-md-auto text-break"
+            mobileHead: "col-4 fw-bold d-md-none text-break",
+            value:      "col-8 col-md-auto text-break"
         };
 
         this.rowStructureMisc = {
@@ -463,7 +461,13 @@ function setupRowishSample(makeSample) {
             newColumnSpec('col-5', "Role"),
             newColumnSpec('col-4', "Dept")
         ];
-        let myTable = new RowishTable(target, 'employees', headerColSpecs, 'mx-1 w-75');
+        // body specs need to omit col-*
+        let bodyColSpecs = [
+            newColumnSpec('', anchorHeader),
+            newColumnSpec('', "Role"),
+            newColumnSpec('', "Dept")
+        ];
+        let myTable = new RowishTable(target, 'employees', headerColSpecs, bodyColSpecs, 'mx-1 w-75');
 
         myTable.emitHeader("bold");
         myTable.emitRow(1, ['Jane Doe', 'jane@exampleeeevasdfasdfasddddddddddfasfdasfas', 'Editor'], '');

@@ -190,7 +190,7 @@ namespace Profiles.Lists
         [System.Web.Services.WebMethod]
         public static string DeleteSingle(string listid, string personid)
         {
-            Lists.Utilities.DataIO.AddRemovePerson(listid, personid, true);
+            Lists.Utilities.DataIO.AddRemovePerson(listid, personid,true);
             return Lists.Utilities.DataIO.GetListCount();
         }
 
@@ -293,8 +293,10 @@ namespace Profiles.Lists
         [System.Web.Services.WebMethod]
         public static void ClearList(string ListID)
         {
-            Profiles.Lists.Utilities.DataIO.DeleteFiltered(ListID, null, null);
+            Profiles.Lists.Utilities.DataIO.DeleteFildered(ListID, null,null);
         }
+
+
 
         public XmlDocument PresentationXML { get; set; }
 

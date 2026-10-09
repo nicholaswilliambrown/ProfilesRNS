@@ -33,6 +33,9 @@ function tryMatchPathParam(regex) {
     let result = match ? match[1] : "";
     return result;
 }
+function myClone(obj) {
+    return JSON.parse(JSON.stringify(obj));
+}
 function stringifyJson(json) {
     return JSON.stringify(json, null, 2);
 }
@@ -289,109 +292,183 @@ function localOnlyEvent(e) {
 }
 
 class RowishTable {
-    constructor(target, id, label) {
+    constructor(target, id, headerColSpecs, tableClasses) {
+        let label = id;
+        let bodyColSpecs = headerColSpecs;
+
+        let netTableClasses = mergeClasses('table table-stack align-middle', tableClasses);
+
         this.id = id;
-        this.defaultRowClass = "d-block d-md-table-row mb-4"
+        this.headerColSpecs = headerColSpecs;
+        this.bodyColSpecs = myClone(bodyColSpecs);
+        this.bodyColSpecs.forEach(cs => cs.classes = '');
 
-        this.table = $(`
-                <table id="${id}" class="table d-block d-md-table" role="grid" aria-label="${label}">
-                </table>`);
+        let container = $(`<div class="container"></div>`);
+        target.append(container);
 
-        target.append(this.table);
+        this.table = $(`<table id="${id}" class="${netTableClasses}" role="table" aria-label="${label}"></table>`);
+        this.thead = $('<thead></thead>');
+        this.tbody = $('<tbody></tbody>');
 
-        this.defaultHeaderClass = "d-block d-md-block d-md-table-row";
+        container.append(this.table);
+        this.table.append(this.thead);
+        this.table.append(this.tbody);
+
+        this.rowStructureClasses = {
+            <!-- Header distributed among cells on mobile -->
+            header: "d-none d-md-table-row w-100",
+            body: "d-block d-md-table-row w-100"
+        };
+        this.cellStructureClasses = {
+            th:         '',     // th classes come from colSpecs
+            td:         "d-flex d-md-table-cell",
+            mobileHead: "col-3 fw-bold d-md-none text-break",
+            value:      "col-9 col-md-auto text-break"
+        };
+
+        this.rowStructureMisc = {
+            header: '',
+            body:   'role="row"'
+        };
+        this.cellStructureMisc = {
+            body:       'role="cell"',
+            header:     'scope="col"',
+            mobileHead:  '',
+            value:   ''
+        };
     }
-    emitHeader(columnSpecArray, rowClass) {
-        this.emitHelper(this.table, columnSpecArray, true, rowClass);
-    }
-    emitRow(columnSpecArray, rowClass) {
+    emitHelper(target, isHeader, rowIndex, bodyColSpecs, rowCustomClasses) {
+        let rowType = isHeader ? 'header' : 'body';
 
-    }
-    emitHelper(target, columnSpecArray, isHeader, rowClass) {
-        rowClass =  rowClass ?
-                    rowClass : '';
-        let classAttr =     rowClass ? `class=${rowClass}` : '';
-        let tdOrTh =        isHeader ? 'th' : 'td';
-        let blockOrNone =   isHeader ? "d-block d-md-block" : "d-block";
-        let roleAttr =      isHeader ? 'role="columnheader"' : 'role="gridcell"';
-        let scopeAttr =     isHeader ? 'scope="col"' : "";
+        let rowNetClasses = `class="${mergeClasses(rowCustomClasses, this.rowStructureClasses[rowType])}"`;
+        let rowStructureMisc = this.rowStructureMisc[rowType];
 
-        let row = $(`<tr id="${this.id}Row" ${classAttr} role="row"</tr>`);
-        <!-- Each row becomes a block container on mobile -->
+        let row = $(`<tr id="${this.id}${rowIndex}" ${rowNetClasses} ${rowStructureMisc}></tr>`);
 
-        for (let i = 0; i < columnSpecArray.length; i++) {
-            let colSpec = columnSpecArray[i];
-            let col = $(`<${tdOrTh} id="${this.id}Col${i}" class="${blockOrNone} ${colSpec.classes}" ${scopeAttr} ${roleAttr}></${tdOrTh}>`);
-            col.append(colSpec.value)
+        let tdOrTh = isHeader ? 'th' : 'td';
+
+        for (let i = 0; i < this.headerColSpecs.length; i++) {
+            let headerColSpec = this.headerColSpecs[i];
+            let headerClasses = headerColSpec.classes;
+            let headerValue = headerColSpec.value;
+            let value = isHeader    ? headerValue
+                                    : bodyColSpecs[i].value;
+
+            let cellNetClasses = isHeader   ? headerClasses
+                                            : mergeClasses(bodyColSpecs[i].classes, this.cellStructureClasses.td);
+            let cellStructureMisc = this.cellStructureMisc[rowType];
+
+            let colDefStr = `<${tdOrTh} id="${this.id}${rowIndex}Col${i}" class="${cellNetClasses}" ${cellStructureMisc}></${tdOrTh}>`;
+            let col = $(colDefStr);
             row.append(col);
-        }
-        let rowOrHead;
-        if (isHeader) {
-            rowOrHead = $(`<thead class="d-block d-md-table-header-group">
-                            </thead>`);
-            rowOrHead.append(row);
-        }
-        else {
-            rowOrHead = row;
-        }
 
-        target.append(rowOrHead);
-        return rowOrHead; // may be useful in caller
+            if (! isHeader) {
+                let mobileDiv = $(`<div class="${this.cellStructureClasses.mobileHead}"></div>`);
+                setColSpecContent(mobileDiv, headerValue)
+                col.append(mobileDiv);
+            }
+            let valueDiv = $(`<div class="${this.cellStructureClasses.value}"></div>`);
+            col.append(valueDiv);
+            setColSpecContent(valueDiv, value)
+        }
+        target.append(row);
+        return row; // may be useful in caller
     }
-    addListeners(tableId) {
-        const table = document.getElementById(tableId);
-        const cells = Array.from(table.querySelectorAll('td'));
-        const numCells = cells.length;
-        const numCols = Array.from(table.querySelectorAll('th')).length;
+
+    emitHeader(rowClass) {
+        this.emitHelper(this.thead, true, 'Header', null, rowClass);
+    }
+
+    emitRow(rowIndex, vals, rowClass) {
+        let colSpecs = this.updateBodyValues(vals);
+        this.emitHelper(this.tbody, false, rowIndex, colSpecs, rowClass);
+    }
+
+    updateBodyValues(vals) {
+        if (! Array.isArray(vals) || vals.length != this.bodyColSpecs.length) {
+            alert(`Array of values must match number of columns (${this.bodyColSpecs.length})`);
+            return;
+        }
+        let newColSpecs = JSON.parse(JSON.stringify(this.bodyColSpecs)); // new copy
+        for (let i=0; i<vals.length; i++) {
+            newColSpecs[i].value = vals[i];
+        }
+        return newColSpecs;
+    }
+
+    addListeners() {
+        const bodyCells = this.tbody.find('td');
+        const headCells = this.thead.find('th');
+        bodyCells.attr('tabIndex', '0');
+        headCells.attr('tabIndex', '0');
+
+        const numCells = bodyCells.length;
+        const numCols = headCells.length;
         console.log('How many columns: ', numCols);
-        console.log('How many cells: ', numCells);
+        console.log('How many bodyCells: ', numCells);
+        if (!numCells) return; // trivial table
 
-        table.addEventListener('keydown', (event) => {
-            const active = document.activeElement;
-            if (!cells.includes(active)) return;
+        this.tbody.on("keydown", (e) => {
+            const active = $(document.activeElement).closest('td');
 
-            const currentIdx = cells.indexOf(active);
-            let targetCell = null;
-
-            switch (event.key) {
-                case 'Tab':
-                    if (event.shiftKey) {
-                        targetCell = cells[(currentIdx - 1 + numCells) % numCells];
-                    }
-                    else {
-                        targetCell = cells[(currentIdx + 1) % numCells];
-                    }
-                    break;
-                case 'ArrowRight':
-                    // Move to the next cell in the entire table, wrapping to the next row automatically
-                    targetCell = cells[(currentIdx + 1) % numCells];
-                    break;
-
-                case 'ArrowLeft':
-                    targetCell = cells[(currentIdx - 1 + numCells) % numCells];
-                    break;
-
-                case 'ArrowDown':
-                    targetCell = cells[(currentIdx + numCols) % numCells];
-                    break;
-
-                case 'ArrowUp':
-                    targetCell = cells[(currentIdx - numCols + numCells) % numCells];
-                    break;
-
-                default:
-                    return;
+            let activesIndex = bodyCells.index(active);
+            if (activesIndex == -1 || e.key == 'Tab') {
+                return;
             }
 
-            if (targetCell) {
-                event.preventDefault(); // Stop page from scrolling
+            let targetCell = null;
 
-                // Roving tabindex update
-                active.setAttribute('tabindex', '-1');
-                targetCell.setAttribute('tabindex', '0');
-                targetCell.focus();
+            let steps = {ArrowLeft: -1, ArrowRight: 1, ArrowUp: -numCols, ArrowDown: numCols};
+            let step = steps[e.key];
+            if (step) {
+                // For d-md... the td's 'display' CSS-property is table-cell, vs flex
+                if (active.css('display') !== 'table-cell') step = Math.sign(step);
+                targetCell = bodyCells[(activesIndex + step + numCells) % numCells];
+            }
+
+            //      w.r.        step/Abs(step), cf earlier version of fn
+            if (targetCell) {
+                e.preventDefault(); // Stop page from scrolling
+                $(targetCell).focus();
             }
         });
 
     }
 }
+function mergeClasses(some, others) {
+    if (!some) some = '';
+    if (!others) others = '';
+
+    let result = some + ' ' + others;
+    return result;
+}
+function setColSpecContent(target, value) {
+    if (value instanceof Node || value instanceof $) {
+        target.append(value.clone());
+    } else {
+        target.text(value == null ? '' : value);
+    }
+}
+function setupRowishSample(makeSample) {
+    let sampleDiv = $('<div></div>');
+    $('body').prepend(sampleDiv);
+    let target = sampleDiv;
+
+    if (makeSample) {
+        target.prepend("<h3>Row-ish Table</h3>");
+        let anchorVal = createAnchorElement('jane@exampleeeevasdfasdfasddddddddddfasfdasfas', 'mailto:jane@exampleeeevasdfasdfasddddddddddfasfdasfas', 'fw-bold')
+        let anchorHeader = createAnchorElement('support@exampleeeevasdfasdfasddddddddddfasfdasfas', 'mailto:support@exampleeeevasdfasdfasddddddddddfasfdasfas', 'fw-bold')
+        let headerColSpecs = [
+            newColumnSpec('col-3', anchorHeader),
+            newColumnSpec('col-5', "Role"),
+            newColumnSpec('col-4', "Dept")
+        ];
+        let myTable = new RowishTable(target, 'employees', headerColSpecs, 'mx-1 w-75');
+
+        myTable.emitHeader("bold");
+        myTable.emitRow(1, ['Jane Doe', 'jane@exampleeeevasdfasdfasddddddddddfasfdasfas', 'Editor'], '');
+        myTable.emitRow(2, ['Johnasdfasdfasdfasfasfasfasfdadfa Doe', anchorVal, 'CEO'], '');
+        myTable.addListeners();
+    }
+}
+

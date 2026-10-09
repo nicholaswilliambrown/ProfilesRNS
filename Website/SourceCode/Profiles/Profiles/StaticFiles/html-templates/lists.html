@@ -90,26 +90,7 @@
 </head>
 
 <body>
-<div class="d-md-table">
-    <div class="d-md-table-row">
-        <span class="d-md-table-cell">Cell 1</span>
-        <span class="d-md-table-cell">Cell 2</span>
-    </div>
-</div>
 {TrackingCode}
-<script>
-    $('body').append("<h1>Row-ish Table</h1>");
-    let myTable = new RowishTable($('body'), 'employees', 'Employees');
-    myTable.addListeners(myTable.id);
-    let columnSpecArray =  [
-        newColumnSpec(gCommon.cols3or12, "Name"),
-        newColumnSpec(gCommon.cols3or12, "Role"),
-        newColumnSpec(gCommon.cols3or12, "Dept")
-    ];
-
-    myTable.emitHeader(columnSpecArray, myTable.defaultHeaderClass + " bold");
-
-</script>
 
 <main>
     <div class="modalupdate">

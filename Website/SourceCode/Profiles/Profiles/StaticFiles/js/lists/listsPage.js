@@ -3,6 +3,9 @@ gLists.noRank = '--';
 gLists.rememberedTab = 'rememberedTab';
 gLists.manage = {
     setup: async () => {
+        let makeSample = true;
+        setupRowishSample(makeSample);
+
         await getPeopleListInfo();
         gCommon.pageTitle = await setTabTitleAndOrFavicon(`My Person List (${gLists.numPeople})`);
 
@@ -152,7 +155,7 @@ function setupListAndPagination(itemsTarget, people, pageSizes, pagingTarget, la
     pagination.emitPagingRow(pagingTarget);
 }
 function  emitTopOfPersonTable(people, target, isManage) {
-    if (gCommon.numPersons != 1) { // == 1 is default html
+    if (gCommon.numPersons != 1) { // == 1 is in the default static html
         let currentNumText = `are currently <span class="redBold">${gCommon.numPersons}</span> people`;
         let allPeopleShownText = `all ${gCommon.numPersons} people shown`
 
@@ -160,16 +163,28 @@ function  emitTopOfPersonTable(people, target, isManage) {
         $('#allPeopleShown').html(allPeopleShownText);
     }
 
+    let colSpecsRowish = [
+        newColumnSpec(`col4 bordE p-1`,                         'Name'),
+        newColumnSpec(`col4 bordE p-1`,                         'Institution'),
+        newColumnSpec(`col3 bordE p-1`,                         'Faculty Rank'),
+        newColumnSpec(`col1 p-1 d-flex justify-content-center`, 'Remove')
+    ];
+
+    let rowish;
     if (isManage) {
         filterSelects(people, target, isManage);
+        rowish = gLists.peopleTableForManage = new RowishTable(target, 'mgmtTabCurrPeople', colSpecsRowish);
     }
+    else {
+        rowish = gLists.peopleTableForSaved = new RowishTable(target, 'saveTabCurrPeople', colSpecsRowish);
+    }
+    rowish.emitHeader();
 
     let colSpecs = [newColumnSpec(`${gCommon.cols4} bordE p-1`, 'Name'),
         newColumnSpec(`${gCommon.cols4} bordE p-1`, 'Institution'),
         newColumnSpec(`${gCommon.cols3} bordE p-1`, 'Faculty Rank'),
         newColumnSpec(`${gCommon.cols1} p-1 d-flex justify-content-center`, 'Remove')
     ];
-    colSpecs.push();
 
     makeRowWithColumns(target, 'ListHeader', colSpecs, 'listsTableHeader bord9 myMs-0');
 }
@@ -374,3 +389,4 @@ function refreshButComeBackToCurrentTab() {
     sessionStorage.setItem(gLists.rememberedTab, gLists.currentTab);
     window.location.reload();
 }
+////////////////////////

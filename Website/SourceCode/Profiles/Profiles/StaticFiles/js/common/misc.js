@@ -356,8 +356,9 @@ class RowishTable {
                                             : mergeClasses(bodyColSpecs[i].classes, this.cellStructureClasses.td);
             let cellStructureMisc = this.cellStructureMisc[rowType];
 
-            let colDefStr = `<${tdOrTh} id="${this.id}${rowIndex}Col${i}" class="${cellNetClasses}" ${cellStructureMisc}></${tdOrTh}>`;
+            let colDefStr = `<${tdOrTh} id="${this.id}${rowIndex}Col${i}" class="${cellNetClasses} arrowy" ${cellStructureMisc}></${tdOrTh}>`;
             let col = $(colDefStr);
+            col.attr('tabIndex', i === 0 ? '0' : '-1');   // all focusable, only the first is a tab stop
             row.append(col);
 
             if (! isHeader) {
@@ -397,20 +398,22 @@ class RowishTable {
     addListeners() {
         const bodyCells = this.tbody.find('td');
         const headCells = this.thead.find('th');
-        bodyCells.attr('tabIndex', '0');
-        headCells.attr('tabIndex', '0');
+        const arrowyCells = this.table.find('.arrowy').filter(':visible');
 
-        const numCells = bodyCells.length;
         const numCols = headCells.length;
+        const numBodyCells = bodyCells.length;
+        const numArrowyCells = arrowyCells.length;
+
         console.log('How many columns: ', numCols);
-        console.log('How many bodyCells: ', numCells);
-        if (!numCells) return; // trivial table
+        console.log('How many bodyCells: ', numBodyCells);
+        console.log('How many arrowyCells: ', numArrowyCells);
+        if (!numBodyCells) return; // trivial table
 
-        this.tbody.on("keydown", (e) => {
-            const active = $(document.activeElement).closest('td');
+        arrowyCells.on("keydown", (e) => {
+            const active = $(document.activeElement).closest('.arrowy');
 
-            let activesIndex = bodyCells.index(active);
-            if (activesIndex == -1 || e.key == 'Tab') {
+            let activesIndex = arrowyCells.index(active);
+            if (activesIndex == -1) {
                 return;
             }
 
@@ -419,14 +422,16 @@ class RowishTable {
             let steps = {ArrowLeft: -1, ArrowRight: 1, ArrowUp: -numCols, ArrowDown: numCols};
             let step = steps[e.key];
             if (step) {
+                e.preventDefault(); // Stop page from scrolling
                 // For d-md... the td's 'display' CSS-property is table-cell, vs flex
                 if (active.css('display') !== 'table-cell') step = Math.sign(step);
-                targetCell = bodyCells[(activesIndex + step + numCells) % numCells];
+                let targetIndex = activesIndex + step;
+                if (targetIndex >= numArrowyCells || targetIndex < 0) return;
+                targetCell = arrowyCells[targetIndex];
             }
 
             //      w.r.        step/Abs(step), cf earlier version of fn
             if (targetCell) {
-                e.preventDefault(); // Stop page from scrolling
                 $(targetCell).focus();
             }
         });

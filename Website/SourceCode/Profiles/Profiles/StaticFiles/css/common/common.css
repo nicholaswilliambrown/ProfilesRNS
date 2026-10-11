@@ -578,8 +578,9 @@ span.nav-link.active {
 .noBorder {
     border: none;
 }
-/** rowish tables ******/
-/* md and up: fixed layout so the header widths control every column */
+/** rowish tables *********************************
+        md and up: fixed layout so the header widths control every column
+*/
 @media (min-width: 768px) {
     .table-stack { table-layout: fixed; }
 }

@@ -74,7 +74,7 @@ function setupTabKeyboardNavigation() {
         if (theKey in step) {
             e.preventDefault();
             const nextIndex = (step[theKey] + numTabs) % numTabs;
-            tabs.eq(nextIndex).trigger('click');
+            tabs.eq(nextIndex).trigger('focus');
         }
     });
 }

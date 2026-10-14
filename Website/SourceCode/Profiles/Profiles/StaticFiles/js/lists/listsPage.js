@@ -180,12 +180,14 @@ function  emitTopOfPersonTable(people, target, isManage) {
     let rowishTarget = $('#peopleDiv');
     if (isManage) {
         filterSelects(people, target, isManage);
-        rowish = gLists.peopleTableForManage = new RowishTable(rowishTarget, 'mgmtTabCurrPeople',
+        rowish = gLists.peopleTableForManage = new RowishTable(rowishTarget,
+            'mgmtTabCurrPeople', 'My Current People',
             colSpecsRowishHeader, colSpecsRowishBody,
             'bord9 w-100 ');
     }
     else {
-        rowish = gLists.peopleTableForSaved = new RowishTable(rowishTarget, 'saveTabCurrPeople',
+        rowish = gLists.peopleTableForSaved = new RowishTable(rowishTarget,
+            'saveTabCurrPeople', 'My Provisional People',
             colSpecsRowishHeader, colSpecsRowishBody,
             'bord9 w-100 ' );
     }

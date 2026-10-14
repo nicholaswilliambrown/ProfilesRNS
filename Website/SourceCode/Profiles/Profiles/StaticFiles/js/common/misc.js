@@ -34,7 +34,25 @@ function tryMatchPathParam(regex) {
     return result;
 }
 function myClone(obj) {
-    return JSON.parse(JSON.stringify(obj));
+    let result;
+    if (obj instanceof Node) {
+        result = obj.cloneNode(true);
+    } else if (obj instanceof $) {
+        result = obj.clone(true);
+    } else if (Array.isArray(obj)) {
+        result = [];
+        for (let i = 0; i < obj.length; i++) {
+            result[i] = myClone(obj[i]);
+        }
+    } else if (obj !== Object(obj)) { // atomic primitive
+        result = obj;
+    } else {
+        result = {};
+        for (const key of Object.keys(obj)) {
+            result[key] = myClone(obj[key]);
+        }
+    }
+    return result;
 }
 function stringifyJson(json) {
     return JSON.stringify(json, null, 2);
@@ -292,14 +310,12 @@ function localOnlyEvent(e) {
 }
 
 class RowishTable {
-    constructor(target, id, headerColSpecs, bodyColSpecs, tableClasses) {
-        let label = id;
-
+    constructor(target, id, label, headerColSpecs, bodyColSpecs, tableClasses) {
         let netTableClasses = mergeClasses('table table-stack align-middle', tableClasses);
 
         this.id = id;
         this.headerColSpecs = headerColSpecs;
-        this.bodyColSpecs = myClone(bodyColSpecs); // extra safe, a la scala
+        this.bodyColSpecs = myClone(bodyColSpecs); // new copy, a la scala
 
         let container = $(`<div class="container px-0 mx-0"></div>`);
         target.append(container);
@@ -313,27 +329,25 @@ class RowishTable {
         this.table.append(this.tbody);
 
         this.rowStructureClasses = {
-            <!-- Header distributed among cells on mobile -->
+            // Header distributed among cells on mobile
             header: "d-none d-md-table-row w-100",
             body: "d-block d-md-table-row w-100"
         };
         this.cellStructureClasses = {
-            th:         '',     // th classes come from colSpecs
             td:         "d-flex d-md-table-cell",
             mobileHead: "col-4 fw-bold d-md-none text-break",
             value:      "col-8 col-md-auto text-break"
         };
 
         this.rowStructureMisc = {
-            header: '',
+            header: 'role="row"',
             body:   'role="row"'
         };
         this.cellStructureMisc = {
             body:       'role="cell"',
-            header:     'scope="col"',
-            mobileHead:  '',
-            value:   ''
+            header:     'scope="col" role="columnheader"'
         };
+        this.addListeners();
     }
     emitHelper(target, isHeader, rowIndex, bodyColSpecs, rowCustomClasses) {
         let rowType = isHeader ? 'header' : 'body';
@@ -386,9 +400,9 @@ class RowishTable {
     updateBodyValues(vals) {
         if (! Array.isArray(vals) || vals.length != this.bodyColSpecs.length) {
             alert(`Array of values must match number of columns (${this.bodyColSpecs.length})`);
-            return;
+            throw('Mismatch');
         }
-        let newColSpecs = JSON.parse(JSON.stringify(this.bodyColSpecs)); // new copy
+        let newColSpecs = myClone(this.bodyColSpecs); // new copy
         for (let i=0; i<vals.length; i++) {
             newColSpecs[i].value = vals[i];
         }
@@ -396,46 +410,35 @@ class RowishTable {
     }
 
     addListeners() {
-        const bodyCells = this.tbody.find('td');
-        const headCells = this.thead.find('th');
-        const arrowyCells = this.table.find('.arrowy').filter(':visible');
+        // one handler on the table; namespaced so a second call can't stack it
+        this.table.off('keydown.rowish').on('keydown.rowish', '.arrowy', (e) => {
+            const steps = {ArrowLeft: -1, ArrowRight: 1, ArrowUp: null, ArrowDown: null};
+            if (!(e.key in steps)) return;
 
-        const numCols = headCells.length;
-        const numBodyCells = bodyCells.length;
-        const numArrowyCells = arrowyCells.length;
+            // measured now, not at bind time — and skipping the hidden header below md
+            const cells   = this.table.find('.arrowy').filter(':visible');
+            const numCols = this.thead.find('th').filter(':visible').length || 1; // 1 covers mobile
 
-        console.log('How many columns: ', numCols);
-        console.log('How many bodyCells: ', numBodyCells);
-        console.log('How many arrowyCells: ', numArrowyCells);
-        if (!numBodyCells) return; // trivial table
+            const active = $(e.currentTarget);
+            const indexOfActive = cells.index(active);
+            if (indexOfActive === -1) return;
 
-        arrowyCells.on("keydown", (e) => {
-            const active = $(document.activeElement).closest('.arrowy');
+            steps.ArrowUp   = -numCols;
+            steps.ArrowDown =  numCols;
 
-            let activesIndex = arrowyCells.index(active);
-            if (activesIndex == -1) {
-                return;
-            }
-
-            let targetCell = null;
-
-            let steps = {ArrowLeft: -1, ArrowRight: 1, ArrowUp: -numCols, ArrowDown: numCols};
             let step = steps[e.key];
-            if (step) {
-                e.preventDefault(); // Stop page from scrolling
-                // For d-md... the td's 'display' CSS-property is table-cell, vs flex
-                if (active.css('display') !== 'table-cell') step = Math.sign(step);
-                let targetIndex = activesIndex + step;
-                if (targetIndex >= numArrowyCells || targetIndex < 0) return;
-                targetCell = arrowyCells[targetIndex];
+
+            // For d-md... the td's 'display' is table-cell when columnar, flex when stacked
+            if (active.css('display') !== 'table-cell') {
+                step = Math.sign(step);
             }
 
-            //      w.r.        step/Abs(step), cf earlier version of fn
-            if (targetCell) {
-                $(targetCell).focus();
-            }
+            const targetIndex = indexOfActive + step;
+            if (targetIndex < 0 || targetIndex >= cells.length) return;
+            e.preventDefault();                       // swallow the key if not at the edges
+
+            cells.eq(targetIndex).trigger('focus');
         });
-
     }
 }
 function mergeClasses(some, others) {
@@ -446,10 +449,11 @@ function mergeClasses(some, others) {
     return result;
 }
 function setColSpecContent(target, value) {
+    let cookedValue = myClone(value);
     if (value instanceof Node || value instanceof $) {
-        target.append(value.clone());
+        target.append(cookedValue);
     } else {
-        target.text(value == null ? '' : value);
+        target.text(cookedValue == null ? '' : cookedValue);
     }
 }
 function setupRowishSample(makeSample) {
@@ -472,12 +476,11 @@ function setupRowishSample(makeSample) {
             newColumnSpec('', "Role"),
             newColumnSpec('', "Dept")
         ];
-        let myTable = new RowishTable(target, 'employees', headerColSpecs, bodyColSpecs, 'mx-1 w-75');
+        let myTable = new RowishTable(target, 'employees', "Employees", headerColSpecs, bodyColSpecs, 'mx-1 w-75');
 
         myTable.emitHeader("bold");
         myTable.emitRow(1, ['Jane Doe', 'jane@exampleeeevasdfasdfasddddddddddfasfdasfas', 'Editor'], '');
         myTable.emitRow(2, ['Johnasdfasdfasdfasfasfasfasfdadfa Doe', anchorVal, 'CEO'], '');
-        myTable.addListeners();
     }
 }
 

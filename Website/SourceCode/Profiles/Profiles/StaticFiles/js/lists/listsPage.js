@@ -164,35 +164,33 @@ function  emitTopOfPersonTable(people, target, isManage) {
     }
 
     let colSpecsRowishHeader = [
-        newColumnSpec(`col-4 bordE p-1 `,                         'NameOhName'),
-        newColumnSpec(`col-4 bordE p-1 `,                         'InstitutionOh'),
-        newColumnSpec(`col-3 bordE p-1 `,                         'Faculty Rank'),
-        newColumnSpec(`col-1 text-center `, 'Remove')
+        newColumnSpec(`col-4 bordE py-1 `,                                              'Name'),
+        newColumnSpec(`col-4 bordE py-1 `,                                              'Institution'),
+        newColumnSpec(`col-3 bordE py-1 `,                                              'Faculty Rank'),
+        newColumnSpec(`col-1 text-center align-middle align-items-center ps-1 pe-0`,    'Remove')
     ];
     let colSpecsRowishBody = [
-        newColumnSpec(`text-start bordE `,                         'NameOhName'),
-        newColumnSpec(`text-start bordE `,                         'InstitutionOh'),
-        newColumnSpec(`text-start bordE `,                         'Faculty Rank'),
-        newColumnSpec(`text-start text-md-center `, 'Remove')
+        newColumnSpec(`text-start bordE py-0 `,                                         ''),
+        newColumnSpec(`text-start bordE py-0 `,                                         ''),
+        newColumnSpec(`text-start bordE py-0 `,                                         ''),
+        newColumnSpec(`d-flex align-items-center justify-content-md-center py-0`,       '')
     ];
 
-    let rowish;
     let rowishTarget = $('#peopleDiv');
     if (isManage) {
         filterSelects(people, target, isManage);
-        rowish = gLists.peopleTableForManage = new RowishTable(rowishTarget,
+        gLists.rowishCurrPeople = gLists.peopleTableForManage = new RowishTable(rowishTarget,
             'mgmtTabCurrPeople', 'My Current People',
             colSpecsRowishHeader, colSpecsRowishBody,
             'bord9 w-100 ');
     }
     else {
-        rowish = gLists.peopleTableForSaved = new RowishTable(rowishTarget,
+        gLists.rowishCurrPeople = gLists.peopleTableForSaved = new RowishTable(rowishTarget,
             'saveTabCurrPeople', 'My Provisional People',
             colSpecsRowishHeader, colSpecsRowishBody,
             'bord9 w-100 ' );
     }
-    rowish.emitHeader('listsTableHeader');
-    rowish.emitRow(1, [1,2,3,4], 'highLightHover');
+    gLists.rowishCurrPeople.emitHeader('listsTableHeader');
 
     let colSpecs = [
         newColumnSpec(`${gCommon.cols4} bordE p-1`, 'Name'),
@@ -282,6 +280,10 @@ function filterPersonList(keys, vals) {
 }
 function emitPersonRows(people, target) {
     target.empty();
+    gLists.rowishCurrPeople.empty();
+    if (! gLists.currentTab) {
+        gLists.currentTab = 'manage';
+    }
 
     for (let i = 0; i < people.length; i++) {
         let person = people[i];
@@ -293,15 +295,18 @@ function emitPersonRows(people, target) {
         let checkboxId = `${rowId}-${gLists.currentTab}-removalCheck`;
         let removalCheckbox = $(`<input type="checkbox" pid="${person.PersonID}" class="removalCheck" id="${checkboxId}"/>`);
 
+
         let colSpecs = [newColumnSpec(`${gCommon.cols4} linked bordE`, person.DisplayName),
                         newColumnSpec(`${gCommon.cols4} linked bordE`, person.InstitutionName),
-                        //newColumnSpec(`${gLists.isManage ? gCommon.cols3 : gCommon.cols4} linked bordE`, person.FacultyRank)];
-                        newColumnSpec(`${gCommon.cols3} linked bordE`, person.FacultyRank)];
-        //if (gLists.isManage) {
-            colSpecs.push(newColumnSpec(`${gCommon.cols1} d-flex justify-content-center p-1`, removalCheckbox));
-        //}
+                        newColumnSpec(`${gCommon.cols3} linked bordE`, person.FacultyRank),
+                        newColumnSpec(`${gCommon.cols1} d-flex justify-content-center p-1`, removalCheckbox)];
 
         let row = makeRowWithColumns(target, rowId, colSpecs, 'bord9_3 highlightHover myMs-0');
+
+        gLists.rowishCurrPeople.emitRow(i, [   person.DisplayName,
+                                                    person.InstitutionName,
+                                                    person.FacultyRank,
+                                                    removalCheckbox], 'highlightHover');
 
         let profileLink = `${g.profilesRootURL}/display/${person.NodeID}`;
         let linkFn = () => {

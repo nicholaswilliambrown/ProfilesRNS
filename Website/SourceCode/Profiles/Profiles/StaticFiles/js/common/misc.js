@@ -317,7 +317,7 @@ class RowishTable {
         this.headerColSpecs = headerColSpecs;
         this.bodyColSpecs = myClone(bodyColSpecs); // new copy, a la scala
 
-        let container = $(`<div class="container px-0 mx-0"></div>`);
+        let container = $(`<div class="container-fluid px-0 mx-0 w-100"></div>`);
         target.append(container);
 
         this.table = $(`<table id="${id}" class="${netTableClasses}" role="table" aria-label="${label}"></table>`);
@@ -336,7 +336,7 @@ class RowishTable {
         this.cellStructureClasses = {
             td:         "d-flex d-md-table-cell",
             mobileHead: "col-4 fw-bold d-md-none text-break",
-            value:      "col-8 col-md-auto text-break"
+            value:      "col-8 col-md-auto text-break "
         };
 
         this.rowStructureMisc = {
@@ -347,7 +347,7 @@ class RowishTable {
             body:       'role="cell"',
             header:     'scope="col" role="columnheader"'
         };
-        this.addListeners();
+        //this.addListeners();
     }
     emitHelper(target, isHeader, rowIndex, bodyColSpecs, rowCustomClasses) {
         let rowType = isHeader ? 'header' : 'body';
@@ -363,16 +363,17 @@ class RowishTable {
             let headerColSpec = this.headerColSpecs[i];
             let headerClasses = headerColSpec.classes;
             let headerValue = headerColSpec.value;
-            let value = isHeader    ? headerValue
-                                    : bodyColSpecs[i].value;
+            let columnClasses = isHeader ? ''           : bodyColSpecs[i].classes;
+            let value = isHeader         ? headerValue  : bodyColSpecs[i].value;
 
             let cellNetClasses = isHeader   ? headerClasses
-                                            : mergeClasses(bodyColSpecs[i].classes, this.cellStructureClasses.td);
+                                            : mergeClasses(columnClasses, this.cellStructureClasses.td);
             let cellStructureMisc = this.cellStructureMisc[rowType];
 
-            let colDefStr = `<${tdOrTh} id="${this.id}${rowIndex}Col${i}" class="${cellNetClasses} arrowy" ${cellStructureMisc}></${tdOrTh}>`;
+            //let colDefStr = `<${tdOrTh} class="${this.id}${rowIndex}Col${i} ${cellNetClasses} arrowy" ${cellStructureMisc}></${tdOrTh}>`;
+            let colDefStr = `<${tdOrTh} class="${this.id}${rowIndex}Col${i} ${cellNetClasses}" ${cellStructureMisc}></${tdOrTh}>`;
             let col = $(colDefStr);
-            col.attr('tabIndex', i === 0 ? '0' : '-1');   // all focusable, only the first is a tab stop
+            //col.attr('tabIndex', i === 0 ? '0' : '-1');   // all focusable, only the first is a tab stop
             row.append(col);
 
             if (! isHeader) {
@@ -380,8 +381,10 @@ class RowishTable {
                 setColSpecContent(mobileDiv, headerValue)
                 col.append(mobileDiv);
             }
-            let valueDiv = $(`<div class="${this.cellStructureClasses.value}"></div>`);
+            let valueClasses = mergeClasses(columnClasses, this.cellStructureClasses.value);
+            let valueDiv = $(`<div class="${valueClasses}"></div>`);
             col.append(valueDiv);
+            valueDiv.removeClass('bordE'); // bordE already in outer cell-div
             setColSpecContent(valueDiv, value)
         }
         target.append(row);
@@ -396,6 +399,9 @@ class RowishTable {
         let colSpecs = this.updateBodyValues(vals);
         this.emitHelper(this.tbody, false, rowIndex, colSpecs, rowClass);
     }
+    empty() {
+        this.tbody.empty();
+    }
 
     updateBodyValues(vals) {
         if (! Array.isArray(vals) || vals.length != this.bodyColSpecs.length) {
@@ -409,37 +415,37 @@ class RowishTable {
         return newColSpecs;
     }
 
-    addListeners() {
-        // one handler on the table; namespaced so a second call can't stack it
-        this.table.off('keydown.rowish').on('keydown.rowish', '.arrowy', (e) => {
-            const steps = {ArrowLeft: -1, ArrowRight: 1, ArrowUp: null, ArrowDown: null};
-            if (!(e.key in steps)) return;
-
-            // measured now, not at bind time — and skipping the hidden header below md
-            const cells   = this.table.find('.arrowy').filter(':visible');
-            const numCols = this.thead.find('th').filter(':visible').length || 1; // 1 covers mobile
-
-            const active = $(e.currentTarget);
-            const indexOfActive = cells.index(active);
-            if (indexOfActive === -1) return;
-
-            steps.ArrowUp   = -numCols;
-            steps.ArrowDown =  numCols;
-
-            let step = steps[e.key];
-
-            // For d-md... the td's 'display' is table-cell when columnar, flex when stacked
-            if (active.css('display') !== 'table-cell') {
-                step = Math.sign(step);
-            }
-
-            const targetIndex = indexOfActive + step;
-            if (targetIndex < 0 || targetIndex >= cells.length) return;
-            e.preventDefault();                       // swallow the key if not at the edges
-
-            cells.eq(targetIndex).trigger('focus');
-        });
-    }
+    // addListeners() {
+    //     // one handler on the table; namespaced so a second call can't stack it
+    //     this.table.off('keydown.rowish').on('keydown.rowish', '.arrowy', (e) => {
+    //         const steps = {ArrowLeft: -1, ArrowRight: 1, ArrowUp: null, ArrowDown: null};
+    //         if (!(e.key in steps)) return;
+    //
+    //         // measured now, not at bind time — and skipping the hidden header below md
+    //         const cells   = this.table.find('.arrowy').filter(':visible');
+    //         const numCols = this.thead.find('th').filter(':visible').length || 1; // 1 covers mobile
+    //
+    //         const active = $(e.currentTarget);
+    //         const indexOfActive = cells.index(active);
+    //         if (indexOfActive === -1) return;
+    //
+    //         steps.ArrowUp   = -numCols;
+    //         steps.ArrowDown =  numCols;
+    //
+    //         let step = steps[e.key];
+    //
+    //         // For d-md... the td's 'display' is table-cell when columnar, flex when stacked
+    //         if (active.css('display') !== 'table-cell') {
+    //             step = Math.sign(step);
+    //         }
+    //
+    //         const targetIndex = indexOfActive + step;
+    //         if (targetIndex < 0 || targetIndex >= cells.length) return;
+    //         e.preventDefault();                       // swallow the key if not at the edges
+    //
+    //         cells.eq(targetIndex).trigger('focus');
+    //     });
+    // }
 }
 function mergeClasses(some, others) {
     if (!some) some = '';

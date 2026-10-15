@@ -61,8 +61,6 @@ async function prepareManagePage(target) {
     }
 }
 function addManageTabContent(target) {
-    target.empty(); // fresh start
-
     showThisTabContent($('#manage'));
     $('#saveCopy').on('click', () => {
         adjustToTab($(`#savedLists`));
@@ -321,7 +319,7 @@ function emitPersonsAndPaging(people, outerTarget) {
 
     let navPagination = $('<nav aria-label="Pagination"></nav>')
     outerTarget.append(navPagination);
-    let pagingRow = makeRowWithColumns(navPagination, 'pagingRow', colSpecs, 'bord9_3 pb-1 mx-0 negTopMargin');
+    let pagingRow = makeRowWithColumns(navPagination, 'pagingRow', colSpecs, 'bord9_3 py-1 mx-0 negTopMargin');
 
     let debug = 1;
     if (debug) {

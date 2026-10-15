@@ -3,9 +3,6 @@ gLists.noRank = '--';
 gLists.rememberedTab = 'rememberedTab';
 gLists.manage = {
     setup: async () => {
-        let makeSample = false;
-        setupRowishSample(makeSample);
-
         await getPeopleListInfo();
         gCommon.pageTitle = await setTabTitleAndOrFavicon(`My Person List (${gLists.numPeople})`);
 
@@ -13,15 +10,16 @@ gLists.manage = {
 
         hideTabsContent();
 
-        let target = $('#peopleDivTable');
+        adjustManageToSaveTabNavigation();
 
-        addManageTabContent(target); // even if blocked from prepare...()
-        await prepareManagePage(target);
+        await populateManageTab();
     }
 };
-async function prepareManagePage(target) {
+async function populateManageTab() {
     if (!gLists.avoidReentrance) {
-        gLists.avoidReentrance = true;
+        //gLists.avoidReentrance = true;
+
+        let target = $('#peopleDivTable');
 
         specialHandling();
 
@@ -51,16 +49,35 @@ async function prepareManagePage(target) {
             target.removeAttr('hidden')
         }
 
+        // establish gLists.rowishCurrPeople, for use on manage and saved tabs
+        parsePersonListData(gLists.people, target, true);
+        emitCurrPeopleWithButtons(target,
+                                $("#manageContent"),
+                                gLists.people,
+                       true);
 
         if (gLists.currentTab != 'manage') {
             adjustToTab($(`#${rememberedTab}`));
         }
-        else {
-            parsePersonListData(gLists.people, target, true);
-        }
     }
 }
-function addManageTabContent(target) {
+function emitCurrPeopleWithButtons(target, lonelyTarget, people, isManage) {
+    target.append($('<div class="fw-bold">begin table</div>'));
+
+    let tableWrapperDiv = $('<div></div>');
+    target.append(tableWrapperDiv);
+    target = tableWrapperDiv;
+
+    if (people.length == 0) {
+        noPeopleOnList(lonelyTarget);
+    }
+    else {
+        emitTopOfPersonTable(people, target, isManage);
+        emitPersonsAndPaging(people, target);
+    }
+    target.append($('<div class="fw-bold">end table</div>'));
+}
+function adjustManageToSaveTabNavigation() {
     showThisTabContent($('#manage'));
     $('#saveCopy').on('click', () => {
         adjustToTab($(`#savedLists`));
@@ -132,16 +149,20 @@ function noPeopleOnList(target) {
                     </div>`))
 }
 function parsePersonListData(people, target, isManage) {
-    gLists.isManage = isManage ? isManage : false;
     if (!isManage) {
         let peopleTableSuperHeader = $('<div id="currentListPeople" class="bold ps-0 ms-0">My Current List</div>');
         target.append(peopleTableSuperHeader);
     }
 
-    let currentPeopleTable = $(`<div id="currentPeopleTable"></div>`);
-    target.append(currentPeopleTable);
+    let currentPeopleTable = $(`#currentPeopleTable`);
+    if (! $(`#currentPeopleTable`).length) {
+        currentPeopleTable = $(`<div id="currentPeopleTable"></div>`);
+        target.append(currentPeopleTable);
+    }
+    currentPeopleTable.empty();
 
     let noPeopleTarget = isManage ? $("#manageContent") : currentPeopleTable;
+
     if (people.length == 0) {
         noPeopleOnList($(noPeopleTarget));
     }
@@ -179,9 +200,10 @@ function  emitTopOfPersonTable(people, target, isManage) {
     ];
 
     if (isManage) {
-        filterSelects(people, target, isManage);
+        filterSelects(people, target);
         if (gLists.rowishCurrPeople) {
             gLists.rowishCurrPeople.emptyBody();
+            //goto page 1
         }
         else {
             gLists.rowishCurrPeople = new RowishTable(target,
@@ -276,7 +298,7 @@ function filterPersonList(keys, vals) {
     return result;
 }
 function emitPersonRows(people, target) {
-    gLists.rowishCurrPeople.emptyBody();
+    //gLists.rowishCurrPeople.emptyBody();
     if (! gLists.currentTab) {
         gLists.currentTab = 'manage';
     }
@@ -313,7 +335,6 @@ function emitPersonRows(people, target) {
 }
 function emitPersonsAndPaging(people, outerTarget) {
     let currentPeopleTable = $("#currentPeopleTable");
-    outerTarget.append(currentPeopleTable);
 
     let colSpecs = [newColumnSpec(`${gCommon.cols12} d-flex justify-content-center`)];
 

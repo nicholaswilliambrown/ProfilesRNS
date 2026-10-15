@@ -223,7 +223,7 @@ function parseTextVersion(moduleJson) {
     let target = $('#mapTextInner');
 
     if (!jsonData || !jsonData.length) {
-        target.append('<div class="bold">No (mappable) people to display</div>');
+        target.html('<div class="bold">No (mappable) people to display</div>');
     }
     else {
 

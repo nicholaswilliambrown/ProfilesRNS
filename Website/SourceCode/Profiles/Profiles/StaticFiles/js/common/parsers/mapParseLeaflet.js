@@ -44,9 +44,11 @@ function leafletMapLoadPins() {
             setTimeout("gMapTab.people[" + i + "].pin.addTo(gMapTab.lMap);", 100 * i);
         }
     }
-    let pinGroup = new L.featureGroup(markers);
-    let bounds = pinGroup.getBounds();
-    gMapTab.lMap.fitBounds(bounds);
+    if (markers.length) {
+        let pinGroup = new L.featureGroup(markers);
+        let bounds = pinGroup.getBounds();
+        gMapTab.lMap.fitBounds(bounds);
+    }
 }
 function leafletMapLoadLines() {
     // create network lines

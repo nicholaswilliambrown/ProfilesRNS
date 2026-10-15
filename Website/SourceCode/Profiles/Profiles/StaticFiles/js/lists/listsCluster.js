@@ -167,7 +167,7 @@ function setupHtml(target) {
         'External Connection'
     ]);
 
-    makeRowWithColumns(clusterCriteria, 'CriteriaHeader', colSpecs, 'listsTableHeader bord9 myMs-0');
+    makeRowWithColumns(clusterCriteria, 'CriteriaHeader', colSpecs, 'listsTableHeader bord9 ');
 
     emitCriteriaRows(clusterCriteria);
 
@@ -199,7 +199,7 @@ function emitCriteriaRows(target) {
             internalCheckbox,
             externalCheckbox
         ]);
-        makeRowWithColumns(target, 'CriteriaRow'+i, rowColSpecs, 'odd bord9 myMs-0');
+        makeRowWithColumns(target, 'CriteriaRow'+i, rowColSpecs, 'odd bord9 ');
     }
 }
 function emitCriteriaListCode() {

@@ -15,10 +15,10 @@ function emitSavedListQuasiButtons(target) {
     ];
 
     // header row
-    makeRowWithColumns(target, 'saveActionsHeader', colSpecs, 'mt-1 myMs-0');
+    makeRowWithColumns(target, 'saveActionsHeader', colSpecs, 'mt-1 ');
 
     let actionId = 'saveActions';
-    let actionsRow = makeRowWithColumns(target, actionId, colSpecs, "myMs-0");
+    let actionsRow = makeRowWithColumns(target, actionId, colSpecs, "");
     let actionsLhs = actionsRow.find(`#${actionId}Col0`);
     let actionsRhs = actionsRow.find(`#${actionId}Col1`);
 

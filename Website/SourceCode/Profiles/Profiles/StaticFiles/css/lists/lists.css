@@ -78,8 +78,8 @@
     width: 128px;
     margin-bottom:18px;
 }
-.myMs-0 {
-    margin-left: 0 !important;
+.negTopMargin {
+    margin-top: -16px !important;
 }
 #nameOverlay {
     display: none; /* Hidden by default */

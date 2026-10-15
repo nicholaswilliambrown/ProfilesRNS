@@ -392,14 +392,16 @@ class RowishTable {
     }
 
     emitHeader(rowClass) {
-        this.emitHelper(this.thead, true, 'Header', null, rowClass);
+        let row = this.emitHelper(this.thead, true, 'Header', null, rowClass);
+        return row;
     }
 
     emitRow(rowIndex, vals, rowClass) {
         let colSpecs = this.updateBodyValues(vals);
-        this.emitHelper(this.tbody, false, rowIndex, colSpecs, rowClass);
+        let row = this.emitHelper(this.tbody, false, rowIndex, colSpecs, rowClass);
+        return row;
     }
-    empty() {
+    emptyBody() {
         this.tbody.empty();
     }
 

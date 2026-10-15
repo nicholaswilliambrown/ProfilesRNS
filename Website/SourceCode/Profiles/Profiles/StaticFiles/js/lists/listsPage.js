@@ -3,7 +3,7 @@ gLists.noRank = '--';
 gLists.rememberedTab = 'rememberedTab';
 gLists.manage = {
     setup: async () => {
-        let makeSample = true;
+        let makeSample = false;
         setupRowishSample(makeSample);
 
         await getPeopleListInfo();
@@ -12,10 +12,10 @@ gLists.manage = {
         $('.modalupdate').hide();
 
         hideTabsContent();
-        let target = $('#peopleDivTable');
-        target.empty(); // fresh start
-        addManageTabContent(target); // even if blocked from prepare...()
 
+        let target = $('#peopleDivTable');
+
+        addManageTabContent(target); // even if blocked from prepare...()
         await prepareManagePage(target);
     }
 };
@@ -55,11 +55,15 @@ async function prepareManagePage(target) {
         if (gLists.currentTab != 'manage') {
             adjustToTab($(`#${rememberedTab}`));
         }
+        else {
+            parsePersonListData(gLists.people, target, true);
+        }
     }
 }
 function addManageTabContent(target) {
+    target.empty(); // fresh start
+
     showThisTabContent($('#manage'));
-    parsePersonListData(gLists.people, target, true);
     $('#saveCopy').on('click', () => {
         adjustToTab($(`#savedLists`));
     });
@@ -176,30 +180,25 @@ function  emitTopOfPersonTable(people, target, isManage) {
         newColumnSpec(`d-flex align-items-center justify-content-md-center py-0`,       '')
     ];
 
-    let rowishTarget = $('#peopleDiv');
     if (isManage) {
         filterSelects(people, target, isManage);
-        gLists.rowishCurrPeople = gLists.peopleTableForManage = new RowishTable(rowishTarget,
-            'mgmtTabCurrPeople', 'My Current People',
-            colSpecsRowishHeader, colSpecsRowishBody,
-            'bord9 w-100 ');
+        if (gLists.rowishCurrPeople) {
+            gLists.rowishCurrPeople.emptyBody();
+        }
+        else {
+            gLists.rowishCurrPeople = new RowishTable(target,
+                'mgmtTabCurrPeople', 'My Current People',
+                colSpecsRowishHeader, colSpecsRowishBody,
+                'bord9 w-100 ');
+            gLists.rowishCurrPeople.emitHeader('listsTableHeader');
+        }
     }
     else {
-        gLists.rowishCurrPeople = gLists.peopleTableForSaved = new RowishTable(rowishTarget,
+        gLists.peopleTableForSaved = new RowishTable(target,
             'saveTabCurrPeople', 'My Provisional People',
             colSpecsRowishHeader, colSpecsRowishBody,
             'bord9 w-100 ' );
     }
-    gLists.rowishCurrPeople.emitHeader('listsTableHeader');
-
-    let colSpecs = [
-        newColumnSpec(`${gCommon.cols4} bordE p-1`, 'Name'),
-        newColumnSpec(`${gCommon.cols4} bordE p-1`, 'Institution'),
-        newColumnSpec(`${gCommon.cols3} bordE p-1`, 'Faculty Rank'),
-        newColumnSpec(`${gCommon.cols1} p-1 d-flex justify-content-center`, 'Remove')
-    ];
-
-    makeRowWithColumns(target, 'ListHeader', colSpecs, 'listsTableHeader bord9 myMs-0');
 }
 function filterSelects(people, target) {
     let colSpecs0 = [   newColumnSpec(`${gCommon.cols6}`, 'Institution'),
@@ -207,7 +206,7 @@ function filterSelects(people, target) {
                         newColumnSpec(`${gCommon.cols2}`, '')];
 
     let rowId = 'filterSelects';
-    let row = makeRowWithColumns(target, rowId, colSpecs0, 'bold mb-2 myMs-0');
+    let row = makeRowWithColumns(target, rowId, colSpecs0, 'bold mb-2 ');
 
     let institutionSelect = $(`<select id="institutionSelect" class="ms-1 w-100"><option value="">(all institutions)</option></select>`);
     let facultySelect = $(`<select id="facultySelect" class="ms-1 w-100"><option value="">(all faculty ranks)</option></select>`);
@@ -279,8 +278,7 @@ function filterPersonList(keys, vals) {
     return result;
 }
 function emitPersonRows(people, target) {
-    target.empty();
-    gLists.rowishCurrPeople.empty();
+    gLists.rowishCurrPeople.emptyBody();
     if (! gLists.currentTab) {
         gLists.currentTab = 'manage';
     }
@@ -301,9 +299,9 @@ function emitPersonRows(people, target) {
                         newColumnSpec(`${gCommon.cols3} linked bordE`, person.FacultyRank),
                         newColumnSpec(`${gCommon.cols1} d-flex justify-content-center p-1`, removalCheckbox)];
 
-        let row = makeRowWithColumns(target, rowId, colSpecs, 'bord9_3 highlightHover myMs-0');
+        //let row = makeRowWithColumns(target, rowId, colSpecs, 'bord9_3 highlightHover ');
 
-        gLists.rowishCurrPeople.emitRow(i, [   person.DisplayName,
+        let row = gLists.rowishCurrPeople.emitRow(i, [   person.DisplayName,
                                                     person.InstitutionName,
                                                     person.FacultyRank,
                                                     removalCheckbox], 'highlightHover');
@@ -316,14 +314,14 @@ function emitPersonRows(people, target) {
     }
 }
 function emitPersonsAndPaging(people, outerTarget) {
-    let peopleRows = $(`<div id="peopleRows"></div>`);
-    outerTarget.append(peopleRows);
+    let currentPeopleTable = $("#currentPeopleTable");
+    outerTarget.append(currentPeopleTable);
 
     let colSpecs = [newColumnSpec(`${gCommon.cols12} d-flex justify-content-center`)];
 
     let navPagination = $('<nav aria-label="Pagination"></nav>')
     outerTarget.append(navPagination);
-    let pagingRow = makeRowWithColumns(navPagination, 'pagingRow', colSpecs, 'bord9_3 pt-1 pb-1 myMs-0');
+    let pagingRow = makeRowWithColumns(navPagination, 'pagingRow', colSpecs, 'bord9_3 pb-1 mx-0 negTopMargin');
 
     let debug = 1;
     if (debug) {
@@ -335,12 +333,12 @@ function emitPersonsAndPaging(people, outerTarget) {
         }
     }
 
-    setupListAndPagination(peopleRows, people, [15, 25, 50, 100], pagingRow, gLists.currentTab);
+    setupListAndPagination(currentPeopleTable, people, [15, 25, 50, 100], pagingRow, gLists.currentTab);
 
     let button = $(`<button type="button" class="btn gradientLists" id="removalButton-${gLists.currentTab}">Remove Selected People</button>`);
     button.on('click', removeSelectedPersons);
     let colSpecs2 = [newColumnSpec(`${gCommon.cols12} d-flex justify-content-end pe-0`, button)];
-    makeRowWithColumns(outerTarget, 'removalRow-${gLists.currentTab}', colSpecs2, 'mt-1 myMs-0');
+    makeRowWithColumns(outerTarget, 'removalRow-${gLists.currentTab}', colSpecs2, 'mt-1  me-0');
 }
 
 async function removeSelectedPersons(e) {

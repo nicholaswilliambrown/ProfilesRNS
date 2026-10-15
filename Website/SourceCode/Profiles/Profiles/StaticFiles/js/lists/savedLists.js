@@ -41,7 +41,7 @@ function parseSavedListData(target) {
                 'Updated Date',
                 'Select'];
         let colSpecs = makeColSpecsSaves(vals);
-        makeRowWithColumns(target, 'SavedListsHeader', colSpecs, 'listsTableHeader bord9 myMs-0');
+        makeRowWithColumns(target, 'SavedListsHeader', colSpecs, 'listsTableHeader bord9 ');
 
         for (let i = 0; i < saves.length; i++) {
             let s = saves[i];
@@ -55,7 +55,7 @@ function parseSavedListData(target) {
                     s.UpdatedDate,
                     removalCheckbox];
             colSpecs = makeColSpecsSaves(vals);
-            makeRowWithColumns(target, id, colSpecs, 'bord9 highlightHover myMs-0');
+            makeRowWithColumns(target, id, colSpecs, 'bord9 highlightHover ');
         }
         target.append($('<hr/>'));
     }

@@ -126,10 +126,6 @@ function noPeopleOnList(target) {
 function parsePersonListData(people, target, isManage) {
     target.empty();
 
-    if (!isManage) {
-        let peopleTableSuperHeader = $('<div id="currentListPeople" class="bold ps-0 ms-0">My Current List</div>');
-        target.append(peopleTableSuperHeader);
-    }
     let noPeopleTarget = isManage ? $("#manageContent") : target;
 
     if (people.length == 0) {
@@ -182,6 +178,7 @@ function  emitTopOfPersonTable(people, target, isManage) {
             'saveTabCurrPeople', 'My Provisional People',
             colSpecsRowishHeader, colSpecsRowishBody,
             'bord9 w-100 ' );
+        gLists.peopleTableForSaved.emitHeader('listsTableHeader');
     }
 }
 function filterSelects(people, target) {

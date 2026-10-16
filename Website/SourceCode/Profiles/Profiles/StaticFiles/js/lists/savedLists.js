@@ -20,7 +20,7 @@ gLists.savedLists = {
 
         parseSavedListData(target);
 
-        let currPeopleDivTable = $('<div id="currPeopleTitle" class="bold ps-0 ms-0">My Current List</div>');
+        let currPeopleDivTable = $('<div id="currPeopleTitle" class="ps-0 ms-0">My Current List</div>');
         target.append(currPeopleDivTable);
 
         parsePersonListData(gLists.people, currPeopleDivTable);

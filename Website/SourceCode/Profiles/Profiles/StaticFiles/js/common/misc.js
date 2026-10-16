@@ -347,7 +347,6 @@ class RowishTable {
             body:       'role="cell"',
             header:     'scope="col" role="columnheader"'
         };
-        //this.addListeners();
     }
     emitHelper(target, isHeader, rowIndex, bodyColSpecs, rowCustomClasses) {
         let rowType = isHeader ? 'header' : 'body';
@@ -370,10 +369,9 @@ class RowishTable {
                                             : mergeClasses(columnClasses, this.cellStructureClasses.td);
             let cellStructureMisc = this.cellStructureMisc[rowType];
 
-            //let colDefStr = `<${tdOrTh} class="${this.id}${rowIndex}Col${i} ${cellNetClasses} arrowy" ${cellStructureMisc}></${tdOrTh}>`;
             let colDefStr = `<${tdOrTh} class="${this.id}${rowIndex}Col${i} ${cellNetClasses}" ${cellStructureMisc}></${tdOrTh}>`;
             let col = $(colDefStr);
-            //col.attr('tabIndex', i === 0 ? '0' : '-1');   // all focusable, only the first is a tab stop
+
             row.append(col);
 
             if (! isHeader) {
@@ -401,9 +399,6 @@ class RowishTable {
         let row = this.emitHelper(this.tbody, false, rowIndex, colSpecs, rowClass);
         return row;
     }
-    emptyBody() {
-        this.tbody.empty();
-    }
 
     updateBodyValues(vals) {
         if (! Array.isArray(vals) || vals.length != this.bodyColSpecs.length) {
@@ -416,38 +411,6 @@ class RowishTable {
         }
         return newColSpecs;
     }
-
-    // addListeners() {
-    //     // one handler on the table; namespaced so a second call can't stack it
-    //     this.table.off('keydown.rowish').on('keydown.rowish', '.arrowy', (e) => {
-    //         const steps = {ArrowLeft: -1, ArrowRight: 1, ArrowUp: null, ArrowDown: null};
-    //         if (!(e.key in steps)) return;
-    //
-    //         // measured now, not at bind time — and skipping the hidden header below md
-    //         const cells   = this.table.find('.arrowy').filter(':visible');
-    //         const numCols = this.thead.find('th').filter(':visible').length || 1; // 1 covers mobile
-    //
-    //         const active = $(e.currentTarget);
-    //         const indexOfActive = cells.index(active);
-    //         if (indexOfActive === -1) return;
-    //
-    //         steps.ArrowUp   = -numCols;
-    //         steps.ArrowDown =  numCols;
-    //
-    //         let step = steps[e.key];
-    //
-    //         // For d-md... the td's 'display' is table-cell when columnar, flex when stacked
-    //         if (active.css('display') !== 'table-cell') {
-    //             step = Math.sign(step);
-    //         }
-    //
-    //         const targetIndex = indexOfActive + step;
-    //         if (targetIndex < 0 || targetIndex >= cells.length) return;
-    //         e.preventDefault();                       // swallow the key if not at the edges
-    //
-    //         cells.eq(targetIndex).trigger('focus');
-    //     });
-    // }
 }
 function mergeClasses(some, others) {
     if (!some) some = '';

@@ -10,8 +10,8 @@ function saveCurrentList() {
 
 function emitSavedListQuasiButtons(target) {
     let colSpecs = [
-        newColumnSpec(`${gCommon.cols7} bold p-1`, 'Modify one or more saved lists'),
-        newColumnSpec(`${gCommon.cols5} bold p-1`, 'Modify your current person list')
+        newColumnSpec(`${gCommon.cols7} bold p-1`, 'Modify your current person list'),
+        newColumnSpec(`${gCommon.cols5} bold p-1`, 'Modify one or more saved lists')
     ];
 
     // header row
@@ -29,7 +29,7 @@ function emitSavedListQuasiButtons(target) {
 }
 function actionHelper(side, id, text, onClick) {
     side.append($('<br/>'));
-    let actionButton = $(`<button id ="${id}" type="button" class="ms-1 link-ish"></button>`);
+    let actionButton = $(`<button id ="${id}" type="button" class="ms-1 link-ish text-start d-inline-flex align-items-start"></button>`);
     actionButton.append($(`<img alt="" class="pb-1 me-2" src="${g.profilesRootURL}/StaticFiles/img/search/icon_squareArrow.gif"/>`));
     actionButton.append($(`<span>${text}</span>`));
     actionButton.on('click', onClick);

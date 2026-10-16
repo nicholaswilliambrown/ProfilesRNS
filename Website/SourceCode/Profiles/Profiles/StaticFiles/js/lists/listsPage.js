@@ -19,8 +19,6 @@ async function populateManageTab() {
     if (!gLists.avoidReentrance) {
         //gLists.avoidReentrance = true;
 
-        let target = $('#peopleDivTable');
-
         specialHandling();
 
         gLists.currentTab = 'manage'; // unless we find a saved tab in the following
@@ -45,38 +43,15 @@ async function populateManageTab() {
             sessionStorage.removeItem(gLists.rememberedTab);
             gLists.currentTab = rememberedTab;
         }
-        else {
-            target.removeAttr('hidden')
-        }
 
-        // establish gLists.rowishCurrPeople, for use on manage and saved tabs
-        parsePersonListData(gLists.people, target, true);
-        emitCurrPeopleWithButtons(target,
-                                $("#manageContent"),
-                                gLists.people,
-                       true);
+        parsePersonListData(gLists.people, $('#peopleDivTable'), true);
 
         if (gLists.currentTab != 'manage') {
             adjustToTab($(`#${rememberedTab}`));
         }
     }
 }
-function emitCurrPeopleWithButtons(target, lonelyTarget, people, isManage) {
-    target.append($('<div class="fw-bold">begin table</div>'));
 
-    let tableWrapperDiv = $('<div></div>');
-    target.append(tableWrapperDiv);
-    target = tableWrapperDiv;
-
-    if (people.length == 0) {
-        noPeopleOnList(lonelyTarget);
-    }
-    else {
-        emitTopOfPersonTable(people, target, isManage);
-        emitPersonsAndPaging(people, target);
-    }
-    target.append($('<div class="fw-bold">end table</div>'));
-}
 function adjustManageToSaveTabNavigation() {
     showThisTabContent($('#manage'));
     $('#saveCopy').on('click', () => {
@@ -149,33 +124,28 @@ function noPeopleOnList(target) {
                     </div>`))
 }
 function parsePersonListData(people, target, isManage) {
+    target.empty();
+
     if (!isManage) {
         let peopleTableSuperHeader = $('<div id="currentListPeople" class="bold ps-0 ms-0">My Current List</div>');
         target.append(peopleTableSuperHeader);
     }
-
-    let currentPeopleTable = $(`#currentPeopleTable`);
-    if (! $(`#currentPeopleTable`).length) {
-        currentPeopleTable = $(`<div id="currentPeopleTable"></div>`);
-        target.append(currentPeopleTable);
-    }
-    currentPeopleTable.empty();
-
-    let noPeopleTarget = isManage ? $("#manageContent") : currentPeopleTable;
+    let noPeopleTarget = isManage ? $("#manageContent") : target;
 
     if (people.length == 0) {
         noPeopleOnList($(noPeopleTarget));
     }
     else {
-        emitTopOfPersonTable(people, currentPeopleTable, isManage);
-        emitPersonsAndPaging(people, currentPeopleTable);
+        emitTopOfPersonTable(people, target, isManage);
+        emitPersonsAndPaging(people, target);
     }
 }
 
-function setupListAndPagination(itemsTarget, people, pageSizes, pagingTarget, label) {
+function setupPagination(itemsTarget, people, pageSizes, pagingTarget, label) {
     let pagination = new PagingCached(people, pageSizes, emitPersonRows, itemsTarget, pagingTarget, label);
     pagination.display(itemsTarget);
     pagination.emitPagingRow(pagingTarget);
+    return pagination;
 }
 function  emitTopOfPersonTable(people, target, isManage) {
     if (gCommon.numPersons != 1) { // == 1 is in the default static html
@@ -201,17 +171,11 @@ function  emitTopOfPersonTable(people, target, isManage) {
 
     if (isManage) {
         filterSelects(people, target);
-        if (gLists.rowishCurrPeople) {
-            gLists.rowishCurrPeople.emptyBody();
-            //goto page 1
-        }
-        else {
-            gLists.rowishCurrPeople = new RowishTable(target,
-                'mgmtTabCurrPeople', 'My Current People',
-                colSpecsRowishHeader, colSpecsRowishBody,
-                'bord9 w-100 ');
-            gLists.rowishCurrPeople.emitHeader('listsTableHeader');
-        }
+        gLists.rowishCurrPeople = new RowishTable(target,
+            'mgmtTabCurrPeople', 'My Current People',
+            colSpecsRowishHeader, colSpecsRowishBody,
+            'bord9 w-100 ');
+        gLists.rowishCurrPeople.emitHeader('listsTableHeader');
     }
     else {
         gLists.peopleTableForSaved = new RowishTable(target,
@@ -313,14 +277,6 @@ function emitPersonRows(people, target) {
         let checkboxId = `${rowId}-${gLists.currentTab}-removalCheck`;
         let removalCheckbox = $(`<input type="checkbox" pid="${person.PersonID}" class="removalCheck" id="${checkboxId}"/>`);
 
-
-        let colSpecs = [newColumnSpec(`${gCommon.cols4} linked bordE`, person.DisplayName),
-                        newColumnSpec(`${gCommon.cols4} linked bordE`, person.InstitutionName),
-                        newColumnSpec(`${gCommon.cols3} linked bordE`, person.FacultyRank),
-                        newColumnSpec(`${gCommon.cols1} d-flex justify-content-center p-1`, removalCheckbox)];
-
-        //let row = makeRowWithColumns(target, rowId, colSpecs, 'bord9_3 highlightHover ');
-
         let row = gLists.rowishCurrPeople.emitRow(i, [   person.DisplayName,
                                                     person.InstitutionName,
                                                     person.FacultyRank,
@@ -333,13 +289,11 @@ function emitPersonRows(people, target) {
         row.find(`.linked`).on('click', linkFn);
     }
 }
-function emitPersonsAndPaging(people, outerTarget) {
-    let currentPeopleTable = $("#currentPeopleTable");
-
+function emitPersonsAndPaging(people, target) {
     let colSpecs = [newColumnSpec(`${gCommon.cols12} d-flex justify-content-center`)];
 
     let navPagination = $('<nav aria-label="Pagination"></nav>')
-    outerTarget.append(navPagination);
+    target.append(navPagination);
     let pagingRow = makeRowWithColumns(navPagination, 'pagingRow', colSpecs, 'bord9_3 py-1 mx-0 negTopMargin');
 
     let debug = 1;
@@ -351,13 +305,12 @@ function emitPersonsAndPaging(people, outerTarget) {
             }
         }
     }
-
-    setupListAndPagination(currentPeopleTable, people, [15, 25, 50, 100], pagingRow, gLists.currentTab);
+    setupPagination(target, people, [15, 25, 50, 100], pagingRow, gLists.currentTab);
 
     let button = $(`<button type="button" class="btn gradientLists" id="removalButton-${gLists.currentTab}">Remove Selected People</button>`);
     button.on('click', removeSelectedPersons);
     let colSpecs2 = [newColumnSpec(`${gCommon.cols12} d-flex justify-content-end pe-0`, button)];
-    makeRowWithColumns(outerTarget, 'removalRow-${gLists.currentTab}', colSpecs2, 'mt-1  me-0');
+    makeRowWithColumns(target, 'removalRow-${gLists.currentTab}', colSpecs2, 'mt-1  me-0');
 }
 
 async function removeSelectedPersons(e) {

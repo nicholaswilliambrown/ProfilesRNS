@@ -35,28 +35,39 @@ function parseSavedListData(target) {
     let numSaves = saves.length;
     if (numSaves) {
         emitSavedListQuasiButtons(target);
-        let vals =
-            ['Person List',
-                'People',
-                'Created Date',
-                'Updated Date',
-                'Select'];
-        let colSpecs = makeColSpecsSaves(vals);
-        makeRowWithColumns(target, 'SavedListsHeader', colSpecs, 'listsTableHeader bord9 ');
+
+        let colSpecsRowishHeader = [
+            newColumnSpec(`col-4 bordE py-1 `,   'Person List'),
+            newColumnSpec(`col-1 bordE py-1 `,   'People'),
+            newColumnSpec(`col-3 bordE py-1 `,   'Created Date'),
+            newColumnSpec(`col-3 bordE py-1`,    'Updated Date'),
+            newColumnSpec(`col-1 text-center align-middle align-items-center ps-1 pe-0`,    'Select')
+        ];
+        let colSpecsRowishBody = [
+            newColumnSpec(`text-start bordE py-0 `,      ''),
+            newColumnSpec(`text-start bordE py-0 `,      ''),
+            newColumnSpec(`text-start bordE py-0 `,      ''),
+            newColumnSpec(`text-start bordE py-0`,       ''),
+            newColumnSpec(`d-flex align-items-center justify-content-md-center py-0`,          '')
+        ];
+        let savedListRowish = new RowishTable(target,
+            'savedListsTable', 'My Current People',
+            colSpecsRowishHeader, colSpecsRowishBody,
+            'bord9 w-100 ');
+        savedListRowish.emitHeader('listsTableHeader');
 
         for (let i = 0; i < saves.length; i++) {
             let s = saves[i];
             let id = 'savedList' + i;
 
             let removalCheckbox = $(`<input type="checkbox" lid="${s.ListID}" class="listSelectlCheck"/>`);
-
             vals = [s.ListName,
                     s.Size,
                     s.CreateDate,
                     s.UpdatedDate,
                     removalCheckbox];
-            colSpecs = makeColSpecsSaves(vals);
-            makeRowWithColumns(target, id, colSpecs, 'bord9 highlightHover ');
+
+         savedListRowish.emitRow(i, vals, 'bor8 highlightHOver');
         }
         target.append($('<hr/>'));
     }

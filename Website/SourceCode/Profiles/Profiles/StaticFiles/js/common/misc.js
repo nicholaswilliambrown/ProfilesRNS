@@ -402,7 +402,7 @@ class RowishTable {
 
     updateBodyValues(vals) {
         if (! Array.isArray(vals) || vals.length != this.bodyColSpecs.length) {
-            alert(`Array of values must match number of columns (${this.bodyColSpecs.length})`);
+            alert(`Array-size of values (${vals.length})must match number of columns (${this.bodyColSpecs.length})`);
             throw('Mismatch');
         }
         let newColSpecs = myClone(this.bodyColSpecs); // new copy

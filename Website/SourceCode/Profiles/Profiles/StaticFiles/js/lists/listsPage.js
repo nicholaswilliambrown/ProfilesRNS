@@ -133,12 +133,12 @@ function parsePersonListData(people, target, isManage) {
     }
     else {
         emitTopOfPersonTable(people, target, isManage);
-        emitPersonsAndPaging(people, target);
+        emitPersonsAndPaging(people, target, isManage);
     }
 }
 
-function setupPagination(itemsTarget, people, pageSizes, pagingTarget, label) {
-    let pagination = new PagingCached(people, pageSizes, emitPersonRows, itemsTarget, pagingTarget, label);
+function setupPagination(itemsTarget, people, pageSizes, pagingTarget, label, emitFn) {
+    let pagination = new PagingCached(people, pageSizes, emitFn, itemsTarget, pagingTarget, label);
     pagination.display(itemsTarget);
     pagination.emitPagingRow(pagingTarget);
     return pagination;
@@ -258,7 +258,13 @@ function filterPersonList(keys, vals) {
     }
     return result;
 }
-function emitPersonRows(people, target) {
+function emitPersonsForManage(people) {
+    emitPersonRows(people, gLists.rowishCurrPeople);
+}
+function emitPersonsForSaved(people) {
+    emitPersonRows(people, gLists.peopleTableForSaved);
+}
+function emitPersonRows(people, rowishTable) {
     //gLists.rowishCurrPeople.emptyBody();
     if (! gLists.currentTab) {
         gLists.currentTab = 'manage';
@@ -274,7 +280,7 @@ function emitPersonRows(people, target) {
         let checkboxId = `${rowId}-${gLists.currentTab}-removalCheck`;
         let removalCheckbox = $(`<input type="checkbox" pid="${person.PersonID}" class="removalCheck" id="${checkboxId}"/>`);
 
-        let row = gLists.rowishCurrPeople.emitRow(i, [   person.DisplayName,
+        let row = rowishTable.emitRow(i, [   person.DisplayName,
                                                     person.InstitutionName,
                                                     person.FacultyRank,
                                                     removalCheckbox], 'highlightHover');
@@ -286,7 +292,7 @@ function emitPersonRows(people, target) {
         row.find(`.linked`).on('click', linkFn);
     }
 }
-function emitPersonsAndPaging(people, target) {
+function emitPersonsAndPaging(people, target, isManage) {
     let colSpecs = [newColumnSpec(`${gCommon.cols12} d-flex justify-content-center`)];
 
     let navPagination = $('<nav aria-label="Pagination"></nav>')
@@ -302,7 +308,8 @@ function emitPersonsAndPaging(people, target) {
             }
         }
     }
-    setupPagination(target, people, [15, 25, 50, 100], pagingRow, gLists.currentTab);
+    let emitPeople = isManage ? emitPersonsForManage : emitPersonsForSaved;
+    setupPagination(target, people, [15, 25, 50, 100], pagingRow, gLists.currentTab, emitPeople);
 
     let button = $(`<button type="button" class="btn gradientLists" id="removalButton-${gLists.currentTab}">Remove Selected People</button>`);
     button.on('click', removeSelectedPersons);

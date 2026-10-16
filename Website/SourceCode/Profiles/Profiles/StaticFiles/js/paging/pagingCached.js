@@ -18,7 +18,7 @@ class PagingCached {
 
     display() {
         let slice = this.getCurrentSlice();
-        this.displayFn(slice, this.itemsTarget);
+        this.displayFn(slice, this);
         this.emitPagingRow();
     }
 
@@ -135,8 +135,6 @@ class PagingCached {
     }
 
     emitPrev(columnTarget) {
-        let that = this; // for embedded functions
-
         this.first = $(`<button type="button" class="noBorder link-ish showFocusAndHover me-2" title="first page" id="first-${this.label}">
                         <img alt="first page" class="enablePageNav prevNext tableHeaderPagingRow" src="${gBrandingConstants.jsPagingImageFiles}arrow_first.gif">
                         <img alt="first page" class="disablePageNav prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_first_d.gif">

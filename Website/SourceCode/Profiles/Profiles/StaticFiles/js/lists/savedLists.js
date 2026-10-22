@@ -28,6 +28,9 @@ gLists.savedLists = {
         $('#saveButton').on('click', saveCurrentList);
 
         $('.modalupdate').hide();
+
+        $('#saveName').trigger('focus');
+        $('.rtnBtn').click();
     }
 };
 function parseSavedListData(target) {

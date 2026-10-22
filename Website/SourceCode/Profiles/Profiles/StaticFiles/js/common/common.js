@@ -791,7 +791,10 @@ function initialCap(string) {
 }
 function makeModal(myModalElement, labelForModal, describeAction, lookForInput, submitAction) {
     myModalElement.find('#myModalLabel').text(labelForModal);
-    myModalElement.find('#myModalAction').text(describeAction);
+    let actionContent = lookForInput ? $(`  <label for="myModalInput" class="me-1">${describeAction}</label>
+                                            <input type="text" class="m-3" id="myModalInput" placeholder="Enter value here"/>`)
+                                        : spanify(describeAction);
+    myModalElement.find('#describeAndMaybeInput4Action').append(actionContent);
 
     let modalDomElement = myModalElement[0];
     let modalInstance = bootstrap.Modal.getInstance(modalDomElement);

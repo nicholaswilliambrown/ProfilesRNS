@@ -92,12 +92,7 @@ function showThisTabContent(tab) {
     let tabFlavor = tab.attr('id');
     $(`#${tabFlavor}Content`).removeAttr('hidden');
 
-    announce(`${tab.text()} view`);
-
     return tabFlavor;
-}
-function announce(x, y) {
-
 }
 function clickTab(e) {
     let tab = $(e.target);
@@ -140,7 +135,6 @@ function parsePersonListData(people, target, isManage) {
 function setupPagination(itemsTarget, people, pageSizes, pagingTarget, label, emitFn) {
     let pagination = new PagingCached(people, pageSizes, emitFn, itemsTarget, pagingTarget, label);
     pagination.display(itemsTarget);
-    pagination.emitPagingRow(pagingTarget);
     return pagination;
 }
 function  emitTopOfPersonTable(people, target, isManage) {
@@ -156,7 +150,7 @@ function  emitTopOfPersonTable(people, target, isManage) {
         newColumnSpec(`col-4 bordE py-1 `,                                              'Name'),
         newColumnSpec(`col-4 bordE py-1 `,                                              'Institution'),
         newColumnSpec(`col-3 bordE py-1 `,                                              'Faculty Rank'),
-        newColumnSpec(`col-1 text-center align-middle align-items-center ps-1 pe-0`,    'Remove')
+        newColumnSpec(`col-1 text-center align-middle ps-1 pe-0`,    'Remove')
     ];
     let colSpecsRowishBody = [
         newColumnSpec(`text-start bordE py-0 `,                                         ''),
@@ -165,26 +159,28 @@ function  emitTopOfPersonTable(people, target, isManage) {
         newColumnSpec(`d-flex align-items-center justify-content-md-center py-0`,       '')
     ];
 
-    if (isManage) {
-        filterSelects(people, target);
-        gLists.rowishCurrPeople = new RowishTable(target,
-            'mgmtTabCurrPeople', 'My Current People',
+    function makePeopleRowish(id, label) {
+        gLists[id] = new RowishTable(target, id, label,
             colSpecsRowishHeader, colSpecsRowishBody,
             'bord9 w-100 ');
-        gLists.rowishCurrPeople.emitHeader('listsTableHeader');
+        gLists[id].emitHeader('listsTableHeader');
+
+    }
+    if (isManage) {
+        filterSelects(people, target);
+        makePeopleRowish('rowishCurrPeople', 'My Current People');
     }
     else {
-        gLists.peopleTableForSaved = new RowishTable(target,
-            'saveTabCurrPeople', 'My Provisional People',
-            colSpecsRowishHeader, colSpecsRowishBody,
-            'bord9 w-100 ' );
-        gLists.peopleTableForSaved.emitHeader('listsTableHeader');
+        target.append($('<div id="savedCurrentPersons" class="fw-bold">My Current Person List</div>'));
+        makePeopleRowish('peopleTableForSaved', 'My Provisional People');
     }
 }
 function filterSelects(people, target) {
-    let colSpecs0 = [   newColumnSpec(`${gCommon.cols6}`, 'Institution'),
-                        newColumnSpec(`${gCommon.cols4}`, 'Faculty Rank'),
-                        newColumnSpec(`${gCommon.cols2}`, '')];
+    let institutionLabel = $(`<label for="institutionSelect">Institution</label>`);
+    let facultyLabel = $(`<label for="facultySelect">Faculty Rank</label>`);
+    let colSpecs0 = [   newColumnSpec(`${gCommon.cols6or12}`, institutionLabel),
+                        newColumnSpec(`${gCommon.cols4or12}`, facultyLabel),
+                        newColumnSpec(`d-none d-md-block col-md-2`)]; // empty-spacer
 
     let rowId = 'filterSelects';
     let row = makeRowWithColumns(target, rowId, colSpecs0, 'bold mb-2 ');
@@ -265,31 +261,29 @@ function emitPersonsForSaved(people) {
     emitPersonRows(people, gLists.peopleTableForSaved);
 }
 function emitPersonRows(people, rowishTable) {
-    //gLists.rowishCurrPeople.emptyBody();
     if (! gLists.currentTab) {
         gLists.currentTab = 'manage';
     }
 
+    rowishTable.tbody.empty();
     for (let i = 0; i < people.length; i++) {
         let person = people[i];
         if (person.FacultyRank == '') {
             person.FacultyRank = gLists.noRank;
         }
 
-        let rowId = `person-${gLists.currentTab}` + i;
-        let checkboxId = `${rowId}-${gLists.currentTab}-removalCheck`;
-        let removalCheckbox = $(`<input type="checkbox" pid="${person.PersonID}" class="removalCheck" id="${checkboxId}"/>`);
+        let checkboxId = `${gLists.currentTab}-removalCheck${i}`;
+        let removalCheckbox = $(`<input type="checkbox" pid="${person.PersonID}" class="removalCheck"
+                                id="${checkboxId}"/>`);
+        removalCheckbox.attr('aria-label', `Remove ${person.DisplayName}`);
 
-        let row = rowishTable.emitRow(i, [   person.DisplayName,
-                                                    person.InstitutionName,
-                                                    person.FacultyRank,
-                                                    removalCheckbox], 'highlightHover');
-
-        let profileLink = `${g.profilesRootURL}/display/${person.NodeID}`;
-        let linkFn = () => {
-            window.location.href = profileLink
-        };
-        row.find(`.linked`).on('click', linkFn);
+        let nameLink = createAnchorElement(person.DisplayName,
+                            `${g.profilesRootURL}/display/${person.NodeID}`);
+        rowishTable.emitRow(i,
+                            [  nameLink,
+                                    person.InstitutionName,
+                                    person.FacultyRank,
+                                    removalCheckbox], 'highlightHover');
     }
 }
 function emitPersonsAndPaging(people, target, isManage) {
@@ -299,22 +293,13 @@ function emitPersonsAndPaging(people, target, isManage) {
     target.append(navPagination);
     let pagingRow = makeRowWithColumns(navPagination, 'pagingRow', colSpecs, 'bord9_3 py-1 mx-0 negTopMargin');
 
-    let debug = 1;
-    if (debug) {
-        for (let i=0; i<people.length; i++) {
-            let person = people[i];
-            if (!person.DisplayName.match(/^\d+\./)) {
-                person.DisplayName = String(i+1) + ". " + person.DisplayName;
-            }
-        }
-    }
     let emitPeople = isManage ? emitPersonsForManage : emitPersonsForSaved;
     setupPagination(target, people, [15, 25, 50, 100], pagingRow, gLists.currentTab, emitPeople);
 
     let button = $(`<button type="button" class="btn gradientLists" id="removalButton-${gLists.currentTab}">Remove Selected People</button>`);
     button.on('click', removeSelectedPersons);
     let colSpecs2 = [newColumnSpec(`${gCommon.cols12} d-flex justify-content-end pe-0`, button)];
-    makeRowWithColumns(target, 'removalRow-${gLists.currentTab}', colSpecs2, 'mt-1  me-0');
+    makeRowWithColumns(target, `removalRow-${gLists.currentTab}`, colSpecs2, 'mt-1  me-0');
 }
 
 async function removeSelectedPersons(e) {

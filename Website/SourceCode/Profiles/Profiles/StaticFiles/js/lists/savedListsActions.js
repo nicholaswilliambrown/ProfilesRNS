@@ -10,12 +10,9 @@ function saveCurrentList() {
 
 function emitSavedListQuasiButtons(target) {
     let colSpecs = [
-        newColumnSpec(`${gCommon.cols7} bold p-1`, 'Modify your current person list'),
-        newColumnSpec(`${gCommon.cols5} bold p-1`, 'Modify one or more saved lists')
+        newColumnSpec(`${gCommon.cols7or12} p-1`, '<div class="ms-1 mb-1 fw-bold">Modify your current person list</div>'),
+        newColumnSpec(`${gCommon.cols5or12} p-1`, '<div class="ms-1 mb-1 fw-bold">Modify one or more saved lists</div>')
     ];
-
-    // header row
-    makeRowWithColumns(target, 'saveActionsHeader', colSpecs, 'mt-1 ');
 
     let actionId = 'saveActions';
     let actionsRow = makeRowWithColumns(target, actionId, colSpecs, "");
@@ -28,9 +25,11 @@ function emitSavedListQuasiButtons(target) {
     target.append($('<hr/>'))
 }
 function actionHelper(side, id, text, onClick) {
-    side.append($('<br/>'));
-    let actionButton = $(`<button id ="${id}" type="button" class="ms-1 link-ish text-start d-inline-flex align-items-start"></button>`);
-    actionButton.append($(`<img alt="" class="pb-1 me-2" src="${g.profilesRootURL}/StaticFiles/img/search/icon_squareArrow.gif"/>`));
+    let actionButton = $(`<button id ="${id}" type="button"
+            class="ms-1 link-ish text-start d-flex align-items-start"></button>`);
+    // flex-shrink-0 below prevents gif from shrinking
+    actionButton.append($(`<img alt=""
+            class="pb-1 me-2 flex-shrink-0" src="${g.profilesRootURL}/StaticFiles/img/search/icon_squareArrow.gif"/>`));
     actionButton.append($(`<span>${text}</span>`));
     actionButton.on('click', onClick);
 
@@ -82,25 +81,24 @@ async function createListCluster(listCodes) {
     console.log("=============== Viz Cluster Data: ", result);
     return result;
 }
-function harvestNameAndApplyToList() {
+function harvestNameAndRenameList() {
     let selectedLid = requireSelection(true);
     if (selectedLid) {
-        $('#nameOverlay').show();
-        $('#newListName').val('');
-        $('#saveNewListName').off('click').on('click', (e) => {
-            let name = $('#newListName').val();
-            if (name) {
-                backendAction('Rename', selectedLid, 'AddUpdateList', name);
-            }
-            $('#nameOverlay').hide();
-        });
+        makeModal($('#myModal'),
+            'Rename selected Person List as',
+            'Enter a (new) name, then click Submit',
+            true,
+            (name) => {
+                if (name) {
+                    backendAction('Rename', selectedLid, 'AddUpdateList', name);
+                };
+            });
     }
 }
 function populateActionsLhs(lhs) {
-    populateSideHelper(lhs);
     let restApi = 'ModifyActiveList';
 
-    actionHelper(lhs, 'divActionReplace',
+    actionHelper(lhs, 'divActionReplaceMyPeople',
     'Replace my person list with the people in the selected list(s)',
         (e) => backendActionWrapper(e, restApi, 'Replace'));
     actionHelper(lhs, 'divActionAdd',
@@ -117,22 +115,19 @@ function populateActionsLhs(lhs) {
         (e) => backendActionWrapper(e, restApi, 'RemoveNotInAny'));
 }
 function populateActionsRhs(rhs) {
-    populateSideHelper(rhs);
     let restApi = 'AddUpdateList';
 
-    actionHelper(rhs, 'divActionReplace',
+    actionHelper(rhs, 'divActionReplaceWithMyPeople',
         'Replace the selected list with the people in my person list',
         (e) => backendActionWrapper(e, restApi, 'Replace'));
 
     actionHelper(rhs, 'divActionRename',
         'Rename the selected list',
-        harvestNameAndApplyToList);
+        harvestNameAndRenameList);
 
     actionHelper(rhs, 'divActionDelete',
         'Delete the selected list(s)',
         (e) => backendActionWrapper(e, restApi, 'Delete'));
-
-    rhs.append('<div class="mt-1"></div>');
 
     actionHelper(rhs, 'divActionVisualize',
         'Create a cluster view of the selected list(s)',
@@ -173,9 +168,5 @@ async function backendAction(mutationAction, listIds, restApi, name) {
     else {
         gLists.resultData = resultData;
     }
-}
-function populateSideHelper(side) {
-    side.removeClass('bold');
-    side.empty();
 }
 /////////////////////////////////////////////////////////////////

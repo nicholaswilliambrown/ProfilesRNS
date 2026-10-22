@@ -591,6 +591,7 @@ span.nav-link.active {
     .table-stack tbody th { border-bottom-width: 0; }
     .table-stack tbody tr { border-bottom: 2px solid #dee2e6; }
     .table-stack td { padding-top: 0px !important; padding-bottom: 0px !important; }
+    .table-stack td.bordE { border-inline-end: 0; }
 }
 /* Visible focus ring on cells (inset so the fixed-layout table doesn't clip it) */
 /*.table-stack td:focus-visible,*/

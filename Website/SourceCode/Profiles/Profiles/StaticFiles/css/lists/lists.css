@@ -28,11 +28,16 @@
     box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.3) !important;
 }
 .pageNumInput {
-    width: 23px;
+    width: 3.5ch; /* ch is width of the zero character 0 */
 }
-.highlightHover:hover {
-    background-color: #14274f;
-    color: white;
+@media (hover:hover) {
+    .highlightHover:hover a {
+        color: white !important;
+    }
+    .highlightHover:hover {
+        background-color: #14274f;
+        color: white !important;
+    }
 }
 #pagingRow {
     font-size: 11px
@@ -55,7 +60,8 @@
     position: fixed;
     z-index: 9999;
     height: 100%;
-    width: 968px;
+    width: 100%;
+    left: 0;
     top: 0;
     filter: alpha(opacity=60);
 }
@@ -78,22 +84,14 @@
     width: 128px;
     margin-bottom:18px;
 }
+#myModal {
+    z-index: 9999;
+}
+.closeModal:focus-visible {
+    outline: 1px solid black;
+}
 .negTopMargin {
     margin-top: -16px !important;
-}
-#nameOverlay {
-    display: none; /* Hidden by default */
-    position: fixed; /* Fixed/sticky position */
-    top: 400px; /* Place the button near the top of the page */
-    right: 300px; /* Place the button 30px from the right */
-    z-index: 1000; /* Make sure it shows up */
-    border: 2px solid #AC1B30;
-    background-color: #ccc; /* Set a background color */
-    color: black; /* Text color */
-    cursor: pointer; /* Add a mouse pointer on hover */
-    padding: 10px; /* Some padding */
-    border-radius: 10px; /* Rounded corners */
-    font-size: 13px;
 }
 .headerColor {
     background-color: #EEEBE5;

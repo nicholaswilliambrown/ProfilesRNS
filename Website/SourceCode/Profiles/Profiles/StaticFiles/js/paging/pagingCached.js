@@ -48,6 +48,8 @@ class PagingCached {
         this.prevNextClicks();
 
         this.adjustNavigation(currentPageNum, numPages);
+
+        row.find('.pageNumInput').trigger('focus');
     }
 
     emitPerPageDropdown(columnTarget) {

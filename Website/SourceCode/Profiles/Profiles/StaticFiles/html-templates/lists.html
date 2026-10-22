@@ -94,10 +94,10 @@
 
 <main>
     <div class="modalupdate">
-        <div class="modalcenter">
-            <img alt="Updating..." src="{profilesPath}/StaticFiles/js/lists/loader.gif" /><br />
-            <i>Updating...</i>
-        </div>
+<!--        <div class="modalcenter">-->
+<!--            <img alt="Updating..." src="{profilesPath}/StaticFiles/js/lists/loader.gif" /><br />-->
+<!--            <i>Updating...</i>-->
+<!--        </div>-->
     </div>
 
     <div id="mainTabs">
@@ -110,7 +110,7 @@
                 from either a person's profile page or from a Search Results page.
             </div>
         </div>
-        <ul id="tabsUl" class="nav bordBottom" aria-label="Person list views">
+        <ul id="tabsUl" class="nav bordBottom" role="tablist" aria-label="Person list views">
             <li class="nav-item mainTabItem" role="presentation">
                 <button type="button" id="manage" class="nav-link tab tabTopHat"
                         role="tab" aria-selected="true" aria-controls="manageContent">Manage List</button>
@@ -220,16 +220,32 @@
                     <input id="saveName" type="text" class="ms-2 me-4"/>
                     <button type="button" id="saveButton">Save List</button>
                 </div>
-                <hr/>
+                <hr class="tightHr"/>
                 <div id="savedDynamicDisplay"></div>
             </div>
             <div class="mainTabsContent" id="visualizeListsContent" role="tabpanel" aria-labelledby="visualizeLists" tabindex="-1">
             </div>
         </div> <!-- mainTabsContent -->
     </div> <!-- mainTabs -->
-    <div id="nameOverlay" class="bold">Rename selected person list as
-        <input type="text" id="newListName" class="ms-2 me-2"/>
-        <button type="button" id="saveNewListName">Save List</button>
+    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Rename selected person list as</h5>
+                    <button type="button" class="closeModal" data-bs-dismiss="modal" aria-label="Cancel"></button>
+                </div>
+                <div class="modal-body" id="myModalAction">
+                    Add your dialog text, forms, or custom layouts here.
+                </div>
+                <div>
+                    <input type="text" class="m-3" id="myModalInput" placeholder="Enter value here"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="myModalSubmit">Save List</button>
+                    <button type="button" class="btn secondary closeModal"  data-bs-dismiss="modal" id="myModalCancel">Cancel</button>
+                </div>
+            </div>
+        </div>
     </div>
 </main>
 </body>

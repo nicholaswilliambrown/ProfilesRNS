@@ -86,13 +86,15 @@ function harvestNameAndRenameList() {
     if (selectedLid) {
         makeModal($('#myModal'),
             'Rename selected Person List as',
-            'Enter a (new) name, then click Submit',
+            'Enter a (new) name, then click Save List',
             true,
             (name) => {
                 if (name) {
                     backendAction('Rename', selectedLid, 'AddUpdateList', name);
-                };
-            });
+                }
+            },
+            'Save list'
+        );
     }
 }
 function populateActionsLhs(lhs) {

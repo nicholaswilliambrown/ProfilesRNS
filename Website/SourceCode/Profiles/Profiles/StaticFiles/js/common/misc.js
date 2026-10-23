@@ -454,4 +454,71 @@ function setupRowishSample(makeSample) {
         myTable.emitRow(2, ['Johnasdfasdfasdfasfasfasfasfdadfa Doe', anchorVal, 'CEO'], '');
     }
 }
+function makeModal(myModalElement, labelForModal, describeAction, lookForInput, submitAction, submitLabel) {
+    let submitButton = myModalElement.find('#myModalSubmit');
 
+    myModalElement.find('#myModalLabel').text(labelForModal);
+    let actionContent = lookForInput ? $(`  <label for="myModalInput" class="me-1">${describeAction}</label>
+                                            <input type="text" class="m-3" id="myModalInput"/>`)
+        : spanify(describeAction);
+    let actionDiv = myModalElement.find('#describeAndMaybeInput4Action');
+    actionDiv.empty();
+    actionDiv.append(actionContent);
+
+    let modalDomElement = myModalElement[0];
+    let modalInstance = bootstrap.Modal.getInstance(modalDomElement);
+    if (!modalInstance) {
+        modalInstance = new bootstrap.Modal(modalDomElement, {
+            backdrop: 'static', // clicking outside does not close
+            keyboard: true      // Esc closes
+        });
+        myModalElement.on('hide.bs.modal', () => {
+            let focused = document.activeElement;
+            if (modalDomElement.contains(focused)) {
+                focused.blur();
+            }
+            let opener = myModalElement.data('opener');
+            if (opener && document.body.contains(opener)) {
+                opener.focus();
+            }
+        });
+    }
+
+    let inputElt = myModalElement.find('#myModalInput');
+    if (inputElt.length) {
+        submitButton.attr("disabled", true);
+    }
+    inputElt.on('keydown', function(e) {
+        if (e.key === 'Enter' || e.which === 13) {
+            e.preventDefault();
+            submitButton.trigger('click')
+        }
+    });
+    inputElt.on('input', function(e) {
+        if (inputElt.val().trim()) {
+            submitButton.removeAttr("disabled");
+        } else {
+            submitButton.attr("disabled", true);
+        }
+    });
+
+    submitButton.text(submitLabel);
+    submitButton.off('click');
+    submitButton.on('click', () => {
+        let input = '';
+        if (inputElt.length) {
+            input = inputElt.val().trim();
+            if (!input) {
+                $('#myModalCancel'); // do not trouble back-end validation with empty name change
+            }
+        }
+        submitAction(input);
+        modalInstance.hide();
+    });
+
+    myModalElement.data('opener', document.activeElement);
+    // if the modal has no input field, following correctly reduces to no-op
+    myModalElement.one('shown.bs.modal', () => myModalElement.find('#myModalInput').trigger('focus'));
+    modalInstance.show();
+    return modalInstance;
+}

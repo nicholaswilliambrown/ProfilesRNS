@@ -40,10 +40,15 @@ function requireSelection(onlyOne) {
 
     let selected = $(`.listSelectlCheck:checked`);
     if (selected.length == 0) {
-        alert('Please select a list from the table.')
+        myAlert($('#myModal'),
+            'No lists selected',
+            'Please select a list from the table.');
+
     }
     else if (selected.length > 1 && onlyOne) {
-        alert('Please select only one item from table for rename action.')
+        myAlert($('#myModal'),
+            'Too many items selected',
+            'Please select only one item from table for rename action.');
     }
     else {
         let selectedVals = [];
@@ -84,8 +89,9 @@ async function createListCluster(listCodes) {
 function harvestNameAndRenameList() {
     let selectedLid = requireSelection(true);
     if (selectedLid) {
-        makeModal($('#myModal'),
-            'Rename selected Person List as',
+        makeModal(
+            $('#myModal'),
+            'Rename selected Person List',
             'Enter a (new) name, then click Save List',
             true,
             (name) => {
@@ -93,10 +99,15 @@ function harvestNameAndRenameList() {
                     backendAction('Rename', selectedLid, 'AddUpdateList', name);
                 }
             },
-            'Save list'
+            'Save List'
         );
+    } else {
+        myAlert($('#myModal'),
+            'No lists selected',
+            'Please pay attention');
     }
 }
+
 function populateActionsLhs(lhs) {
     let restApi = 'ModifyActiveList';
 

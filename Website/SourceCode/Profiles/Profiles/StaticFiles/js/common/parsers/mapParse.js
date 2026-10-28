@@ -152,6 +152,13 @@ async function initPage(moduleJson) {
         setTimeout(leafletMapLoadData, g.mapProviderOptions.leafletLoadingDelay);
     }
 }
+function makeLatLongString(lat, long) {
+    let result = '';
+    if (lat && long) {
+        result = JSON.stringify({latitude: lat, longitude: long})
+    }
+    return result;
+}
 function googleMapLoadData(callback) {
     // create markers for people
     for (var i = 0; i < gMapTab.people.length; i++) {

@@ -21,7 +21,8 @@ namespace Profiles.Lists
             message = $"------------myLog--------------->> {message} <<----------";
             System.Diagnostics.Debug.WriteLine(message);
         }
-        private string getListPeople() {
+        private string getListPeople()
+        {
             myLog("getListPeople");
             Session session = sessionManagement.Session();
 
@@ -74,7 +75,8 @@ namespace Profiles.Lists
 
             litText.Text = HTML;
          }
-       protected void Page_Load(object sender, EventArgs e) {
+       protected void Page_Load(object sender, EventArgs e)
+       {
             Response.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate, max-age=0");
             Response.Headers.Add("Pragma", "no-cache");
             Response.Headers.Add("Expires", "0");
@@ -175,152 +177,108 @@ namespace Profiles.Lists
             }
        }
 
+        public XmlDocument PresentationXML { get; set; }
+
         /////////////////////// service API ///////////////////
 
-        // used by MyLists (in logged-in menu)
         [System.Web.Services.WebMethod]
         public static string AddPersonToList(string ownernodeid, string listid, string personid)
         {
-            if (listid == "0")
-                listid = Lists.Utilities.DataIO.CreateList(ownernodeid, "List");
-
-            return Lists.Utilities.DataIO.AddRemovePerson(listid, personid);
+            return ListsSVC.AddPersonToList( ownernodeid,  listid,  personid);
         }
-        // used by MyLists (in logged-in menu)
+
         [System.Web.Services.WebMethod]
         public static string DeleteSingle(string listid, string personid)
         {
-            Lists.Utilities.DataIO.AddRemovePerson(listid, personid, true);
-            return Lists.Utilities.DataIO.GetListCount();
+            return ListsSVC.DeleteSingle( listid,  personid);
         }
-
 
         [System.Web.Services.WebMethod]
         public static string DeleteSelected(string listid, string personids)
         {
-
-            Lists.Utilities.DataIO.DeleteSelected(listid, personids);
-            return Lists.Utilities.DataIO.GetListCount();
+            return ListsSVC.DeleteSelected( listid,  personids);
         }
 
         [System.Web.Services.WebMethod]
         public static void AddCoauthors()
         {
-            Lists.Utilities.DataIO.AddRemoveCoAuthors("Add");
+            ListsSVC.AddCoauthors();
         }
 
         [System.Web.Services.WebMethod]
         public static void RemoveCoauthors() // better name would be RemoveAndReplaceWithCoauthors
         {
-            Lists.Utilities.DataIO.AddRemoveCoAuthors("Replace");
+            ListsSVC.RemoveCoauthors();
         }
 
         [System.Web.Services.WebMethod]
         public static string GetMapJson(string listId, string sessionId)
         {
-            return Lists.Utilities.DataIO.GetMapJson(listId, sessionId);
+            return ListsSVC.GetMapJson( listId,  sessionId);
         }
 
         [System.Web.Services.WebMethod]
         public static string GetCluster(string listId)
         {
-            return Lists.Utilities.DataIO.GetNetworkRadialCoAuthors(listId);
+            return ListsSVC.GetCluster( listId);
         }
 
         [System.Web.Services.WebMethod]
         public static void Export(string listId, string flavor)
         {
-            switch (flavor)
-            {
-                case "People":
-                    Profiles.Lists.Utilities.DataIO.GetPersonsCsv(listId);
-                    break;
-                case "Publications":
-                    Profiles.Lists.Utilities.DataIO.GetPublicationsCsv(listId);
-                    break;
-                case "Connections":
-                    Profiles.Lists.Utilities.DataIO.GetCoauthorConnectionsCsv(listId);
-                    break;
-            }
+            ListsSVC.Export( listId,  flavor);
         }
 
         [System.Web.Services.WebMethod]
         public static List<Profiles.Lists.Utilities.DataIO.ProfilesList> GetSavedLists()
         {
-            return Profiles.Lists.Utilities.DataIO.GetLists();
+            return ListsSVC.GetSavedLists();
         }
 
         [System.Web.Services.WebMethod]
         public static string GetReports(string listId, string summaryType)
         {
-            return Profiles.Lists.Utilities.DataIO.GetSummary(listId, summaryType);
+            return ListsSVC.GetReports( listId,  summaryType);
         }
 
-        //AddUpdateList Proc
         [System.Web.Services.WebMethod]
         public static void Save(string listId, string name)
         {
-            Profiles.Lists.Utilities.DataIO.AddUpdateList("Save", listId, name);
+            ListsSVC.Save( listId,  name);
         }
 
         [System.Web.Services.WebMethod]
         public static void AddUpdateList(string action, string listid, string name)
         {
-            List<string> listids = listid.Split(',').ToList();
-            if (action == "Delete")
-                foreach (string lid in listids)
-                {
-                    // name irrelevant for deletes
-                    Lists.Utilities.DataIO.AddUpdateList(action, lid, "");
-                }
-            else
-                Lists.Utilities.DataIO.AddUpdateList(action, listid , name);
+            ListsSVC.AddUpdateList( action,  listid,  name);
         }
         [System.Web.Services.WebMethod]
         public static void RenameList(string listid, string name)
         {
-            Lists.Utilities.DataIO.AddUpdateList("Rename", listid, name);
+            ListsSVC.RenameList( listid,  name);
         }
 
-
-        //ModifyActiveList       
         [System.Web.Services.WebMethod]
         public static void ModifyActiveList(string action,string listids)
         {
-            Lists.Utilities.DataIO.ModifyActiveList(action, listids);
+            ListsSVC.ModifyActiveList( action, listids);
         }
 
         [System.Web.Services.WebMethod]
         public static void ClearList(string ListID)
         {
-            Profiles.Lists.Utilities.DataIO.DeleteFiltered(ListID, null, null);
+            ListsSVC.ClearList( ListID);
         }
 
-        public XmlDocument PresentationXML { get; set; }
-
-        private string handleViz() {
+        private string handleViz()
+        {
             string listIds = Request.Form["listIds"].ToString();
-
-            var profilesListGraphs = Utilities.DataIO.GetSelectedSavedLists(listIds);
-
-            List<string> graphColors = Utilities.DataIO.GetGraphColors(profilesListGraphs.Count);
-
-            //init all the colors and defaults before loading the grid.
-            for (int i = 0; i < graphColors.Count; i++)
-            {
-                profilesListGraphs[i].GraphColor = graphColors[i];
-            }
-
-            var serializer = new JavaScriptSerializer();
-            string result = serializer.Serialize(profilesListGraphs);
-            return result;
+            return ListsSVC.handleViz(listIds);
         }
-        private string handleVizCluster() {
+        private string handleVizCluster()
+        {
             string listIds = Request.Form["listIds"].ToString();
-
-            string result = Profiles.Lists.Utilities.DataIO.GetCoAuthorsForSavedLists(listIds);
-
-            return result;
+            return ListsSVC.handleVizCluster(listIds);
         }
     }
 }

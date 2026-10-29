@@ -401,6 +401,9 @@ CREATE OR ALTER PROCEDURE [Profile.Data].[List.SavedLists.ModifyActiveList]
 	@Size INT=NULL OUTPUT
 AS
 BEGIN
+    PRINT 'Starting ModifyActiveList';
+    PRINT 'UserId = ' + CAST(@UserID AS VARCHAR(20));
+    PRINT 'ListIds = ' + CAST(@ListIDs AS VARCHAR(40));
 
 	CREATE TABLE #ListIDs (ListID INT PRIMARY KEY)
 	IF @ListID <> 0 INSERT INTO #ListIDs SELECT @ListID
@@ -416,8 +419,12 @@ BEGIN
 	BEGIN
 		BEGIN TRANSACTION
 			DELETE FROM [Profile.Data].[List.Member] WHERE UserID = @UserID
+            DECLARE @cnt INT = (SELECT COUNT(*) FROM [Profile.Data].[List.Member] WHERE UserID = @UserID);
+            PRINT CONCAT('After delete I should have this no people: ', @cnt);
 			INSERT INTO [Profile.Data].[List.Member] (UserID, PersonID) 
 				SELECT DISTINCT @UserID, PersonID FROM [Profile.Data].[List.SavedLists.Member] WHERE ListID IN (SELECT ListID from #ListIDs)
+            SELECT @cnt = (SELECT COUNT(*) FROM [Profile.Data].[List.Member] WHERE UserID = @UserID);
+            PRINT CONCAT('After replace I should have this many people: ', @cnt);
 
 			SELECT @Size =  COUNT(*) FROM [Profile.Data].[List.Member] WHERE UserID=@UserID
 			UPDATE [Profile.Data].[List.General] SET Size = @Size WHERE UserID = @UserID

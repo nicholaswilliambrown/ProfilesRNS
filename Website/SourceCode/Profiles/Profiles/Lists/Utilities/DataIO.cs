@@ -920,6 +920,7 @@ namespace Profiles.Lists.Utilities
                 parm.Direction = ParameterDirection.Output;
                 cmd.Parameters.Add(parm);
 
+                sqlconnection.InfoMessage += (s, e) => System.Diagnostics.Debug.WriteLine(e.Message);
                 sqlconnection.Open();
                 cmd.ExecuteNonQuery();
                 sqlconnection.Close();
@@ -960,6 +961,7 @@ namespace Profiles.Lists.Utilities
                 parm.Direction = ParameterDirection.Input;
                 parm.Value = name;
                 cmd.Parameters.Add(parm);
+
                 sqlconnection.Open();
                 cmd.ExecuteNonQuery();
                 sqlconnection.Close();

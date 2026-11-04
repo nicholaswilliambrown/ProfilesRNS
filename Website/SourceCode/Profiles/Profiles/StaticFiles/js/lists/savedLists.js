@@ -12,13 +12,8 @@ gLists.savedLists = {
 
         let target = $('#savedDynamicDisplay');
         target.empty();
-        let url = `${g.profilesRootURL}/Lists/Default.aspx/SavedLists`;
-        await $.get(url, function(result) {
-            gLists.savedLists.data = JSON.parse(result);
-            console.log('Saved Lists: ', gLists.savedLists.data);
-        });
 
-        parseSavedListData(target);
+        await setupSavedListsTable(target, 'savedListsTable', true);
 
         let currPeopleDivTable = $('<div id="currPeopleTitle" class="ps-0 ms-0">My Current List</div>');
         target.append(currPeopleDivTable);
@@ -33,13 +28,40 @@ gLists.savedLists = {
         $('.rtnBtn').click();
     }
 };
-function parseSavedListData(target) {
-    let saves = gLists.savedLists.data;
+async function getSavedListsForVisuals() {
+    let url = `${g.profilesRootURL}/Lists/Default.aspx/SavedListsMap`;
+    await $.get(url, function(result) {
+        gLists.savedLists.map = JSON.parse(result);
+        console.log('Saved Lists: ', gLists.savedLists.map);
+    });
+
+    url = `${g.profilesRootURL}/Lists/Default.aspx/SavedListsCLuster`;
+    await $.get(url, function(result) {
+        gLists.savedLists.cluster = JSON.parse(result);
+        console.log('Saved Lists: ', gLists.savedLists.cluster);
+    });
+
+}
+async function setupSavedListsTable(target, tableId, isSavedListsTab) {
+    let url = `${g.profilesRootURL}/Lists/Default.aspx/SavedLists`;
+    await $.get(url, function(result) {
+        gLists.savedLists.table = JSON.parse(result);
+        console.log('Saved Lists: ', gLists.savedLists.table);
+    });
+    let preDiv = $('<div></div>');
+    target.prepend(preDiv)
+    parseSavedListData(preDiv, tableId, isSavedListsTab);
+}
+function parseSavedListData(target, tableId, isSavedListsTab) {
+    let saves = gLists.savedLists.table;
     let numSaves = saves.length;
     if (numSaves) {
-        emitSavedListQuasiButtons(target);
+        if (isSavedListsTab) {
+            emitSavedListQuasiButtons(target);
+        }
+        let headerClass = isSavedListsTab ? '' : 'mt-2';
 
-        target.append($('<div class="fw-bold">My Saved Person Lists</div>'));
+        target.append($(`<div class="fw-bold ${headerClass}">My Saved Person Lists</div>`));
 
         let colSpecsRowishHeader = [
             newColumnSpec(`col-4 bordE py-1 `,   'Person List'),
@@ -56,7 +78,7 @@ function parseSavedListData(target) {
             newColumnSpec(`d-flex align-items-center justify-content-md-center py-0`,          '')
         ];
         let savedListRowish = new RowishTable(target,
-            'savedListsTable', 'My Saved Lists',
+            tableId, 'My Saved Lists',
             colSpecsRowishHeader, colSpecsRowishBody,
             'bord9 w-100 ');
         savedListRowish.emitHeader('listsTableHeader');

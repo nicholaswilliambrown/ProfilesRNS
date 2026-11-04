@@ -142,6 +142,12 @@ namespace Profiles.Lists
                 else if (restTask == "Cluster") {
                     result = GetCluster(listId);
                 }
+                else if (restTask == "SavedListsMap") {
+                    result = GetSavedListsMap(session.SessionID.ToString());
+                }
+                else if (restTask == "SavedListsCluster") {
+                    result = GetSavedListsCluster(session.SessionID.ToString());
+                }
                 else if (restTask == "SavedLists") {
                     if (len > 4) {
                         string flavor = restSegments[4];
@@ -221,6 +227,18 @@ namespace Profiles.Lists
         public static string GetCluster(string listId)
         {
             return ListsSVC.GetCluster( listId);
+        }
+
+        [System.Web.Services.WebMethod]
+        public static string GetSavedListsCluster(string sessionId)
+        {
+            return ListsSVC.GetSavedListsCluster(sessionId);
+        }
+
+        [System.Web.Services.WebMethod]
+        public static string GetSavedListsMap(string sessionId)
+        {
+            return ListsSVC.GetSavedListsMap(sessionId);
         }
 
         [System.Web.Services.WebMethod]

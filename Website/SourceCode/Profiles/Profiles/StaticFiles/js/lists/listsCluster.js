@@ -2,13 +2,13 @@
 function setupForCluster(target) {
     let legendSpan = $(`
                     <span>
-                        <input class="mt-1" type="CheckBox" id="chkIncludeLegand" checked="true"/>
+                        <input class="mt-1" type="CheckBox" id="chkIncludeLegand" checked="checked"/>
                         <label class="form-label bold" style="position: relative; top: -1px;" for="chkIncludeLegand">
                             Include legend in graph</label>
                     </span>
             `);
     let safariDisabled = (!!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/)) ?
-                            'disabled="disabled"' : '';
+        'disabled="disabled"' : '';
     let dlSizeSelect = $(`
                 <select id="download-options" class="headerColor showFocusAndHover" aria-label="Download size">
                     <option disabled selected="selected" value="">Download size</option>
@@ -231,10 +231,10 @@ function emitCriteriaListCode() {
 function makeColSpecsViz(vals, noColBorders) {
     let colBorders = noColBorders ? '' : 'bordE';
     let colSpecs = [newColumnSpec(`${gCommon.cols3or12} ${colBorders} p-1 d-flex align-items-center `,                            vals[0]),
-                    newColumnSpec(`${gCommon.cols2or12} ${colBorders} p-1 d-flex align-items-center justify-content-center`,   vals[1]),
-                    newColumnSpec(`${gCommon.cols2or12} ${colBorders} d-flex justify-content-center`,   vals[2]),
-                    newColumnSpec(`${gCommon.cols2or12} ${colBorders} p-1 d-flex justify-content-center`,   vals[3]),
-                    newColumnSpec(`${gCommon.cols3or12} p-1 d-flex justify-content-center`,                 vals[4])
+        newColumnSpec(`${gCommon.cols2or12} ${colBorders} p-1 d-flex align-items-center justify-content-center`,   vals[1]),
+        newColumnSpec(`${gCommon.cols2or12} ${colBorders} d-flex justify-content-center`,   vals[2]),
+        newColumnSpec(`${gCommon.cols2or12} ${colBorders} p-1 d-flex justify-content-center`,   vals[3]),
+        newColumnSpec(`${gCommon.cols3or12} p-1 d-flex justify-content-center`,                 vals[4])
     ];
     return colSpecs;
 }

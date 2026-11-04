@@ -140,6 +140,16 @@ namespace Profiles.Lists
             return Lists.Utilities.DataIO.GetNetworkRadialCoAuthors(listId);
         }
 
+        public static string GetSavedListsMap(string sessionId)
+        {
+            return Lists.Utilities.DataIO.GetSavedListsMap(sessionId);
+        }
+
+        public static string GetSavedListsCluster(string sessionId)
+        {
+            return Lists.Utilities.DataIO.GetSavedListsCluster(sessionId);
+        }
+
         public static void Export(string listId, string flavor)
         {
             switch (flavor)

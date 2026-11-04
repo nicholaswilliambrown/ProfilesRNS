@@ -746,6 +746,63 @@ namespace Profiles.Lists.Utilities
             return result;
         }
 
+        public static string GetSavedListsMap(string sessionId)
+        {
+        return null;
+//            SqlDataReader reader1 = Profiles.Lists.Utilities.DataIO.GetGMapList(listId, "1", sessionId);
+//            SqlDataReader reader0 = Profiles.Lists.Utilities.DataIO.GetGMapList(listId, "0", sessionId);
+//
+//            var jsonBuilder = new StringBuilder();
+//
+//            jsonBuilder.Append("{");
+//            jsonBuilder.Append("\"connections\": [");
+//
+//            if (reader1.HasRows) {
+//                while (reader1.Read())
+//                {
+//                    // a and b are person ids. u1 and u2 are display urls built from node ids
+//                    jsonBuilder.Append(   "{" +
+//                                            $"\"x1\":\"{reader1["x1"].ToString()}\", \"y1\":\"{reader1["y1"].ToString()}\" ," +
+//                                            $"\"x2\":\"{reader1["x2"].ToString()}\", \"y2\":\"{reader1["y2"].ToString()}\" ," +
+//                                            $"\"u1\":\"{reader1["u1"].ToString()}\", \"u2\":\"{reader1["u2"].ToString()}\" ," +
+//                                            $" \"a\":\"{reader1["a"]. ToString()}\",  \"b\":\"{reader1["b"].ToString()}\"  " +
+//                                          "}," );
+//                }
+//                // non for-loop way to manage nuking the final comma
+//                string jsonPart1 = jsonBuilder.ToString();
+//                jsonPart1 = jsonPart1.Remove(jsonPart1.Length - 1);
+//                jsonBuilder.Clear().Append(jsonPart1);
+//            }
+//
+//            jsonBuilder.Append("],");
+//
+//
+//            jsonBuilder.Append("\"people\": [");
+//
+//            if (reader0.HasRows) {
+//                while (reader0.Read())
+//                {
+//                    jsonBuilder.Append(   "{" +
+//                                            $"\"address1\":       \"{reader0["address1"]    .ToString().Replace("'", "\\'")}\"  ," +
+//                                            $"\"address2\":       \"{reader0["address2"]    .ToString().Replace("'", "\\'")}\"  ," +
+//                                            $"\"display_name\":   \"{reader0["display_name"].ToString().Replace("'", "\\'")}\"  ," +
+//                                            $"\"latitude\":       \"{reader0["latitude"]    .ToString()}\"  ," +
+//                                            $"\"longitude\":      \"{reader0["longitude"]   .ToString()}\"  ," +
+//                                            $" \"URI\":           \"{reader0["URI"]         .ToString()}\"   " +
+//                                          "},");
+//                }
+//                string jsonPart2 = jsonBuilder.ToString();
+//                jsonPart2 = jsonPart2.Remove(jsonPart2.Length - 1);
+//                jsonBuilder.Clear().Append(jsonPart2);
+//            }
+//
+//            jsonBuilder.Append("]");
+//            jsonBuilder.Append("}");
+//
+//            string result = jsonBuilder.ToString();
+//            return result;
+        }
+
         public static string GetNetworkRadialCoAuthors(string listid)
         {
             string str = string.Empty;
@@ -791,6 +848,54 @@ namespace Profiles.Lists.Utilities
             }
 
             return str;
+        }
+
+        public static string GetSavedListsCluster(string sessionId)
+        {
+        return null;
+//            string str = string.Empty;
+//
+//
+//            if (Framework.Utilities.Cache.FetchObject(listid + "LISTGetNetworkRadialCoAuthors") == null)
+//            {
+//                Framework.Utilities.DataIO dataio = new Framework.Utilities.DataIO();
+//                try
+//                {
+//                    string connstr = dataio.GetConnectionString();
+//                    SqlConnection dbconnection = new SqlConnection(connstr);
+//                    SqlCommand dbcommand = new SqlCommand("[Profile.Module].[NetworkRadial.List.GetCoAuthors]");
+//
+//                    SqlDataReader dbreader;
+//                    dbconnection.Open();
+//                    dbcommand.CommandType = CommandType.StoredProcedure;
+//                    dbcommand.CommandTimeout = dataio.GetCommandTimeout();
+//                    dbcommand.Parameters.Add(new SqlParameter("@OutputFormat", "JSON"));
+//                    dbcommand.Parameters.Add(new SqlParameter("@UserID", listid));
+//
+//                    dbcommand.Connection = dbconnection;
+//                    dbreader = dbcommand.ExecuteReader(CommandBehavior.CloseConnection);
+//
+//                    while (dbreader.Read())
+//                        str += dbreader[0].ToString();
+//
+//                    Framework.Utilities.DebugLogging.Log(str);
+//
+//                    if (!dbreader.IsClosed)
+//                        dbreader.Close();
+//
+//                    Framework.Utilities.Cache.Set(listid + "LISTGetNetworkRadialCoAuthors", str);
+//                }
+//                catch (Exception ex)
+//                {
+//                    Framework.Utilities.DebugLogging.Log(ex.Message + " ++ " + ex.StackTrace);
+//                }
+//            }
+//            else
+//            {
+//                str = (string)Framework.Utilities.Cache.FetchObject(listid + "LISTGetNetworkRadialCoAuthors");
+//            }
+//
+//            return str;
         }
 
 

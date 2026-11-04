@@ -16,39 +16,35 @@ gLists.manage = {
     }
 };
 async function populateManageTab() {
-    if (!gLists.avoidReentrance) {
-        //gLists.avoidReentrance = true;
+    specialHandling();
 
-        specialHandling();
+    gLists.currentTab = 'manage'; // unless we find a saved tab in the following
 
-        gLists.currentTab = 'manage'; // unless we find a saved tab in the following
+    await commonSetup();
 
-        await commonSetup();
+    setupScrolling();
 
-        setupScrolling();
+    let main = $('#mainDiv');
+    let tabs = $('#mainTabs');
+    moveContentTo(tabs, main);
 
-        let main = $('#mainDiv');
-        let tabs = $('#mainTabs');
-        moveContentTo(tabs, main);
+    $('#tabsUl').find('[role="tab"]').on('click', clickTab);
+    $('#removeAll').on('click', removeAllPersons);
+    $('#replaceWithCoauthors').on('click', replaceWithCoauthors);
+    $('#addCoauthors').on('click', addCoauthors);
 
-        $('#tabsUl').find('[role="tab"]').on('click', clickTab);
-        $('#removeAll').on('click', removeAllPersons);
-        $('#replaceWithCoauthors').on('click', replaceWithCoauthors);
-        $('#addCoauthors').on('click', addCoauthors);
+    setupTabKeyboardNavigation();
 
-        setupTabKeyboardNavigation();
+    let rememberedTab = sessionStorage.getItem(gLists.rememberedTab);
+    if (rememberedTab) {
+        sessionStorage.removeItem(gLists.rememberedTab);
+        gLists.currentTab = rememberedTab;
+    }
 
-        let rememberedTab = sessionStorage.getItem(gLists.rememberedTab);
-        if (rememberedTab) {
-            sessionStorage.removeItem(gLists.rememberedTab);
-            gLists.currentTab = rememberedTab;
-        }
+    parsePersonListData(gLists.people, $('#peopleDivTable'), true);
 
-        parsePersonListData(gLists.people, $('#peopleDivTable'), true);
-
-        if (gLists.currentTab != 'manage') {
-            adjustToTab($(`#${rememberedTab}`));
-        }
+    if (gLists.currentTab != 'manage') {
+        adjustToTab($(`#${rememberedTab}`));
     }
 }
 

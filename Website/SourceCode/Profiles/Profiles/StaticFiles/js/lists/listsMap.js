@@ -5,12 +5,13 @@ gLists.map = {
         console.log('setting up for map!');
         gLists.currentTab = 'map';
 
-        parseMapTabData(gLists.people);
+        let target = $('#mapContent');
+        await setupSavedListsTable(target, 'savedListsForMap');
+        parseMapTabData(target, gLists.people);
     }
 };
 
-function parseMapTabData(people) {
-    let target = $('#mapContent');
+function parseMapTabData(target, people) {
     if (people.length == 0) {
         noPeopleOnList(target);
     }

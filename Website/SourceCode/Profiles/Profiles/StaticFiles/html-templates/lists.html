@@ -68,10 +68,9 @@
     <script src="{profilesPath}/StaticFiles/js/common/cluster/clusterParse.js"></script>
 
     <script src="{profilesPath}/StaticFiles/js/lists/listsPage.js" type="text/javascript"></script>
-    <script src="{profilesPath}/StaticFiles/js/lists/cluster.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/js/lists/export.js" type="text/javascript"></script>
-    <script src="{profilesPath}/StaticFiles/js/lists/map.js" type="text/javascript"></script>
-    <script src="{profilesPath}/StaticFiles/js/lists/reports.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/lists/ListsMap.js" type="text/javascript"></script>
+    <script src="{profilesPath}/StaticFiles/js/lists/listsReports.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/js/lists/savedLists.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/js/lists/savedListsActions.js" type="text/javascript"></script>
     <script src="{profilesPath}/StaticFiles/js/paging/pagingCached.js" type="text/javascript"></script>
@@ -158,10 +157,11 @@
                 </div>
                 <div class="mt-1" id="peopleDivTable"></div>
             </div>
-            <div class="mainTabsContent" id="mapContent" role="tabpanel" aria-labelledby="map" tabindex="-1"></div>
+            <div class="mainTabsContent" id="mapContent" role="tabpanel" aria-labelledby="map" tabindex="-1">
+            </div>
             <div class="mainTabsContent" id="clusterContent" role="tabpanel" aria-labelledby="cluster" tabindex="-1">
                 <div id="clusterInfoBlurb" class="mt-3">
-                    This cluster graph shows the coauthor relationships among people in this list.
+                    This cluster graph shows the coauthor relationships among people in your selected list(s).
                     The size of a circle is proportional to the number of publications that author has.
                     The thickness of a line connecting two authors' names is proportional to the number of publications that they share.
                     Options for customizing this network view are listed below the graph.

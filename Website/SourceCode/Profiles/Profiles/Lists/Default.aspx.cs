@@ -21,6 +21,7 @@ namespace Profiles.Lists
             message = $"------------myLog--------------->> {message} <<----------";
             System.Diagnostics.Debug.WriteLine(message);
         }
+
         private string getListPeople()
         {
             myLog("getListPeople");
@@ -157,6 +158,10 @@ namespace Profiles.Lists
                         List<Profiles.Lists.Utilities.DataIO.ProfilesList> lists = GetSavedLists();
                         result = serializer.Serialize(lists);
                     }
+                }
+                else if (restTask == "SavedAndCurrentListIds") {
+                    string listIds = ListsSVC.GetSavedAndCurrentListIds();
+                    result = serializer.Serialize(listIds);
                 }
                 else if (restTask == "Export" && len > 4) {
                     string flavor = restSegments[4];

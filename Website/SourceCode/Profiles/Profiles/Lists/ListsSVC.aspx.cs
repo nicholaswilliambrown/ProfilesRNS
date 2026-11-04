@@ -171,6 +171,11 @@ namespace Profiles.Lists
             return Profiles.Lists.Utilities.DataIO.GetLists();
         }
 
+        public static string GetSavedAndCurrentListIds()
+        {
+            return Profiles.Lists.Utilities.DataIO.GetSavedAndCurrentListIds();
+        }
+
         public static string GetReports(string listId, string summaryType)
         {
             return Profiles.Lists.Utilities.DataIO.GetSummary(listId, summaryType);

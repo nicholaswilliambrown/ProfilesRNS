@@ -28,18 +28,30 @@ gLists.savedLists = {
         $('.rtnBtn').click();
     }
 };
-async function getSavedListsForVisuals() {
+
+// this is for sanity checks in dev console
+async function getListIdsSavedAndCurrent() {
+    let url = new URL(`${g.profilesRootURL}/Lists/Default.aspx/SavedAndCurrentListIds`);
+    let listIds = [];
+
+    await $.get(url, function(result) {
+        listIds = JSON.parse(result);
+    });
+    console.log('My Lists: ', listIds);
+
+}
+async function getSavedListsForMapAndCluster() {
     let url = `${g.profilesRootURL}/Lists/Default.aspx/SavedListsMap`;
     await $.get(url, function(result) {
         gLists.savedLists.map = JSON.parse(result);
         console.log('Saved Lists: ', gLists.savedLists.map);
     });
 
-    url = `${g.profilesRootURL}/Lists/Default.aspx/SavedListsCLuster`;
-    await $.get(url, function(result) {
-        gLists.savedLists.cluster = JSON.parse(result);
-        console.log('Saved Lists: ', gLists.savedLists.cluster);
-    });
+    // url = `${g.profilesRootURL}/Lists/Default.aspx/SavedListsCluster`;
+    // await $.get(url, function(result) {
+    //     gLists.savedLists.cluster = JSON.parse(result);
+    //     console.log('Saved Lists: ', gLists.savedLists.cluster);
+    // });
 
 }
 async function setupSavedListsTable(target, tableId, isSavedListsTab) {
@@ -88,7 +100,7 @@ function parseSavedListData(target, tableId, isSavedListsTab) {
 
             let selectCheckbox = $(`<input type="checkbox" lid="${s.ListID}" class="listSelectlCheck"/>`);
             selectCheckbox.attr('aria-label', `Select ${s.ListName}`);
-            let vals = [s.ListName,
+            let vals = [`${s.ListName} (${s.ListID})`,
                     s.Size,
                     s.CreateDate,
                     s.UpdatedDate,

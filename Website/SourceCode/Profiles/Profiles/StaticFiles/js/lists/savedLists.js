@@ -92,7 +92,8 @@ function parseSavedListData(target, tableId, isSavedListsTab) {
 
             let selectCheckbox = $(`<input type="checkbox" lid="${s.ListID}" class="listSelectlCheck"/>`);
             selectCheckbox.attr('aria-label', `Select ${s.ListName}`);
-            let vals = [`${s.ListName} (${s.ListID})`,
+            let extra = gCommon.debug ? ` (${s.ListID})` : '';
+            let vals = [`${s.ListName}${extra}`,
                     s.Size,
                     s.CreateDate,
                     s.UpdatedDate,

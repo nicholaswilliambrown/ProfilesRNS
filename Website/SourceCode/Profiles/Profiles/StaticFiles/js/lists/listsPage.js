@@ -1,4 +1,7 @@
 // this JS should load before the other tab-JS, so they can use gLists
+
+gCommon.debug = true; // adds extra info to output
+
 gLists.noRank = '--';
 gLists.rememberedTab = 'rememberedTab';
 gLists.manage = {

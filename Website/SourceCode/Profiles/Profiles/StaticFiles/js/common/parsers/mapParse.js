@@ -119,8 +119,8 @@ async function initPage(moduleJson) {
         centerLatLong = {lat: centralPerson.latitude, long:centralPerson.longitude};
     }
     else {
-        let averageLatArray = gMapTab.people.map(p => p.latitude);
-        let averageLongArray = gMapTab.people.map(p => p.longitude);
+        let averageLatArray = gMapTab.people.map(p => p.latitude).filter(l => l !== undefined );
+        let averageLongArray = gMapTab.people.map(p => p.longitude).filter(l => l !== undefined );
 
         let averageLat = arrayAverage(averageLatArray, 42.33735);
         let averageLong = arrayAverage(averageLongArray, -71.10335);
@@ -247,8 +247,9 @@ function parseTextVersion(moduleJson) {
             let conn = jsonData[i];
             let stripeClass = (i % 2 == 1) ? "tableOddRowColor" : "";
 
+            let address1 = gCommon.debug ? ` (${i+1}) ${conn.address1}` : conn.address1;
             let address = $('<div class="align-left"></div>');
-            address.append($(`<div>${conn.address1}</div>`));
+            address.append($(`<div>${address1}</div>`));
             address.append($(`<div>${conn.address2}</div>`));
 
             let latitude = Number(conn.latitude).toFixed(5);

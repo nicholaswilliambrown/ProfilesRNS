@@ -746,9 +746,8 @@ namespace Profiles.Lists.Utilities
             return result;
         }
 
-        public static string GetSavedListsMap(string sessionId)
+        public static string GetSavedListsMap(string listIds, string sessionId)
         {
-            string listIds = GetSavedAndCurrentListIds();
             string str = string.Empty;
 
 

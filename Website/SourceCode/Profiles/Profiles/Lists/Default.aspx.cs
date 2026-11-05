@@ -144,7 +144,8 @@ namespace Profiles.Lists
                     result = GetCluster(listId);
                 }
                 else if (restTask == "SavedListsMap") {
-                    result = GetSavedListsMap(session.SessionID.ToString());
+                    string listIds = Request.Form["listIds"].ToString();
+                    result = GetSavedListsMap(listIds, session.SessionID.ToString());
                 }
                 else if (restTask == "SavedListsCluster") {
                     result = GetSavedListsCluster(session.SessionID.ToString());
@@ -158,10 +159,6 @@ namespace Profiles.Lists
                         List<Profiles.Lists.Utilities.DataIO.ProfilesList> lists = GetSavedLists();
                         result = serializer.Serialize(lists);
                     }
-                }
-                else if (restTask == "SavedAndCurrentListIds") {
-                    string listIds = ListsSVC.GetSavedAndCurrentListIds();
-                    result = serializer.Serialize(listIds);
                 }
                 else if (restTask == "Export" && len > 4) {
                     string flavor = restSegments[4];
@@ -241,9 +238,9 @@ namespace Profiles.Lists
         }
 
         [System.Web.Services.WebMethod]
-        public static string GetSavedListsMap(string sessionId)
+        public static string GetSavedListsMap(string listIds, string sessionId)
         {
-            return ListsSVC.GetSavedListsMap(sessionId);
+            return ListsSVC.GetSavedListsMap(listIds, sessionId);
         }
 
         [System.Web.Services.WebMethod]

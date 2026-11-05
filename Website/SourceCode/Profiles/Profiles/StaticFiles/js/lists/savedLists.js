@@ -29,20 +29,12 @@ gLists.savedLists = {
     }
 };
 
-// this is for sanity checks in dev console
-async function getListIdsSavedAndCurrent() {
-    let url = new URL(`${g.profilesRootURL}/Lists/Default.aspx/SavedAndCurrentListIds`);
-    let listIds = [];
-
-    await $.get(url, function(result) {
-        listIds = JSON.parse(result);
-    });
-    console.log('My Lists: ', listIds);
-
-}
-async function getSavedListsForMapAndCluster() {
+// pass in an array of ids
+async function getSavedListsForMapAndCluster(listIds) {
     let url = `${g.profilesRootURL}/Lists/Default.aspx/SavedListsMap`;
-    await $.get(url, function(result) {
+    let commaListIds = listIds.join(',');
+
+    await $.post(url, {listIds: commaListIds}, function(result) {
         gLists.savedLists.map = JSON.parse(result);
         console.log('Saved Lists: ', gLists.savedLists.map);
     });

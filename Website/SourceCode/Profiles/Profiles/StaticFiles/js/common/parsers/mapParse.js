@@ -41,7 +41,9 @@ async function mapParse(moduleJson, indicatedLabel, target) {
     if (!target) {
         target = $('#topLhsDiv');
     }
-    target.append(gMapTab.commonHtml);
+    if ($('#moveableContent').length == 0) {
+        target.append(gMapTab.commonHtml);
+    }
 
     if (indicatedLabel) {
         $('#mapRedBoldIndicated').html(indicatedLabel);

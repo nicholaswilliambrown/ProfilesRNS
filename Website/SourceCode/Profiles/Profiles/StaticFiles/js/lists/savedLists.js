@@ -13,7 +13,12 @@ gLists.savedLists = {
         let target = $('#savedDynamicDisplay');
         target.empty();
 
-        await setupSavedListsTable(target, 'savedListsTable', true);
+        let options = {
+            target: target,
+            tableId: 'savedListsTable',
+            isSavedListsTab: true
+        }
+        await setupSavedListsTable(options);
 
         let currPeopleDivTable = $('<div id="currPeopleTitle" class="ps-0 ms-0">My Current List</div>');
         target.append(currPeopleDivTable);
@@ -29,34 +34,39 @@ gLists.savedLists = {
     }
 };
 
-// pass in an array of ids
-async function getSavedListsForMapAndCluster(listIds) {
-    let url = `${g.profilesRootURL}/Lists/Default.aspx/SavedListsMap`;
-    let commaListIds = listIds.join(',');
+async function setupSavedListsTable(options) {
+    let target          = options.target         ;
+    let tableId         = options.tableId        ;
+    let isSavedListsTab = options.isSavedListsTab;
+    let labelForRefresh = options.labelForRefresh;
+    let getLists        = options.getLists;
 
-    await $.post(url, {listIds: commaListIds}, function(result) {
-        gLists.savedLists.map = JSON.parse(result);
-        console.log('Saved Lists: ', gLists.savedLists.map);
-    });
-
-    // url = `${g.profilesRootURL}/Lists/Default.aspx/SavedListsCluster`;
-    // await $.get(url, function(result) {
-    //     gLists.savedLists.cluster = JSON.parse(result);
-    //     console.log('Saved Lists: ', gLists.savedLists.cluster);
-    // });
-
-}
-async function setupSavedListsTable(target, tableId, isSavedListsTab) {
     let url = `${g.profilesRootURL}/Lists/Default.aspx/SavedLists`;
     await $.get(url, function(result) {
         gLists.savedLists.table = JSON.parse(result);
         console.log('Saved Lists: ', gLists.savedLists.table);
     });
+    let mapDisplay = $('<div id="mapDisplay"></div>');
+    target.prepend(mapDisplay);
     let preDiv = $('<div></div>');
-    target.prepend(preDiv)
-    parseSavedListData(preDiv, tableId, isSavedListsTab);
+    target.prepend(preDiv);
+
+    let innerOptions = {
+        target:             mapDisplay         ,
+        tableId:            tableId        ,
+        isSavedListsTab:    isSavedListsTab,
+        labelForRefresh:    labelForRefresh,
+        getLists:           getLists
+    }
+    parseSavedListData(innerOptions);
 }
-function parseSavedListData(target, tableId, isSavedListsTab) {
+function parseSavedListData(options) {
+    let target          = options.target         ;
+    let tableId         = options.tableId        ;
+    let isSavedListsTab = options.isSavedListsTab;
+    let labelForRefresh = options.labelForRefresh;
+    let getLists        = options.getLists;
+
     let saves = gLists.savedLists.table;
     let numSaves = saves.length;
     if (numSaves) {
@@ -65,7 +75,7 @@ function parseSavedListData(target, tableId, isSavedListsTab) {
         }
         let headerClass = isSavedListsTab ? '' : 'mt-2';
 
-        target.append($(`<div class="fw-bold ${headerClass}">My Saved Person Lists</div>`));
+        target.append($(`<div class="fw-bold ${headerClass}">My Saved and Current Person Lists</div>`));
 
         let colSpecsRowishHeader = [
             newColumnSpec(`col-4 bordE py-1 `,   'Person List'),
@@ -82,15 +92,21 @@ function parseSavedListData(target, tableId, isSavedListsTab) {
             newColumnSpec(`d-flex align-items-center justify-content-md-center py-0`,          '')
         ];
         let savedListRowish = new RowishTable(target,
-            tableId, 'My Saved Lists',
-            colSpecsRowishHeader, colSpecsRowishBody,
+            tableId,
+            'My Saved Lists',
+            colSpecsRowishHeader,
+            colSpecsRowishBody,
             'bord9 w-100 ');
         savedListRowish.emitHeader('listsTableHeader');
+
+        if (labelForRefresh) {
+            addCurrentListToRowish(savedListRowish, gLists.people.length);
+        }
 
         for (let i = 0; i < saves.length; i++) {
             let s = saves[i];
 
-            let selectCheckbox = $(`<input type="checkbox" lid="${s.ListID}" class="listSelectlCheck"/>`);
+            let selectCheckbox = $(`<input type="checkbox" lid="${s.ListID}" class="selectCheck_${tableId}"/>`);
             selectCheckbox.attr('aria-label', `Select ${s.ListName}`);
             let extra = gCommon.debug ? ` (${s.ListID})` : '';
             let vals = [`${s.ListName}${extra}`,
@@ -101,6 +117,47 @@ function parseSavedListData(target, tableId, isSavedListsTab) {
 
             savedListRowish.emitRow(i, vals, 'highlightHover');
         }
+
+        function getCheckedLids() {
+            let checkedIds = $(`.selectCheck_${tableId}`).filter(":checked").map(function() {
+                return $(this).attr('lid');
+            }).get();
+            return checkedIds;
+        }
+        if (labelForRefresh) {
+            let refresh = $(`<button id="redoSavedMap">${labelForRefresh}</button></div>`);
+            target.append(refresh);
+            refresh.on('click', async () => {
+                let lids = getCheckedLids();
+                await getLists(lids);
+            })
+
+            $(`.selectCheck_${tableId}`).on('change', () => {
+                let checkedIds = getCheckedLids();
+                console.log('current lids: ', checkedIds);
+                let repopulateButton = $('#redoSavedMap')
+                if (checkedIds.length > 0) {
+                    repopulateButton.removeAttr('disabled').attr('aria-disabled', 'false');
+                }
+                else {
+                    repopulateButton.attr('disabled', 'disabled').attr('aria-disabled', 'true');
+                }
+            });
+        }
+
         target.append($('<hr/>'));
     }
+}
+function addCurrentListToRowish(rowishTable, listSize) {
+    let listName = `<my current Person list>`;
+    let tableId = rowishTable.id;
+    let selectCheckbox = $(`<input type="checkbox" checked="checked" lid="0" class="selectCheck_${tableId}"/>`);
+    selectCheckbox.attr('aria-label', `Select ${listName}`);
+    let vals = [listName,
+        listSize,
+        '',
+        '',
+        selectCheckbox];
+
+    rowishTable.emitRow('current', vals, 'highlightHover');
 }

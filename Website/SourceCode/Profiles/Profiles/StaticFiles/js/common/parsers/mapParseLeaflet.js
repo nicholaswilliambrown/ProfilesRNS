@@ -1,8 +1,9 @@
 
 function setupLeafletMap(centerLat, centerLong, zoom) {
-    if (!gMapTab.lMap) {
-        gMapTab.lMap = L.map('map_canvas').setView([centerLat, centerLong], zoom);
+    if (gMapTab.lMap) {
+        gMapTab.lMap.remove();
     }
+    gMapTab.lMap = L.map('map_canvas').setView([centerLat, centerLong], zoom);
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
@@ -26,29 +27,37 @@ function pruneMissingLatLongs() {
     gMapTab.people = gMapTab.people.filter(p => p.latitude && p.longitude);
     gMapTab.connections = gMapTab.connections.filter(c => ! (uncoordinatedIds.includes(c.a) || uncoordinatedIds.includes(c.b)));
 }
+
 function leafletMapLoadPins() {
-    // create pins/markers for people
+    // create pins/markers for people based on locations
+    let peopleAtLocationMap = getPeopleAtLocationMap();
+
     let markers = [];
-    for (var i = 0; i < gMapTab.people.length; i++) {
-        let thePerson = gMapTab.people[i];
-        if (typeof thePerson.pin === "undefined") {
-            let pin = L.marker([thePerson.latitude, thePerson.longitude],
-                {title: thePerson.display_name});
-            markers.push(pin);
+    let palKeys = [...peopleAtLocationMap.keys()];
+    for (let i=0; i<palKeys.length; i++) {
+        let theLocation = palKeys[i];
+        let peopleInfo = peopleAtLocationMap.get(theLocation);
 
-            let popupContent = mapPinPopupContent(thePerson);
-            pin.bindPopup(popupContent);
-            thePerson.pin = pin; // save reference to data array
-
-            // drop animation
-            setTimeout("gMapTab.people[" + i + "].pin.addTo(gMapTab.lMap);", 100 * i);
+        let onePersonInfo = {};
+        let collectiveTitleList = [];
+        for (let j=0; j<peopleInfo.length; j++) {
+            onePersonInfo = peopleInfo[j];
+            collectiveTitleList.push(onePersonInfo.display_name);
         }
+        let pin = L.marker([onePersonInfo.latitude, onePersonInfo.longitude],
+            {title: `${onePersonInfo.address1},${onePersonInfo.address2}`});
+        markers.push(pin);
+
+        let popupContent = pinPopupContent(peopleInfo);
+        pin.bindPopup(popupContent);
+        theLocation.pin = pin; // save reference to data array
+
+        // drop animation
+        setTimeout(() => pin.addTo(gMapTab.lMap), 100 * i);
     }
-    if (markers.length) {
-        let pinGroup = new L.featureGroup(markers);
-        let bounds = pinGroup.getBounds();
-        gMapTab.lMap.fitBounds(bounds);
-    }
+    let pinGroup = new L.featureGroup(markers);
+    let bounds = pinGroup.getBounds();
+    gMapTab.lMap.fitBounds(bounds);
 }
 function leafletMapLoadLines() {
     // create network lines

@@ -112,6 +112,7 @@ async function initPage(moduleJson) {
     gMapTab.connections = dataContainer.connections;
 
     let mainPersonUri = getPersonUriFromLabel();
+
     let centralPerson = gMapTab.people.find(p => p.URI == mainPersonUri);
 
     let centerLatLong;
@@ -155,30 +156,90 @@ async function initPage(moduleJson) {
         setTimeout(leafletMapLoadData, g.mapProviderOptions.leafletLoadingDelay);
     }
 }
+function makeLatLongString(lat, long) {
+    let result = '';
+    if (lat && long) {
+        result = JSON.stringify({latitude: lat, longitude: long})
+    }
+    return result;
+}
+function getPeopleAtLocationMap() {
+    let peopleAtLocationMap = new Map();
+    for (let i=0; i<gMapTab.people.length; i++) {
+        let thePerson = gMapTab.people[i];
+        addPersonToLocationMap(thePerson, peopleAtLocationMap);
+    }
+    return peopleAtLocationMap;
+}
+function addPersonToLocationMap(thePerson, peopleAtLocation) {
+    let personsLocation = makeLatLongString(thePerson.latitude, thePerson.longitude);
+    let peopleThere = peopleAtLocation.get(personsLocation);
+    let personRecord = {
+        display_name: thePerson.display_name,
+        URI: thePerson.URI,
+        address1: thePerson.address1,
+        address2: thePerson.address2,
+        latitude: thePerson.latitude,
+        longitude: thePerson.longitude
+    };
+    if (!peopleThere) {
+        peopleAtLocation.set(personsLocation, [personRecord])
+    }
+    else {
+        peopleThere.push(personRecord);
+    }
+}
+
+function pinPopupContent(peopleInfo) {
+    let popupDiv = $('<div></div>');
+
+    for (let i=0; i<peopleInfo.length; i++) {
+        let thePerson = peopleInfo[i];
+        if (i == 0) {
+            popupDiv.append($(`<div class="fw-bold mapPopLine mapPopLine1">${thePerson.address1},${thePerson.address2}</div>`));
+        }
+
+        let url = thePerson.URI;
+        popupDiv.append($(`<div class="mapPopLine mapPopLine3"><a href="${url}">${thePerson.display_name}</a></div>`));
+    }
+
+    let result = popupDiv[0];
+    return result;
+}
+
 function googleMapLoadData(callback) {
     // create markers for people
-    for (var i = 0; i < gMapTab.people.length; i++) {
-        let thePerson = gMapTab.people[i];
-        if (typeof thePerson.pin === "undefined") {
-            // deprecation warning says to use google.maps.marker.AdvancedMarkerElement,
-            //   but we probably need a new api key when loading, since the version of maps
-            //   we now get does not know about AdvancedMarkerElement
-            let pin = new google.maps.Marker({
-                position: new google.maps.LatLng(thePerson.latitude, thePerson.longitude),
-                title: thePerson.display_name,
-            });
+    let peopleAtLocationMap = getPeopleAtLocationMap();
 
-            // drop animation
-            setTimeout("gMapTab.people[" + i + "].pin.setMap(gMapTab.gmap);", 100 * i);
+    let markers = [];
+    let palKeys = [...peopleAtLocationMap.keys()];
+    for (let i=0; i<palKeys.length; i++) {
+        let theLocation = palKeys[i];
+        let peopleInfo = peopleAtLocationMap.get(theLocation);
 
-            // save reference to data array
-            thePerson.pin = pin;
-
-            // click event handler
-            google.maps.event.addListener(pin, 'click', function() {
-                mapClickLocation(this, thePerson)
-            });
+        let onePersonInfo = {};
+        let collectiveTitleList = [];
+        for (let j=0; j<peopleInfo.length; j++) {
+            onePersonInfo = peopleInfo[j];
+            collectiveTitleList.push(onePersonInfo.display_name);
         }
+        let pin = new google.maps.Marker({
+                position: new google.maps.LatLng(onePersonInfo.latitude, onePersonInfo.longitude),
+                title: `${onePersonInfo.address1},${onePersonInfo.address2}`
+            });
+        markers.push(pin);
+        theLocation.pin = pin; // save reference to data array
+
+        // drop animation
+        setTimeout(() => pin.setMap(gMapTab.gmap), 100 * i);
+
+        // save reference to data array
+        theLocation.pin = pin;
+
+        // click event handler
+        google.maps.event.addListener(pin, 'click', function() {
+            mapClickLocation(this, peopleInfo);
+        });
     }
     // create network lines
     for (let i = 0; i < gMapTab.connections.length; i++) {
@@ -198,21 +259,9 @@ function googleMapLoadData(callback) {
     }
 }
 
-function mapPinPopupContent(thePerson) {
-    let popupDiv = $('<div></div>');
-
-    let url = thePerson.URI;
-
-    popupDiv.append($(`<div class="mapPopLine mapPopLine1">${thePerson.address1}</div>`));
-    popupDiv.append($(`<div class="mapPopLine mapPopLine2">${thePerson.address2}</div>`));
-    popupDiv.append($(`<div class="mapPopLine mapPopLine3"><a href="${url}">${thePerson.display_name}</a></div>`));
-
-    let result = popupDiv[0];
-    return result;
-}
-function mapClickLocation(that, thePerson) {
+function mapClickLocation(that, peopleInfo) {
     // This function is called when the user clicks on a marker
-    let popupContent = mapPinPopupContent(thePerson);
+    let popupContent = pinPopupContent(peopleInfo);
 
     gMapTab.ginfowindow.setContent(popupContent);
     gMapTab.ginfowindow.open(gMapTab.gmap, that);
@@ -222,51 +271,44 @@ function parseTextVersion(moduleJson) {
     let jsonData = gMapTab.people;
     let target = $('#mapTextInner');
 
-    if (!jsonData || !jsonData.length) {
-        target.html('<div class="bold">No (mappable) people to display</div>');
-    }
-    else {
+    let colspecs = [
+        newColumnSpec(`${gCommon.cols7or12} alignMiddle bordE`),
+        newColumnSpec(`${gCommon.cols1or12} alignMiddle bordE d-flex justify-content-center`),
+        newColumnSpec(`${gCommon.cols1or12} alignMiddle bordE d-flex justify-content-center`),
+        newColumnSpec(`${gCommon.cols3or12} alignMiddle bordE d-flex justify-content-center`)
+    ];
 
-        let colspecs = [
-            newColumnSpec(`${gCommon.cols7or12} alignMiddle bordE`),
-            newColumnSpec(`${gCommon.cols1or12} alignMiddle bordE d-flex justify-content-center`),
-            newColumnSpec(`${gCommon.cols1or12} alignMiddle bordE d-flex justify-content-center`),
-            newColumnSpec(`${gCommon.cols3or12} alignMiddle bordE d-flex justify-content-center`)
-        ];
+    let rowId = `mapTextTable`;
+    let row = makeRowWithColumns(target, rowId, colspecs, "borderOneSolid tableHeaderPagingRow");
 
-        let rowId = `mapTextTable`;
-        let row = makeRowWithColumns(target, rowId, colspecs, "borderOneSolid tableHeaderPagingRow");
+    row.find(`#${rowId}Col0`).html('<strong>Address</strong>');
+    row.find(`#${rowId}Col1`).html('<strong>Latitude</strong>');
+    row.find(`#${rowId}Col2`).html('<strong>Longitude</strong>');
+    row.find(`#${rowId}Col3`).html('<strong>Names</strong>');
 
-        row.find(`#${rowId}Col0`).html('<strong>Address</strong>');
-        row.find(`#${rowId}Col1`).html('<strong>Latitude</strong>');
-        row.find(`#${rowId}Col2`).html('<strong>Longitude</strong>');
-        row.find(`#${rowId}Col3`).html('<strong>Names</strong>');
+    let numItems = jsonData.length;
+    for (let i=0; i<numItems; i++) {
+        let conn = jsonData[i];
+        let stripeClass = (i % 2 == 1) ? "tableOddRowColor" : "";
 
-        let numItems = jsonData.length;
-        for (let i = 0; i < numItems; i++) {
-            let conn = jsonData[i];
-            let stripeClass = (i % 2 == 1) ? "tableOddRowColor" : "";
+        let address = $('<div class="align-left"></div>');
+        address.append($(`<div>${conn.address1}</div>`));
+        address.append($(`<div>${conn.address2}</div>`));
 
-            let address1 = gCommon.debug ? ` (${i+1}) ${conn.address1}` : conn.address1;
-            let address = $('<div class="align-left"></div>');
-            address.append($(`<div>${address1}</div>`));
-            address.append($(`<div>${conn.address2}</div>`));
+        let latitude = conn.latitude;
+        let longitude = conn.longitude;
 
-            let latitude = Number(conn.latitude).toFixed(5);
-            let longitude = Number(conn.longitude).toFixed(5);
+        let url = conn.URI;
+        let name = conn.display_name;
+        let nameUrl = createAnchorElement(name, url);
 
-            let url = conn.URI;
-            let name = conn.display_name;
-            let nameUrl = createAnchorElement(name, url);
+        let rowId = `details-${i}`;
+        row = makeRowWithColumns(target, rowId, colspecs, `ms-1 borderOneSolid ${stripeClass}`);
 
-            let rowId = `details-${i}`;
-            row = makeRowWithColumns(target, rowId, colspecs, `ms-1 borderOneSolid ${stripeClass}`);
-
-            row.find(`#${rowId}Col0`).append(address);
-            row.find(`#${rowId}Col1`).html(latitude);
-            row.find(`#${rowId}Col2`).html(longitude);
-            row.find(`#${rowId}Col3`).append(nameUrl);
-        }
+        row.find(`#${rowId}Col0`).append(address);
+        row.find(`#${rowId}Col1`).html(latitude);
+        row.find(`#${rowId}Col2`).html(longitude);
+        row.find(`#${rowId}Col3`).append(nameUrl);
     }
 }
 

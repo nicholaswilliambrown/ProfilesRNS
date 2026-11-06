@@ -6,7 +6,14 @@ gLists.cluster = {
         gLists.currentTab = 'cluster';
 
         await parseClusterTabData($('.clusterView'), gLists.people);
-        await setupSavedListsTable($('#clusterContent'), 'savedListsForCluster');
+
+        let options = {
+            target: $('#clusterContent'),
+            tableId: 'savedListsForCluster',
+            isSavedListsTab: false,
+            labelForRefresh: 'Refresh Cluster'
+        }
+        await setupSavedListsTable(options);
     }
 };
 

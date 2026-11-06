@@ -4,37 +4,36 @@ gLists.map = {
 
         console.log('setting up for map!');
         gLists.currentTab = 'map';
+        target = $('#mapContent');
 
-        let target = $('#mapContent');
-        await setupSavedListsTable(target, 'savedListsForMap');
-        await setupInitialMapData();
+        let options = {
+            target: target,
+            tableId: 'savedListsForMap',
+            isSavedListsTab: false,
+            labelForRefresh: 'Refresh Map',
+            getLists: getMapDataForSelectedLists
+        }
+        await setupSavedListsTable(options);
 
-        await parseMapTabData(target);
+        let mapDisplayDiv = $('<div id="mapDisplayDiv"></div>');
+        target.append(mapDisplayDiv);
+        await getMapDataForSelectedLists([0]);
     }
 };
-async function getSavedListsForMap(listIds) {
+
+// pass in an array of ids
+async function getMapDataForSelectedLists(listIds) {
     let url = `${g.profilesRootURL}/Lists/Default.aspx/SavedListsMap`;
     let commaListIds = listIds.join(',');
 
     await $.post(url, {listIds: commaListIds}, function(result) {
         gLists.savedLists.map = JSON.parse(result);
-        console.log('SavedLists from  post: ', gLists.savedLists.map);
+        console.log('Saved Lists People Data: ', gLists.savedLists.map);
     });
-}
-
-async function setupInitialMapData() {
-    await getSavedListsForMap([0]); // 0 indicates the initial 'current list'
+    await parseMapTabData($('#mapDisplayDiv'));
 }
 
 async function parseMapTabData(target) {
-    // backward sanity
-    let url = `${g.profilesRootURL}/Lists/Default.aspx/Map`;
-
-    await jQuery.getJSON(url, function (jsData) {
-        gLists.map.data = jsData;
-        console.log('Classic map data: ', gLists.map.data);
-    }).fail(xhrFail);
-
     console.log('SavedLists map data: ', gLists.savedLists.map);
 
     let people = gLists.savedLists.map.people;
@@ -42,8 +41,6 @@ async function parseMapTabData(target) {
         noPeopleOnList(target);
     }
     else {
-        await mapParse(gLists.savedLists.map, '', $('#mapContent'));
+        await mapParse(gLists.savedLists.map, '', target);
     }
-
-
 }

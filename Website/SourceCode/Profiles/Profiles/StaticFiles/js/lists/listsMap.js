@@ -29,10 +29,18 @@ async function getMapDataForSelectedLists(listIds) {
     await $.post(url, {listIds: commaListIds}, function(result) {
         gLists.savedLists.map = JSON.parse(result);
         console.log('Saved Lists People Data: ', gLists.savedLists.map);
+
+        augmentPeopleForMap();
     });
     await parseMapTabData($('#mapDisplayDiv'));
 }
-
+function augmentPeopleForMap() {
+    if (gLists.savedLists.map.Groups.length > 1) {
+        for (let peop of gLists.savedLists.map.people) {
+            peop.display_name += ` (listed in: ${peop.listNames})`;
+        }
+    }
+}
 async function parseMapTabData(target) {
     console.log('SavedLists map data: ', gLists.savedLists.map);
 

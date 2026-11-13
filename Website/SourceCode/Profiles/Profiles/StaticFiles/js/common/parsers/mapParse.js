@@ -49,7 +49,7 @@ async function mapParse(moduleJson, indicatedLabel, target) {
         $('#mapRedBoldIndicated').html(indicatedLabel);
     }
 
-    await initPage(moduleJson);
+    await initPageWithMap(moduleJson);
 
     $('#zoomLongwood').on("click",
         function() { zoomToCoords(gMapTab.longwoodCoords)});
@@ -88,7 +88,7 @@ function zoomToCoords(coords) {
 }
 
 // see NetworkMap.ascx and/or NetworkMapList.ascx
-async function initPage(moduleJson) {
+async function initPageWithMap(moduleJson) {
     gMapTab.newEnglandCoords = {
         zoom: 7,
         latitude: 42.354637,
@@ -165,13 +165,13 @@ function makeLatLongString(lat, long) {
     }
     return result;
 }
-function getPeopleAtLocationMap() {
-    let peopleAtLocationMap = new Map();
+function createPeopleAtLocationMap() {
+    let mapPeopleToLocation = new Map();
     for (let i=0; i<gMapTab.people.length; i++) {
         let thePerson = gMapTab.people[i];
-        addPersonToLocationMap(thePerson, peopleAtLocationMap);
+        addPersonToLocationMap(thePerson, mapPeopleToLocation);
     }
-    return peopleAtLocationMap;
+    return mapPeopleToLocation;
 }
 function addPersonToLocationMap(thePerson, peopleAtLocation) {
     let personsLocation = makeLatLongString(thePerson.latitude, thePerson.longitude);
@@ -192,13 +192,34 @@ function addPersonToLocationMap(thePerson, peopleAtLocation) {
     }
 }
 
+// maybe DB should handle this?
+function getPopularUnnamedInfo(peopleInfo) {
+    function myTrim(address) {
+        return address.trim().replace(/\s+/g, " ");
+    }
+    let address1Map = new Map();
+    for (let i=0; i<peopleInfo.length; i++) {
+        let trimmedAddress1 = myTrim(peopleInfo[i].address1);
+        peopleInfo[i].address1 = trimmedAddress1;
+
+        let currentCount = address1Map.get(trimmedAddress1);
+        let newCount = currentCount ? 1 + currentCount : 1;
+        address1Map.set(trimmedAddress1, newCount);
+    }
+    address1Map = new Map([...address1Map.entries()].sort((a, b) => b[1] - a[1]));
+    let sortedKeysArray = [...address1Map.keys()];
+
+    let popularUnnamedInfo = peopleInfo.find(pi => pi.address1 = sortedKeysArray[0]);
+
+    return popularUnnamedInfo;
+}
 function pinPopupContent(peopleInfo) {
     let popupDiv = $('<div></div>');
 
     for (let i=0; i<peopleInfo.length; i++) {
         let thePerson = peopleInfo[i];
         if (i == 0) {
-            popupDiv.append($(`<div class="fw-bold mapPopLine mapPopLine1">${thePerson.address1},${thePerson.address2}</div>`));
+            popupDiv.append($(`<div class="fw-bold mapPopLine mapPopLine1">${thePerson.address1}</div>`));
         }
 
         let url = thePerson.URI;
@@ -211,23 +232,19 @@ function pinPopupContent(peopleInfo) {
 
 function googleMapLoadData(callback) {
     // create markers for people
-    let peopleAtLocationMap = getPeopleAtLocationMap();
+    let peopleAtLocationMap = createPeopleAtLocationMap();
 
     let markers = [];
     let palKeys = [...peopleAtLocationMap.keys()];
     for (let i=0; i<palKeys.length; i++) {
         let theLocation = palKeys[i];
-        let peopleInfo = peopleAtLocationMap.get(theLocation);
+        let locationsPeopleInfo = peopleAtLocationMap.get(theLocation);
 
-        let onePersonInfo = {};
-        let collectiveTitleList = [];
-        for (let j=0; j<peopleInfo.length; j++) {
-            onePersonInfo = peopleInfo[j];
-            collectiveTitleList.push(onePersonInfo.display_name);
-        }
+        // all map keys here should lead to at least one person
+        let wlogPersonInfo = locationsPeopleInfo[0];
         let pin = new google.maps.Marker({
-                position: new google.maps.LatLng(onePersonInfo.latitude, onePersonInfo.longitude),
-                title: `${onePersonInfo.address1},${onePersonInfo.address2}`
+                position: new google.maps.LatLng(wlogPersonInfo.latitude, wlogPersonInfo.longitude),
+                title: `${wlogPersonInfo.address1},${wlogPersonInfo.address2}`
             });
         markers.push(pin);
         theLocation.pin = pin; // save reference to data array
@@ -240,7 +257,7 @@ function googleMapLoadData(callback) {
 
         // click event handler
         google.maps.event.addListener(pin, 'click', function() {
-            mapClickLocation(this, peopleInfo);
+            mapClickLocation(this, locationsPeopleInfo);
         });
     }
     // create network lines
@@ -293,9 +310,16 @@ function parseTextVersion(moduleJson) {
         let conn = jsonData[i];
         let stripeClass = (i % 2 == 1) ? "tableOddRowColor" : "";
 
+        // for some maps, address1 has person count tacked on
+        let address1 = conn.address1.replace(/\(\d+ People\)/, '').replace('(1 Person)', '');
+
+        // for some maps, address2 is just a person count
+        let address2 = conn.address2.match(/\(\d+ People\)/) ? '' : conn.address2;
+        address2 = address2.match(/\(1 Person\)/) ? '' : address2;
+
         let address = $('<div class="align-left"></div>');
-        address.append($(`<div>${conn.address1}</div>`));
-        address.append($(`<div>${conn.address2}</div>`));
+        address.append($(`<div>${address1}</div>`));
+        address.append($(`<div>${address2}</div>`));
 
         let latitude = conn.latitude;
         let longitude = conn.longitude;

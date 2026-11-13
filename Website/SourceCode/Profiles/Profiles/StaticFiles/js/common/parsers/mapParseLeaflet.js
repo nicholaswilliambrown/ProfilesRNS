@@ -22,33 +22,38 @@ function leafletMapLoadData() {
     zoomToCoords(gMapTab.bostonCoords);
 }
 function pruneMissingLatLongs() {
-    // filter people from (0,0), (null,null) and such
-    let uncoordinatedIds = gMapTab.people.filter(p => !(p.latitude && p.longitude)).map(p => p.PersonID);
-    gMapTab.people = gMapTab.people.filter(p => p.latitude && p.longitude);
-    gMapTab.connections = gMapTab.connections.filter(c => ! (uncoordinatedIds.includes(c.a) || uncoordinatedIds.includes(c.b)));
+    function nullOrUndef(coord) {
+        return coord === undefined || coord == null;
+    }
+
+    // filter people from (null,null) and such
+    gMapTab.unMappedPeople = gMapTab.people.filter(
+        p => nullOrUndef(p.latitude) || nullOrUndef(p.longitude));
+    gMapTab.people =         gMapTab.people.filter(
+        p => !nullOrUndef(p.latitude) && !nullOrUndef(p.longitude));
+
+    let mappablePersonIds = gMapTab.people.map(p => p.PersonID);
+    gMapTab.connections = gMapTab.connections.filter(
+        c => mappablePersonIds.includes(c.a) && mappablePersonIds.includes(c.b));
 }
 
 function leafletMapLoadPins() {
     // create pins/markers for people based on locations
-    let peopleAtLocationMap = getPeopleAtLocationMap();
+    let peopleAtLocationMap = createPeopleAtLocationMap();
 
     let markers = [];
-    let palKeys = [...peopleAtLocationMap.keys()];
-    for (let i=0; i<palKeys.length; i++) {
-        let theLocation = palKeys[i];
-        let peopleInfo = peopleAtLocationMap.get(theLocation);
+    let PALkeys = [...peopleAtLocationMap.keys()];
+    for (let i=0; i<PALkeys.length; i++) {
+        let theLocation = PALkeys[i];
+        let locationsPeopleInfo = peopleAtLocationMap.get(theLocation);
 
-        let onePersonInfo = {};
-        let collectiveTitleList = [];
-        for (let j=0; j<peopleInfo.length; j++) {
-            onePersonInfo = peopleInfo[j];
-            collectiveTitleList.push(onePersonInfo.display_name);
-        }
-        let pin = L.marker([onePersonInfo.latitude, onePersonInfo.longitude],
-            {title: `${onePersonInfo.address1},${onePersonInfo.address2}`});
+        let popularUnnamedInfo = getPopularUnnamedInfo(locationsPeopleInfo);
+
+        let pin = L.marker([popularUnnamedInfo.latitude, popularUnnamedInfo.longitude],
+            {title: `${popularUnnamedInfo.address1}. ${popularUnnamedInfo.address2}`});
         markers.push(pin);
 
-        let popupContent = pinPopupContent(peopleInfo);
+        let popupContent = pinPopupContent(locationsPeopleInfo);
         pin.bindPopup(popupContent);
         theLocation.pin = pin; // save reference to data array
 

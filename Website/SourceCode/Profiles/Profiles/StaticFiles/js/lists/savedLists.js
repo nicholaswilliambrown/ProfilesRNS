@@ -35,24 +35,20 @@ gLists.savedLists = {
 };
 
 async function setupSavedListsTable(options) {
-    let target          = options.target         ;
-    let tableId         = options.tableId        ;
+    let target = options.target;
+    let tableId = options.tableId;
     let isSavedListsTab = options.isSavedListsTab;
     let labelForRefresh = options.labelForRefresh;
-    let getLists        = options.getLists;
+    let getLists = options.getLists;
 
     let url = `${g.profilesRootURL}/Lists/Default.aspx/SavedLists`;
-    await $.get(url, function(result) {
+    await $.get(url, function (result) {
         gLists.savedLists.table = JSON.parse(result);
         console.log('Saved Lists: ', gLists.savedLists.table);
     });
-    let mapDisplay = $('<div id="mapDisplay"></div>');
-    target.prepend(mapDisplay);
-    let preDiv = $('<div></div>');
-    target.prepend(preDiv);
 
     let innerOptions = {
-        target:             mapDisplay         ,
+        target:             target         ,
         tableId:            tableId        ,
         isSavedListsTab:    isSavedListsTab,
         labelForRefresh:    labelForRefresh,
@@ -91,6 +87,7 @@ function parseSavedListData(options) {
             newColumnSpec(`text-start bordE py-0`,       ''),
             newColumnSpec(`d-flex align-items-center justify-content-md-center py-0`,          '')
         ];
+
         let savedListRowish = new RowishTable(target,
             tableId,
             'My Saved Lists',

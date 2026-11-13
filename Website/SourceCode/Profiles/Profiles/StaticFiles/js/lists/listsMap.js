@@ -4,7 +4,8 @@ gLists.map = {
 
         console.log('setting up for map!');
         gLists.currentTab = 'map';
-        target = $('#mapContent');
+        let target = $('#mapContent');
+        target.empty();
 
         let options = {
             target: target,
@@ -15,8 +16,16 @@ gLists.map = {
         }
         await setupSavedListsTable(options);
 
-        let mapDisplayDiv = $('<div id="mapDisplayDiv"></div>');
-        target.append(mapDisplayDiv);
+        let mapDisplay = $('#mapDisplay');
+        if (mapDisplay.length == 0) {
+            mapDisplay = $('<div id="mapDisplay" class="mt-2"></div>');
+            target.prepend(mapDisplay);
+        }
+        if ($('#mapDisplayDiv').length == 0) {
+            let mapDisplayDiv = $('<div id="mapDisplayDiv"></div>');
+            target.append(mapDisplayDiv);
+        }
+
         await getMapDataForSelectedLists([0]);
     }
 };

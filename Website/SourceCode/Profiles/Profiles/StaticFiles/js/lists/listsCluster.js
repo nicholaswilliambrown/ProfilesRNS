@@ -5,8 +5,12 @@ gLists.cluster = {
         console.log('cluster');
         gLists.currentTab = 'cluster';
 
-        let savedDivForCluster = $('<div id="savedDivForCluster"></div>');
-        $('#clusterContent').prepend(savedDivForCluster);
+        let savedDivForCluster = $('#savedDivForCluster');
+        if (savedDivForCluster.length == 0) {
+            savedDivForCluster = $('<div id="savedDivForCluster"></div>');
+            $('#clusterContent').prepend(savedDivForCluster);
+        }
+        savedDivForCluster.empty(); // repopulate on each visit
 
         let options = {
             target: $(savedDivForCluster),

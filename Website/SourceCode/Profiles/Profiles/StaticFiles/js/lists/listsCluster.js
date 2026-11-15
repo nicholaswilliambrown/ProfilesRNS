@@ -5,15 +5,18 @@ gLists.cluster = {
         console.log('cluster');
         gLists.currentTab = 'cluster';
 
-        await parseClusterTabData($('.clusterView'), gLists.people);
+        let savedDivForCluster = $('<div id="savedDivForCluster"></div>');
+        $('#clusterContent').prepend(savedDivForCluster);
 
         let options = {
-            target: $('#clusterContent'),
+            target: $(savedDivForCluster),
             tableId: 'savedListsForCluster',
             isSavedListsTab: false,
             labelForRefresh: 'Refresh Cluster'
         }
         await setupSavedListsTable(options);
+
+        await parseClusterTabData($('.clusterView'), gLists.people);
     }
 };
 

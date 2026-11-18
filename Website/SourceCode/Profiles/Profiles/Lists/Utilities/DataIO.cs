@@ -794,12 +794,14 @@ namespace Profiles.Lists.Utilities
         }
         public static string GetSavedListsCluster(string sessionId)
         {
-            string listIds = GetSavedAndCurrentListIds();
-            return null;
+            return "";
+        }
+//        public static string GetSavedListsCluster(string listIds, string sessionId)
+//        {
 //            string str = string.Empty;
 //
 //
-//            if (Framework.Utilities.Cache.FetchObject(listid + "LISTGetNetworkRadialCoAuthors") == null)
+//            if (Framework.Utilities.Cache.FetchObject(listid + "LISTGetSavedListsCluster ") == null)
 //            {
 //                Framework.Utilities.DataIO dataio = new Framework.Utilities.DataIO();
 //                try
@@ -826,7 +828,7 @@ namespace Profiles.Lists.Utilities
 //                    if (!dbreader.IsClosed)
 //                        dbreader.Close();
 //
-//                    Framework.Utilities.Cache.Set(listid + "LISTGetNetworkRadialCoAuthors", str);
+//                    Framework.Utilities.Cache.Set(listid + "LISTGetSavedListsCluster ", str);
 //                }
 //                catch (Exception ex)
 //                {
@@ -835,11 +837,11 @@ namespace Profiles.Lists.Utilities
 //            }
 //            else
 //            {
-//                str = (string)Framework.Utilities.Cache.FetchObject(listid + "LISTGetNetworkRadialCoAuthors");
+//                str = (string)Framework.Utilities.Cache.FetchObject(listid + "LISTGetSavedListsCluster ");
 //            }
 //
 //            return str;
-        }
+//        }
 
         public static string GetNetworkRadialCoAuthors(string listid)
         {

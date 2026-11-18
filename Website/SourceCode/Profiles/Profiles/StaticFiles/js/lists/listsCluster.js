@@ -20,16 +20,16 @@ gLists.cluster = {
         }
         await setupSavedListsTable(options);
 
-        await parseClusterTabData($('.clusterView'), gLists.people);
+        await presentCluster($('.clusterView'), gLists.people);
     }
 };
 
-async function parseClusterTabData(target, people) {
+async function presentCluster(target, people) {
     if (people.length == 0) {
         noPeopleOnList(target);
     }
     else {
-        let url = `${g.profilesRootURL}/Lists/Default.aspx/Cluster`;
+        let url = `${g.profilesRootURL}/Lists/Default.aspx/SavedListsCluster`;
 
         await jQuery.getJSON(url, function (jsData) {
             console.log('cluster data:', jsData);

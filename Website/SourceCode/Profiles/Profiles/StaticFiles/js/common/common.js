@@ -609,13 +609,14 @@ function createNavItemSpan(id, text, clickFn, aClass) {
     if (!aClass) {
         aClass = "";
     }
-    let span = $(`<span class="link-ish nav-link d-inline ${id} ${aClass}">
-                                ${text}</span>`);
+    // a real <button> (not a <span>) so keyboard and screen-reader users can use it (a11y R4)
+    let button = $(`<button type="button" class="link-ish nav-link d-inline ${id} ${aClass}"
+                                data-nav-id="${id}">${text}</button>`);
 
     if (clickFn) {
-        span.on("click", clickFn);
+        button.on("click", clickFn);
     }
-    return span;
+    return button;
 }
 function emitExploreButton(target, hrefOrFn) {
     // large/small variants

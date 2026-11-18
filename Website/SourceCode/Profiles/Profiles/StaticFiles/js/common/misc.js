@@ -149,7 +149,7 @@ function undoubleTheSlash(url) {
     return url.replaceAll("//", "/")
 }
 function isArray(obj) {
-    return $.isArray(obj);
+    return Array.isArray(obj); // $.isArray removed in jQuery 4
 }
 function pad(num, size) {
     num = num.toString();

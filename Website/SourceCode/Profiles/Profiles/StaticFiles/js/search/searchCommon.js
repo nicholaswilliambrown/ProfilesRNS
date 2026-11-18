@@ -97,11 +97,17 @@ function initializePagingValues(selections, size, offset1) {
     selections.Offset = offset1;
 }
 function createWhyLink(item, results) {
-    let whySpan = spanify('Why?', 'link-ish');
-    whySpan.on('click', function() {
+    // a real button, so keyboard and screen-reader users can reach it (a11y R3)
+    let whyButton = $('<button type="button" class="link-ish whyButton">Why?</button>');
+    let name = item.DisplayName ?? item.Label;
+    if (name) {
+        // set via .attr so quotes or markup in the name can't break the HTML
+        whyButton.attr('aria-label', `Why did ${name} match?`);
+    }
+    whyButton.on('click', function() {
         searchWhy(item, results);
     })
-    return whySpan;
+    return whyButton;
 }
 function searchEverythingFn(searchInput, exactCheckbox) {
 
@@ -215,9 +221,13 @@ function emitCriteriaOnRhs(results, withWhy) {
         target: target, klass: klass, eltType: eltType, except: results.SearchQuery.DepartmentExcept}));
 
     for (let whichDropdown of ['FacultyTypeName', 'OtherOptionsName']) {
-        for (let item of results.SearchQuery[whichDropdown]) {
-            addedBreaks.push(addIfPresent({text: item,
-                target: target, klass: klass, eltType: eltType}));
+        if (results.SearchQuery[whichDropdown]) {
+            for (let item of results.SearchQuery[whichDropdown]) {
+                addedBreaks.push(addIfPresent({
+                    text: item,
+                    target: target, klass: klass, eltType: eltType
+                }));
+            }
         }
     }
     if (withWhy) {

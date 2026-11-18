@@ -27,6 +27,12 @@
     cursor: none !important;
     opacity: 50%;
 }
+/* search results "Why?" is a <button>; make it look like the old link */
+button.whyButton {
+    background: none;
+    padding: 0;
+    font: inherit;
+}
 
 
 .hover_bold:hover {

@@ -216,7 +216,8 @@ class PagingCached {
     adjustInputPageNumber(input, numPages) {
         let val = input.val();
         let goodNumber = false;
-        if ($.isNumeric(val)) {
+        // same result as $.isNumeric (removed in jQuery 4) for input strings
+        if (typeof val === "string" && val.trim() !== "" && isFinite(val)) {
             val = Number(val);
             if (val > 0 && val <= numPages) {
                 goodNumber = true;

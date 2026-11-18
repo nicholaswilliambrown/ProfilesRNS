@@ -104,6 +104,6 @@ function placeFooter(footerId) {
         footerPushDownDiv.height(winHeight - bodyHeight);
     }
 
-    $(footerId).css("clear: both");
+    $(footerId).css("clear", "both");
 }
 

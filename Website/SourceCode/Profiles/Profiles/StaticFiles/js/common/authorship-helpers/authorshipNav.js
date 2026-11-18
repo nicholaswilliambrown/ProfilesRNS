@@ -55,11 +55,20 @@ function addPublicationsFirstTwoHeaderItems(target, ignore3) {
         shortcuts.push(gPerson.authNavButtonPlainText);
     }
 
-    emitNarrowShortcutsDiv(target, shortcuts);
-    emitWideShortcutsDiv(target, shortcuts);
+    // toggle buttons: screen readers announce which view is current (a11y R4)
+    for (let shortcut of shortcuts) {
+        shortcut.addClass('authNavButton').attr('aria-pressed', 'false');
+    }
+
+    let groupLabel = "Sort or change view of publications";
+    emitNarrowShortcutsDiv(target, shortcuts, groupLabel);
+    emitWideShortcutsDiv(target, shortcuts, groupLabel);
 }
-function emitWideShortcutsDiv(target, shortcuts) {
+function emitWideShortcutsDiv(target, shortcuts, groupLabel) {
     let wideTarget = $(`<div class="wideShortcuts d-inline mt-2 ${gCommon.hideXsSmallShowOthers}"></div>`);
+    if (groupLabel) {
+        wideTarget.attr({role: 'group', 'aria-label': groupLabel});
+    }
     target.append(wideTarget);
 
     let numShortcuts = shortcuts.length;
@@ -73,12 +82,15 @@ function emitWideShortcutsDiv(target, shortcuts) {
         }
         shortcut.addClass('pt-0 pb-0')
         if (i < numShortcuts-1) {
-            wideTarget.append($('<span class="d-inline"> | </span>'));
+            wideTarget.append($('<span class="d-inline" aria-hidden="true"> | </span>'));
         }
     }
 }
-function emitNarrowShortcutsDiv(target, shortcuts) {
+function emitNarrowShortcutsDiv(target, shortcuts, groupLabel) {
     let narrowTarget = $(`<div class="narrowShortcuts mb-4 ${gCommon.showXsSmallHideOthers}"></div>`);
+    if (groupLabel) {
+        narrowTarget.attr({role: 'group', 'aria-label': groupLabel});
+    }
     target.append(narrowTarget);
 
     let colSpecs = [];
@@ -95,8 +107,12 @@ function emitNarrowShortcutsDiv(target, shortcuts) {
 
 ///////////////////////////////////////////////////
 function authNavAdjustStyle(e) {
-    $('.nav-link').removeClass("active").removeAttr("aria-current");
-    $(e.target).addClass("active").attr("aria-current", true);
+    // Only touch the publication options (not every .nav-link, e.g. the top menu).
+    // Update by class so both the wide and narrow copies of each option stay in step,
+    // and use currentTarget so a click on a child element still finds the button.
+    let navId = $(e.currentTarget).attr('data-nav-id');
+    $('.authNavButton').removeClass("active").attr("aria-pressed", "false");
+    $(`.authNavButton.${navId}`).addClass("active").attr("aria-pressed", "true");
 }
 async function authNavNewest(e) {
     if (! gPerson.allPubsLoaded) {

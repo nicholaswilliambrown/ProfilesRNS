@@ -84,6 +84,12 @@
     color: #3366CC;
     text-decoration: none;
 }
+/* the toggle links are <button>s; make them look like inline links */
+button.toggleGraphLink {
+    background: none;
+    padding: 0;
+    font: inherit;
+}
 
 #divLimit {
     font-weight: bold;

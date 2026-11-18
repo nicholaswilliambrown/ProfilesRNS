@@ -17,10 +17,16 @@ function computeAltmetricScores() {
             Object.keys(gPerson.altmetricScores).length
             :0;
 
+    // Clear any earlier message by class: one is placed next to each copy of the
+    // Most Discussed button (wide and narrow rows), and this runs repeatedly.
+    $('.altMetricProgress').remove();
+
     if (numAltPmids != numAltScores) {
-        let progressSpan = spanify(`Found ${numAltScores} 
-                    out of ${numAltPmids} altMetric scores`, 'altMetricProgress');
-        $('#authNavButtonMostDiscussed').append(progressSpan);
+        let progressSpan = spanify(`Found ${numAltScores}
+                    out of ${numAltPmids} altMetric scores`, 'altMetricProgress ms-1');
+        // a class, not an id (there was never an element with id authNavButtonMostDiscussed);
+        // placed after the button rather than inside it, so the button's name stays "Most Discussed"
+        $('.authNavButtonMostDiscussed').after(progressSpan);
         $(gPerson.altPmidSelector).each(function() {
             let pmid = $(this).attr('data-pmid');
             if (gPerson.altmetricScores[pmid] === undefined) {
@@ -34,7 +40,7 @@ function computeAltmetricScores() {
         });
         numAltScores = Object.keys(gPerson.altmetricScores).length;
         if (numAltScores == numAltPmids) {
-            progressSpan.remove();
+            $('.altMetricProgress').remove();
             gPerson.gotAltmetrics = true;
         }
         didRecompute = true;

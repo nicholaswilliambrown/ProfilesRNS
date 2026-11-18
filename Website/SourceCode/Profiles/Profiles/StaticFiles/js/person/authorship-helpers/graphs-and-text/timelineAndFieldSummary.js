@@ -13,8 +13,10 @@ async function authNavGreenField(e, options) {
     let overallDiv = $(`<div id="${overallDivId}"></div>`);
     gPerson.authorshipInnerDiv.append(overallDiv);
 
-    let aClickToText = $('<a class="link-ish toggleGraphLink mb-2" id="${toTextId}">click here</a>');
-    let aClickToGraph = $('<a class="link-ish toggleGraphLink mb-2" id="${toGraphId}">click here</a>');
+    // <button>s (not <a> without href) so keyboard users can reach them;
+    // backticks so the ids are filled in rather than literally "${toTextId}"
+    let aClickToText = $(`<button type="button" class="link-ish toggleGraphLink mb-2" id="${toTextId}">click here</button>`);
+    let aClickToGraph = $(`<button type="button" class="link-ish toggleGraphLink mb-2" id="${toGraphId}">click here</button>`);
 
     let mainText = theText;
     let overallDivToTextDiv = $(`<div class="mt-2">${mainText} To see the data as text, </div>`);
@@ -34,14 +36,17 @@ async function authNavGreenField(e, options) {
 
     overallDivToGraphDiv.hide();
 
+    // the clicked button gets hidden, so move focus to the one now showing,
+    // otherwise keyboard focus falls back to the top of the page
     aClickToText.on('click', async function() {
         overallDivToTextDiv.hide();
         overallDivToGraphDiv.show();
-
+        aClickToGraph.trigger('focus');
     });
     aClickToGraph.on('click', function() {
         overallDivToGraphDiv.hide();
         overallDivToTextDiv.show();
+        aClickToText.trigger('focus');
     });
 
     overallDivToGraphDiv.hide();

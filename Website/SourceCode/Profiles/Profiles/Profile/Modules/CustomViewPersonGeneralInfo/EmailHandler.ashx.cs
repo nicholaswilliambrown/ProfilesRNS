@@ -12,11 +12,12 @@
 */
 
 using System;
+using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Web;
-using System.Data.SqlClient;
 
 namespace Profiles.Profile.Modules.DisplayEmail
 {
@@ -33,15 +34,22 @@ namespace Profiles.Profile.Modules.DisplayEmail
             if (!string.IsNullOrEmpty(context.Request.QueryString["msg"]))
             {
                 Utilities.DataIO data = new Profiles.Profile.Utilities.DataIO();
-                SqlDataReader reader;
+
                 string email = context.Request.QueryString["msg"];
 
-                SqlCommand cmd = new SqlCommand("SELECT [Utility.Application].[fnDecryptBase64RC4] ( '" + email + "',   (Select [value] from [Framework.].parameter with(nolock) where ParameterID = 'RC4EncryptionKey'))");
-                reader = data.GetSQLDataReader(cmd);
-                reader.Read();
+                SqlCommand cmd = new SqlCommand(
+                    "SELECT [Utility.Application].[fnDecryptBase64RC4] ( @Email, " +
+                    "(SELECT [value] FROM [Framework.].parameter WITH(NOLOCK) WHERE ParameterID = 'RC4EncryptionKey'))");
 
-                string EmailText = reader[0].ToString();
-                                
+                cmd.Parameters.Add("@Email", SqlDbType.VarChar, -1).Value = (object)email ?? DBNull.Value;
+
+                string EmailText = "";
+
+                using (SqlDataReader reader = data.GetSQLDataReader(cmd))
+                {
+                    reader.Read();
+                    EmailText = reader[0].ToString();
+                }                
                 int MyLen;
 
                 SizeF size;
@@ -49,7 +57,6 @@ namespace Profiles.Profile.Modules.DisplayEmail
                 Font font;
 
                 font = new Font("Arial", fontSize, FontStyle.Regular);
-
 
                 MyLen = EmailText.Length;
 
@@ -84,12 +91,6 @@ namespace Profiles.Profile.Modules.DisplayEmail
 
                 font.Dispose();
                 g.Dispose();
-
-
-
-
-
-
             }
         }
 

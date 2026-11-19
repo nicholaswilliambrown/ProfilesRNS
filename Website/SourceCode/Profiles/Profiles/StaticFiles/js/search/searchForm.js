@@ -99,13 +99,8 @@ function pushForRestore(candidate, target) {
     }
 }
 function restoreDropdowns(nodesToClick) {
-    for (let i = 0; i < nodesToClick.length; i++) {
-        let node = nodesToClick[i];
-        if (node) {
-            $(`#${node}`).closest('li').click();
-        }
-    }
-    $('#dropbox2Col2').click(); // close the dropdowns by clicking outside
+    // the filters are now selects and checkboxes (searchDropdowns.js), so set them directly
+    restoreDropdownSelections(nodesToClick.filter(node => node));
 }
 function restoreText(targetId, text) {
     if (text) {

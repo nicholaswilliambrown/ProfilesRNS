@@ -206,9 +206,84 @@
 .proxyDd {
     border: 1px solid #ccc;
 }
+
+/* Search filters (a11y R1/R2): native selects and disclosure buttons with checkbox groups */
+.searchFilterSelect {
+    font-size: 0.875rem;
+}
+/* form-select sizes and pins its background image for its arrow (16px, right, no-repeat);
+   undo that so .gradient fills the whole select. The padding matches .filterToggle so
+   all five filters look alike, leaving room on the right for the ▾ */
+.searchFilterSelect.gradient {
+    background-size: 100% 100%;
+    background-position: 0 0;
+    border-color: #ccc;
+    padding: 2px 1.5rem 2px 5px;
+    line-height: 1.5;
+}
+/* .gradient hides form-select's background-image arrow, so this ▾ (the same glyph as the
+   filter buttons') sits over the select's right edge; clicks pass through to the select */
+.selectArrow {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 0.875rem;
+    color: #212529;
+}
+.filterToggle {
+    border: 1px solid #ccc;
+    border-radius: 0.2rem;
+    padding: 2px 5px;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: #212529;
+}
+/* the open group floats over the rows below, as the old lists did */
+.filterGroup {
+    position: absolute;
+    z-index: 100;
+    left: 0;
+    right: 0;
+    max-height: 180px;
+    overflow-y: auto;
+    margin: 0;
+    padding: 4px 6px;
+    background-color: white;
+    border: 1px solid #ccc;
+    font-size: 0.875rem;
+    text-align: start;
+}
+.filterGroup[hidden] {
+    display: none;
+}
+/* Bootstrap floats legends and makes them large; keep category titles small and in flow */
+.filterCategory {
+    margin: 0 0 4px 0;
+}
+.filterCategory legend {
+    float: none;
+    width: auto;
+    margin: 4px 0 0 0;
+    font-size: inherit;
+    font-weight: bold;
+    color: #666;
+}
+.filterOption {
+    padding: 2px 0;
+    cursor: pointer;
+}
+.filterCategory .filterOption {
+    padding-left: 0.75rem;
+}
 /* https://stackoverflow.com/questions/29732488/how-to-get-a-drop-down-menu-to-overlay-other-elements */
 .ulDiv {
     position: relative; /* for superimposing dropdowns */
+    /* its column is d-flex, which would stretch it to the row's height (taller than the
+       control when the "All except" column is); keep it the control's height so the
+       .selectArrow's top: 50% is the middle of the select, not of the row */
+    align-self: flex-start;
 }
 
     .ulDiv ul {

@@ -95,8 +95,9 @@
                         <div id="peopleBox" class="tab-pane-box mt-3 pt-3 pb-3">
                             <div id="dropdownsAndNames">
                                 <!-- Search filters (a11y R1/R2): real form controls instead of <li> click-lists.
-                                     Single choice (Institution, Department): a native <select> (no .gradient class:
-                                     its background-image !important would hide form-select's arrow).
+                                     Single choice (Institution, Department): a native <select>. Its .gradient
+                                     background-image (!important) hides form-select's own arrow, so a ▾ span,
+                                     the same as the multi-choice buttons', is laid over the right edge instead.
                                      Multiple choice (Faculty Type, Profile Contains, Other Options): a toggle button
                                      that shows/hides a <fieldset> of labelled checkboxes.
                                      searchDropdowns.js fills in the options; it still moves each ...UlDiv into its row.
@@ -105,16 +106,18 @@
 
                                 <!-- script adds: <option value="{index}">{InstitutionName}</option> -->
                                 <div id="institutionsUlDiv" position="1" class="ulDiv w-100">
-                                    <select id="institutionsSelect" class="form-select" aria-label="Institution">
+                                    <select id="institutionsSelect" class="form-select searchFilterSelect gradient" aria-label="Institution">
                                         <option value="">None selected</option>
                                     </select>
+                                    <span class="selectArrow" aria-hidden="true">&#x25BE;</span>
                                 </div>
 
                                 <!-- script adds: <option value="{index}">{DepartmentName}</option> -->
                                 <div id="departmentsUlDiv" position="2" class="ulDiv w-100">
-                                    <select id="departmentsSelect" class="form-select" aria-label="Department">
+                                    <select id="departmentsSelect" class="form-select searchFilterSelect gradient" aria-label="Department">
                                         <option value="">None selected</option>
                                     </select>
+                                    <span class="selectArrow" aria-hidden="true">&#x25BE;</span>
                                 </div>
 
                                 <!-- script adds, inside the fieldset:

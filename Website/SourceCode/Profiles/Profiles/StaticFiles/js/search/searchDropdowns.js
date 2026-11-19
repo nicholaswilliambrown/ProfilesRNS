@@ -75,12 +75,16 @@ function adjustedSelections(dropdownPrefix, list) {
     showSearchFilterSelections(dropdownPrefix);
 }
 
-// applicable only for Find People tab
+// Search filters (a11y R1/R2), built on the markup in searchForm.html:
+//   single choice (Institution, Department): a native <select>, plus an "All except" checkbox
+//   multiple choice (Faculty Type, Profile Contains, Other Options): a disclosure button
+//     (aria-expanded) that shows/hides a <fieldset> of <label>-wrapped checkboxes,
+//     with a nested <fieldset><legend> per category where there are categories.
+// Selections are still kept as item indices in gSearch[prefix].rawSelections / selectedIndices,
+// so collectDropdownSelections() and the search request are unchanged.
 function setupDropdowns() {
 
     let peoplePaneBox = $(`#${gSearch.people}Box`);
-    
-    peoplePaneBox.on('click', hideLiItems);
 
     let selectDataLists = prepareDropdownData(gSearch.formData);
 
@@ -111,17 +115,14 @@ function setupDropdowns() {
         gSearch.dropdownPrefixes.push(dropdownPrefix);
         gSearch.prefix2jsonLabel[dropdownPrefix] = data.label.replaceAll(" ", "");
         gSearch.prefix2singular[dropdownPrefix] = data.singular;
-
-        let currentCategory = "";
-        let categoryProperty = data.categoryProperty;
-        let useMultiCheckbox = data.useMultiCheckbox;
+        gSearch[dropdownPrefix].rawSelections = []; // clean initial value
+        gSearch[dropdownPrefix].selectedIndices = []; // clean initial value
 
         let ulDiv = $(`#${data.prefix}UlDiv`);
 
         let rowId = `dropbox${j}`;
         let row = makeRowWithColumns(dropdownsAndNames, rowId, gSearch.midSectionColspecs,  "pb-1 mt-0 mb-2");
 
-        // https://stackoverflow.com/questions/56968976/creating-multiselect-checkbox
         let dropdownColumnLabel = row.find(`#${rowId}Col0`);
         let dropdownColumnOptions = row.find(`#${rowId}Col1`);
         let dropdownColumnCheckbox = row.find(`#${rowId}Col2`);
@@ -130,104 +131,163 @@ function setupDropdowns() {
         dropdownColumnCheckbox.addClass("pt-2 dropdownCheckbox"); // tweak vertical
 
         moveContentTo(ulDiv, dropdownColumnOptions);
-        dropdownColumnLabel.html(data.label);
 
-        let ul = ulDiv.find('ul');
-        let theChosen = ul.find('.theChosen');
-        theChosen.html(gSearch.noneSt + gSearch.selectedSt);
-        theChosen.parent().on('click', function(e) {
-            e.stopPropagation();
-            $(`.li-item:not(.${dropdownPrefix})`).hide();
-            $(`.li-item.${dropdownPrefix}`).toggle();
-
-            if ( ! $(`.li-item.${dropdownPrefix}`).is(':visible')) {
-                setTimeout(function() {
-                    $('.ulDiv').show();
-                }, 10);
-            }
-        })
-
-        // if no multi-checkboxes, then there are all-except checkboxes
-        if ( ! data.useMultiCheckbox) {
-            let allExceptCheckbox = $(`<input type="checkbox" class="allExceptCheck" id="${dropdownPrefix}AllExceptCheck" aria-label="All except"/>`);
-            let label = $(`<label class="ms-2"> All <span class="bold">except</span> the one selected</label>`);
-
-            // separate label - checkbox, so only precise clicks on box have effect
-            dropdownColumnCheckbox.append(allExceptCheckbox);
-            dropdownColumnCheckbox.append(label);
-
-            gSearch[dropdownPrefix].allExceptCheckbox = allExceptCheckbox;
-
-            let li = $(`<li class="dropdown-no-bullet ${dropdownPrefix} li-item">${gSearch.noneSt} ${gSearch.selectedSt}</li>`);
-                li.on('click', function() {
-                    adjustedSelections(dropdownPrefix, []);
-                })
-            ul.append(li);
+        if (data.singular) {
+            setupSingleChoiceFilter(data, dropdownPrefix, items, ulDiv,
+                dropdownColumnLabel, dropdownColumnCheckbox);
         }
-
-        gSearch[dropdownPrefix].rawSelections = []; // clean initial value
-        gSearch[dropdownPrefix].selectedIndices = []; // clean initial value
-        let numItems = items.length;
-        for (let i = 0; i < numItems; i++) {
-            let item = items[i];
-            let nodeId = item.NodeID;
-
-            if (categoryProperty) {
-                let itemCategory = item[categoryProperty];
-                if (itemCategory != currentCategory) {
-                    currentCategory = itemCategory;
-                    let catLi = $(`<li class="dropdown-no-bullet categoryDivider ${dropdownPrefix} li-item ps-3">${itemCategory}</li>`);
-                    ul.append(catLi);
-                }
-            }
-
-            let itemDisplay = item[displayProperty];
-            let li = $(`<li id="${nodeId}" value="${i}" class="dropdown-no-bullet ${dropdownPrefix} li-item">${itemDisplay}</li>`);
-            ul.append(li);
-            if (data.singular) {
-                li.on('click', function() {
-                    adjustedSelections(dropdownPrefix, []);
-                    ul.find('.theChosen').click();
-                })
-            }
-
-            if (useMultiCheckbox) {
-                let check = $(`<input id="${nodeId}" class="${dropdownPrefix} me-1" 
-                                    type='checkbox'
-                                    value="${i}"/>`);
-                li.prepend(check);
-                check.on('click', function(e) {
-                    e.stopPropagation();
-                    li.toggleClass('selected');
-                    let selections =  harvestCheckedOptions(dropdownPrefix);
-                    gSearch[dropdownPrefix].rawSelections = selections;
-                    gSearch[dropdownPrefix].selectedIndices = selections;
-                    showSearchFilterSelections(dropdownPrefix);
-                });
-                li.on('click', function(e) {
-                    e.stopPropagation();
-                    check.click();
-                })
-            }
-            else {
-                li.on('click', function(e) {
-                    e.stopPropagation();
-
-                    $(`li.${dropdownPrefix}`).removeClass('selected');
-
-                    li.toggleClass('selected');
-
-                    adjustedSelections(dropdownPrefix, [i]);
-                });
-            }
+        else {
+            setupMultiChoiceFilter(data, dropdownPrefix, items, ulDiv, dropdownColumnLabel);
         }
     }
-    hideLiItems();
-    dropdownVisibilityAdjustToOverlaps();
+
+    // a click anywhere outside an open filter group closes it (as the old lists did)
+    $(document).off('click.searchFilters').on('click.searchFilters', function(e) {
+        $('.filterToggle[aria-expanded="true"]').each(function() {
+            let ulDiv = $(this).closest('.ulDiv');
+            if ( ! ulDiv[0].contains(e.target)) {
+                closeFilterGroup($(this));
+            }
+        });
+    });
 
     // tighten up selectDisplay box
     $('#hasSectionsUlDiv').find('.gradient').addClass('mt-1 pt-0 pb-0');
     $('#peopleBox').find('#dropbox4Row').addClass('mt-3');
+}
+function setupSingleChoiceFilter(data, dropdownPrefix, items, ulDiv,
+                                 dropdownColumnLabel, dropdownColumnCheckbox) {
+    let select = ulDiv.find('select');
+    let selectId = select.attr('id');
+
+    // the visible label is now a real <label>, so the template's stand-in aria-label can go
+    dropdownColumnLabel.html(`<label for="${selectId}">${data.label}</label>`);
+    select.removeAttr('aria-label');
+
+    // option values are item indices; the first option ("None selected", value "") is in the template
+    for (let i = 0; i < items.length; i++) {
+        let option = $('<option></option>').attr('value', i).html(items[i][data.displayProperty]);
+        select.append(option);
+    }
+
+    select.on('change', function() {
+        let value = select.val();
+        adjustedSelections(dropdownPrefix, value === '' ? [] : [Number(value)]);
+    });
+
+    // "All except": the label is deliberately not linked to the box (only precise clicks
+    // on the box count), so the box gets its own name. It says which filter it belongs to,
+    // because Institution and Department each have one.
+    let allExceptCheckbox = $(`<input type="checkbox" class="allExceptCheck" id="${dropdownPrefix}AllExceptCheck"/>`);
+    allExceptCheckbox.attr('aria-label', `${data.label}: all except the one selected`);
+    let label = $(`<label class="ms-2"> All <span class="bold">except</span> the one selected</label>`);
+
+    dropdownColumnCheckbox.append(allExceptCheckbox);
+    dropdownColumnCheckbox.append(label);
+
+    gSearch[dropdownPrefix].allExceptCheckbox = allExceptCheckbox;
+}
+function setupMultiChoiceFilter(data, dropdownPrefix, items, ulDiv, dropdownColumnLabel) {
+    let button = ulDiv.find('.filterToggle');
+    let group = ulDiv.find('.filterGroup');
+
+    dropdownColumnLabel.html(data.label);
+    showSearchFilterSelections(dropdownPrefix);
+
+    let container = group;
+    let currentCategory = "";
+    let categoryProperty = data.categoryProperty;
+
+    for (let i = 0; i < items.length; i++) {
+        let item = items[i];
+
+        if (categoryProperty) {
+            let itemCategory = item[categoryProperty];
+            if (itemCategory != currentCategory) {
+                currentCategory = itemCategory;
+                container = $('<fieldset class="filterCategory"></fieldset>');
+                container.append($('<legend></legend>').html(itemCategory));
+                group.append(container);
+            }
+        }
+
+        // the input carries the prefix class: harvestCheckedOptions(prefix) finds the boxes by it
+        let check = $(`<input type="checkbox" class="${dropdownPrefix} me-1"/>`)
+            .attr({id: `${dropdownPrefix}-${item.NodeID}`, value: i, 'data-node-id': item.NodeID});
+        let label = $('<label class="filterOption d-block"></label>');
+        label.append(check).append($('<span></span>').html(item[data.displayProperty]));
+        container.append(label);
+    }
+
+    group.on('change', `input.${dropdownPrefix}`, function() {
+        let selections = harvestCheckedOptions(dropdownPrefix).map(Number);
+        gSearch[dropdownPrefix].rawSelections = selections;
+        gSearch[dropdownPrefix].selectedIndices = selections;
+        showSearchFilterSelections(dropdownPrefix);
+    });
+
+    setupFilterToggle(button, group, ulDiv);
+}
+// Disclosure pattern: the button opens/closes the group, Escape closes it and returns focus
+// to the button, and Tabbing out of the group closes it so it can't cover the next field.
+function setupFilterToggle(button, group, ulDiv) {
+    button.on('click', function() {
+        let willOpen = button.attr('aria-expanded') !== 'true';
+        $('.filterToggle[aria-expanded="true"]').each(function() {
+            closeFilterGroup($(this));
+        });
+        if (willOpen) {
+            button.attr('aria-expanded', 'true');
+            group.prop('hidden', false);
+        }
+    });
+
+    ulDiv.on('keydown', function(e) {
+        if (e.key === 'Escape' && button.attr('aria-expanded') === 'true') {
+            e.preventDefault();
+            closeFilterGroup(button);
+            button.trigger('focus');
+        }
+    });
+
+    // Only when focus moves to another focusable element outside (e.g. Tab).
+    // A mouse click on plain space gives relatedTarget null; the document click handler covers that,
+    // and ignoring it here avoids closing the group mid-click in browsers that don't focus checkboxes.
+    ulDiv.on('focusout', function(e) {
+        let next = e.relatedTarget;
+        if (next && ! ulDiv[0].contains(next)) {
+            closeFilterGroup(button);
+        }
+    });
+}
+function closeFilterGroup(button) {
+    button.attr('aria-expanded', 'false');
+    $(`#${button.attr('aria-controls')}`).prop('hidden', true);
+}
+// Restore a previous search's filter choices, given NodeIDs (replaces clicking the old <li>s).
+function restoreDropdownSelections(nodeIds) {
+    let wanted = new Set(nodeIds.map(String));
+
+    for (let dropdownPrefix of gSearch.dropdownPrefixes) {
+        let items = gSearch[dropdownPrefix].items;
+        let indices = [];
+        items.forEach((item, i) => {
+            if (wanted.has(String(item.NodeID))) {
+                indices.push(i);
+            }
+        });
+
+        if (gSearch.prefix2singular[dropdownPrefix]) {
+            indices = indices.slice(0, 1);
+            $(`#${dropdownPrefix}UlDiv select`).val(indices.length ? String(indices[0]) : '');
+        }
+        else {
+            $(`input.${dropdownPrefix}`).each(function() {
+                this.checked = indices.includes(Number(this.value));
+            });
+        }
+        adjustedSelections(dropdownPrefix, indices);
+    }
 }
 function showSearchFilterSelections(dropdownPrefix, target) {
     let displayProperty = gSearch[dropdownPrefix].displayProperty;

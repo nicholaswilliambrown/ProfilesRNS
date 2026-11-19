@@ -334,3 +334,14 @@ $(window).resize(function () {
 
   
 
+
+// Back/forward navigation can restore a page from the browser's back-forward cache:
+// a frozen snapshot, so document-ready code doesn't rerun and a "progress" cursor set
+// when a search started is still showing. pageshow fires on every show, cached or not.
+// Clears any element's inline "progress" cursor, but leaves other inline cursors
+// alone (e.g. ones that chart or graph libraries set).
+window.addEventListener('pageshow', function () {
+    $('[style*="cursor"]')
+        .filter((i, elt) => elt.style.cursor === 'progress')
+        .css('cursor', '');
+});

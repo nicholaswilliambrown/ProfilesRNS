@@ -141,15 +141,7 @@ function setupDropdowns() {
         }
     }
 
-    // a click anywhere outside an open filter group closes it (as the old lists did)
-    $(document).off('click.searchFilters').on('click.searchFilters', function(e) {
-        $('.filterToggle[aria-expanded="true"]').each(function() {
-            let ulDiv = $(this).closest('.ulDiv');
-            if ( ! ulDiv[0].contains(e.target)) {
-                closeFilterGroup($(this));
-            }
-        });
-    });
+    closeFilterGroupsOnOutsideClick();
 
     // tighten up selectDisplay box
     $('#hasSectionsUlDiv').find('.gradient').addClass('mt-1 pt-0 pb-0');
@@ -227,42 +219,6 @@ function setupMultiChoiceFilter(data, dropdownPrefix, items, ulDiv, dropdownColu
     });
 
     setupFilterToggle(button, group, ulDiv);
-}
-// Disclosure pattern: the button opens/closes the group, Escape closes it and returns focus
-// to the button, and Tabbing out of the group closes it so it can't cover the next field.
-function setupFilterToggle(button, group, ulDiv) {
-    button.on('click', function() {
-        let willOpen = button.attr('aria-expanded') !== 'true';
-        $('.filterToggle[aria-expanded="true"]').each(function() {
-            closeFilterGroup($(this));
-        });
-        if (willOpen) {
-            button.attr('aria-expanded', 'true');
-            group.prop('hidden', false);
-        }
-    });
-
-    ulDiv.on('keydown', function(e) {
-        if (e.key === 'Escape' && button.attr('aria-expanded') === 'true') {
-            e.preventDefault();
-            closeFilterGroup(button);
-            button.trigger('focus');
-        }
-    });
-
-    // Only when focus moves to another focusable element outside (e.g. Tab).
-    // A mouse click on plain space gives relatedTarget null; the document click handler covers that,
-    // and ignoring it here avoids closing the group mid-click in browsers that don't focus checkboxes.
-    ulDiv.on('focusout', function(e) {
-        let next = e.relatedTarget;
-        if (next && ! ulDiv[0].contains(next)) {
-            closeFilterGroup(button);
-        }
-    });
-}
-function closeFilterGroup(button) {
-    button.attr('aria-expanded', 'false');
-    $(`#${button.attr('aria-controls')}`).prop('hidden', true);
 }
 // Restore a previous search's filter choices, given NodeIDs (replaces clicking the old <li>s).
 function restoreDropdownSelections(nodeIds) {

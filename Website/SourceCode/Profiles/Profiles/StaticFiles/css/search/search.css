@@ -120,11 +120,6 @@
         margin-left: 25px !important;
     }
 
-    #showDropdownDiv {
-        margin-top: 15px;
-        padding-left: 0px;
-    }
-
     .dropdownCheckbox {
         padding-top: 15px;
     }
@@ -168,11 +163,6 @@
     border: 1px solid #CCC;
 }
 
-.selected {
-    background-color: #3279b5 !important;
-    color: white;
-}
-
 .tab-pane-box {
     border: 1px solid #ccc;
     background-color: #EAF0F8;
@@ -190,22 +180,6 @@
         flex: 1;
         border-bottom: 1px solid #ccc;
     }
-
-.dropdown-no-bullet.gradient {
-    line-height: 16px;
-    font-size: 11px;
-    font-weight: 450;
-}
-.dropdown-no-bullet {
-    list-style-type: none;
-    border: 1px solid #ccc;
-    padding: 2px 5px;
-    cursor: pointer;
-}
-
-.proxyDd {
-    border: 1px solid #ccc;
-}
 
 /* Search filters (a11y R1/R2): native selects and disclosure buttons with checkbox groups */
 .searchFilterSelect {
@@ -270,6 +244,24 @@
     font-weight: bold;
     color: #666;
 }
+/* results page: Sort's select gets the same overlaid ▾ as the search form's (which uses .ulDiv) */
+.selectWrap {
+    position: relative;
+    display: inline-block;
+    width: 180px;
+    vertical-align: middle;
+}
+#showButton {
+    width: 188px;
+}
+#showButton .theChosen {
+    display: inline-block;
+    max-width: calc(100% - 1.2em);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+}
 .filterOption {
     padding: 2px 0;
     cursor: pointer;
@@ -284,34 +276,6 @@
        control when the "All except" column is); keep it the control's height so the
        .selectArrow's top: 50% is the middle of the select, not of the row */
     align-self: flex-start;
-}
-
-    .ulDiv ul {
-        position: absolute; /* for superimposing */
-        xleft: 20px;
-        top: 0px !important;
-        padding-inline-start: 0 !important;
-        height: 180px;
-        overflow-y: auto;
-        z-index: 100;
-    }
-
-        .ulDiv ul li {
-            z-index: 100;
-            background-color: white;
-        }
-
-#sortDropdown {
-    width: 150px;
-    padding-left: 0px !important;
-}
-
-#sortButton {
-    padding: 5px !important;
-}
-
-#showButton {
-    padding: 5px !important;
 }
 
 .gradient {
@@ -394,15 +358,6 @@ ul {
 }
 
 
-#showDropdown {
-    width: 188px;
-}
-
-    #sortDropdown li, #showDropdown li {
-        background-color: #ffffff;
-        cursor: pointer !important;
-    }
-
 #lhsDiv {
     width: 200px !important;
 }
@@ -446,4 +401,15 @@ div[id^="peopleResults"] {
 
 .search-results-sort-button {
     margin-right: 15px;
+}
+#applyFiltersButton {
+    font-size: 12px !important;
+    line-height: 15px !important;
+    height: 24px !important;
+    background-color: lightGrey !important;
+    color: #212529 !important;
+    margin-top: 2px;
+}
+#applyFiltersButton:hover {
+    background-color: #c4c4c4 !important;
 }

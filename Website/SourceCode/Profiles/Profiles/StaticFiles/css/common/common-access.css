@@ -35,3 +35,15 @@ button.whyButton {
     font-weight: 700;
 }
 
+/* results page: sortable column headers are buttons; look like the plain bold headers they replace.
+   font-family/size rather than the font shorthand, which would undo .bold */
+button.sortHeaderButton {
+    background: none;
+    border: 0;
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    text-align: start;
+    cursor: pointer;
+}

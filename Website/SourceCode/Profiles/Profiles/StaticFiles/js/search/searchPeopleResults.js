@@ -33,12 +33,6 @@ async function setupSearchPeopleResults() {
         'dropdownsDiv');
 
     setupDropdownControllers();
-    setupDropdownsDisplay();
-
-
-    $('#sortDropdownDiv').addClass(`${gCommon.cols3or12} ulDiv`);
-    $('#showDropdownDiv').addClass(`${gCommon.cols3or12} ulDiv`);
-    dropdownVisibilityAdjustToOverlaps();
 
     if (results.Count) {
         setupDropdownsAndInitialSelections(results);
@@ -93,6 +87,20 @@ function emitPeopleResults(results) {
     emitPeopleResultsHeader(results, optionalShows, colspecs, target, keyword);
     emitPeopleDataRows(results, optionalShows, colspecs, target, keyword);
 }
+// Redraw the table with only the given optional columns, from the data already loaded
+// (no new search), leaving the paging row and other content below it in place.
+// Used when a column is unticked under Show, before Apply Filters.
+function redisplayPeopleColumns(results, optionalShows) {
+    let target = $('#resultsDiv');
+    target.children('[id^="peopleResults"]').remove(); // header row and data rows
+
+    let keyword = results.SearchQuery.Keyword;
+    let colspecs = makePpleSearchResultsColspecs(optionalShows, keyword);
+    let fresh = $('<div></div>');
+    emitPeopleResultsHeader(results, optionalShows, colspecs, fresh, keyword);
+    emitPeopleDataRows(results, optionalShows, colspecs, fresh, keyword);
+    target.prepend(fresh.children());
+}
 function assembleSearchOtherLink(results) {
     let target = $('#resultsDiv');
     let keyword = results.SearchQuery.Keyword;
@@ -116,42 +124,46 @@ function emitPeopleResultsHeader(results, optionalShows, colspecs, target, keywo
     let rowId = `peopleResultsHeader`;
     let row = makeRowWithColumns(target, rowId, colspecs, "borderOneSolid mt-2 tableHeaderPagingRow");
 
-    // always 1st is Name and last is Why, middle columns can vary
-    let column = row.find(`#${rowId}Col0`);
-    column.attr(gSearch.columnNameSt, 'DisplayName');
-    column.append(spanify('Name', `${gSearch.sortableSt} bold`));
-    for (let i = 0; i < optionalShows.length; i++) {
-        let rawShow = optionalShows[i];
-        let displayShow = gSearch.peopleResultDisplay[rawShow];
-        column = row.find(`#${rowId}Col${i + 1}`);
-        column.attr(gSearch.columnNameSt, rawShow)
-        column.append(spanify(displayShow, `${gSearch.sortableSt} bold`));
+    let sortIconInfo = results.SearchQuery[gSearch.sortPeopleIconInfoKey]; // { headerId, direction}
+
+    // always 1st is Name and last is Why, middle columns can vary.
+    // All columns except Why are sortable: each header is a <button> (keyboard reachable),
+    // holding its label and the triangle shown for the current sort.
+    let sortableColumns = ['DisplayName', ...optionalShows];
+    for (let i = 0; i < sortableColumns.length; i++) {
+        let columnName = sortableColumns[i];
+        let column = row.find(`#${rowId}Col${i}`);
+        column.attr(gSearch.columnNameSt, columnName);
+        column.append(makeSortHeaderButton(columnName, sortIconInfo));
     }
     if (keyword) {
         row.find(`#${rowId}Col${colspecs.length - 1}`).append(spanify('Why', ' bold'));
     }
 
-    let sortableHighIndex = keyword ? colspecs.length - 1 : colspecs.length;
-    // all columns except Why are sortable, so can use triangle-images
-    for (let i = 0; i < sortableHighIndex; i++) {
-        let column = row.find(`#${rowId}Col${i}`);
-        column.append(spanify(
-            `<img src="${gBrandingConstants.jsSearchImageFiles}sort_asc.gif" alt="sort ${gSearch.ascendingSt}">`,
-            `${gSearch.sortDisplaySt} ${gSearch.ascendingSt}`));
-        column.append(spanify(
-            `<img src="${gBrandingConstants.jsSearchImageFiles}sort_desc.gif" alt="sort ${gSearch.descendingSt}">`,
-            `${gSearch.sortDisplaySt} ${gSearch.descendingSt}`));
-    }
-    row.find(`.${gSearch.sortableSt}`).parent().on('click', syncSortDropdownToHeaders);
+    row.find(`button.${gSearch.sortableSt}`).on('click', syncSortDropdownToHeaders);
+}
+function makeSortHeaderButton(columnName, sortIconInfo) {
+    // peopleResultDisplay values may hold entities (Faculty&nbsp;Rank), hence html
+    let button = $(`<button type="button" class="${gSearch.sortableSt} sortHeaderButton bold"></button>`);
+    button.append(spanify(gSearch.peopleResultDisplay[columnName]));
 
-    // initial display of header's sort arrows
-    row.find(`.${gSearch.sortDisplaySt}`).hide();
+    // the triangles are decorative (alt=""); the current sort is spoken via the hidden text
+    let ascIcon = spanify(
+        `<img src="${gBrandingConstants.jsSearchImageFiles}sort_asc.gif" alt="">`,
+        `${gSearch.sortDisplaySt} ${gSearch.ascendingSt}`);
+    let descIcon = spanify(
+        `<img src="${gBrandingConstants.jsSearchImageFiles}sort_desc.gif" alt="">`,
+        `${gSearch.sortDisplaySt} ${gSearch.descendingSt}`);
+    ascIcon.hide();
+    descIcon.hide();
+    button.append(ascIcon).append(descIcon);
 
-    let sortIconInfo = results.SearchQuery[gSearch.sortPeopleIconInfoKey]; // { headerId, direction}
-    if (sortIconInfo) {
-        let sortIcon = row.find(`div[columnname="${sortIconInfo.headerId}"]`).find(`.${sortIconInfo.direction}`);
-        sortIcon.show();
+    if (sortIconInfo && sortIconInfo.headerId == columnName) {
+        let ascending = sortIconInfo.direction == gSearch.ascendingSt;
+        (ascending ? ascIcon : descIcon).show();
+        button.append(spanify(`, sorted ${ascending ? 'ascending' : 'descending'}`, 'visually-hidden'));
     }
+    return button;
 }
 function emitPeopleDataRows(results, optionalShows, colspecs, target, keyword) {
     let items = sortArrayViaSortLabel(results.People, "SortOrder");
@@ -207,7 +219,7 @@ function previewPerson(item) {
 function syncSortDropdownToHeaders(e) {
     e.stopPropagation();
 
-    let header = $(e.target).closest('div');
+    let header = $(e.currentTarget).closest(`[${gSearch.columnNameSt}]`);
     let columnName = header.attr(gSearch.columnNameSt);
 
     let newSortDirection = gSearch.ascendingSt;
@@ -216,9 +228,7 @@ function syncSortDropdownToHeaders(e) {
         newSortDirection = gSearch.descendingSt;
     }
 
-    let li = $(`li[name=${columnName}][dir=${newSortDirection}]`);
-
-    li.click();
+    sortByColumn(columnName, newSortDirection);
 }
 function makePpleSearchResultsColspecs(optionalShows, keyword) {
     let numOptShows = optionalShows.length;

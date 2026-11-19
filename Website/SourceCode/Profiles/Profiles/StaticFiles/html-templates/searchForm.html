@@ -94,45 +94,70 @@
                     <div class="tab-pane fade show active mt-3" id="people" role="tabpanel" aria-labelledby="people-tab">
                         <div id="peopleBox" class="tab-pane-box mt-3 pt-3 pb-3">
                             <div id="dropdownsAndNames">
+                                <!-- Search filters (a11y R1/R2): real form controls instead of <li> click-lists.
+                                     Single choice (Institution, Department): a native <select> (no .gradient class:
+                                     its background-image !important would hide form-select's arrow).
+                                     Multiple choice (Faculty Type, Profile Contains, Other Options): a toggle button
+                                     that shows/hides a <fieldset> of labelled checkboxes.
+                                     searchDropdowns.js fills in the options; it still moves each ...UlDiv into its row.
+                                     aria-label is used because the visible label text is written by the script into a
+                                     separate column; once that becomes <label for="...">, the aria-label can go. -->
+
+                                <!-- script adds: <option value="{index}">{InstitutionName}</option> -->
                                 <div id="institutionsUlDiv" position="1" class="ulDiv w-100">
-                                    <ul class="w-100 ps-0">
-                                        <li class="dropdown-no-bullet gradient" selected="selected">
-                                            <span class="theChosen"></span>
-                                            <span class="float-end">&#x25BE;</span>
-                                        </li>
-                                    </ul>
+                                    <select id="institutionsSelect" class="form-select" aria-label="Institution">
+                                        <option value="">None selected</option>
+                                    </select>
                                 </div>
+
+                                <!-- script adds: <option value="{index}">{DepartmentName}</option> -->
                                 <div id="departmentsUlDiv" position="2" class="ulDiv w-100">
-                                    <ul class="w-100 ps-0">
-                                        <li class="dropdown-no-bullet gradient" selected="selected">
-                                            <span class="theChosen"></span>
-                                            <span class="float-end">&#x25BE;</span>
-                                        </li>
-                                    </ul>
+                                    <select id="departmentsSelect" class="form-select" aria-label="Department">
+                                        <option value="">None selected</option>
+                                    </select>
                                 </div>
+
+                                <!-- script adds, inside the fieldset:
+                                     <label class="d-block"><input type="checkbox" class="facultyTypes me-1" value="{index}"> {FacultyRank}</label> -->
                                 <div id="facultyTypesUlDiv" position="3" class="ulDiv w-100">
-                                    <ul class="w-100 ps-0">
-                                        <li class="dropdown-no-bullet gradient" selected="selected">
-                                            <span class="theChosen"></span>
-                                            <span class="float-end">&#x25BE;</span>
-                                        </li>
-                                    </ul>
+                                    <button type="button" id="facultyTypesButton" class="filterToggle gradient w-100 text-start"
+                                            aria-expanded="false" aria-controls="facultyTypesGroup">
+                                        <span class="visually-hidden">Faculty Type: </span>
+                                        <span class="theChosen">None selected</span>
+                                        <span class="float-end" aria-hidden="true">&#x25BE;</span>
+                                    </button>
+                                    <fieldset id="facultyTypesGroup" class="filterGroup" hidden>
+                                        <legend class="visually-hidden">Faculty Type</legend>
+                                    </fieldset>
                                 </div>
+
+                                <!-- script adds, inside the fieldset, one group per category:
+                                     <fieldset class="filterCategory"><legend>{PersonFilterCategory}</legend>
+                                         <label class="d-block"><input type="checkbox" class="hasSections me-1" value="{index}"> {PersonFilter}</label> ...
+                                     </fieldset> -->
                                 <div id="hasSectionsUlDiv" position="4" class="ulDiv w-100">
-                                    <ul class="w-100 ps-0">
-                                        <li class="dropdown-no-bullet gradient" selected="selected">
-                                            <span class="theChosen"></span>
-                                            <span class="float-end">&#x25BE;</span>
-                                        </li>
-                                    </ul>
+                                    <button type="button" id="hasSectionsButton" class="filterToggle gradient w-100 text-start"
+                                            aria-expanded="false" aria-controls="hasSectionsGroup">
+                                        <span class="visually-hidden">Profile Contains: </span>
+                                        <span class="theChosen">None selected</span>
+                                        <span class="float-end" aria-hidden="true">&#x25BE;</span>
+                                    </button>
+                                    <fieldset id="hasSectionsGroup" class="filterGroup" hidden>
+                                        <legend class="visually-hidden">Profile Contains</legend>
+                                    </fieldset>
                                 </div>
+
+                                <!-- script adds, inside the fieldset, one group per category (same shape as Profile Contains) -->
                                 <div id="otherOptionsUlDiv" position="5" class="ulDiv w-100">
-                                    <ul class="w-100 ps-0">
-                                        <li class="dropdown-no-bullet gradient" selected="selected">
-                                            <span class="theChosen"></span>
-                                            <span class="float-end">&#x25BE;</span>
-                                        </li>
-                                    </ul>
+                                    <button type="button" id="otherOptionsButton" class="filterToggle gradient w-100 text-start"
+                                            aria-expanded="false" aria-controls="otherOptionsGroup">
+                                        <span class="visually-hidden">Other Options: </span>
+                                        <span class="theChosen">None selected</span>
+                                        <span class="float-end" aria-hidden="true">&#x25BE;</span>
+                                    </button>
+                                    <fieldset id="otherOptionsGroup" class="filterGroup" hidden>
+                                        <legend class="visually-hidden">Other Options</legend>
+                                    </fieldset>
                                 </div>
                             </div>
                         </div>

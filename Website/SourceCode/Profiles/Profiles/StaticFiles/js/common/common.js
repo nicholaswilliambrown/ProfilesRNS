@@ -286,10 +286,19 @@ function makeRowWithColumns(target, idLabel, columnSpecArray, rowClass) {
     for (let i = 0; i < columnSpecArray.length; i++) {
         let colSpec = columnSpecArray[i];
         let col = $(`<div class="${escapeHTML(colSpec.classes)}" id="${escapeHTML(idLabel)}Col${i}"></div>`);
-        col.append(colSpec.value)
+        col.append(columnContent(colSpec.value));
         row.append(col);
     }
     return row; // may be useful in caller
+}
+// A column value that is an element (DOM node or jQuery object) is used as is. Anything else
+// (a string, a number) becomes a span with that value as TEXT, never parsed as HTML:
+// to put markup in a column, pass an element built from it, e.g. $('<b>…</b>') or spanifyHtml().
+function columnContent(value) {
+    if (value instanceof Node || value instanceof $) {
+        return value;
+    }
+    return $('<span></span>').text(value === null || value === undefined ? '' : String(value));
 }
 
 function newColumnSpec(classes, value) {

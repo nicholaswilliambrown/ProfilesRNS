@@ -134,7 +134,7 @@ function emitOneNarrowTrial(i, numTrials, elt, target) {
     makeRowWithColumns(togglingDiv, `tr-details2-narrow${i}`, colSpecsNarrow, `tr-details-${i} mb2i`);
 
     colSpecsNarrow = [
-        newColumnSpec(`${gCommon.cols12}`, `<b>Phase: </b> ${escapeHTML(elt.Phase)}`)
+        newColumnSpec(`${gCommon.cols12}`, spanifyHtml(`<b>Phase: </b> ${escapeHTML(elt.Phase)}`))
     ];
     makeRowWithColumns(togglingDiv, `tr-details3-narrow${i}`, colSpecsNarrow, `tr-details-${i}`);
 

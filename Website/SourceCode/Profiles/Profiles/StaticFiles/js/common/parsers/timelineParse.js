@@ -1,5 +1,6 @@
 
-async function timelineParse(moduleJson, fields) {
+// not async (nothing to await): concepts.js appends the return value, and jQuery 4 shows a Promise as "[object Promise]"
+function timelineParse(moduleJson, fields) {
 
     gTimelineTab.colspecs = [
         newColumnSpec(`${gCommon.cols7or12}`),

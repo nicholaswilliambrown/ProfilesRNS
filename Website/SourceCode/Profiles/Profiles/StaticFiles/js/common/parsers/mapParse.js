@@ -37,7 +37,7 @@ gMapTab.commonHtml = `
 </div>
 `;
 
-async function mapParse(moduleJson, indicatedLabel) {
+function mapParse(moduleJson, indicatedLabel) {
     let topLhsDiv = $('#topLhsDiv');
     topLhsDiv.append(gMapTab.commonHtml);
 
@@ -45,7 +45,7 @@ async function mapParse(moduleJson, indicatedLabel) {
         $('#mapRedBoldIndicated').html(indicatedLabel);
     }
 
-    await initPage(moduleJson);
+    initPage(moduleJson);
 
     $('#zoomLongwood').on("click",
         function() { zoomToCoords(gMapTab.longwoodCoords)});
@@ -84,7 +84,7 @@ function zoomToCoords(coords) {
 }
 
 // see NetworkMap.ascx and/or NetworkMapList.ascx
-async function initPage(moduleJson) {
+function initPage(moduleJson) {
     gMapTab.newEnglandCoords = {
         zoom: 7,
         latitude: 42.354637,

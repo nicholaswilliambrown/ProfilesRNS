@@ -41,14 +41,16 @@ function mainParse(moduleJson, lhsModules, rhsModules) {
             result = similarsListParser(data);
             break;
         case SimilarsTab.Map:
-            result = mapParse(data, 'similar people');
+            mapParse(data, 'similar people'); // draws into the page itself; returns nothing
             break;
         case SimilarsTab.Details:
             result = similarsDetailsParser(data);
             break;
     }
 
-    target.append(result);
+    if (result) {
+        target.append(result);
+    }
 
     innerCurtainsUp(topLhsDiv);
 }

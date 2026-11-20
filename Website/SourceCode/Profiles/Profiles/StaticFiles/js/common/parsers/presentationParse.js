@@ -1,12 +1,19 @@
-async function presentationsParser(json, moduleTitle, miscInfo, explicitTarget) {
+// Not async: callers append this function's return value, and jQuery 4 would show a Promise
+// as the text "[object Promise]". The slides arrive later and are filled in by the callback.
+function presentationsParser(json, moduleTitle, miscInfo, explicitTarget) {
     let innerPayloadDiv = getTargetUntentavizeIfSo(moduleTitle, explicitTarget);
 
     let author = json[0].data;
     let [lhs, rhs] = setupImgBigSmallAndLabel(innerPayloadDiv, 'presentations');
 
     let url = gPerson.slideshareUrlStart + author;
-    try {
-        await $.get(url, function (presentations) {
+    $.get(url)
+        .done(function (presentations) {
+            if (!Array.isArray(presentations) || !presentations.length) {
+                lhs.closest('.row').remove();
+                complainNoPresentations(innerPayloadDiv, `====> No presentations found`);
+                return;
+            }
             for (let i = 0; i < presentations.length; i++) {
                 let presentation = presentations[i];
                 let title = presentation.title;
@@ -25,9 +32,18 @@ async function presentationsParser(json, moduleTitle, miscInfo, explicitTarget) 
 
                 fillInBigSmallLabel(iframe, thumbImg, label, i, lhs, rhs, mediaClass);
             }
+        })
+        .fail(function (e) {
+            lhs.closest('.row').remove();
+            complainNoPresentations(innerPayloadDiv,
+                'Could not fetch presentations',
+                `====Unable to $.get(), url: ${url}. Error: ${e.status}, ${e.responseText}`);
         });
-    }
-    catch (e) {
-        console.log(`====Unable to $.get(), url: ${url}. Error: ${e.status}, ${e.responseText}`);
+}
+function complainNoPresentations(target, msg, details) {
+    let problemWithPresentations = $(`<div class="ms-4 fw-bold">${msg}</div>`);
+    target.append(problemWithPresentations);
+    if (details) {
+        console.log(`===> ` + details);
     }
 }

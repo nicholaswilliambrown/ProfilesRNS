@@ -74,11 +74,11 @@ function conceptsCategoryParser(data) {
     return resultDiv;
 }
 function emitOneCategory(target, name, items) {
-    target.append($(`<div class="categoryHeader">${name}</div>`));
+    target.append($(`<div class="categoryHeader">${escapeHTML(name)}</div>`));
 
     for (let item of items) {
         let url = `${item.URL}`;
-        target.append($(`<div class="categoryItem"><a class="link-ish " href="${url}">${item.Name}</a></div>`));
+        target.append($(`<div class="categoryItem"><a class="link-ish " href="${escapeHTML(safeUrl(url))}">${escapeHTML(item.Name)}</a></div>`));
     }
 }
 

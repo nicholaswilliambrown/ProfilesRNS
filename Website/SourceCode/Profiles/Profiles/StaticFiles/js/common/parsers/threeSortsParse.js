@@ -10,7 +10,7 @@ async function setupThreeSorts() {
     innerCurtainsDown(target);
 
     let title = getValFromPropertyLabel(json[0].ModuleData, 'label', 'Value');
-    target.prepend($(`<h2 class="page-title">${title}</h2>`));
+    target.prepend($(`<h2 class="page-title">${escapeHTML(title)}</h2>`));
     // $('.topOfPageItems').append($(`<h2 class="page-title">${title}</h2>`));
     setTabTitleAndOrFavicon(`${title}`);
 

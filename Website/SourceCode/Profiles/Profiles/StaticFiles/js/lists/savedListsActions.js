@@ -10,8 +10,8 @@ function saveCurrentList() {
 
 function emitSavedListQuasiButtons(target) {
     let colSpecs = [
-        newColumnSpec(`${gCommon.cols7or12} p-1`, '<div class="ms-1 mb-1 fw-bold">Modify your current person list</div>'),
-        newColumnSpec(`${gCommon.cols5or12} p-1`, '<div class="ms-1 mb-1 fw-bold">Modify one or more saved lists</div>')
+        newColumnSpec(`${gCommon.cols7or12} p-1`, $('<div class="ms-1 mb-1 fw-bold">Modify your current person list</div>')),
+        newColumnSpec(`${gCommon.cols5or12} p-1`, $('<div class="ms-1 mb-1 fw-bold">Modify one or more saved lists</div>'))
     ];
 
     let actionId = 'saveActions';

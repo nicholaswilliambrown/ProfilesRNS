@@ -17,8 +17,8 @@ function displayClipboardForNestedAccordion(bannerText, accordionIdLabel, accord
     let clipboardButton = $(`<button    data-bs-toggle="tooltip"
                                             data-bs-custom-class="clipboardButtonTitle" 
                                             data-bs-placement="top"
-                                            title="${informativeText}"
-                                            aria-label="${informativeText}"
+                                            title="${escapeHTML(informativeText)}"
+                                            aria-label="${escapeHTML(informativeText)}"
                                     class="clipboardMainButton clipboardItem">
                                 </button>`);
     clipboardButton.append(clipboard);
@@ -33,7 +33,7 @@ function displayClipboardForNestedAccordion(bannerText, accordionIdLabel, accord
 
     clipColumn.append(clipboardButton);
 
-    let ariaSpan = $(`<span aria-hidden="true" class="clipboardItem visually-hidden">${informativeText}</span>`);
+    let ariaSpan = $(`<span aria-hidden="true" class="clipboardItem visually-hidden">${escapeHTML(informativeText)}</span>`);
     clipColumn.append(ariaSpan);
 }
 
@@ -69,7 +69,7 @@ function makeAccordionDiv(accordionId, buttonText, nestingOption) {
                         data-bs-target="#collapse${accordionId}" 
                         aria-expanded="false" 
                         aria-controls="collapse${accordionId}"
-                        > ${buttonText}
+                        > ${escapeHTML(buttonText)}
                 </button>`);
     let accordionCollapse = $(`<div 
                         id="collapse${accordionId}"

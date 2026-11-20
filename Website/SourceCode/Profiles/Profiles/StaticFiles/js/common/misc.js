@@ -58,12 +58,12 @@ function stringifyJson(json) {
     return JSON.stringify(json, null, 2);
 }
 function displayJsonFragment(target, json) {
-    let diagnostic = $(`<div>${stringifyJson(json).substring(0,150) + ". . ."}</div>`);
+    let diagnostic = $(`<div>${escapeHTML(stringifyJson(json).substring(0,150) + ". . .")}</div>`);
     target.append(diagnostic);
 }
 function dynamicGetWidth(text, tempTarget) {
     // you don't get width until you are plugged into DOM
-    let span = $(`<span>${text}</span>`);
+    let span = $(`<span>${escapeHTML(text)}</span>`);
     tempTarget.append(span);
 
     let result = span.width();

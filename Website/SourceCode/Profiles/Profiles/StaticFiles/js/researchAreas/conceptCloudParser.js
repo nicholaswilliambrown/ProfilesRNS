@@ -36,7 +36,7 @@ function conceptsCloudParser(data) {
 
         let target = i < size/2 ? firstHalf : secondHalf;
         let url = `${datum.URL}`;
-        let entry = ($(`<div class="${cloudClass}"><a class="link-ish" href="${url}">${datum.Name}</a></div>`));
+        let entry = ($(`<div class="${cloudClass}"><a class="link-ish" href="${escapeHTML(safeUrl(url))}">${escapeHTML(datum.Name)}</a></div>`));
         target.append(entry);
     }
 

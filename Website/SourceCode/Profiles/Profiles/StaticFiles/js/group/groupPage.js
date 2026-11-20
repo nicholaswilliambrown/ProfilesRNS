@@ -224,13 +224,13 @@ async function setupGroupExploreRhs(module) {
 
 function grImageParser(moduleData) {
     let imageDiv = $(`<div id="groupImgDiv" class="w-100 d-flex justify-content-center mb-2">
-                        <img src="${moduleData.label}" alt="moduleLabel" />
+                        <img src="${escapeHTML(moduleData.label)}" alt="moduleLabel" />
                     </div>`);
     return imageDiv;
 }
 
 function grBlurbParser(moduleData, moduleTitle, miscInfo, target) {
-    let blurb = moduleData.label.replace(/\n/g, "<br/>");
+    let blurb = escapeHTML(moduleData.label).replace(/\n/g, "<br/>");
     target.html(blurb);
 }
 
@@ -238,6 +238,6 @@ function grLabelParser(moduleData) {
     let label = moduleData.label;
     setTabTitleAndOrFavicon(`${label}`);
 
-    let bigTitleDiv = $(`<div class="page-title mt-2 mb-3">${label}</div>`);
+    let bigTitleDiv = $(`<div class="page-title mt-2 mb-3">${escapeHTML(label)}</div>`);
     return bigTitleDiv;
 }

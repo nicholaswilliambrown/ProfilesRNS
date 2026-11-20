@@ -234,7 +234,7 @@ function emitCriteriaOnRhs(results, withWhy) {
 }
 function emitTitle(target, title) {
     setTabTitleAndOrFavicon(title);
-    let titleSpan = $(`<div class="row page-title mt-3">${title}</div>`);
+    let titleSpan = $(`<div class="row page-title mt-3">${escapeHTML(title)}</div>`);
     target.prepend(titleSpan);
 }
 function emitLinkTo(target, linkText, url, leftVsRight) {
@@ -285,7 +285,7 @@ function addIfPresent(options) {
             text = `(Except) ${text}`;
         }
         maybeAddedBreak = noBreak ? '' : $('<br/>');
-        elt.html(text);
+        elt.html(escapeHTML(text));
         if (maybeAddedBreak) {
             elt.append(maybeAddedBreak);
         }

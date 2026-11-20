@@ -103,7 +103,7 @@ function parseSavedListData(options) {
         for (let i = 0; i < saves.length; i++) {
             let s = saves[i];
 
-            let selectCheckbox = $(`<input type="checkbox" lid="${s.ListID}" class="selectCheck_${tableId}"/>`);
+            let selectCheckbox = $(`<input type="checkbox" lid="${escapeHTML(s.ListID)}" class="selectCheck_${tableId}"/>`);
             selectCheckbox.attr('aria-label', `Select ${s.ListName}`);
             let extra = gCommon.debug ? ` (${s.ListID})` : '';
             let vals = [`${s.ListName}${extra}`,

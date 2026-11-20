@@ -139,15 +139,15 @@ function populateDataRows(dataRows, summaryType, wideVsNarrow) {
         let rowColSpecs = wideVsNarrow ?
             [
                 newColumnSpec(`${gCommon.cols8or12} alignMiddle bordE`,
-                    name),
+                    spanify(name)), // plain strings would be appended as HTML
                 newColumnSpec(`${gCommon.cols2or12} alignMiddle bordE d-flex justify-content-center`,
-                    count),
+                    spanify(count)),
                 newColumnSpec(`${gCommon.cols2or12} alignMiddle bordE d-flex justify-content-center`,
                     toPercent(Number(count) / gLists.people.length))
             ] :
             [
-                newColumnSpec(`${gCommon.cols6or12} alignMiddle bordE bold`, name),
-                newColumnSpec(`${gCommon.cols6or12} alignMiddle bordE`, combinedValue),
+                newColumnSpec(`${gCommon.cols6or12} alignMiddle bordE bold`, spanify(name)),
+                newColumnSpec(`${gCommon.cols6or12} alignMiddle bordE`, spanify(combinedValue)),
             ];
 
         makeRowWithColumns(target, rowId+i, rowColSpecs, "borderOneSolid");

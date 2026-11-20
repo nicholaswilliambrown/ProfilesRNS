@@ -162,7 +162,7 @@ function emitAllElseDataRows(results, colspecs, target) {
             let whyAnchor = createWhyLink(item, results);
             let labelAnchor = createAnchorElement(item.ClassLabel, item.URL, backgroundColor);
 
-            row.find(`#${rowId}Col0`).append(item.Label);
+            row.find(`#${rowId}Col0`).append(escapeHTML(item.Label));
             row.find(`#${rowId}Col1`).html(labelAnchor);
             row.find(`#${rowId}Col2`).append(whyAnchor);
 

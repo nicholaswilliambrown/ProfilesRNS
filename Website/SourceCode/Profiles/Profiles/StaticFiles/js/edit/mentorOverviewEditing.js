@@ -198,7 +198,7 @@ function emitMentorOverviewDisplay(mentoringJson, target) {
             area = area.replace(/([a-z])([A-Z])/g, '$1 $2')
                 .replace(/ On /, " on ");
             area = initialCap(area);
-            list.append($(`<li>${area}</li>`));
+            list.append($(`<li>${escapeHTML(area)}</li>`));
         }
     }
 }

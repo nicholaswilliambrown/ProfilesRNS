@@ -4,7 +4,7 @@ function addPublicationsFirstTwoHeaderItems(target, ignore3) {
         Publications listed below are automatically derived from 
         MEDLINE/PubMed and other sources, which might result in 
         incorrect or missing publications. Faculty can 
-        <a class="link-ish" href="${gCommon.loginUrl}">login</a> to make corrections and additions.
+        <a class="link-ish" href="${escapeHTML(gCommon.loginUrl)}">login</a> to make corrections and additions.
     </div>`);
 
     target.append(gPerson.topDiv1);

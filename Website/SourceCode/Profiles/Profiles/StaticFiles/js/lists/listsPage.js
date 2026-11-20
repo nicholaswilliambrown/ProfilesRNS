@@ -138,8 +138,8 @@ function setupPagination(itemsTarget, people, pageSizes, pagingTarget, label, em
 }
 function  emitTopOfPersonTable(people, target, isManage) {
     if (gCommon.numPersons != 1) { // == 1 is in the default static html
-        let currentNumText = `are currently <span class="redBold">${gCommon.numPersons}</span> people`;
-        let allPeopleShownText = `all ${gCommon.numPersons} people shown`
+        let currentNumText = `are currently <span class="redBold">${escapeHTML(gCommon.numPersons)}</span> people`;
+        let allPeopleShownText = `all ${escapeHTML(gCommon.numPersons)} people shown`
 
         $('#currentNum').html(currentNumText);
         $('#allPeopleShown').html(allPeopleShownText);
@@ -195,7 +195,7 @@ function filterSelects(people, target) {
     for (let i=0; i<gLists.institutions.length; i++) {
         let institution = gLists.institutions[i];
         let text = institution.Text;
-        let option = $(`<option value="${text}">${text}</option>`);
+        let option = $('<option></option>').attr('value', text).text(text);
         if (text == institutionQp) {
             option.attr('selected', true);
         }
@@ -207,7 +207,7 @@ function filterSelects(people, target) {
         if (text == '') {
             text = '--';
         }
-        let option = $(`<option value="${text}">${text}</option>`);
+        let option = $('<option></option>').attr('value', text).text(text);
         if (text == facultyQp) {
             option.attr('selected', true);
         }
@@ -272,7 +272,7 @@ function emitPersonRows(people, rowishTable) {
         }
 
         let checkboxId = `${gLists.currentTab}-removalCheck${i}`;
-        let removalCheckbox = $(`<input type="checkbox" pid="${person.PersonID}" class="removalCheck"
+        let removalCheckbox = $(`<input type="checkbox" pid="${escapeHTML(person.PersonID)}" class="removalCheck"
                                 id="${checkboxId}"/>`);
         removalCheckbox.attr('aria-label', `Remove ${person.DisplayName}`);
 

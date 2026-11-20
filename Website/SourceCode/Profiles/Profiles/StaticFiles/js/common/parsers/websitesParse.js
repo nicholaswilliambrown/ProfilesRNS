@@ -8,13 +8,13 @@ function websitesParser(json, moduleTitle, miscInfo, explicitTarget) {
         let elt = sortedJson[i];
         let url = elt.URL;
 
-        let faviconUrl = `https://www.google.com/s2/favicons?domain=${url}`;
+        let faviconUrl = faviconUrlFor(url);
 
         // word wrap pattern
         let item = $(`<p class="wrap2 ${gCommon.bsMarginVarying}">
-                        <span class="faviconSpan"><img src="${faviconUrl}" aria-hidden="true" 
-                            alt="favicon" width="16'" height="16"></span>
-                        <a class="link-ish" href="${url}">${elt.WebPageTitle}</a></p>`);
+                        <span class="faviconSpan"><img src="${escapeHTML(faviconUrl)}" aria-hidden="true"
+                            alt="" width="16" height="16"></span>
+                        <a class="link-ish" href="${escapeHTML(safeUrl(url))}">${escapeHTML(elt.WebPageTitle)}</a></p>`);
         let colSpecs = [
             newColumnSpec(`${gCommon.cols12}`)
         ];

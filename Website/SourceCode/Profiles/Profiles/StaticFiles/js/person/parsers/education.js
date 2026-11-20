@@ -20,7 +20,7 @@ function educationParser(json, moduleTitle, miscInfo, explicitTarget) {
         if (elt.Location) {
             institutionInfo += ', ' + elt.Location;
         }
-        let wrapDiv = $(`<div class="wrap ${gCommon.bsMarginVarying}">${institutionInfo}</div>`);
+        let wrapDiv = $(`<div class="wrap ${gCommon.bsMarginVarying}">${escapeHTML(institutionInfo)}</div>`);
         row.find(`#educ-${i}Col0`).append(wrapDiv);
     }
 }

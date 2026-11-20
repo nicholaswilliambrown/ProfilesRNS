@@ -7,7 +7,7 @@ function twitterParser(json, moduleTitle, miscInfo, explicitTarget) {
         let url = `https://x.com/${name}`;
 
         let p = $(`<p></p>`);
-        p.append($(`<a class="link-ish" href="${url}">Tweets by ${name}</a>`));
+        p.append($(`<a class="link-ish" href="${escapeHTML(url)}">Tweets by ${escapeHTML(name)}</a>`));
 
         resultDiv.append(p);
     }

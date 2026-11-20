@@ -89,10 +89,10 @@ function emitJobOpportunities(jobOpportunities) {
             let actionCol = createJobOppsActionColumn(i, jobOpp, numJobOpps);
             overallRow.find(`#${overallRowId}Col1`).append(actionCol);
 
-            let jobTitleDiv = $(`<div class="bold">${i + 1}. ${jobOpp.title}</div>`);
-            let jobDescDiv = $(`<div class="">${jobOpp.jobDescription}</div>`);
+            let jobTitleDiv = $(`<div class="bold">${i + 1}. ${escapeHTML(jobOpp.title)}</div>`);
+            let jobDescDiv = $(`<div class="">${escapeHTML(jobOpp.jobDescription)}</div>`);
             let jobCategoryDiv = $(`<div class=""><span class="jobCategoryDisplayLabel">Job Category:</span>
-                                        <span> ${truthyJobCategories}</span></div>`);
+                                        <span> ${escapeHTML(truthyJobCategories)}</span></div>`);
 
             let col0 = overallRow.find(`#${overallRowId}Col0`);
             col0.append(jobTitleDiv);
@@ -102,7 +102,7 @@ function emitJobOpportunities(jobOpportunities) {
             let url = jobOpp.jobURL;
             if (url) {
                 col0.append($(`<div class=""><span class="jobCategoryDisplayLabel">Job URL:</span> 
-                                    <a target="_blank" rel="noopener noreferrer" href="${url}">${url}</a></div>`));
+                                    <a target="_blank" rel="noopener noreferrer" href="${escapeHTML(safeUrl(url))}">${escapeHTML(url)}</a></div>`));
             }
         }
     }

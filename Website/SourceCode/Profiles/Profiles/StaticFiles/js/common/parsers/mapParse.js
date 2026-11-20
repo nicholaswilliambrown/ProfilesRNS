@@ -37,7 +37,7 @@ gMapTab.commonHtml = `
 </div>
 `;
 
-async function mapParse(moduleJson, indicatedLabel, target) {
+function mapParse(moduleJson, indicatedLabel, target) {
     if (!target) {
         target = $('#topLhsDiv');
     }
@@ -49,7 +49,7 @@ async function mapParse(moduleJson, indicatedLabel, target) {
         $('#mapRedBoldIndicated').html(indicatedLabel);
     }
 
-    await initPageWithMap(moduleJson);
+    initPageWithMap(moduleJson);
 
     $('#zoomLongwood').on("click",
         function() { zoomToCoords(gMapTab.longwoodCoords)});
@@ -88,7 +88,7 @@ function zoomToCoords(coords) {
 }
 
 // see NetworkMap.ascx and/or NetworkMapList.ascx
-async function initPageWithMap(moduleJson) {
+function initPageWithMap(moduleJson) {
     gMapTab.newEnglandCoords = {
         zoom: 7,
         latitude: 42.354637,
@@ -219,11 +219,11 @@ function pinPopupContent(peopleInfo) {
     for (let i=0; i<peopleInfo.length; i++) {
         let thePerson = peopleInfo[i];
         if (i == 0) {
-            popupDiv.append($(`<div class="fw-bold mapPopLine mapPopLine1">${thePerson.address1}</div>`));
+            popupDiv.append($(`<div class="fw-bold mapPopLine mapPopLine1">${escapeHTML(thePerson.address1)}</div>`));
         }
 
         let url = thePerson.URI;
-        popupDiv.append($(`<div class="mapPopLine mapPopLine3"><a href="${url}">${thePerson.display_name}</a></div>`));
+        popupDiv.append($(`<div class="mapPopLine mapPopLine3"><a href="${escapeHTML(safeUrl(url))}">${escapeHTML(thePerson.display_name)}</a></div>`));
     }
 
     let result = popupDiv[0];
@@ -318,8 +318,8 @@ function parseTextVersion(moduleJson) {
         address2 = address2.match(/\(1 Person\)/) ? '' : address2;
 
         let address = $('<div class="align-left"></div>');
-        address.append($(`<div>${address1}</div>`));
-        address.append($(`<div>${address2}</div>`));
+        address.append($(`<div>${escapeHTML(address1)}</div>`));
+        address.append($(`<div>${escapeHTML(address2)}</div>`));
 
         let latitude = conn.latitude;
         let longitude = conn.longitude;
@@ -332,8 +332,8 @@ function parseTextVersion(moduleJson) {
         row = makeRowWithColumns(target, rowId, colspecs, `ms-1 borderOneSolid ${stripeClass}`);
 
         row.find(`#${rowId}Col0`).append(address);
-        row.find(`#${rowId}Col1`).html(latitude);
-        row.find(`#${rowId}Col2`).html(longitude);
+        row.find(`#${rowId}Col1`).html(escapeHTML(latitude));
+        row.find(`#${rowId}Col2`).html(escapeHTML(longitude));
         row.find(`#${rowId}Col3`).append(nameUrl);
     }
 }

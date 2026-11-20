@@ -71,8 +71,8 @@ function addTimelineTextRow(target, left, right) {
 
     tlRow.append(tlLeft).append(tlRight);
 
-    tlLeft.html(left);
-    tlRight.html(right);
+    tlLeft.html(escapeHTML(left));
+    tlRight.html(escapeHTML(right));
 
     return tlRow;
 }

@@ -78,7 +78,7 @@ function loadVisibilityDiv(target) {
             <tbody>
                 <tr class="evenRow">
                     <td class="CenterSelect">
-                        <input type="radio" name="visibility" value="${gEditProp.subject}" /></td>
+                        <input type="radio" name="visibility" value="${escapeHTML(gEditProp.subject)}" /></td>
                     <td>Only Me</td>
                     <td>Only me and special authorized users who manage this website.</td></tr>
                 <tr class="oddRow"><td class="CenterSelect">
@@ -136,11 +136,11 @@ function loadBreadcrumbs(title, target) {
     let myProfileUrl = getPreferredPathFromPreload();
     let breadcrumbs = $(`<div class="row mb-2">
                         <div class='col-10 d-flex justify-content-start'>
-                            <a class='editMenuLink' href='${g.profilesRootURL}/edit/default.aspx?subject=${getNodeId()}'>Edit Menu</a>
-                            <span class='editMenuGT'>&nbsp;>&nbsp;</span><span><b>${title}</b></span>
+                            <a class='editMenuLink' href='${g.profilesRootURL}/edit/default.aspx?subject=${escapeHTML(encodeURIComponent(getNodeId()))}'>Edit Menu</a>
+                            <span class='editMenuGT'>&nbsp;>&nbsp;</span><span><b>${escapeHTML(title)}</b></span>
                         </div>
                         <div class='col-2 d-flex justify-content-end'>
-                            <a href='${myProfileUrl}'><img src='${g.profilesRootURL}/Framework/Images/arrowLeft.png' /> View Profile</a> 
+                            <a href='${escapeHTML(safeUrl(myProfileUrl))}'><img src='${g.profilesRootURL}/Framework/Images/arrowLeft.png' /> View Profile</a> 
                         </div>
                     </div>`);
     target.append(breadcrumbs);
@@ -245,10 +245,11 @@ function wrapTextInTextArea(textAreaId, beforeSelection, afterSelection) {
     }
 }
 function restoreBoldLinks(text) {
-    let result = text.replace(/\[\/b]/g, "</b>")
+    // escape the user-written text first, then convert the [b] / [url] markers into HTML
+    let result = escapeHTML(text).replace(/\[\/b]/g, "</b>")
         .replace(/\[b]/g, "<b>");
 
-    result = result.replace(/\[url=(.*?)]/g, "<a href='$1'>")
+    result = result.replace(/\[url=(.*?)]/g, (match, url) => `<a href='${safeUrl(url)}'>`)
         .replace(/\[\/url]/g, "</a>");
 
     return result;

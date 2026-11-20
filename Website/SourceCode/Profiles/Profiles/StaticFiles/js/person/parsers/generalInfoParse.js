@@ -89,7 +89,7 @@ async function emitMainPosition(target, mainAffiliation, jsonElt, name, idSuffix
     let vcardUrl = `data:text;base64,${btoa(vCardContent)}`;
     let vcardAnchor = $(`<a class="link-ish" target="_blank" 
                             href="${vcardUrl}"
-                            download="${name}.vcf">Download vCard</a>`);
+                            download="${escapeHTML(name)}.vcf">Download vCard</a>`);
     vCardSpan.append(vcardAnchor);
 
     if (! gCommon.loggedIn) {
@@ -139,7 +139,7 @@ function emitHeadshot(target, jsonElt) {
             alt="headshot"
             width="auto" 
             height="160px" 
-            src="${jsonElt.ImageURL}"></div>`);
+            src="${escapeHTML(jsonElt.ImageURL)}"></div>`);
         headshotDiv.append(headshot);
     }
     else {

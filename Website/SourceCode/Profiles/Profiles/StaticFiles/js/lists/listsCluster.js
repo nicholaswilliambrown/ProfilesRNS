@@ -222,9 +222,9 @@ function emitCriteriaRows(target) {
 
         let listId = data.ListID;
         let groupSelect = $(`<select class=" d-flex align-items-center groupSelect" id="groupSelect-${i}"></select>`);
-        groupSelect.append($(`<option value="${listId}p" selected="true">Person</option>`));
-        groupSelect.append($(`<option value="${listId}d">Department</option>`));
-        groupSelect.append($(`<option value="${listId}i">Institution</option>`));
+        groupSelect.append($(`<option value="${escapeHTML(listId)}p" selected="true">Person</option>`));
+        groupSelect.append($(`<option value="${escapeHTML(listId)}d">Department</option>`));
+        groupSelect.append($(`<option value="${escapeHTML(listId)}i">Institution</option>`));
 
         let colorPickerOuterDiv = $(`<div class="mt-1 mb-1 myColorSelector" id="colorPicker-${i}"></div>`);
         colorPickerOuterDiv.append($(`<div></div>`));
@@ -236,7 +236,7 @@ function emitCriteriaRows(target) {
                     ${data.ExternalConnection ? 'checked' : ''} id="externalCheckbox-${i}">`);
 
         let rowColSpecs = makeColSpecsViz([
-            data.ListName,
+            spanify(data.ListName), // a plain string would be appended as HTML; list names are user-typed
             groupSelect,
             colorPickerOuterDiv,
             internalCheckbox,

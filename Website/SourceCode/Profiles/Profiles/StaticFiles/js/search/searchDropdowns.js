@@ -158,7 +158,7 @@ function setupSingleChoiceFilter(data, dropdownPrefix, items, ulDiv,
 
     // option values are item indices; the first option ("None selected", value "") is in the template
     for (let i = 0; i < items.length; i++) {
-        let option = $('<option></option>').attr('value', i).html(items[i][data.displayProperty]);
+        let option = $('<option></option>').attr('value', i).html(escapeHTML(items[i][data.displayProperty]));
         select.append(option);
     }
 
@@ -198,7 +198,7 @@ function setupMultiChoiceFilter(data, dropdownPrefix, items, ulDiv, dropdownColu
             if (itemCategory != currentCategory) {
                 currentCategory = itemCategory;
                 container = $('<fieldset class="filterCategory"></fieldset>');
-                container.append($('<legend></legend>').html(itemCategory));
+                container.append($('<legend></legend>').html(escapeHTML(itemCategory)));
                 group.append(container);
             }
         }
@@ -207,7 +207,7 @@ function setupMultiChoiceFilter(data, dropdownPrefix, items, ulDiv, dropdownColu
         let check = $(`<input type="checkbox" class="${dropdownPrefix} me-1"/>`)
             .attr({id: `${dropdownPrefix}-${item.NodeID}`, value: i, 'data-node-id': item.NodeID});
         let label = $('<label class="filterOption d-block"></label>');
-        label.append(check).append($('<span></span>').html(item[data.displayProperty]));
+        label.append(check).append($('<span></span>').html(escapeHTML(item[data.displayProperty])));
         container.append(label);
     }
 
@@ -255,7 +255,7 @@ function showSearchFilterSelections(dropdownPrefix, target) {
         target = itemDiv.find('.theChosen');
     }
 
-    let list = selectedIndices.map(i => items[i][displayProperty]);
+    let list = selectedIndices.map(i => escapeHTML(items[i][displayProperty]));
     let howMuch = list.length;
     let result = gSearch.selectedSt;
     let addEllipsis = false;

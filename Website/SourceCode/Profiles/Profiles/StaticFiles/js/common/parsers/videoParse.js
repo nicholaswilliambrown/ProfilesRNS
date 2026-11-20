@@ -21,15 +21,15 @@ function videosParser(json, moduleTitle, miscInfo, explicitTarget) {
         // to see the title, must place pointer on the (thin) border
         let iframe = $(`<iframe 
                 class="video-iframe ${mediaClass}" 
-                src="${url}" 
+                src="${escapeHTML(safeUrl(url))}" 
                 title="YouTube video player (${i})" 
                 frameborder="0" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                 allowfullscreen></iframe>`);
-        let thumbImg = $(`<img alt="thumbnail for youtube ${vid}" 
+        let thumbImg = $(`<img alt="thumbnail for youtube ${escapeHTML(vid)}" 
                                 class="video-thumb" 
-                                src="${vidForSrc}">`);
-        let label = $(`<scan class="video-name"> ${elt.name}</scan>`);
+                                src="${escapeHTML(vidForSrc)}">`);
+        let label = $(`<scan class="video-name"> ${escapeHTML(elt.name)}</scan>`);
 
         fillInBigSmallLabel(iframe, thumbImg, label, i, lhs, rhs, mediaClass);
     }

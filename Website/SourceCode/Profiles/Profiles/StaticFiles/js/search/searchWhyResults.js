@@ -122,8 +122,8 @@ function emitWhyDirectMatches(matches, target) {
         let rowId = `directMatches${i}`;
         let row = makeRowWithColumns(target, rowId, colspecsMeek, "borderOneSolid bordE");
 
-        row.find(`#${rowId}Col0`).html(item.Name);
-        row.find(`#${rowId}Col1`).html(item.Value);
+        row.find(`#${rowId}Col0`).html(escapeHTML(item.Name));
+        row.find(`#${rowId}Col1`).html(escapeHTML(item.Value));
     }
 }
 
@@ -138,7 +138,7 @@ function emitWhyIndirectMatches(matches, target) {
         let row = makeRowWithColumns(target, rowId, colspecsMeek, "borderOneSolid bordE");
 
         let urlEntry = createAnchorElement(item.Label, item.URI);
-        row.find(`#${rowId}Col0`).html(item.ClassName);
+        row.find(`#${rowId}Col0`).html(escapeHTML(item.ClassName));
         row.find(`#${rowId}Col1`).append(urlEntry);
     }
 }

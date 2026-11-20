@@ -14,8 +14,8 @@ function mentorJobOpportunityParser(json, moduleTitle, miscInfo, explicitTarget)
         let li = $('<li class="mb-2"></li>');
         list.append(li);
 
-        li.append($(`<div class="mb-2 bold">${elt.title}</div>`));
-        li.append($(`<div class="mb-2">${elt.jobDescription}</div>`));
+        li.append($(`<div class="mb-2 bold">${escapeHTML(elt.title)}</div>`));
+        li.append($(`<div class="mb-2">${escapeHTML(elt.jobDescription)}</div>`));
 
         let categories = prettyTruthyJobs(elt);
 

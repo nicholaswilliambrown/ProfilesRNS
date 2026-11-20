@@ -26,12 +26,12 @@ function exploreFullParser(moduleJson, postSkeleton) {
     let eltCount = elt.Count ? `(${elt.Count})` : "";
     let eltTitle = elt.Title ? `${elt.Title}` : "";
     let titleId = asIdentifier(eltTitle);
-    let title = $(`<div id="rhs_${titleId}" title="${eltTitle}" class="_rhs explore_title">${eltTitle} ${eltCount}</div>`);
+    let title = $(`<div id="rhs_${titleId}" title="${escapeHTML(eltTitle)}" class="_rhs explore_title">${escapeHTML(eltTitle)} ${escapeHTML(eltCount)}</div>`);
 
     exploreDiv.append(title);
 
     if (blurb) {
-        let blurbDiv = $(`<div class="exploreBlurbDiv">${blurb}</div>`);
+        let blurbDiv = $(`<div class="exploreBlurbDiv">${escapeHTML(blurb)}</div>`);
         exploreDiv.append(blurbDiv);
         blurbDiv.hide();
 
@@ -53,7 +53,7 @@ function exploreFullParser(moduleJson, postSkeleton) {
             let label = connection.Label;
             let url = connection.URL;
 
-            exploreDiv.append($(`<div><a href="${url}" class="link-ish explore_connection_label">${label}</a></div>`));
+            exploreDiv.append($(`<div><a href="${escapeHTML(safeUrl(url))}" class="link-ish explore_connection_label">${escapeHTML(label)}</a></div>`));
         }
     }
     if (moduleTitle != 'PhysicalNeighbour.Top5') {
@@ -79,7 +79,7 @@ function emitNameHeaderForExplores(name) {
     let theirNetworkDiv = $(`<div id="theirNetworkDiv" class="theirNetworkDiv ">                                                            
                              </div>`);
 
-    let theirNetworkTitle = $(`<div class="boldNetworks">${name}'s Networks</div>`);
+    let theirNetworkTitle = $(`<div class="boldNetworks">${escapeHTML(name)}'s Networks</div>`);
     let theirNetworkBlurb = $('<div class="theirNetworkBlurb">Click the <span class="green bold">Explore</span> buttons for ' +
         'more information and interactive visualizations!</div>');
 

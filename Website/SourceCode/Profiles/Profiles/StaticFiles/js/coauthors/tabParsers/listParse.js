@@ -48,7 +48,7 @@ function wideColumnsList(target, jsonData) {
             whichList = uListRight;
         }
 
-        whichList.append($(`<li><a href="${url}">${name}</a></li>`));
+        whichList.append($(`<li><a href="${escapeHTML(safeUrl(url))}">${escapeHTML(name)}</a></li>`));
     }
 }
 function narrowColumnsList(target, jsonData) {
@@ -76,7 +76,7 @@ function narrowColumnsList(target, jsonData) {
             whichList = uListRight;
         }
 
-        whichList.append($(`<li><a href="${url}">${name}</a></li>`));
+        whichList.append($(`<li><a href="${escapeHTML(safeUrl(url))}">${escapeHTML(name)}</a></li>`));
     }
 }
 

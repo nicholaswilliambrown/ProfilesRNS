@@ -60,11 +60,11 @@ function connectionMiddleColumn(strength) {
 
     result.append($('<div class="d-flex justify-content-center">Connection Strength</div>'));
     result.append(doubleArrow);
-    result.append($(`<div class="d-flex justify-content-center">${strength}</div>`));
+    result.append($(`<div class="d-flex justify-content-center">${escapeHTML(strength)}</div>`));
     return result;
 }
 function emitConnectionLhsBlurb(target, content) {
-    let blurbContent = $(`<div class="mb-1 mt-2" id="blurbContent">${content}</div>`);
+    let blurbContent = $(`<div class="mb-1 mt-2" id="blurbContent">${escapeHTML(content)}</div>`);
 
     target.append(blurbContent);
 }

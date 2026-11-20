@@ -26,7 +26,7 @@ function _flashEventHandler (eventName, dataObject) {
         case "NODE_ALT_CTRL_CLICK":
         case "NODE_SHIFT_ALT_CTRL_CLICK":
         case "NODE_IN":
-            var t = dataObject.fn + ' ' + dataObject.ln + ' (' + dataObject.pubs + ' publication';
+            var t = escapeHTML(dataObject.fn) + ' ' + escapeHTML(dataObject.ln) + ' (' + escapeHTML(dataObject.pubs) + ' publication';
             t += (dataObject.pubs != 1) ? 's)' : ')';
             document.getElementById("person_name").innerHTML = t;
             break;
@@ -36,7 +36,7 @@ function _flashEventHandler (eventName, dataObject) {
         case "EDGE_IN":
         case "EDGE_CLICK":
         case "EDGE_SHIFT_CLICK":
-            document.getElementById("person_name").innerHTML = dataObject.infoText;
+            document.getElementById("person_name").innerHTML = escapeHTML(dataObject.infoText);
             break;
         case "EDGE_OUT":
             document.getElementById("person_name").innerHTML = "";

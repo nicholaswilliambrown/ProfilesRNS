@@ -122,7 +122,7 @@ async function authorshipInnerParser() {
 
 function updateLimitSpan(numDisplayed) {
     if (gPerson.limitSpan){
-        gPerson.limitSpan.html(`${numDisplayed} of ${gPerson.totalAvailablePubs} total Publications`);
+        gPerson.limitSpan.html(`${numDisplayed} of ${escapeHTML(gPerson.totalAvailablePubs)} total Publications`);
     }
 }
 

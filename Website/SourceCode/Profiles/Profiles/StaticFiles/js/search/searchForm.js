@@ -113,8 +113,10 @@ function restoreCheck(targetId, checked) {
     }
 }
 function emitMoreUpdatesLink(target) {
-    let anchor = createAnchorElement(`<img src="${gBrandingConstants.jsSearchImageFiles}icon_squareArrow.gif" alt='squareArrow'/> See more updates`,
-        gSearch.moreUpdatesUrl);
+    // link text is escaped by createAnchorElement, so the (decorative) icon is added as an element
+    let anchor = createAnchorElement(" See more updates", gSearch.moreUpdatesUrl);
+    anchor.prepend($('<img alt=""/>')
+        .attr("src", `${gBrandingConstants.jsSearchImageFiles}icon_squareArrow.gif`));
 
     let colspecs = [newColumnSpec(`${gCommon.cols12} ps-0 d-flex justify-content-start`,
         anchor)];

@@ -541,11 +541,35 @@ function emitTopAndTabs(params) {
     preTop.append(params.thingTabs);
 }
 
+function escapeHTML(value) {
+    let result;
+    if (value === null || value === undefined) {
+        result = "";
+    }
+    else {
+        result = String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#39;");
+    }
+    return result;
+}
+function safeUrl(url) {
+    let s = (url === null || url === undefined) ? '' : String(url).trim();
+    // test whether s satisfies the regex ( similar to match() )
+    return /^(https?:|mailto:|\/|\.+\/|#)/i.test(s) ? s : "#";
+}
 function createAnchorElement(text, url, klass) {
     if (!url) {
         url = text;
     }
-    let addClass = klass ? klass : "";
+
+    text = escapeHTML(text);
+    url = escapeHTML(safeUrl(url));
+
+    let addClass = klass ? escapeHTML(klass) : "";
     let result = $(`<a class="link-ish ${addClass}" href="${url}">${text}</a>`);
 
     return result;

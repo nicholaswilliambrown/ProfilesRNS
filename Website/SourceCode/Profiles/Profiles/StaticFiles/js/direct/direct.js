@@ -79,7 +79,7 @@ function emitTable() {
     gDirect.table.empty(); // start fresh
 
     let keyword = encodeURI($('#keywordInput').val());
-    let baseDirectUrl = "http://localhost:55956/DIRECT/DIRECTSVC.aspx/getdata?";
+    let baseDirectUrl = g.profilesRootURL + "/DIRECT/DIRECTSVC.aspx/getdata?";
 
     let sites = gDirect.sites;
     let siteTable = gDirect.table;

@@ -187,10 +187,12 @@ namespace Profiles.Lists.Utilities
                 dbconnection.Open();
 
 
-                SqlCommand dbcommand = new SqlCommand();
-                dbcommand.CommandType = CommandType.Text;
-                dbcommand.CommandText = string.Format("exec [Profile.Data].[List.CreateList]  @OwnerNodeID = {0}, @ListName = '{1}'", listownerid, ListName);
+                SqlCommand dbcommand = new SqlCommand("[Profile.Data].[List.CreateList]");
+                dbcommand.CommandType = CommandType.StoredProcedure;
                 dbcommand.CommandTimeout = dataio.GetCommandTimeout();
+
+                dbcommand.Parameters.Add("@OwnerNodeID", SqlDbType.BigInt).Value = listownerid;
+                dbcommand.Parameters.Add("@ListName", SqlDbType.NVarChar, -1).Value = (object)ListName ?? DBNull.Value;
 
                 dbcommand.Connection = dbconnection;
                 using (SqlDataReader dbreader = dbcommand.ExecuteReader(CommandBehavior.CloseConnection))
@@ -676,42 +678,42 @@ namespace Profiles.Lists.Utilities
         }
         public static string GetNetworkRadialCoAuthors(string listid)
         {
+            string str = string.Empty;
 
-            StringBuilder data = new StringBuilder();
             Framework.Utilities.DataIO dataio = new Framework.Utilities.DataIO();
             try
             {
                 string connstr = dataio.GetConnectionString();
                 SqlConnection dbconnection = new SqlConnection(connstr);
+                SqlCommand dbcommand = new SqlCommand("[Profile.Module].[NetworkRadial.List.GetCoAuthors]");
 
+                SqlDataReader dbreader;
                 dbconnection.Open();
-
-
-                SqlCommand dbcommand = new SqlCommand();
-                dbcommand.CommandType = CommandType.Text;
-                dbcommand.CommandText = string.Format("exec [Profile.Module].[NetworkRadial.List.GetCoAuthors] @OutputFormat='JSON', @UserID={0}", listid);
+                dbcommand.CommandType = CommandType.StoredProcedure;
                 dbcommand.CommandTimeout = dataio.GetCommandTimeout();
+                dbcommand.Parameters.Add(new SqlParameter("@OutputFormat", "JSON"));
+                dbcommand.Parameters.Add(new SqlParameter("@UserID", listid));
 
                 dbcommand.Connection = dbconnection;
-                using (SqlDataReader dbreader = dbcommand.ExecuteReader(CommandBehavior.CloseConnection))
-                {
-                    while (dbreader.Read())
-                        data.AppendLine(dbreader[0].ToString());
+                dbreader = dbcommand.ExecuteReader(CommandBehavior.CloseConnection);
 
-                    if (!dbreader.IsClosed)
-                        dbreader.Close();
+                while (dbreader.Read())
+                    str += dbreader[0].ToString();
 
-                }
+                Framework.Utilities.DebugLogging.Log(str);
+
+                if (!dbreader.IsClosed)
+                    dbreader.Close();
+
 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new Exception(e.Message);
+                Framework.Utilities.DebugLogging.Log(ex.Message + " ++ " + ex.StackTrace);
             }
 
 
-            return data.ToString();
-
+            return str;
         }
 
         #region "GoogleMaps"
@@ -770,11 +772,14 @@ namespace Profiles.Lists.Utilities
 
                 dbconnection.Open();
 
-                SqlCommand dbcommand = new SqlCommand();
-                dbcommand.CommandType = CommandType.Text;
-                dbcommand.CommandText = string.Format("exec [Profile.Module].[NetworkMap.GetList] @UserID = {0}, @which ={1},@sessionid = '{2}'", listid, which, sessionid);
+                SqlCommand dbcommand = new SqlCommand("[Profile.Module].[NetworkMap.GetList]", dbconnection);
+                dbcommand.CommandType = CommandType.StoredProcedure;
                 dbcommand.CommandTimeout = dataio.GetCommandTimeout();
-                dbcommand.Connection = dbconnection;
+
+                dbcommand.Parameters.Add("@UserID", SqlDbType.BigInt).Value = listid;
+                dbcommand.Parameters.Add("@which", SqlDbType.Int).Value = which;
+                dbcommand.Parameters.Add("@sessionid", SqlDbType.UniqueIdentifier).Value = new Guid(sessionid);
+
                 dbreader = dbcommand.ExecuteReader(CommandBehavior.CloseConnection);
 
             }

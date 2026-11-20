@@ -65,9 +65,9 @@ function conceptDetailsWide(data, wideDiv) {
             `ms-1 borderOneSolid ${stripeClass}`);
 
         row.find(`#${rowId}Col0`).html(nameEntry);
-        row.find(`#${rowId}Col1`).html(conn.NumPubsThis);
-        row.find(`#${rowId}Col2`).html(conn.LastPubYear);
-        row.find(`#${rowId}Col3`).html(conn.NumPubsAll);
+        row.find(`#${rowId}Col1`).html(escapeHTML(conn.NumPubsThis));
+        row.find(`#${rowId}Col2`).html(escapeHTML(conn.LastPubYear));
+        row.find(`#${rowId}Col3`).html(escapeHTML(conn.NumPubsAll));
         row.find(`#${rowId}Col4`).html(weight);
         row.find(`#${rowId}Col5`).append(whyAnchor);
 

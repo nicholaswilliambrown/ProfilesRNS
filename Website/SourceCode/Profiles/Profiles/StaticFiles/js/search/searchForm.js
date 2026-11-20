@@ -147,7 +147,7 @@ function emitMosts(whichMost) {
             for (let i = 0; i < data.length; i++) {
                 let item = data[i];
                 let searchTerm = item.Phrase;
-                let nameSpan = $(`<span class="link-ish unbold">${searchTerm}</span>`);
+                let nameSpan = $(`<span class="link-ish unbold">${escapeHTML(searchTerm)}</span>`);
                 nameSpan.on('click', function () {
                     minimalPeopleSearchByTerm(searchTerm);
                 })

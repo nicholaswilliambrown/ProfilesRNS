@@ -2,7 +2,7 @@ async function radialParse(target, moduleJson) {
 
     adjustRadialView();
 
-    $('.personDisplayName').html(getPersonFirstLastName());
+    $('.personDisplayName').html(escapeHTML(getPersonFirstLastName()));
     adjustRadialDiv(target);
 
     let jsonData = moduleJson.ModuleData[0];

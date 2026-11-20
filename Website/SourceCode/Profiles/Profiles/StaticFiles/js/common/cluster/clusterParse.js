@@ -1,6 +1,6 @@
 async function clusterParse(moduleJson, forGroups) {
 
-    $('.personDisplayName').html(getPersonFirstLastName());
+    $('.personDisplayName').html(escapeHTML(getPersonFirstLastName()));
 
     // add wide and narrow cluster options
     $("#wideClusterGraph").addClass(gCommon.hideXsShowOthers);
@@ -66,8 +66,8 @@ function emitGroupClusterText(jsonData, target) {
 function emitTextMembers(target, members, coauthorsConnections) {
     target.append($(`<div class="mb-2"><strong>${gCoauthor.coauthorsWithDash}</strong></div>`));
     let colSpecs = [
-        newColumnSpec(`${gCommon.cols6or12} bordE`, spanify('<strong>Name</strong>')),
-        newColumnSpec(`${gCommon.cols6or12}`, spanify('<strong>Total Publications</strong>'))
+        newColumnSpec(`${gCommon.cols6or12} bordE`, spanifyHtml('<strong>Name</strong>')),
+        newColumnSpec(`${gCommon.cols6or12}`, spanifyHtml('<strong>Total Publications</strong>'))
     ];
     makeRowWithColumns(target, `tmember`, colSpecs, "borderOneSolid me-3 ms-1 stripe");
 

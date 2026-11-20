@@ -17,10 +17,10 @@ function getPersonId(jsonData) {
 function emitTextCoauthors(target, coauthors, connections, personId) {
     target.append($(`<div class="mb-2"><strong>${gCoauthor.coauthorsWithDash}</strong></div>`));
     let colSpecs = [
-        newColumnSpec(`${gCommon.cols3or12} bordE`, spanify('<strong>Name</strong>')),
-        newColumnSpec(`${gCommon.cols2or12} bordE`, spanify('<strong>Total Publications</strong>')),
-        newColumnSpec(`${gCommon.cols3or12} bordE`, spanify('<strong>Co-Authored Publications</strong>')),
-        newColumnSpec(`${gCommon.cols4or12} `, spanify('<strong>Most Recent Co-Authored Publication</strong>'))
+        newColumnSpec(`${gCommon.cols3or12} bordE`, spanifyHtml('<strong>Name</strong>')),
+        newColumnSpec(`${gCommon.cols2or12} bordE`, spanifyHtml('<strong>Total Publications</strong>')),
+        newColumnSpec(`${gCommon.cols3or12} bordE`, spanifyHtml('<strong>Co-Authored Publications</strong>')),
+        newColumnSpec(`${gCommon.cols4or12} `, spanifyHtml('<strong>Most Recent Co-Authored Publication</strong>'))
     ];
     makeRowWithColumns(target, `tcoath`, colSpecs, "borderOneSolid me-3 ms-1 stripe");
 
@@ -59,8 +59,8 @@ function emitTextCoauthorsOfCoauthors(target, coauthorsOfCoauthors) {
     target.append($(`<div class="mt-4 mb-2"><strong>
         ${gCoauthor.coauthorsWithDash} of ${gCoauthor.coauthorsWithDash}</strong></div>`));
     let colSpecs = [
-        newColumnSpec(`${gCommon.cols6or12} bordE`, spanify('<strong>Name</strong>')),
-        newColumnSpec(`${gCommon.cols6or12} bordS`, spanify('<strong>Total Publications</strong>')),
+        newColumnSpec(`${gCommon.cols6or12} bordE`, spanifyHtml('<strong>Name</strong>')),
+        newColumnSpec(`${gCommon.cols6or12} bordS`, spanifyHtml('<strong>Total Publications</strong>')),
     ];
     makeRowWithColumns(target, `tcoath2`, colSpecs, "borderOneSolid me-3 ms-1 stripe");
 
@@ -84,10 +84,10 @@ function emitTextCoauthorsOfCoauthors(target, coauthorsOfCoauthors) {
 function emitTextCoauthorsConnections(target, coauthorsConnections, networkPeople) {
     target.append($('<div class="mt-4 mb-2"><strong>Co-Author Connections</strong></div>'));
     let colSpecs = [
-        newColumnSpec(`${gCommon.cols3or12} bordE`, spanify('<strong>Person 1</strong>')),
-        newColumnSpec(`${gCommon.cols3or12} bordE`, spanify('<strong>Person 2</strong>')),
-        newColumnSpec(`${gCommon.cols3or12} bordE`, spanify('<strong>Number of Co-Publications</strong>')),
-        newColumnSpec(`${gCommon.cols3or12}`, spanify('<strong>Most Recent Co-Publication</strong>'))
+        newColumnSpec(`${gCommon.cols3or12} bordE`, spanifyHtml('<strong>Person 1</strong>')),
+        newColumnSpec(`${gCommon.cols3or12} bordE`, spanifyHtml('<strong>Person 2</strong>')),
+        newColumnSpec(`${gCommon.cols3or12} bordE`, spanifyHtml('<strong>Number of Co-Publications</strong>')),
+        newColumnSpec(`${gCommon.cols3or12}`, spanifyHtml('<strong>Most Recent Co-Publication</strong>'))
     ];
     makeRowWithColumns(target, `tcoathConn`, colSpecs, "borderOneSolid me-3 ms-1 stripe");
 

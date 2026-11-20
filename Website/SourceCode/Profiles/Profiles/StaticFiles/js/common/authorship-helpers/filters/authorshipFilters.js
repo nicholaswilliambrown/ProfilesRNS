@@ -109,8 +109,8 @@ function addFields(linkItems, pub) {
             let fieldButton = $(`<button data-bs-toggle="tooltip" 
                             data-bs-placement="top" 
                             data-bs-custom-class="${fieldStyleClass}" 
-                            title="${fieldFullName}" 
-                            class="me-2 fieldOrTrans ${fieldFilterClass} ${fieldStyleClass}">${fieldAbbr}</button>`);
+                            title="${escapeHTML(fieldFullName)}" 
+                            class="me-2 fieldOrTrans ${fieldFilterClass} ${fieldStyleClass}">${escapeHTML(fieldAbbr)}</button>`);
             fieldButton.on('click', function() {
                 transOrFieldClick(fieldFilterClass, gPerson.fieldFilters);
             });

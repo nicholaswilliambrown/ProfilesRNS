@@ -55,11 +55,11 @@ function emitOneWideTrial(i, numTrials, elt, target) {
     let conditionsDiv = $('<div></div>');
     for (let j=0; j<conditions.length; j++) {
         let condition = conditions[j];
-        conditionsDiv.append($(`<div>${condition}</div>`)); // each condition goes to conditionDiv
+        conditionsDiv.append($(`<div>${escapeHTML(condition)}</div>`)); // each condition goes to conditionDiv
     }
     colSpecsWide = [
         newColumnSpec(`${gCommon.cols1}`),
-        newColumnSpec(`${gCommon.cols2}`, spanify('<b>Condition</b>')),
+        newColumnSpec(`${gCommon.cols2}`, spanifyHtml('<b>Condition</b>')),
         newColumnSpec(`${gCommon.cols9} ps-5`, conditionsDiv)
     ];
     makeRowWithColumns(togglingDiv, `tr-details1-wide-${i}`, colSpecsWide, `tr-details-${i} mb2i`);
@@ -68,18 +68,18 @@ function emitOneWideTrial(i, numTrials, elt, target) {
     let interventionsDiv = $('<div></div>');
     for (let j=0; j<interventions.length; j++) {
         let intervention = interventions[j];
-        interventionsDiv.append($(`<div>${intervention}</div>`)); // each intervention goes to conditionDiv
+        interventionsDiv.append($(`<div>${escapeHTML(intervention)}</div>`)); // each intervention goes to conditionDiv
     }
     colSpecsWide = [
         newColumnSpec(`${gCommon.cols1}`),
-        newColumnSpec(`${gCommon.cols2}`, spanify('<b>Intervention</b>')),
+        newColumnSpec(`${gCommon.cols2}`, spanifyHtml('<b>Intervention</b>')),
         newColumnSpec(`${gCommon.cols9} ps-5`, interventionsDiv)
     ];
     makeRowWithColumns(togglingDiv, `tr-details2-wide${i}`, colSpecsWide, `tr-details-${i} mb2i`);
 
     colSpecsWide = [
         newColumnSpec(`${gCommon.cols1}`),
-        newColumnSpec(`${gCommon.cols2}`, spanify('<b>Phase</b>')),
+        newColumnSpec(`${gCommon.cols2}`, spanifyHtml('<b>Phase</b>')),
         newColumnSpec(`${gCommon.cols9} ps-5`, spanify(`${elt.Phase}`))
     ];
     makeRowWithColumns(togglingDiv, `tr-details3-wide${i}`, colSpecsWide, `tr-details-${i}`);
@@ -115,7 +115,7 @@ function emitOneNarrowTrial(i, numTrials, elt, target) {
     let conditionsDiv = $('<div><b>Condition:</b> </div>');
     for (let j=0; j<conditions.length; j++) {
         let condition = conditions[j];
-        conditionsDiv.append($(`<div>${condition}</div>`));
+        conditionsDiv.append($(`<div>${escapeHTML(condition)}</div>`));
     }
     colSpecsNarrow = [
         newColumnSpec(`${gCommon.cols12}`, conditionsDiv)
@@ -126,7 +126,7 @@ function emitOneNarrowTrial(i, numTrials, elt, target) {
     let interventionsDiv = $('<div><b>Intervention: </b> </div>');
     for (let j=0; j<interventions.length; j++) {
         let intervention = interventions[j];
-        interventionsDiv.append($(`<div>${intervention}</div>`));
+        interventionsDiv.append($(`<div>${escapeHTML(intervention)}</div>`));
     }
     colSpecsNarrow = [
         newColumnSpec(`${gCommon.cols12}`, interventionsDiv)
@@ -134,7 +134,7 @@ function emitOneNarrowTrial(i, numTrials, elt, target) {
     makeRowWithColumns(togglingDiv, `tr-details2-narrow${i}`, colSpecsNarrow, `tr-details-${i} mb2i`);
 
     colSpecsNarrow = [
-        newColumnSpec(`${gCommon.cols12}`, `<b>Phase: </b> ${elt.Phase}`)
+        newColumnSpec(`${gCommon.cols12}`, `<b>Phase: </b> ${escapeHTML(elt.Phase)}`)
     ];
     makeRowWithColumns(togglingDiv, `tr-details3-narrow${i}`, colSpecsNarrow, `tr-details-${i}`);
 

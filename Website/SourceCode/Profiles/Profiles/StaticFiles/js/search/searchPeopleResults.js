@@ -109,7 +109,7 @@ function assembleSearchOtherLink(results) {
         !results.SearchQuery.FirstName &&
         !results.SearchQuery.LastName) {
 
-        let directUrl = `${g.directLink}?keyword=${keyword}&searchtype=people`;
+        let directUrl = `${g.directLink}?keyword=${encodeURIComponent(keyword)}&searchtype=people`;
         let searchArrow = $(`<img src="${gBrandingConstants.jsSearchImageFiles}arrowRight.png" 
                                  alt="arrowRight" class="me-1"/>`);
         let searchOtherA = createAnchorElement('Search Other Institutions', directUrl);
@@ -145,13 +145,13 @@ function emitPeopleResultsHeader(results, optionalShows, colspecs, target, keywo
 function makeSortHeaderButton(columnName, sortIconInfo) {
     // peopleResultDisplay values may hold entities (Faculty&nbsp;Rank), hence html
     let button = $(`<button type="button" class="${gSearch.sortableSt} sortHeaderButton bold"></button>`);
-    button.append(spanify(gSearch.peopleResultDisplay[columnName]));
+    button.append(spanifyHtml(gSearch.peopleResultDisplay[columnName]));
 
     // the triangles are decorative (alt=""); the current sort is spoken via the hidden text
-    let ascIcon = spanify(
+    let ascIcon = spanifyHtml(
         `<img src="${gBrandingConstants.jsSearchImageFiles}sort_asc.gif" alt="">`,
         `${gSearch.sortDisplaySt} ${gSearch.ascendingSt}`);
-    let descIcon = spanify(
+    let descIcon = spanifyHtml(
         `<img src="${gBrandingConstants.jsSearchImageFiles}sort_desc.gif" alt="">`,
         `${gSearch.sortDisplaySt} ${gSearch.descendingSt}`);
     ascIcon.hide();

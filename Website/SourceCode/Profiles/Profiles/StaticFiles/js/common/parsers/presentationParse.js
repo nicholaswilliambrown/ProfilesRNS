@@ -17,11 +17,11 @@ async function presentationsParser(json, moduleTitle, miscInfo, explicitTarget) 
                 // to see the title, must place pointer on the (thin) border
                 let iframe = $(`<iframe 
                     class="video-iframe" 
-                    src="https://www.slideshare.net/slideshow/embed_code/key/${embedKey}?startSlide=1" 
+                    src="https://www.slideshare.net/slideshow/embed_code/key/${escapeHTML(embedKey)}?startSlide=1" 
                     title="Presentation (${i})" 
                     allowfullscreen></iframe>`);
-                let thumbImg = $(`<img alt="thumbnail for slideshare ${title}" class="video-thumb" src="${thumb}">`);
-                let label = $(`<span class="video-name">${title}</span>`)
+                let thumbImg = $(`<img alt="thumbnail for slideshare ${escapeHTML(title)}" class="video-thumb" src="${escapeHTML(thumb)}">`);
+                let label = $(`<span class="video-name">${escapeHTML(title)}</span>`)
 
                 fillInBigSmallLabel(iframe, thumbImg, label, i, lhs, rhs, mediaClass);
             }

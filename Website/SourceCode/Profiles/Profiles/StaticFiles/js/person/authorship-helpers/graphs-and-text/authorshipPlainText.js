@@ -121,6 +121,8 @@ function authLoadPlainContent(contentTextarea) {
             }
         }
         line += lineSpacing;
-        contentTextarea.append(line);
+        // decode entities like &amp; (DOMParser runs no scripts), then add as text, never as markup
+        let plainLine = new DOMParser().parseFromString(line, 'text/html').documentElement.textContent;
+        contentTextarea.append(document.createTextNode(plainLine));
     }
 }

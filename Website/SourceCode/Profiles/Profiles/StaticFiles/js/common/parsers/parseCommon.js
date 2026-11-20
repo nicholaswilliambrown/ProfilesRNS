@@ -12,7 +12,7 @@ function setupParseResultAndOverallResultDivs(moduleJson, moduleTitle, miscInfo)
 function teaserDefaultParser(json, moduleTitle, miscInfo, explicitTarget, teaser) {
     let payloadDiv = getTargetUntentavizeIfSo(moduleTitle, explicitTarget);
     let resultDiv = defaultLeftSideParser(json, moduleTitle, miscInfo);
-    payloadDiv.append(`<div><h4>${teaser}</h4></div>`);
+    payloadDiv.append(`<div><h4>${escapeHTML(teaser)}</h4></div>`);
     payloadDiv.append(resultDiv);
     return payloadDiv;
 }
@@ -21,10 +21,10 @@ function defaultLeftSideParser(moduleJson, moduleTitle, miscInfo, teaser) {
         setupParseResultAndOverallResultDivs(moduleJson, moduleTitle, miscInfo);
 
     if (teaser) {
-        parseResultDiv.append(`<div><h2>${teaser}</h2></div>`)
+        parseResultDiv.append(`<div><h2>${escapeHTML(teaser)}</h2></div>`)
     }
     let thisIsWhereDiv = $(`<div class="bold green">
-        The following data (if any) is what we will display (nicely) for Module: ${moduleTitle}</div>`)
+        The following data (if any) is what we will display (nicely) for Module: ${escapeHTML(moduleTitle)}</div>`)
     parseResultDiv.append(thisIsWhereDiv);
 
     displayJsonFragment(parseResultDiv, moduleJson);

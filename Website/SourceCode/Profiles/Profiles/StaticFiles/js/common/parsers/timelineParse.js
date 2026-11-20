@@ -30,7 +30,7 @@ function parseTimelineGraph(moduleJson, fields) {
     let graphContent = $('<div class="graphContent"></div>');
     graphContainer.append(graphContent);
 
-    $('.theTimelinePerson').html(getPersonFirstLastName());
+    $('.theTimelinePerson').html(escapeHTML(getPersonFirstLastName()));
 
     emitTimelineGraph(graphContent, moduleJson, fields);
 
@@ -76,16 +76,16 @@ function parseTimelineText(moduleJson, fields) {
         // Urls in the form of display/person/xxxx are favored, /profile/pid deprecated
         let url = `${conn[fields.urlField].replace(/Profiles./, "")}`;
         let name = conn[fields.nameField];
-        let nameUrl = $(`<a href="${url}">${name}</a>`);
+        let nameUrl = $(`<a href="${escapeHTML(safeUrl(url))}">${escapeHTML(name)}</a>`);
 
         let rowId = `tl-detail-${i}`;
         row = makeRowWithColumns(target, rowId, colspecs, `ms-1 borderOneSolid ${stripeClass}`);
 
         row.find(`#${rowId}Col0`).append(nameUrl);
-        row.find(`#${rowId}Col1`).html(numPubs);
-        row.find(`#${rowId}Col2`).html(firstPub);
-        row.find(`#${rowId}Col3`).html(lastPub);
-        row.find(`#${rowId}Col4`).html(avgPub);
+        row.find(`#${rowId}Col1`).html(escapeHTML(numPubs));
+        row.find(`#${rowId}Col2`).html(escapeHTML(firstPub));
+        row.find(`#${rowId}Col3`).html(escapeHTML(lastPub));
+        row.find(`#${rowId}Col4`).html(escapeHTML(avgPub));
 
         hoverLight(row);
     }
@@ -215,7 +215,7 @@ function populateRowSvgs(rowSvgsDiv, ticksWidth, moduleJson, fields) {
 
         let col1 = row.find(`#${rowId}Col1`);
         let url = `${conn[fields.urlField]}`;
-        let name = `<a href="${url}">${conn[fields.nameField]}</a>`;
+        let name = `<a href="${escapeHTML(safeUrl(url))}">${escapeHTML(conn[fields.nameField])}</a>`;
 
         let wideNameDiv = $(`<div class="${gCommon.hideXsSmMdShowOthers}"></div>`);
         let narrowNameDiv = $(`<div class="${gCommon.showXsSmMdHideOthers}"></div>`);

@@ -26,8 +26,8 @@ function similarsListParser(data) {
 
         let target = i < size/2 ? firstHalf : secondHalf;
         let url = `${datum.URL}`;
-        let entry = ($(`<li ><a class="link-ish" href="${url}">
-            ${datum.Name}${asterisk}</a></li>`));
+        let entry = ($(`<li ><a class="link-ish" href="${escapeHTML(safeUrl(url))}">
+            ${escapeHTML(datum.Name)}${asterisk}</a></li>`));
         target.append(entry);
     }
 

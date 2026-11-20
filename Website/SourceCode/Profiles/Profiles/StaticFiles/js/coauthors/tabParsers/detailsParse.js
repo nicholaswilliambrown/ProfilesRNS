@@ -55,8 +55,8 @@ function detailsParseWide(target, jsonData) {
             `ms-1 borderOneSolid ${stripeClass}`);
 
         row.find(`#${rowId}Col0`).html(nameA);
-        row.find(`#${rowId}Col1`).html(lastPubYear);
-        row.find(`#${rowId}Col2`).html(count);
+        row.find(`#${rowId}Col1`).html(escapeHTML(lastPubYear));
+        row.find(`#${rowId}Col2`).html(escapeHTML(count));
         row.find(`#${rowId}Col3`).html(weight);
         row.find(`#${rowId}Col4`).append(whyAnchor);
 

@@ -46,7 +46,7 @@ function emitTopLeft() {
 
     target.append(keywordsDiv);
     let keyword = gDirect.keyword ? gDirect.keyword : "";
-    $('#keywordInput').val(decodeURI(keyword));
+    $('#keywordInput').val(decodeURIComponent(keyword));
 
     target.append('<div class="me-4">Below are the number of matching people at each institution. Click an institution\'s name to view the list of people.</div>');
 }
@@ -90,7 +90,7 @@ function emitTable() {
 
         let rowId = `row${siteID}`;
         let row = makeRowWithColumns(siteTable, rowId, gDirect.colSpecs, "ps-2 w-100 bordCcc");
-        row.find(`#${rowId}Col0`).html(SiteName);
+        row.find(`#${rowId}Col0`).html(escapeHTML(SiteName));
         row.find(`#${rowId}Col0`).addClass('bendCcc');
 
         let resultDiv = row.find(`#${rowId}Col1`);
@@ -107,7 +107,7 @@ function emitTable() {
                 },
             timeout: gDirect.timeout,
             error: (jqXHR, textStatus, errorThrown) => {
-                resultDiv.html(`0 (${errorThrown})`);
+                resultDiv.html(`0 (${escapeHTML(errorThrown)})`);
                 }
         });
     }

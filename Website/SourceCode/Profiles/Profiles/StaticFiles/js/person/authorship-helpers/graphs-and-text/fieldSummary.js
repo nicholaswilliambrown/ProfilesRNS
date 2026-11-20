@@ -75,9 +75,9 @@ function addFieldSummaryTextRow(target, left, mid, right) {
 
     fsRow.append(fsLeft).append(fsMid).append(fsRight);
 
-    fsLeft.html(left);
-    fsMid.html(mid);
-    fsRight.html(right);
+    fsLeft.html(escapeHTML(left));
+    fsMid.html(escapeHTML(mid));
+    fsRight.html(escapeHTML(right));
 
     return fsRow;
 }

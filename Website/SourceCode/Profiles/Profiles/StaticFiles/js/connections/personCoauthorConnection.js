@@ -62,7 +62,7 @@ function coauthConnectionParser(target, data) {
             'PubMed',
             gConnections.pubMedUrlSchema.replace(gCommon.schemaPlaceholder, pub.PMID));
         pubMedUrlDiv.append(pubMedUrl);
-        let scoreDiv = $(`<div class="mb-1">Score: ${pub.Weight}</div>`);
+        let scoreDiv = $(`<div class="mb-1">Score: ${escapeHTML(pub.Weight)}</div>`);
 
         if (i>0) {
             item.append($('<hr class="tightHr"/>'));

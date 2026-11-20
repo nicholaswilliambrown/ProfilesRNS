@@ -11,7 +11,7 @@ async function setupAwardsPage() {
     emitAward(target, data);
 }
 function emitAwardTitle(target, data) {
-    let titleDiv = $(`<div class="page-title mt-2 mb-3">${data.label}</div>`);
+    let titleDiv = $(`<div class="page-title mt-2 mb-3">${escapeHTML(data.label)}</div>`);
 
     target.append(titleDiv);
 }
@@ -31,8 +31,8 @@ function emitAward(target, data) {
     if (data.startDate) {
         dateRange = `${data.startDate} - ${data.endDate ? data.endDate : defaultEndDate}`;
     }
-    nameDateRow.find(`#${nameDateId}Col0`).append(dateRange);
-    nameDateRow.find(`#${nameDateId}Col1`).append(data.label);
+    nameDateRow.find(`#${nameDateId}Col0`).append(escapeHTML(dateRange));
+    nameDateRow.find(`#${nameDateId}Col1`).append(escapeHTML(data.label));
 
     let personLink = createAnchorElement(data.DisplayName, data.URL);
     awardeeRow.find(`#${awardeeId}Col0`).append('Awardee');

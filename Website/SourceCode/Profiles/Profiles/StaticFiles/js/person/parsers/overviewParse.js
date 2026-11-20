@@ -9,7 +9,8 @@ function overviewParser(json, moduleTitle, miscInfo, explicitTarget) {
     for (let i=0; i<sortedJson.length; i++) {
         let elt = sortedJson[i];
 
-        elt.value = FindAllURLs(elt.value);
+        // escape the user-written text first, then convert the [url] / [b] markers into HTML
+        elt.value = FindAllURLs(escapeHTML(elt.value));
 
         //Flip to HTML for display
         elt.value = elt.value.replaceAll("[b]", "<b>");
@@ -50,7 +51,7 @@ function overviewParser(json, moduleTitle, miscInfo, explicitTarget) {
            var urls2 = [];
             urls2 = url.split("[/url]");
 
-            _overview += "<a target='_blank' rel='noopener noreferrer' href='" + urls2[0].split(']')[0] + "'>" + urls2[0].split(']')[1] + "</a>";
+            _overview += "<a target='_blank' rel='noopener noreferrer' href='" + safeUrl(urls2[0].split(']')[0]) + "'>" + urls2[0].split(']')[1] + "</a>";
 
             for (let i = 1; i < urls2.length; i++)
             {
@@ -72,7 +73,7 @@ function overviewParser(json, moduleTitle, miscInfo, explicitTarget) {
             let urls2 = [];
             urls2 = url.split("[/url]");
 
-            _overview += "<a target='_blank' rel='noopener noreferrer' href='" + urls2[0] + "'>" + urls2[0] + "</a>";
+            _overview += "<a target='_blank' rel='noopener noreferrer' href='" + safeUrl(urls2[0]) + "'>" + urls2[0] + "</a>";
             for (let i = 1; i < urls2.length; i++)
             {
                 _overview += urls2[i];

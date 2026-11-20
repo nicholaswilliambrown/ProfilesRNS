@@ -79,7 +79,7 @@ function addTitleFromPreLoad() {
     }
 }
 function h2Title(title) {
-    $('div.topOfPageItems').append($(`<h2 class="preloaded page-title">${title}</h2>`));
+    $('div.topOfPageItems').append($('<h2 class="preloaded page-title"></h2>').text(title));
 }
 async function setupJson(moduleCompareFn, doCurtainMainModuleRow) {
     if (doCurtainMainModuleRow) {
@@ -248,7 +248,7 @@ function partitionModuleJsons(jsonArray, lhsCompareFn) {
 }
 
 function makeModuleTitleDiv(moduleTitle) {
-    let result = $(`<div id="${moduleTitle}"></div>`);
+    let result = $('<div></div>').attr('id', moduleTitle);
     return result;
 }
 
@@ -280,12 +280,12 @@ function makeRowWithColumns(target, idLabel, columnSpecArray, rowClass) {
     if (!rowClass) {
         rowClass = "";
     }
-    let row = $(`<div id="${idLabel}Row" class="row ${rowClass}"></div>`);
+    let row = $(`<div id="${escapeHTML(idLabel)}Row" class="row ${escapeHTML(rowClass)}"></div>`);
     target.append(row);
 
     for (let i = 0; i < columnSpecArray.length; i++) {
         let colSpec = columnSpecArray[i];
-        let col = $(`<div class="${colSpec.classes}" id="${idLabel}Col${i}"></div>`);
+        let col = $(`<div class="${escapeHTML(colSpec.classes)}" id="${escapeHTML(idLabel)}Col${i}"></div>`);
         col.append(colSpec.value)
         row.append(col);
     }
@@ -298,9 +298,15 @@ function newColumnSpec(classes, value) {
     return {classes: classes, value: value};
 }
 
+// content is shown as text: any HTML in it is escaped. Use spanifyHtml for markup you built yourself.
 function spanify(content, klass) {
-    let klassAttr = klass ? `class="${klass}"` : "";
-    let span = $(`<span ${klassAttr}>${content}</span>`);
+    return spanifyHtml(escapeHTML(content), klass);
+}
+// html is inserted as markup: never pass it data from the server or the user without escapeHTML()
+function spanifyHtml(html, klass) {
+    html = escapeHTML(html);
+    let klassAttr = klass ? `class="${escapeHTML(klass)}"` : "";
+    let span = $(`<span ${klassAttr}>${html}</span>`);
     return span;
 }
 
@@ -437,7 +443,7 @@ function getEltBackTo(backUrl, backLabel) {
 
 function emitCommonTopOfLhs(topLhsDiv, thingLabel, numThings, backUrl, backLabel, title) {
     if (title) {
-        getMainModuleRow().prepend($(`<h2 class="page-title">${title}</h2>`));
+        getMainModuleRow().prepend($('<h2 class="page-title"></h2>').text(title));
     }
 
     let returnElt = getEltBackTo(backUrl, backLabel);
@@ -445,7 +451,7 @@ function emitCommonTopOfLhs(topLhsDiv, thingLabel, numThings, backUrl, backLabel
 
     let colspecs1 = [
         newColumnSpec(`${gCommon.cols6or12} page-subTitle`,
-            spanify(`<strong>${thingLabel} ${numThingsContent}</strong>`)),
+            spanifyHtml(`<strong>${escapeHTML(thingLabel)} ${escapeHTML(numThingsContent)}</strong>`)),
         newColumnSpec(`${gCommon.cols6or12} d-flex justify-content-end`,
             returnElt),
     ];
@@ -561,6 +567,21 @@ function safeUrl(url) {
     // test whether s satisfies the regex ( similar to match() )
     return /^(https?:|mailto:|\/|\.+\/|#)/i.test(s) ? s : "#";
 }
+// Google's favicon service gets only the site's host name, never the full URL (path, query)
+function faviconUrlFor(url) {
+    let host = "";
+    let s = String(url ?? "").trim();
+    if (s && !/^[a-z][a-z0-9+.-]*:/i.test(s)) {
+        s = "http://" + s; // people often enter "www.example.edu"
+    }
+    try {
+        host = new URL(s).hostname;
+    }
+    catch (e) {
+        // not an absolute URL: no favicon to look up
+    }
+    return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(host)}`;
+}
 function createAnchorElement(text, url, klass) {
     if (!url) {
         url = text;
@@ -622,6 +643,7 @@ function emitAndHistoricizeTitle(title, targetId, mainDiv) {
     addItemToNavHistory(title, window.location.href);
 }
 
+// text is inserted as HTML (callers pass entities like Most&nbsp;Cited): pass only text built in code
 function createNavItemSpan(id, text, clickFn, aClass) {
     if (!aClass) {
         aClass = "";

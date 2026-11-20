@@ -4,17 +4,17 @@ function addBadgeSpans(linkItems, pub) {
         let badgeSpan = $(`<span class="ms-4 me-4"><a class="__dimensions_badge_embed__" 
                                                         data-hide-zero-citations="true" 
                                                         data-style="small_rectangle" 
-                                                        data-pmid="${bibo}"
+                                                        data-pmid="${escapeHTML(bibo)}"
                                                         href="#"
-                                                        aria-label="dimensions for ${bibo}"></a></span>`);
+                                                        aria-label="dimensions for ${escapeHTML(bibo)}"></a></span>`);
 
         let embedSpan = $(`<a class='altmetric-embed me-2' data-link-target='_blank' 
                                                             data-badge-popover='bottom' 
                                                             data-badge-type='4'     
                                                             data-hide-no-mentions='true' 
-                                                            data-pmid="${bibo}"
+                                                            data-pmid="${escapeHTML(bibo)}"
                                                             href="#"
-                                                            aria-label="altmetric for ${bibo}"></a>`);
+                                                            aria-label="altmetric for ${escapeHTML(bibo)}"></a>`);
 
         linkItems.push(badgeSpan);
         linkItems.push(embedSpan);
@@ -101,8 +101,8 @@ async function digestInjectedBadges() {
     }
 }
 function pmids(pub) {
-    let pmcid = (pub.vivo_pmcid) ? `PMCID: <a href="${gPerson.pmcUrlStart}${pub.vivo_pmcid}">${pub.vivo_pmcid}</a>` : "";
-    let pmid = (pub.bibo_pmid) ? `PMID: <a href="${gPerson.pmUrlStart}${pub.bibo_pmid}">${pub.bibo_pmid}</a>` : "";
+    let pmcid = (pub.vivo_pmcid) ? `PMCID: <a href="${escapeHTML(gPerson.pmcUrlStart + pub.vivo_pmcid)}">${escapeHTML(pub.vivo_pmcid)}</a>` : "";
+    let pmid = (pub.bibo_pmid) ? `PMID: <a href="${escapeHTML(gPerson.pmUrlStart + pub.bibo_pmid)}">${escapeHTML(pub.bibo_pmid)}</a>` : "";
 
     let idsArray = [];
     if (pmid) idsArray.push(pmid);
@@ -119,14 +119,14 @@ function addPmcAndRcrCitations(linkItems, pub) {
     let url = gPerson.pmcUrlCitedByTemplate + pmid;
 
     if (pmcCitations) {
-        let graphic = $(`<a target="_blank" href="${url}" class="link-ishB pmc_citation ms-0 me-2 pe-2">${pmcCitations}</a>`);
+        let graphic = $(`<a target="_blank" href="${escapeHTML(url)}" class="link-ishB pmc_citation ms-0 me-2 pe-2">${escapeHTML(pmcCitations)}</a>`);
         graphic.css("background-image",
             `url("${gBrandingConstants.jsPersonImageFiles}PMC-citations.jpg")`);
 
         linkItems.push(graphic);
     }
     if (rcrValue > 0) {
-        let rcrSpan = $(`<span class="me-2 ms-1 p-0 RCR-citations"><span class='RCR-count'>${rcrValue}</span></span>`);
+        let rcrSpan = $(`<span class="me-2 ms-1 p-0 RCR-citations"><span class='RCR-count'>${escapeHTML(rcrValue)}</span></span>`);
         linkItems.push(rcrSpan);
     }
 }

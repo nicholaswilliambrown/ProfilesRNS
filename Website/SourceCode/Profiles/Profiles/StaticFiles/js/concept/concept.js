@@ -225,7 +225,7 @@ function emitMeshInfo(data, innerKey) {
 
     // emit content for under the buttons
     let definition = orNaProperty(data, 'DescriptorDefinition', "No Definition Found");
-    boxDiv2.find('.meshDefinitionContent').append(definition);
+    boxDiv2.find('.meshDefinitionContent').append(escapeHTML(definition));
 
     // wide and narrow versions of the details
     emitDetails(boxDiv2.find('.meshDetailsContent'), data, true);
@@ -249,9 +249,9 @@ async function emitPublications(data, conceptName, innerKey) {
 
     let boxDiv2 = $('<div id="pubBoxDiv2" class="mt-1 mb-2"></div>');
 
-    let timelineBlurb = $(`<div class="p-2">This graph shows the total number of publications written about "${conceptName}" 
+    let timelineBlurb = $(`<div class="p-2">This graph shows the total number of publications written about "${escapeHTML(conceptName)}" 
                             by people in Profiles by year, 
-                            and whether "${conceptName}" was a major or minor topic of these publications.</div>`);
+                            and whether "${escapeHTML(conceptName)}" was a major or minor topic of these publications.</div>`);
 
     gConcepts.pubsShortcuts.push(
         createNavItemDivWithContent(
@@ -284,7 +284,7 @@ async function emitPublications(data, conceptName, innerKey) {
 }
 
 function emitTopBlurb(title, target) {
-    let blurb1 = `"${title}" is a descriptor in the National Library of Medicine's 
+    let blurb1 = `"${escapeHTML(title)}" is a descriptor in the National Library of Medicine's 
         controlled vocabulary thesaurus, `;
     let meshA = createAnchorElement(gConcepts.meshSiteText, gConcepts.meshSiteUrl);
     let blurb2 = `. 
@@ -352,7 +352,7 @@ function emitDetails(target, data, wideVsNarrow) {
     let rowId = `descriptorID${wideNarrowSuffix}`;
     let row = makeRowWithColumns(hideShowDiv, rowId, colSpecs);
     row.find(`#${rowId}Col0`).html('<span class="meshLabel">Descriptor ID</span>');
-    row.find(`#${rowId}Col1`).html(orNaProperty(data, 'DescriptorID'));
+    row.find(`#${rowId}Col1`).html(escapeHTML(orNaProperty(data, 'DescriptorID')));
 
     rowId = `meshNums${wideNarrowSuffix}`;
     row = makeRowWithColumns(hideShowDiv, rowId, colSpecs);
@@ -404,7 +404,7 @@ function emitConceptsTree(target, data, title, blurbEndish) {
             if (treeNum.match(/^\w\d.*/)) { // initial letter followed by num acts like a dot
                 indent++;
             }
-            preSpace = initialPreSpace + "&nbsp;&nbsp;".repeat(indent);
+            preSpace = initialPreSpace + "\u00A0\u00A0".repeat(indent); // nbsp as text: spanify/createAnchorElement escape markup
         }
 
         let itemDiv = $('<div></div>');

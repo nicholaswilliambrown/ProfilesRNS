@@ -24,13 +24,13 @@ function emitLargeOrSmallResearchItem(elt, start, end, liDiv, i, lgVsSm) {
     ];
     makeRowWithColumns(displayDiv, `research-${idLgOrSm}-${i}`, colSpecs);
 
-    let grantBy = $(`<div>${elt.GrantAwardedBy}</div>`);
+    let grantBy = $(`<div>${escapeHTML(elt.GrantAwardedBy)}</div>`);
     displayDiv.append(grantBy);
 
-    let label = $(`<div>${elt.AgreementLabel}</div>`);
+    let label = $(`<div>${escapeHTML(elt.AgreementLabel)}</div>`);
     displayDiv.append(label);
 
-    let role = $(`<span>Role: ${elt.RoleLabel}</span>`);
+    let role = $(`<span>Role: ${escapeHTML(elt.RoleLabel)}</span>`);
     displayDiv.append(role);
 }
 

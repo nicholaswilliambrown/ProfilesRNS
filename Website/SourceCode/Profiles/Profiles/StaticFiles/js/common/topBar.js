@@ -191,7 +191,7 @@ function populateHistoryDropdown() {
 
     for (let i = 0; i < numItems; i++) {
         let item = history[i];
-        let li = $(`<li><a class="dropdown-item history" href="${item.url}">${item.display}</a></li>`);
+        let li = $(`<li><a class="dropdown-item history" href="${escapeHTML(safeUrl(item.url))}">${escapeHTML(item.display)}</a></li>`);
         ul.prepend(li);
     }
 
@@ -202,7 +202,7 @@ function populateHistoryDropdown() {
 }
 // for logged-in topBars
 function adjustMyPersonList() {
-    $('#nav2Persons1').html(`My Person List (${gCommon.numPersons})`);
+    $('#nav2Persons1').html(`My Person List (${escapeHTML(gCommon.numPersons)})`);
 
     // todo: we might have more granular semantics based on 'this person'
     //   vis-a-vis elements of the list

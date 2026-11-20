@@ -304,7 +304,6 @@ function spanify(content, klass) {
 }
 // html is inserted as markup: never pass it data from the server or the user without escapeHTML()
 function spanifyHtml(html, klass) {
-    html = escapeHTML(html);
     let klassAttr = klass ? `class="${escapeHTML(klass)}"` : "";
     let span = $(`<span ${klassAttr}>${html}</span>`);
     return span;

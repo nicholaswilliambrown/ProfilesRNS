@@ -38,8 +38,10 @@ function emitTopLeft() {
         }
     })
 
-    let searchSpan = $('<span class="ms-3" alt="Search"></span>');
-    let searchButton = $(`<img class="directSearchButton" src="${gBrandingConstants.jsSearchImageFiles}search.jpg"/>`);
+    let searchSpan = $('<span class="ms-3"></span>');
+    // a real button (a11y O2), named by aria-label; the picture inside is decorative
+    let searchButton = $(`<button type="button" class="imageButton" aria-label="Search">
+                            <img class="directSearchButton" src="${gBrandingConstants.jsSearchImageFiles}search.jpg" alt=""></button>`);
     keywordsDiv.append(searchSpan);
     keywordsDiv.append(searchButton);
     searchButton.on('click', emitTable);

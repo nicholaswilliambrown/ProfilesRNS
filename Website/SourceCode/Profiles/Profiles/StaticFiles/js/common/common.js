@@ -339,6 +339,18 @@ function divEltTo(elt, target, divClass) {
     return div;
 }
 
+// The (i) icon beside a box title that shows/hides the box's hint text.
+// A real button (not a clickable <img>) so keyboards can reach it, named for its box (a11y Y6).
+function makeMoreInfoButton(boxTitle, blurbDiv) {
+    let button = $('<button type="button" class="imageButton infoIconButton" aria-expanded="false"></button>')
+        .attr('aria-label', `More information about ${boxTitle}`);
+    button.append($(`<img src="${gBrandingConstants.jsCommonImageFiles}info.png" alt="" class="noBorder">`));
+    button.on('click', function () {
+        toggleEltVisibility(blurbDiv);
+        button.attr('aria-expanded', String(blurbDiv.is(':visible')));
+    });
+    return button;
+}
 function toggleEltVisibility(togglingDiv, andThen) {
 
     if (togglingDiv.is(":visible")) {
@@ -450,7 +462,7 @@ function rememberArraySizeOfJsonModule(pageJson, moduleName, sessionKey) {
 }
 
 function getEltBackTo(backUrl, backLabel) {
-    let backArrow = "<img src='" + g.profilesRootURL + "/StaticFiles/img/common/arrowLeft.png' class='me-1' alt='backArrow'>";
+    let backArrow = "<img src='" + g.profilesRootURL + "/StaticFiles/img/common/arrowLeft.png' class='me-1' alt=''>";
     let returnA = createAnchorElement(`Back to ${backLabel}`, backUrl);
     returnA.prepend(backArrow);
 
@@ -639,9 +651,9 @@ function hoverLight(elt, inThen, outThen) {
 }
 
 function makeArrowedConnectionLine() {
-    let left = "<img class='connectionArrow' src='" + g.profilesRootURL + "/StaticFiles/img/common/connection_left.gif' alt='Left Arrow'/>";
+    let left = "<img class='connectionArrow' src='" + g.profilesRootURL + "/StaticFiles/img/common/connection_left.gif' alt=''/>";
     let line = $('<span class="w-100 connectionLine"></span>');
-    let right = "<img class='connectionArrow' src='" + g.profilesRootURL + "/StaticFiles/img/common/connection_right.gif' alt='Right Arrow' />";
+    let right = "<img class='connectionArrow' src='" + g.profilesRootURL + "/StaticFiles/img/common/connection_right.gif' alt='' />";
 
     let doubleArrow = $('<span class="w-100 d-flex justify-content-center"></span>');
     doubleArrow.append(left).append(line).append(right);

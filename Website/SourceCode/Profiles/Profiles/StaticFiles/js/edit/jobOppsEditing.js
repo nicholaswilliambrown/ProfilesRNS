@@ -12,7 +12,7 @@ gEditProp.colSpecsJobInnerTwoCols = [
 function loadJobOpportunitiesDiv(target) {
     let div = $(`
         <div id="jobOpportunitiesOuterDiv">
-            <div class="link-ish mt-2" id="createJobOppDiv"><span class="link-ish"><img id="createJobOppArrow" src="${gEditProp.rightArrow}"/></span>
+            <div class="link-ish mt-2" id="createJobOppDiv"><span class="link-ish"><img id="createJobOppArrow" src="${gEditProp.rightArrow}" alt=""/></span>
                         Create New Job Opportunity</a>
             </div>
             <div id="jobOpportunityDetailsDiv" class="editPanel mt-2">

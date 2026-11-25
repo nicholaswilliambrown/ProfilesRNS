@@ -74,7 +74,7 @@ async function emitMainPosition(target, mainAffiliation, jsonElt, name, idSuffix
         let orcDiv = $('<div></div>');
         let orcLabel = spanify('ORCID', 'me-1 boldBlue');
         let orcImage = $(`<img class="pb-1" src="${gBrandingConstants.jsPersonImageFiles}orcid_16x16.gif"
-                                 alt="orcId" />`);
+                                 alt="" />`);
         orcDiv.append(orcLabel)
         orcDiv.append(orcImage);
 
@@ -136,7 +136,7 @@ function emitHeadshot(target, jsonElt) {
     let headshotDiv = $('<div id="headshot"></div>');
     if (jsonElt.ImageURL) {
         headshot = $(`<div><img class="headshot" 
-            alt="headshot"
+            alt=""
             width="auto" 
             height="160px" 
             src="${escapeHTML(jsonElt.ImageURL)}"></div>`);

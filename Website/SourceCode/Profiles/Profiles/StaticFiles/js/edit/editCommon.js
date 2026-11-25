@@ -64,7 +64,7 @@ function getPreferredPathFromPreload() {
 function loadVisibilityDiv(target) {
     let div = $(`
         <div id="editVisibilityDiv" class="link-ish"><a class="editMenuLink">
-            <img id="visibilityMenuIcon" src="${gEditProp.rightArrow}"/> Edit Visibility (<span
+            <img id="visibilityMenuIcon" src="${gEditProp.rightArrow}" alt=""/> Edit Visibility (<span
             id="currentVisibility"></span>)</a>
         </div>
         <table id="tblVisibility">
@@ -140,7 +140,7 @@ function loadBreadcrumbs(title, target) {
                             <span class='editMenuGT'>&nbsp;>&nbsp;</span><span><b>${escapeHTML(title)}</b></span>
                         </div>
                         <div class='col-2 d-flex justify-content-end'>
-                            <a href='${escapeHTML(safeUrl(myProfileUrl))}'><img src='${g.profilesRootURL}/Framework/Images/arrowLeft.png' /> View Profile</a> 
+                            <a href='${escapeHTML(safeUrl(myProfileUrl))}'><img src='${g.profilesRootURL}/Framework/Images/arrowLeft.png' alt='' /> View Profile</a> 
                         </div>
                     </div>`);
     target.append(breadcrumbs);

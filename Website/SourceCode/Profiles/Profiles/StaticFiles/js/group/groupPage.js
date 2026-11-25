@@ -196,14 +196,8 @@ async function setupGroupExploreRhs(module) {
     exploreDiv.append(blurbDiv);
     blurbDiv.hide();
 
-    let moreInfoButton = $(`<img src="${gBrandingConstants.jsCommonImageFiles}info.png" 
-                                alt="moreInfo" class="noBorder">`);
     title.append(spanify(" "))
-        .append(moreInfoButton);
-
-    moreInfoButton.on("click", function () {
-        toggleEltVisibility(blurbDiv);
-    });
+        .append(makeMoreInfoButton(moduleTitle, blurbDiv));
 
     let i = 0;
     for (; i<gGroup.membersListUpperLimit && i<sortedMembers.length; i++) {
@@ -224,7 +218,7 @@ async function setupGroupExploreRhs(module) {
 
 function grImageParser(moduleData) {
     let imageDiv = $(`<div id="groupImgDiv" class="w-100 d-flex justify-content-center mb-2">
-                        <img src="${escapeHTML(moduleData.label)}" alt="moduleLabel" />
+                        <img src="${escapeHTML(moduleData.label)}" alt="" />
                     </div>`);
     return imageDiv;
 }

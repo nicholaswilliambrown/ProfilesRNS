@@ -26,10 +26,10 @@ function videosParser(json, moduleTitle, miscInfo, explicitTarget) {
                 frameborder="0" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                 allowfullscreen></iframe>`);
-        let thumbImg = $(`<img alt="thumbnail for youtube ${escapeHTML(vid)}" 
+        let thumbImg = $(`<img alt="Show video: ${escapeHTML(elt.name)}" 
                                 class="video-thumb" 
                                 src="${escapeHTML(vidForSrc)}">`);
-        let label = $(`<scan class="video-name"> ${escapeHTML(elt.name)}</scan>`);
+        let label = $(`<span class="video-name"> ${escapeHTML(elt.name)}</span>`);
 
         fillInBigSmallLabel(iframe, thumbImg, label, i, lhs, rhs, mediaClass);
     }

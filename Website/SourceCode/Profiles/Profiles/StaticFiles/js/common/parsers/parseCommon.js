@@ -49,8 +49,16 @@ function setupImgBigSmallAndLabel(target, rowId) {
 function fillInBigSmallLabel(iframe, thumbImg, label, i, lhs, rhs, mediaClass) {
     lhs.append(iframe);
 
+    // a real button around the thumbnail so keyboards can reach it; the img's alt ("Show video: …")
+    // becomes the button's name, and aria-current marks the one now showing (a11y Y6)
+    let thumbButton = $('<button type="button" class="imageButton align-top"></button>')
+        .attr('aria-label', thumbImg.attr('alt'))
+        .attr('data-media', mediaClass)
+        .attr('aria-current', i == 0 ? 'true' : 'false')
+        .append(thumbImg.attr('alt', ''));
+
     let colSpecsRhs = [
-        newColumnSpec(`${gCommon.cols5or12}`, thumbImg),
+        newColumnSpec(`${gCommon.cols5or12}`, thumbButton),
         newColumnSpec(`${gCommon.cols7or12} pt-2`, label)
     ];
 
@@ -58,7 +66,9 @@ function fillInBigSmallLabel(iframe, thumbImg, label, i, lhs, rhs, mediaClass) {
     rhs.append(rhsInnerRow);
     rhs.append($('<div class="mt-4"> </div>')); // mt-2, mb-2 in the 'real' divs don't do the trick for spacing
 
-    thumbImg.on('click', function() {
+    thumbButton.on('click', function(e) {
+        $(`button[data-media="${mediaClass}"]`).attr('aria-current', 'false');
+        thumbButton.attr('aria-current', 'true');
         // https://stackoverflow.com/questions/15164942/stop-embedded-youtube-iframe
         $(`.${mediaClass}`).each(function(){
             let el_src = $(this).attr("src");
@@ -66,6 +76,13 @@ function fillInBigSmallLabel(iframe, thumbImg, label, i, lhs, rhs, mediaClass) {
         });
         $(`.${mediaClass}`).hide();
         iframe.show();
+
+        // From the keyboard (Enter/Space gives a click with detail 0), take focus to the player:
+        // it comes before the thumbnails in the page, so Tab alone would never reach it (a11y Y6).
+        // Mouse clicks leave focus where it is.
+        if (e.originalEvent && e.originalEvent.detail === 0) {
+            iframe.trigger('focus');
+        }
     });
 
     if (i != 0) {

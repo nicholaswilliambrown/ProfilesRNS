@@ -77,9 +77,12 @@ function addSearchForm(target, formClass, searchGlassClass, displayClass, sizeFl
         <input class="form-control navSearchTerm ps-1" id="navSearchTerm${sizeFlavor}" type="search" aria-label="Search"
                placeholder=" Search Profiles">
         <div id="searchGlassDiv${sizeFlavor}" class="searchGlassDiv">                              
-            <img id="navSearchGlass${sizeFlavor}" alt="searchGlass"
-                class="navSearchGlass searchMagGlass 
-                ${searchGlassClass} pt-2 pe-2"/>
+            <!-- a real button (a11y O2): keyboard users can Tab to it; the picture is decorative -->
+            <button type="button" id="navSearchButton${sizeFlavor}" class="imageButton searchGlassButton" aria-label="Search">
+                <img id="navSearchGlass${sizeFlavor}" alt=""
+                    class="navSearchGlass searchMagGlass
+                    ${searchGlassClass} pt-2 pe-2"/>
+            </button>
         </div>
         <div class="dropdown">
             <a class="search dropdown-toggle" href="#" id="navbarDropdown3${sizeFlavor}" role="button"
@@ -106,8 +109,9 @@ function setupNavSearch(topNavbar) {
    // addSearchForm(navSearchItem, "formHeightPhone",
    //     "searchMagGlassNarrow", gCommon.showXsSmallHideOthers, gCommon.small, "start");
 
-    let searchGlass = $('.navSearchGlass'); 
-    let searchTerm = $('.navSearchTerm');  
+    // on the button, not the picture: Enter/Space on a focused button fires the button's click
+    let searchGlass = $('.searchGlassButton');
+    let searchTerm = $('.navSearchTerm');
 
     searchGlass.on("click", doNavSearch);
 

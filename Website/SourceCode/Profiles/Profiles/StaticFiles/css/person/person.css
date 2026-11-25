@@ -41,7 +41,7 @@
     font-weight: 700 !important;
     margin-top: 5px;
     margin-bottom: 5px;
-    color: #888;
+    color: #767676;
     line-height: 19px;
 }
 
@@ -156,7 +156,7 @@ button.toggleGraphLink {
 }
 
 .generalInfoLabels {
-    color: #777;
+    color: #767676;
     font-weight: bold;
 }
 

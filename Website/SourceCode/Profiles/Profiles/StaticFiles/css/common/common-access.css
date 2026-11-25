@@ -47,3 +47,21 @@ button.sortHeaderButton {
     text-align: start;
     cursor: pointer;
 }
+
+/* search buttons that show only a picture (a11y O2): a real <button> named by aria-label,
+   with a decorative <img alt=""> inside. No button chrome, so they look as before. */
+button.imageButton {
+    background: none;
+    border: 0;
+    padding: 0;
+    line-height: 0;
+    cursor: pointer;
+}
+button.imageButton > img {
+    max-width: inherit;   /* keep size limits set on the button's id, e.g. #peopleSearchButton */
+    max-height: inherit;
+}
+button.imageButton:focus-visible {
+    outline: 3px solid #1a4fb8;
+    outline-offset: 2px;
+}

@@ -157,13 +157,13 @@ header._ci_shared_asset.tool-page.mayHelpResponsivenessSm {
 }
 
 #inviteLoginDiv {
-    color: #999;
+    color: #767676;
     font-weight: 700;
     margin-bottom: 8px;
 }
 
 .inviteLoginSpan {
-    color: #777;
+    color: #767676;
     font-weight: 800;
 }
 
@@ -175,12 +175,12 @@ header._ci_shared_asset.tool-page.mayHelpResponsivenessSm {
 }
 
 .green {
-    color: #090 !important;
+    color: #008a00 !important;
 }
 
 .link-ish.greenButton {
     color: white !important;
-    background-color: #090 !important;
+    background-color: #008a00 !important;
     padding: 5px 10px;
     width: max-content;
 }
@@ -254,7 +254,7 @@ header._ci_shared_asset.tool-page.mayHelpResponsivenessSm {
 }
 
 .explore_connection_link {
-    background-color: #090 !important;
+    background-color: #008a00 !important;
     color: #fff !important;
     text-decoration: none;
     font-size: 14px;

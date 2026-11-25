@@ -62,12 +62,14 @@ function makeAccordionDiv(accordionId, buttonText, nestingOption) {
 
     let accordionHeaderRow = makeAccordionHeaderRow(accordionHeaderAndBody, accordionHeader, accordionId);
 
+    // sections start open (the panel below has "show"), so the button starts aria-expanded="true"
+    // (a11y Y2); Bootstrap keeps it in sync after that
     let accordionButton = $(`<button 
                         class="accordion-button ${nestingClass}" 
                         type="button" 
                         data-bs-toggle="collapse" 
                         data-bs-target="#collapse${accordionId}" 
-                        aria-expanded="false" 
+                        aria-expanded="true" 
                         aria-controls="collapse${accordionId}"
                         > ${escapeHTML(buttonText)}
                 </button>`);

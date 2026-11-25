@@ -167,7 +167,7 @@ function setupSearchSubmitAndNameSections() {
 
     setupOneSearchSubmitSection(
         gSearch.allElse,
-        'Keywords',
+        `<label for="allSearchInput">Keywords</label>`,
         'Find Publications, Projects, Concepts and More',
         searchEverythingFn);
 }
@@ -202,13 +202,15 @@ function setupOneSearchSubmitSection(idPrefix, label, title, searchFn) {
 
     let row = makeRowWithColumns(boxTarget, rowId, gSearch.midSectionColspecs,  "pb-1 mt-0 mb-2");
 
-    let searchInput = $(`<input id="${idPrefix}SearchInput" class="w-100 ps-2 inputSearch" type="search" aria-label="Search">`);
+    // named by its visible <label for> ("Research Topics" / "Keywords"), not an aria-label (a11y Y3)
+    let searchInput = $(`<input id="${idPrefix}SearchInput" class="w-100 ps-2 inputSearch" type="search">`);
     // a real button (a11y O2), named by aria-label; the picture inside is decorative
     let searchButton = $(`<button type="button" id="${idPrefix}SearchButton" class="imageButton" aria-label="Search">
                             <img src="${gBrandingConstants.jsSearchImageFiles}search.jpg" alt=""></button>`);
-    let exactCheckbox = $(`<input id="${idPrefix}ExactCheckbox" type="checkbox" aria-label="Exact match"/>`);
-    // separate label for checkbox, so only precise clicks on box have effect
-    let checkboxLabel = $(`<label class="ms-2 searchExactLabel"> Search for <b>exact</b> phrase</label>`);
+    // separate label for checkbox, so only precise clicks on box have effect; aria-labelledby
+    // still gives the box the printed words as its name (a11y Y3)
+    let exactCheckbox = $(`<input id="${idPrefix}ExactCheckbox" type="checkbox" aria-labelledby="${idPrefix}ExactLabel"/>`);
+    let checkboxLabel = $(`<label id="${idPrefix}ExactLabel" class="ms-2 searchExactLabel"> Search for <b>exact</b> phrase</label>`);
 
     let checkboxSpan = $('<span></span>');
     checkboxSpan.append(exactCheckbox);

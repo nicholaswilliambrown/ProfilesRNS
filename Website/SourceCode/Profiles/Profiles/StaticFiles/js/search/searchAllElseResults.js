@@ -22,7 +22,7 @@ async function setupSearchAllElseResults() {
     console.log('Results: ', results);
 
     let mainDiv = $('#mainDiv');
-    mainDiv.addClass(gCommon.mainDivClasses);
+    addMainDivClasses();
     moveContentByIdTo("searchPageMarkup", mainDiv);
 
     let count = getAllElseResultsCount(results);

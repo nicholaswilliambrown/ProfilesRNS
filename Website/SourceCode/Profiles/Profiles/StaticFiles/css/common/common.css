@@ -63,8 +63,14 @@ h2 {
     line-height: 36px;
 }
 
-#mainDiv {
+#mainShell {
     width: 92%;
+}
+
+/* the skip link focuses <main> (tabindex="-1") so keyboard users continue from there;
+   it is not a control, so no focus ring */
+#mainDiv:focus {
+    outline: none;
 }
 
 #modules-left-div {

@@ -67,7 +67,7 @@
     </script>
 </head>
 <body>
-    <main>
+    <div id="pageTemplate"> <!-- not <main>: the shell supplies that (a11y Y4) -->
         {TrackingCode}
         <div id="searchPageMarkup" class="moveable d-none row mt-4 me-0 w-100" dest="mainDiv">
             <div id="lhsDiv"></div> <!-- lhsDiv -->
@@ -173,6 +173,6 @@
 
         </div> <!-- searchPageMarkup -->
         <!-- footer is inserted dynamically-->
-    </main>
+    </div> <!-- pageTemplate -->
 </body>
 </html>

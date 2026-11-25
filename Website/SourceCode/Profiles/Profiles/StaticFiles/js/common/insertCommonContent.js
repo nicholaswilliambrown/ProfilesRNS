@@ -21,9 +21,12 @@ function loadMainDataContainer() {
     let listSize = sessionInfo.listSize;
     let container = $(`<div class="d-none container-fluid parentWidth p-0" id="main-data-container">
       <div class="row parentWidth">
-        <div id="mainDiv" class="common">
-          <div class="topOfPageItems">
-            <nav id="topNavbar" class="top navbar navbar-expand-lg navbar-dark bg-dark">
+        <!-- a11y Y4: #mainShell holds the page's layout classes. Inside it, the two named
+             navigation bars, then <main id="mainDiv">, the page's own content, which the
+             "Skip to main content" link focuses. Pages append into #mainDiv, so it stays the main. -->
+        <div id="mainShell" class="common">
+          <div class="topNavItems">
+            <nav id="topNavbar" class="top navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Site">
               <div id="navbar1outerRow" class="row myNavbar-nav top mb-2 mb-lg-0 w-100">
                 <div id="fourOrSoItems" class="row w-100">
                   <div id="topNavHome" class="nav-item">
@@ -64,7 +67,7 @@ function loadMainDataContainer() {
                 </div>
               </div>
             </nav>
-            <nav id="topNavbar2" class="top navbar2 me-1 navbar-expand-lg p-0 mb-2">
+            <nav id="topNavbar2" class="top navbar2 me-1 navbar-expand-lg p-0 mb-2" aria-label="Account">
               <div id='topNavbarUser' class="myNavbar-nav2 navbar-nav d-flex flex-row me-auto mb-2 mb-lg-0">
               <div id="topNav2View" class="nav-item r2 nav-link2">
                  <a id="viewMyProfileA" class="nav-link" aria-current="page" href="#">
@@ -111,6 +114,9 @@ function loadMainDataContainer() {
     
               </div>
             </nav>
+          </div> <!-- topNavItems -->
+        <main id="mainDiv" class="common" tabindex="-1">
+          <div class="topOfPageItems">
             <div id="systemMessage" class="bold mt-2 mb-2 text-center"></div>
             <div id="inviteLoginDiv">
               <a id="loginA" class="link-ish" href="#">Login</a> to
@@ -130,11 +136,14 @@ function loadMainDataContainer() {
           </div>
     
           <div id="markPreFooter"></div>
-        </div> <!-- mainDiv -->
+        </main> <!-- mainDiv -->
+        </div> <!-- mainShell -->
       </div> <!-- row -->
     </div> <!-- main-data-container -->
     `);
-    let target = $('main').length ? $('main') : $('body');
+    // a page template may supply a wrapper (it used to be a <main>, but the shell's #mainDiv is
+    // now the one main region, and a page has only one)
+    let target = $('#pageTemplate').length ? $('#pageTemplate') : $('body');
     target.append(container);
 
     return container;

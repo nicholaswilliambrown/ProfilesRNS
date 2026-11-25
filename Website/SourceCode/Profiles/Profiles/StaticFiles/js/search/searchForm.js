@@ -9,7 +9,7 @@ async function setupSearchForm() {
     setTabTitleAndOrFavicon(`Search`);
 
     let mainDiv = $('#mainDiv');
-    mainDiv.addClass(gCommon.mainDivClasses);
+    addMainDivClasses();
     moveContentByIdTo("searchPageMarkup", mainDiv);
 
     let searchPageMarkup = $('#searchPageMarkup');

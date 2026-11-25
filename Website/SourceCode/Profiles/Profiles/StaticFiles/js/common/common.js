@@ -178,9 +178,12 @@ function setTabTitleAndOrFavicon(title) {
     }
 }
 
+// the layout classes go on #mainShell, which holds both the nav bars and <main id="mainDiv">
+function addMainDivClasses() {
+    $('#mainShell').addClass(gCommon.mainDivClasses);
+}
 function setupMainStructure() {
-    let mainDiv = $('#mainDiv');
-    mainDiv.addClass(gCommon.mainDivClasses);
+    addMainDivClasses();
 
     let leftDiv = $('#modules-left-div');
     let rightDiv = $('#modules-right-div');
@@ -189,12 +192,17 @@ function setupMainStructure() {
     rightDiv.addClass(gCommon.mainRightCols);
 }
 
+// a11y Y4: a real link to <main id="mainDiv" tabindex="-1">; focusing main means the next Tab
+// lands on the page's first link, not back in the nav bars
 function setupSkipToContent() {
-    let skipButton = $(`<button id="skipButton" class="skip-to-main-content-link">Skip to main content</button>`);
-    $('#main-data-container').prepend(skipButton);
-    skipButton.on("click", function () {
-        location.href = "#mainDiv";
-    })
+    let skipLink = $(`<a id="skipLink" class="skip-to-main-content-link" href="#mainDiv">Skip to main content</a>`);
+    $('#main-data-container').prepend(skipLink);
+    skipLink.on("click", function (e) {
+        e.preventDefault(); // no #mainDiv in the address bar or history
+        let main = document.getElementById('mainDiv');
+        main.focus({preventScroll: true});
+        main.scrollIntoView({block: 'start', behavior: 'instant'}); // jump, like an in-page link
+    });
 }
 
 async function getJsonData(url) {

@@ -4,7 +4,7 @@ async function setupActivityDetails() {
     let contentDiv = $('#contentDiv');
     let mainDiv = $('#mainDiv');
     moveContentTo(contentDiv, mainDiv);
-    mainDiv.addClass(gCommon.mainDivClasses);
+    addMainDivClasses();
 
     let scrollDiv = new InfiniteScrollDiv(
         getMoreActivities,

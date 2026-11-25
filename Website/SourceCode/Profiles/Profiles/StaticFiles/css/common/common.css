@@ -105,8 +105,12 @@ footer div.inner._ci_clearfix {
     font-size: 20px;
 }
 
-.rDivTitles h4 {
+/* banner tagline: was an <h4>, now <p class="tagline"> (a11y Y5); keep the old h4 look */
+.rDivTitles .tagline {
     font-size: 16px;
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: .5rem;
 }
 
 .rDivLogoSm img {
@@ -234,8 +238,12 @@ header._ci_shared_asset.tool-page.mayHelpResponsivenessSm {
     color: var(--brand-crimson);
 }
 
+/* right-column box titles are <h3>s (a11y Y5); keep the old plain-text size */
 .explore_title {
+    font-size: inherit;
+    line-height: inherit;
     font-weight: bold;
+    margin-top: 0;
     margin-bottom: 5px;
     color: #333;
 }

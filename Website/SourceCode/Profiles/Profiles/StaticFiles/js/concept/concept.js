@@ -87,15 +87,15 @@ function emitDataRhs(json) {
 function emitRhsSkeleton(target, title, blurb, innerKey) {
     let tentativeContainer = tentativizeAndInnerize(target, innerKey, "");
 
-    let headerDiv = $(`<div class="explore_title">${title}</div>`);
+    let header3 = $(`<h3 class="explore_title">${title}</h3>`);
 
     let info = $(`<img src="${gBrandingConstants.jsCommonImageFiles}info.png" 
                         alt="moreInfo" class="noBorder">`);
-    headerDiv.append(info);
+    header3.append(info);
 
     let blurbDiv = $(`<div class="exploreBlurbDiv">${blurb}</div>`);
     tentativeContainer.prepend(blurbDiv);
-    tentativeContainer.prepend(headerDiv);
+    tentativeContainer.prepend(header3);
     tentativeContainer.prepend($('<hr class="tightHr"/>'));
 
     blurbDiv.hide();

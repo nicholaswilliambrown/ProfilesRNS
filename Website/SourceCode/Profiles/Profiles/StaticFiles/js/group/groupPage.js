@@ -190,7 +190,7 @@ async function setupGroupExploreRhs(module) {
 
     let blurb = 'Members of this Group.';
 
-    let title = $(`<div class="explore_title">${moduleTitle} (${sortedMembers.length})</div>`);
+    let title = $(`<h3 class="explore_title">${moduleTitle} (${sortedMembers.length})</h3>`);
     let blurbDiv = $(`<div class="exploreBlurbDiv">${blurb}</div>`);
     exploreDiv.append(title);
     exploreDiv.append(blurbDiv);
@@ -238,6 +238,6 @@ function grLabelParser(moduleData) {
     let label = moduleData.label;
     setTabTitleAndOrFavicon(`${label}`);
 
-    let bigTitleDiv = $(`<div class="page-title mt-2 mb-3">${escapeHTML(label)}</div>`);
+    let bigTitleDiv = $(`<h2 class="page-title fw-normal mt-2 mb-3">${escapeHTML(label)}</h2>`);
     return bigTitleDiv;
 }

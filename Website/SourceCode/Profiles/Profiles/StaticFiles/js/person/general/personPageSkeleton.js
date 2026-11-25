@@ -180,7 +180,7 @@ function skeletonRhsParser(moduleJson) {
 
     let propertyLabel = moduleJson.PropertyLabel;
 
-    let titleDiv = $(`<div class="explore_title">${escapeHTML(propertyLabel)}</div>`);
+    let titleDiv = $(`<h3 class="explore_title">${escapeHTML(propertyLabel)}</h3>`);
     exploreDiv.append(titleDiv);
 
     let blurbDiv = $(`<div class="exploreBlurbDiv">${escapeHTML(propertyLabel)}</div>`);

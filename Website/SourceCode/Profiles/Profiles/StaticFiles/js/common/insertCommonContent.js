@@ -32,11 +32,13 @@ async function loadMainDataContainer() {
                     </a>
                   </div>
                   <div id="topNavAbout" class="nav-item dropdown">
-                    <a class="nav-link top dropdown-toggle" href="#" 
-                        id="topNavAboutDropdown" role="button"
+                    <!-- real <button>s open the dropdowns (Enter and Space both work); a link with
+                         role="button" ignores Space, which then scrolls the page -->
+                    <button type="button" class="nav-link top dropdown-toggle"
+                        id="topNavAboutDropdown"
                        data-bs-toggle="dropdown" aria-expanded="false">
                       About
-                    </a>
+                    </button>
                     <ul id="topAboutDropdown" class="dropdown-menu bg-dark" aria-labelledby="topNavAboutDropdown">
                       <li><a id="overviewA" class="dropdown-item">Overview</a></li>
                       <li><p class="dropdown-divider p-0 m-0"/></li>
@@ -48,10 +50,10 @@ async function loadMainDataContainer() {
                     <a id="topNavHelpDropdown" class="nav-link top" aria-current="page">Help</a>
                   </div>
                   <div id="topNavHistory" class="nav-item dropdown">
-                    <a class="nav-link top dropdown-toggle" href="#" id="topNavHistoryDropdown" role="button"
+                    <button type="button" class="nav-link top dropdown-toggle" id="topNavHistoryDropdown"
                        data-bs-toggle="dropdown" aria-expanded="false">
                       History
-                    </a>
+                    </button>
                     <ul class="dropdown-menu" id="topHistoryDropdown" aria-labelledby="topNavHistoryDropdown">
                       <li><a id="seeAllPagesA" class="dropdown-item" href="#">See All Pages</a></li>
                     </ul>
@@ -86,9 +88,11 @@ async function loadMainDataContainer() {
                   </a>
                 </div>
                 <div id="topNav2Persons" class="nav-item r2 nav-link2 no-a-color dropdown">
-                  <a id="nav2Persons1" class="top dropdown-toggle no-a-color" href="#" role="button"
+                  <button type="button" id="nav2Persons1" class="top dropdown-toggle no-a-color"
                      data-bs-toggle="dropdown" aria-expanded="false">
                     My Person List <span id="currentListSize">(${escapeHTML(listSize)})</span>
+                  </button>
+                    <!-- the menu is the button's sibling (it used to be inside the link) -->
                     <ul id=topNav2PersonsDropdown class="dropdown-menu mt-2" aria-labelledby="nav2Persons1">
                       <li id="viewMyList"><a id="viewMyListA" class="dropdown-item r2" href="#">Visit my list and generate reports</a></li>
                       <li id="addMatchingPeopleList"><a id="addMatchingPeopleA" class="dropdown-item r2" href="#">Add matching people to my list</a></li>
@@ -97,7 +101,6 @@ async function loadMainDataContainer() {
                       <li id="addPersonList"><a id="addPersonToListA" class="dropdown-item r2" href="#">Add this person to my list</a></li>
                       <li id="removePersonList"><a id="removePersonFromListA" class="dropdown-item r2" href="#">Remove person from list</a></li>
                     </ul>
-                  </a>
                 </div>
                 ${dashAndOpportunity}
                 <div id="topNav2Logout" class="nav-item r2 nav-link2">

@@ -63,6 +63,14 @@ function setupTopNav() {
     topNavbar.find('div.dropdown').on("mouseleave", function (e) {
         showVsHideNavDropdown(e, false);
     });
+    // when Bootstrap closes a menu (Escape, a click elsewhere, the toggle), drop the hover's
+    // inline display too, so Escape hides it even while the mouse is still over the item
+    topNavbar.find('div.dropdown').each(function () {
+        let navItem = this;
+        navItem.addEventListener('hide.bs.dropdown', function () {
+            $(navItem).find('ul.dropdown-menu').css('display', '');
+        });
+    });
 }
 
 function addSearchForm(target, formClass, searchGlassClass, displayClass, sizeFlavor, justifyPos) {
@@ -86,11 +94,12 @@ function addSearchForm(target, formClass, searchGlassClass, displayClass, sizeFl
             </button>
         </div>
         <div class="dropdown">
-            <a class="search dropdown-toggle" href="#" id="navbarDropdown3${sizeFlavor}" role="button"
-               data-bs-toggle="dropdown" aria-expanded="false">
-                <img alt="downArrow" class="downArrow downArrow${sizeFlavor}">
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown3">
+            <!-- a real button (Enter and Space), named for what it does; the arrow is decorative -->
+            <button type="button" class="search dropdown-toggle" id="navbarDropdown3${sizeFlavor}"
+               data-bs-toggle="dropdown" aria-expanded="false" aria-label="Search options">
+                <img alt="" class="downArrow downArrow${sizeFlavor}">
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown3${sizeFlavor}">
                 <li><a id="findPeopleA${sizeFlavor}" class="dropdown-item find-people-menu" href="#">Find People</a></li>
                 <li><a id="findEverythingA${sizeFlavor}" class="dropdown-item find-everything-menu" href="#">Find Everything</a></li>
             </ul>
@@ -139,26 +148,14 @@ function doNavSearch(e) {
 
     minimalPeopleSearchByTerm(searchTerm);
 }
+// Hover opens a menu with an inline display:block, and on leave REMOVES that inline style
+// instead of writing display:none. A leftover display:none used to override Bootstrap's
+// "show" class, so after any mouse use the keyboard (Enter/Space) could no longer open it.
 function showVsHideNavDropdown(e, showVsHide) {
-    let jqItem = $(e.target);
+    let jqItem = $(e.currentTarget); // the div.dropdown the handler is bound to
 
-    // start from correct parent 'nav-item'
-    if (!jqItem.hasClass('nav-item')) {
-        jqItem = jqItem.closest('.nav-item');
-    }
-
-    // if parent has a toggle child
-    if (jqItem.find('.dropdown-toggle')) {
-
-        // find and affect the ul sibling(s)
-        let ul = jqItem.find('ul');
-        if (showVsHide) {
-            ul.show();
-        }
-        else {
-            ul.hide();
-        }
-    }
+    let ul = jqItem.find('ul.dropdown-menu');
+    ul.css('display', showVsHide ? 'block' : '');
 }
 function setUrlByAnchorId(aid, url) {
     $(`#${aid}`).attr('href', url);

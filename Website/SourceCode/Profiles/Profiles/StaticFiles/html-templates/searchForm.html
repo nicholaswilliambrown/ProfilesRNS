@@ -67,7 +67,7 @@
     </script>
 </head>
 <body>
-    <main>
+    <div id="pageTemplate"> <!-- not <main>: the shell supplies that (a11y Y4) -->
         {TrackingCode}
         <!-- banner is inserted dynamically-->
         <!--maybe insert dynamically?-->
@@ -175,6 +175,6 @@
 
         </div> <!-- searchPageMarkup -->
         <!-- footer is inserted dynamically-->
-    </main>
+    </div> <!-- pageTemplate -->
 </body>
 </html>

@@ -13,7 +13,7 @@ async function setupSearchWhyResults() {
     let mainDiv = $('#mainDiv');
     innerCurtainsDown(mainDiv);
 
-    mainDiv.addClass(gCommon.mainDivClasses);
+    addMainDivClasses();
     moveContentByIdTo("searchPageMarkup", mainDiv);
 
     emitCriteriaOnRhs(results, false);

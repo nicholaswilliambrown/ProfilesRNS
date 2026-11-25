@@ -76,7 +76,7 @@ function emitProjectTitle(target, data, currentVsComplete) {
 
 }
 function emitPageTitle(target, title) {
-    let titleDiv = $(`<div class="page-title mt-2 mb-3">${title}</div>`);
+    let titleDiv = $(`<h2 class="page-title fw-normal mt-2 mb-3">${title}</h2>`);
     target.append(titleDiv);
 }
 

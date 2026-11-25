@@ -26,7 +26,7 @@ function exploreFullParser(moduleJson, postSkeleton) {
     let eltCount = elt.Count ? `(${elt.Count})` : "";
     let eltTitle = elt.Title ? `${elt.Title}` : "";
     let titleId = asIdentifier(eltTitle);
-    let title = $(`<div id="rhs_${titleId}" title="${escapeHTML(eltTitle)}" class="_rhs explore_title">${escapeHTML(eltTitle)} ${escapeHTML(eltCount)}</div>`);
+    let title = $(`<h3 id="rhs_${titleId}" class="_rhs explore_title">${escapeHTML(eltTitle)} ${escapeHTML(eltCount)}</h3>`);
 
     exploreDiv.append(title);
 

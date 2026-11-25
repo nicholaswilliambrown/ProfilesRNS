@@ -197,8 +197,8 @@ function setupOneSearchSubmitSection(idPrefix, label, title, searchFn) {
     let boxTarget = $(`#${idPrefix}Box`);
     let rowId = `${idPrefix}1`;
 
-    let titleDiv = $(`<div class="bigTitle mb-2">${title}</div>`);
-    outerTarget.prepend(titleDiv);
+    let titleH2 = $(`<h2 class="bigTitle fw-normal mb-2">${title}</h2>`);
+    outerTarget.prepend(titleH2);
 
     let row = makeRowWithColumns(boxTarget, rowId, gSearch.midSectionColspecs,  "pb-1 mt-0 mb-2");
 

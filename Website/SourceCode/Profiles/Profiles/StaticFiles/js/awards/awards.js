@@ -11,9 +11,9 @@ async function setupAwardsPage() {
     emitAward(target, data);
 }
 function emitAwardTitle(target, data) {
-    let titleDiv = $(`<div class="page-title mt-2 mb-3">${escapeHTML(data.label)}</div>`);
+    let titleH2 = $(`<h2 class="page-title fw-normal mt-2 mb-3">${escapeHTML(data.label)}</h2>`);
 
-    target.append(titleDiv);
+    target.append(titleH2);
 }
 function emitAward(target, data) {
     let colSpecs = [

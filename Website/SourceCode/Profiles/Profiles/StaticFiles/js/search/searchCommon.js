@@ -234,8 +234,8 @@ function emitCriteriaOnRhs(results, withWhy) {
 }
 function emitTitle(target, title) {
     setTabTitleAndOrFavicon(title);
-    let titleSpan = $(`<div class="row page-title mt-3">${escapeHTML(title)}</div>`);
-    target.prepend(titleSpan);
+    let titleH2 = $(`<h2 class="row page-title fw-normal mt-3 mb-0">${escapeHTML(title)}</h2>`);
+    target.prepend(titleH2);
 }
 function emitLinkTo(target, linkText, url, leftVsRight) {
     let direction = leftVsRight ? "Left" : "Right";

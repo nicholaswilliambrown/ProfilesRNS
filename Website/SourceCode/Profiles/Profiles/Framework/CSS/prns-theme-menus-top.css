@@ -57,7 +57,9 @@
                         display: none;
                     }
 
+                    /* :focus-within opens the submenu for keyboard users too (a11y O5) */
                     #prns-nav ul.prns-main li:hover ul.drop,
+                    #prns-nav ul.prns-main li:focus-within ul.drop,
                     #prns-nav ul.prns-main li.selected ul.drop {
                         display: block;
                     }
@@ -208,6 +210,7 @@ li#search-drop a:hover {
 }
 
 #prns-nav ul.usermenu li:hover ul.drop,
+#prns-nav ul.usermenu li:focus-within ul.drop,
 #prns-nav ul.usermenu li.selected ul.drop {
     display: block !important;
 }
@@ -242,3 +245,10 @@ li#search-drop a:hover {
     #prns-usrnav .loginbar a {
         color: #3366cc;
     }
+
+/* a11y O5: Escape closes an open submenu (see MainMenu.ascx); it reopens when focus leaves
+   and returns, or on hover. Placed last so it wins over the :hover / :focus-within rules. */
+#prns-nav ul.prns-main li.dropDismissed ul.drop,
+#prns-nav ul.usermenu li.dropDismissed ul.drop {
+    display: none !important;
+}

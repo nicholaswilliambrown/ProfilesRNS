@@ -96,7 +96,7 @@ function emitTable() {
         row.find(`#${rowId}Col0`).addClass('bendCcc');
 
         let resultDiv = row.find(`#${rowId}Col1`);
-        resultDiv.html($(`<img class="directSearchButton" src="${gBrandingConstants.jsSearchImageFiles}directSearch-loading.gif"/>`));
+        resultDiv.html($(`<img class="directSearchButton" src="${gBrandingConstants.jsSearchImageFiles}directSearch-loading.gif" alt="Loading"/>`));
 
         let queryString = `siteID=${siteID}&searchQuery=${keyword}`;
         let url = baseDirectUrl + queryString;

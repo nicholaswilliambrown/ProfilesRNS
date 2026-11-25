@@ -27,7 +27,7 @@ function presentationsParser(json, moduleTitle, miscInfo, explicitTarget) {
                     src="https://www.slideshare.net/slideshow/embed_code/key/${escapeHTML(embedKey)}?startSlide=1" 
                     title="Presentation (${i})" 
                     allowfullscreen></iframe>`);
-                let thumbImg = $(`<img alt="thumbnail for slideshare ${escapeHTML(title)}" class="video-thumb" src="${escapeHTML(thumb)}">`);
+                let thumbImg = $(`<img alt="Show presentation: ${escapeHTML(title)}" class="video-thumb" src="${escapeHTML(thumb)}">`);
                 let label = $(`<span class="video-name">${escapeHTML(title)}</span>`)
 
                 fillInBigSmallLabel(iframe, thumbImg, label, i, lhs, rhs, mediaClass);

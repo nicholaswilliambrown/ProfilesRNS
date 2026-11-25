@@ -89,19 +89,14 @@ function emitRhsSkeleton(target, title, blurb, innerKey) {
 
     let header3 = $(`<h3 class="explore_title">${title}</h3>`);
 
-    let info = $(`<img src="${gBrandingConstants.jsCommonImageFiles}info.png" 
-                        alt="moreInfo" class="noBorder">`);
-    header3.append(info);
-
     let blurbDiv = $(`<div class="exploreBlurbDiv">${blurb}</div>`);
+    header3.append(makeMoreInfoButton(title, blurbDiv));
+
     tentativeContainer.prepend(blurbDiv);
     tentativeContainer.prepend(header3);
     tentativeContainer.prepend($('<hr class="tightHr"/>'));
 
     blurbDiv.hide();
-    info.on('click', function () {
-        toggleEltVisibility(blurbDiv);
-    });
 }
 
 function emitRhsSection(options) {

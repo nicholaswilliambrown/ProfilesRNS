@@ -111,7 +111,7 @@ function assembleSearchOtherLink(results) {
 
         let directUrl = `${g.directLink}?keyword=${encodeURIComponent(keyword)}&searchtype=people`;
         let searchArrow = $(`<img src="${gBrandingConstants.jsSearchImageFiles}arrowRight.png" 
-                                 alt="arrowRight" class="me-1"/>`);
+                                 alt="" class="me-1"/>`);
         let searchOtherA = createAnchorElement('Search Other Institutions', directUrl);
         let searchOtherSpan = $('<span class="mt-2 d-flex justify-content-end"></span>');
 

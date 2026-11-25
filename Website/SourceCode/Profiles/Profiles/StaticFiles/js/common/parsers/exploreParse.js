@@ -35,14 +35,8 @@ function exploreFullParser(moduleJson, postSkeleton) {
         exploreDiv.append(blurbDiv);
         blurbDiv.hide();
 
-        let moreInfoButton = $(`<img src="${gBrandingConstants.jsCommonImageFiles}info.png" 
-                    class="noBorder" alt=""moreInfo">`);
         title.append(spanify(" "))
-            .append(moreInfoButton);
-
-        moreInfoButton.on("click", function() {
-            toggleEltVisibility(blurbDiv);
-        })
+            .append(makeMoreInfoButton(eltTitle, blurbDiv));
     }
 
     if (elt.Connections) {

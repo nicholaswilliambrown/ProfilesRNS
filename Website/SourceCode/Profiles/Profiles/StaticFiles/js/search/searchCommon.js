@@ -240,7 +240,7 @@ function emitTitle(target, title) {
 function emitLinkTo(target, linkText, url, leftVsRight) {
     let direction = leftVsRight ? "Left" : "Right";
     let arrow = $(`<img src="${gBrandingConstants.jsSearchImageFiles}arrow${direction}.png" 
-                             alt="arrow${direction}" class="me-1"/>`);
+                             alt="" class="me-1"/>`);
     let toAnchor = createAnchorElement(linkText, url);
     let anchorDiv = $('<div class="d-flex justify-content-end"></div>');
 

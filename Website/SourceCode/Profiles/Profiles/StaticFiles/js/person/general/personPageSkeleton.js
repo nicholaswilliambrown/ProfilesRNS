@@ -187,14 +187,8 @@ function skeletonRhsParser(moduleJson) {
     exploreDiv.append(blurbDiv);
     blurbDiv.hide();
 
-    let moreInfoButton = $(`<img src="${gBrandingConstants.jsCommonImageFiles}info.png" 
-                                    alt="moreInfo" class="noBorder">`);
     titleDiv.append(spanify(" "))
-        .append(moreInfoButton);
-
-    moreInfoButton.on("click", function() {
-        toggleEltVisibility(blurbDiv);
-    })
+        .append(makeMoreInfoButton(propertyLabel, blurbDiv));
 
     targetDiv.append(dataDiv);
 

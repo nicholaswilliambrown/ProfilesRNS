@@ -3,7 +3,7 @@
 }
 .pageTitle h2 {
     text-align: left;
-    color: #AC1B30;
+    color: var(--brand-crimson);
     font-size: 28px;
     font-weight: normal;
     margin: 0px !important;
@@ -16,7 +16,7 @@ a {
 }
 
 .h2 {
-    color: #AC1B30;
+    color: var(--brand-crimson);
     font-size: 13px;
 }
 

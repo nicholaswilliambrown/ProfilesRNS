@@ -45,7 +45,7 @@
 }
 
 .page-title {
-    color: #AC1B30;
+    color: var(--brand-crimson);
     font-size: 28px;
     line-height: 34px;
     --bs-gutter-x: 0px !important;
@@ -57,7 +57,7 @@ h2 {
 }
 
 .bigTitle {
-    color: #AC1B30;
+    color: var(--brand-crimson);
     text-align: left;
     font-size: 28px;
     line-height: 36px;
@@ -225,7 +225,7 @@ header._ci_shared_asset.tool-page.mayHelpResponsivenessSm {
 
 .titleForHistory {
     font-size: 28px !important;
-    color: #AC1B30;
+    color: var(--brand-crimson);
 }
 
 .explore_title {

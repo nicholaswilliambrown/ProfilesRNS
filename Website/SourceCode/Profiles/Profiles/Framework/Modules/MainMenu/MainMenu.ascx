@@ -94,7 +94,34 @@
 
     $(function () {
         setNavigation();
+        setupSubmenuDismiss();
     });
+
+    // a11y O5: submenus open on hover and on keyboard focus (CSS :focus-within). Escape closes
+    // the open one and returns focus to its top link; it reopens when focus leaves the item
+    // and comes back, or when the mouse leaves and re-enters.
+    function setupSubmenuDismiss() {
+        $("#prns-nav li").filter(function () {
+            return $(this).children("ul.drop").length > 0;
+        }).each(function () {
+            var li = $(this);
+            li.on("keydown", function (e) {
+                if (e.key === "Escape" && !li.hasClass("dropDismissed")) {
+                    li.addClass("dropDismissed");
+                    li.children("a").first().trigger("focus");
+                    e.stopPropagation();
+                }
+            });
+            li.on("focusout", function (e) {
+                if (!e.relatedTarget || !li[0].contains(e.relatedTarget)) {
+                    li.removeClass("dropDismissed");
+                }
+            });
+            li.on("mouseleave", function () {
+                li.removeClass("dropDismissed");
+            });
+        });
+    }
 
     function setNavigation() {
         var path = $(location).attr('href');

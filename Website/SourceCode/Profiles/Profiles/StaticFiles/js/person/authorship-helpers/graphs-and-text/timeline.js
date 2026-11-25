@@ -1,3 +1,5 @@
+// width is a MAXIMUM (a11y O4, WCAG 1.4.10 Reflow): the chart fills its column up to that width,
+// so phones don't scroll sideways and tablets don't overlap the next column.
 async function populateTimelineGraph(target, yearArray, height, width) {
     if (!height) {
         height = 200;
@@ -9,6 +11,8 @@ async function populateTimelineGraph(target, yearArray, height, width) {
     // Chart will not load into a dynamic div create by $(), but works with document.createElement... !**&^*&@#!
     // https://stackoverflow.com/questions/45947003/how-can-a-google-chart-be-created-within-a-new-element-ive-just-appended-using
     let newDiv = document.createElement('div');
+    newDiv.style.width = '100%';
+    newDiv.style.maxWidth = `${width}px`;
     target.append(newDiv);
     let arrayData = [];
     let dataLength = yearArray.length;
@@ -25,13 +29,29 @@ async function populateTimelineGraph(target, yearArray, height, width) {
         bars: 'vertical',
         vAxis: {format: 'decimal'},
         height: height,
-        width: width,
         colors: ['#80B1D3']
     };
 
     let chart = await new google.charts.Bar(newDiv);
 
-    await chart.draw(data, google.charts.Bar.convertOptions(options));
+    // Draw at the container's current width. A hidden container (a tab not yet shown, or the
+    // wide/narrow copy for the other screen size) has width 0: it is drawn when it appears.
+    let drawnWidth = 0;
+    let drawAtCurrentWidth = async () => {
+        let currentWidth = Math.floor(newDiv.clientWidth);
+        if (currentWidth > 0 && currentWidth != drawnWidth) {
+            drawnWidth = currentWidth;
+            await chart.draw(data, google.charts.Bar.convertOptions({...options, width: currentWidth}));
+        }
+    };
+    if (typeof ResizeObserver !== 'undefined') {
+        // fires when the container is first shown and whenever the window resizes it
+        new ResizeObserver(() => drawAtCurrentWidth()).observe(newDiv);
+    }
+    else {
+        window.addEventListener('resize', () => drawAtCurrentWidth());
+    }
+    await drawAtCurrentWidth();
 }
 function populateAuthorTimelineGraph(target) {
     populateAuthorTimelineGraphResponsive(target, true);

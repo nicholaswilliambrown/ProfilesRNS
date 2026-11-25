@@ -149,38 +149,39 @@ Paging.prototype.emitPageOf = function(columnTarget, searchResults) {
 Paging.prototype.emitPrevNext = function(columnTarget, searchResults) {
     let that = this; // for embedded functions
 
-    let prevLabel = $(`<span id="prevLabel">
-                            <span class="ms-2 link-ish prevNext mt-1 tableHeaderPagingRow">Prev</span>
-                            <span class="ms-2 disablePageNav prevNext mt-1">Prev</span>
-                    </span>`);
-    let nextLabel = $(`<span id="nextLabel">
-                            <span class="ms-2 link-ish prevNext mt-1 tableHeaderPagingRow">Next</span>
-                            <span class="ms-2 disablePageNav prevNext mt-1">Next</span>
-                    </span>`);
+    // Real buttons in a labelled navigation region (a11y O3): keyboard users can Tab to them,
+    // screen readers hear "Next page, button", and unavailable ones are truly disabled.
+    // Each button holds an enabled and a disabled look; ableElt() shows one and hides the other.
+    // The arrow pictures are decorative (alt=""): the button's aria-label names it.
+    let img = (file) => `${gBrandingConstants.jsPagingImageFiles}${file}`;
 
-    let first = $(`<span id="first">
-                    <img alt="arrowFirst" class="link-ish prevNext tableHeaderPagingRow" src="${gBrandingConstants.jsPagingImageFiles}arrow_first.gif">
-                    <img alt="arrowFirst" class="disablePageNav prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_first_d.gif">
-                </span>`);
-    let last =  $(`<span id="last">
-                    <img alt="arrowLast" class="ms-2 link-ish prevNext tableHeaderPagingRow" src="${gBrandingConstants.jsPagingImageFiles}arrow_last.gif">
-                    <img alt="arrowLast" class="ms-2 disablePageNav prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_last_d.gif">
-                </span>`);
-    let prev =  $(`<span id="prev">
-                    <img alt="arrowPrevious" class="ms-2 link-ish prevNext tableHeaderPagingRow" src="${gBrandingConstants.jsPagingImageFiles}arrow_prev.gif">
-                    <img alt="arrowPrevious" class="ms-2 disablePageNav prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_prev_d.gif">
-                </span>`);
-    let next =  $(`<span id="next">
-                    <img alt="arrowNext" class="ms-2 link-ish prevNext tableHeaderPagingRow" src="${gBrandingConstants.jsPagingImageFiles}arrow_next.gif">
-                    <img alt="arrowNext" class="ms-2 disablePageNav prevNext" src="${gBrandingConstants.jsPagingImageFiles}arrow_next_d.gif">
-                </span>`);
+    let first = $(`<button type="button" id="first" class="pagingButton" aria-label="First page">
+                    <img alt="" class="link-ish prevNext tableHeaderPagingRow" src="${img('arrow_first.gif')}">
+                    <img alt="" class="disablePageNav prevNext" src="${img('arrow_first_d.gif')}">
+                </button>`);
+    let prev =  $(`<button type="button" id="prev" class="pagingButton ms-2" aria-label="Previous page">
+                    <img alt="" class="link-ish prevNext tableHeaderPagingRow" src="${img('arrow_prev.gif')}">
+                    <img alt="" class="disablePageNav prevNext" src="${img('arrow_prev_d.gif')}">
+                    <span class="ms-1 link-ish prevNext tableHeaderPagingRow">Prev</span>
+                    <span class="ms-1 disablePageNav prevNext">Prev</span>
+                </button>`);
+    let next =  $(`<button type="button" id="next" class="pagingButton ms-2" aria-label="Next page">
+                    <span class="me-1 link-ish prevNext tableHeaderPagingRow">Next</span>
+                    <span class="me-1 disablePageNav prevNext">Next</span>
+                    <img alt="" class="link-ish prevNext tableHeaderPagingRow" src="${img('arrow_next.gif')}">
+                    <img alt="" class="disablePageNav prevNext" src="${img('arrow_next_d.gif')}">
+                </button>`);
+    let last =  $(`<button type="button" id="last" class="pagingButton ms-2" aria-label="Last page">
+                    <img alt="" class="link-ish prevNext tableHeaderPagingRow" src="${img('arrow_last.gif')}">
+                    <img alt="" class="disablePageNav prevNext" src="${img('arrow_last_d.gif')}">
+                </button>`);
 
-    columnTarget.append(first)
+    let nav = $('<nav class="pagingNav d-flex align-items-center" aria-label="Search results pages"></nav>');
+    nav.append(first)
         .append(prev)
-        .append(prevLabel)
-        .append(nextLabel)
         .append(next)
         .append(last);
+    columnTarget.append(nav);
 
     first.on('click', function() {
         if (that.getCurrentPageNum(searchResults) != 1) {
@@ -196,8 +197,6 @@ Paging.prototype.emitPrevNext = function(columnTarget, searchResults) {
     });
 
     prev.on(        'click', function() {that.pageBefore(searchResults);});
-    prevLabel.on(   'click', function() {that.pageBefore(searchResults);});
-    nextLabel.on(   'click', function() {that.pageAfter (searchResults);});
     next.on(        'click', function() {that.pageAfter (searchResults);});
 }
 Paging.prototype.vetAndGotoPage = function(pageNum, searchResults) {
@@ -243,24 +242,14 @@ Paging.prototype.adjustInputPageNumber = function(input, numPages) {
     return val;
 }
 Paging.prototype.adjustNavigation = function(pageNum, numPages) {
-    let firstAndPrevEnabled = true;
-    let lastAndNextEnabled = true;;
-
-    if (pageNum == 1) {
-        firstAndPrevEnabled = false;
-        lastAndNextEnabled = true;
-    }
-    else if (pageNum == numPages) {
-        firstAndPrevEnabled = true;
-        lastAndNextEnabled = false;
-    }
+    // also right when there is only one page: then all four are disabled
+    let firstAndPrevEnabled = pageNum > 1;
+    let lastAndNextEnabled = pageNum < numPages;
 
     this.ableElt($('#prev'), firstAndPrevEnabled);
-    this.ableElt($('#prevLabel'), firstAndPrevEnabled);
     this.ableElt($('#first'), firstAndPrevEnabled);
 
     this.ableElt($('#next'), lastAndNextEnabled);
-    this.ableElt($('#nextLabel'), lastAndNextEnabled);
     this.ableElt($('#last'), lastAndNextEnabled);
 }
 Paging.prototype.ableElt = function(elt, which) {

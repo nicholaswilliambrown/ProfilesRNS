@@ -18,3 +18,20 @@
     pointer-events: none;
     opacity: 0.6;
 }
+/* paging First/Prev/Next/Last are real buttons (a11y O3); keep the old link-like look */
+button.pagingButton {
+    background: none;
+    border: 0;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    font: inherit;
+}
+button.pagingButton:disabled {
+    cursor: default;
+}
+button.pagingButton:focus-visible {
+    outline: 3px solid #1a4fb8;
+    outline-offset: 2px;
+}

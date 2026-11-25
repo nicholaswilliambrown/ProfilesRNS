@@ -521,3 +521,19 @@ myNavbar-nav2 {
 #logoutA {
     text-align: center;
 }
+
+/* top-bar dropdown toggles (About, History, My Person List, search options) are <button>s so
+   Space opens them as well as Enter. :where() has zero specificity, so this only strips the
+   browser's button look; the existing .nav-link / .top / .no-a-color rules still style them. */
+:where(button.dropdown-toggle) {
+    background: none;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+}
+/* the old <a class="nav-link"> filled its menu slot (display:block); a button shrinks to its text */
+:where(button.nav-link.dropdown-toggle) {
+    display: block;
+    width: 100%;
+}

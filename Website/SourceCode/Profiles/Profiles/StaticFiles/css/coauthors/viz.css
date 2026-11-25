@@ -9,8 +9,8 @@ g.radialVizNode rect {
     cursor:pointer;
 }
 g.radialVizNode circle {
-    fill:#AC1B30;
-    stroke:#AC1B30;
+    fill:var(--brand-crimson);
+    stroke:var(--brand-crimson);
     stroke-width:1;
     fill-opacity:0.3;
     cursor:pointer;

@@ -6,7 +6,7 @@
 }
 #whatIsIt{color:#000000;}
 .helpAboutTitle {
-    color: #AC1B30;
+    color: var(--brand-crimson);
     font-size: 28px;
 }
 .subtitle {

@@ -24,7 +24,7 @@
 #researchRecent{color:#333;}
 /***** general info *************************************************************************/
 .gi_fullName {
-    color: #AC1B30;
+    color: var(--brand-crimson);
     font-size: 28px;
 }
 

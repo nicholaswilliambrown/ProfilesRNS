@@ -66,9 +66,9 @@
     stroke-width: 2px;
 }
 .midlineCircle {
-    stroke: #AC1B30;
+    stroke: var(--brand-crimson);
     stroke-width: 1px;
-    fill: #AC1B30;
+    fill: var(--brand-crimson);
 }
 .forGraph {
     width: 580px;

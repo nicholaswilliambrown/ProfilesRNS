@@ -1,5 +1,5 @@
 .redBold {
-    color: #AC1B30;
+    color: var(--brand-crimson);
     font-weight: bold;
 }
 .bordBottom {

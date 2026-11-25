@@ -1,3 +1,9 @@
+/* Site brand colours, defined once by name and used by the shared CSS as var(--brand-crimson).
+   A site that brands Profiles changes the value here. */
+:root {
+    --brand-crimson: #AC1B30;
+}
+
 .headerBanner {
     background-color: black;
     border-bottom: #b23f45 8px solid;
